@@ -454,7 +454,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
               <button
                 onClick={() => {
                   setShowDropdown(!showDropdown);
-                  setShowFriendsDropdown(false);
+                  setShowActivityDropdown(false);
                 }}
                 className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
