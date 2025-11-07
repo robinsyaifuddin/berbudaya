@@ -1,0 +1,182 @@
+import { Link } from 'react-router';
+import { ChevronDown, ChevronRight, Brain, Puzzle, Map } from 'lucide-react';
+import { useState } from 'react';
+import SavedPostsSidebar from './SavedPostsSidebar';
+
+const newsItems = [
+  {
+    id: 1,
+    title: 'Teknik Membatik Tulis untuk Pemula',
+    author: 'Dewi Lestari',
+    timeAgo: '2 jam',
+    readers: '1,245'
+  },
+  {
+    id: 2,
+    title: 'Sejarah Gamelan Jawa dan Filosofinya',
+    author: 'Bambang Supriyanto',
+    timeAgo: '5 jam',
+    readers: '892'
+  },
+  {
+    id: 3,
+    title: 'Makna Simbolik Tari Saman Aceh',
+    author: 'Siti Rahma',
+    timeAgo: '8 jam',
+    readers: '1,567'
+  },
+  {
+    id: 4,
+    title: 'Panduan Lengkap Menenun Songket',
+    author: 'Ratna Sari',
+    timeAgo: '12 jam',
+    readers: '734'
+  },
+  {
+    id: 5,
+    title: 'Keunikan Arsitektur Rumah Gadang',
+    author: 'Budi Santoso',
+    timeAgo: '1 hari',
+    readers: '2,103'
+  },
+  {
+    id: 6,
+    title: 'Filosofi Wayang Kulit Jawa',
+    author: 'Agus Setiawan',
+    timeAgo: '1 hari',
+    readers: '1,834'
+  },
+  {
+    id: 7,
+    title: 'Seni Ukir Kayu Tradisional Bali',
+    author: 'Made Wijaya',
+    timeAgo: '2 hari',
+    readers: '956'
+  }
+];
+
+const games = [
+  { 
+    id: 1, 
+    name: 'Kuis Budaya', 
+    subtitle: 'Uji pengetahuan budaya Nusantara', 
+    color: 'bg-gradient-to-br from-blue-50 to-blue-100', 
+    Icon: Brain,
+    iconColor: 'text-blue-600',
+    hoverColor: 'hover:from-blue-100 hover:to-blue-200',
+    link: '/games/kuis-budaya'
+  },
+  { 
+    id: 2, 
+    name: 'Puzzle Budaya', 
+    subtitle: 'Susun gambar kebudayaan Indonesia', 
+    color: 'bg-gradient-to-br from-purple-50 to-purple-100', 
+    Icon: Puzzle,
+    iconColor: 'text-purple-600',
+    hoverColor: 'hover:from-purple-100 hover:to-purple-200',
+    link: '/games/puzzle-budaya'
+  },
+  { 
+    id: 3, 
+    name: 'Tebak Daerah', 
+    subtitle: 'Tebak asal daerah dari gambar budaya', 
+    color: 'bg-gradient-to-br from-green-50 to-green-100', 
+    Icon: Map,
+    iconColor: 'text-green-600',
+    hoverColor: 'hover:from-green-100 hover:to-green-200',
+    link: '/games/tebak-daerah'
+  }
+];
+
+
+
+export default function RightSidebar() {
+  const [showAllNews, setShowAllNews] = useState(false);
+
+  return (
+    <div className="sticky top-[68px] space-y-2">
+      {/* Saved Posts Section */}
+      <SavedPostsSidebar />
+
+      {/* News Section - LinkedIn Style */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-3 py-2">
+          <h4 className="font-semibold text-gray-900 text-sm mb-2">Berita RuangBudaya</h4>
+          <div className="space-y-2">
+            {newsItems.slice(0, showAllNews ? newsItems.length : 5).map((news) => (
+              <button
+                key={news.id}
+                className="w-full text-left group"
+              >
+                <div className="flex items-start gap-1">
+                  <span className="text-xs text-gray-400 mt-0.5">•</span>
+                  <div className="flex-1">
+                    <h5 className="text-xs font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {news.title}
+                    </h5>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {news.author} • {news.timeAgo}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      {news.readers} pembaca
+                    </p>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setShowAllNews(!showAllNews)}
+            className="flex items-center gap-1 mt-2 text-xs text-gray-600 hover:text-blue-600 font-medium transition-colors"
+          >
+            Lihat selengkapnya <ChevronDown className={`w-3 h-3 transition-transform ${showAllNews ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+      </div>
+
+      {/* Game Section */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-3 py-2">
+          <h4 className="font-semibold text-gray-900 text-sm mb-2">Game hari ini</h4>
+          <div className="space-y-2">
+            {games.map((game) => {
+              const Icon = game.Icon;
+              return (
+                <Link
+                  key={game.id}
+                  to={game.link}
+                  className={`flex items-center gap-3 p-3 rounded-xl ${game.color} ${game.hoverColor} hover:shadow-lg transition-all duration-300 group border border-gray-200/50 hover:border-transparent hover:scale-[1.02]`}
+                >
+                  <div className={`${game.iconColor} bg-white/80 backdrop-blur-sm p-2 rounded-lg shadow-sm`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <h5 className="text-xs font-bold text-gray-900 mb-0.5">{game.name}</h5>
+                    <p className="text-xs text-gray-600 leading-tight">{game.subtitle}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Community Call to Action - Simple Style */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-3 py-3">
+          <h4 className="font-semibold text-gray-900 text-sm mb-2">Lestarikan Budaya Bersama</h4>
+          <p className="text-xs text-gray-600 leading-relaxed mb-3">
+            Bergabunglah dalam misi melestarikan warisan budaya Indonesia
+          </p>
+          <Link
+            to="/komunitas"
+            className="block w-full text-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Gabung Sekarang
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
