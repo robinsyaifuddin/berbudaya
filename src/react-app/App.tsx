@@ -16,6 +16,7 @@ import CrowdfundingDonatePage from "@/react-app/pages/CrowdfundingDonate";
 import AcaraPage from "@/react-app/pages/Acara";
 import PesanPage from "@/react-app/pages/Pesan";
 import ProfilPage from "@/react-app/pages/Profil";
+import ProfilMenuPage from "@/react-app/pages/ProfilMenu";
 import PengaturanPage from "@/react-app/pages/Pengaturan";
 import BantuanPage from "@/react-app/pages/Bantuan";
 import LandingPage from "@/react-app/pages/Landing";
@@ -114,6 +115,11 @@ export default function App() {
           <Route path="/profil" element={
             <ProtectedRoute>
               <ProfilPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/profil-menu" element={
+            <ProtectedRoute>
+              <ProfilMenuPage />
             </ProtectedRoute>
           } />
           <Route path="/user/:userId" element={

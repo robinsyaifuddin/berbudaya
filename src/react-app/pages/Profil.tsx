@@ -207,17 +207,17 @@ export default function ProfilPage() {
                     </div>
                   </div>
 
-                  {/* Tab Navigation */}
+                  {/* Tab Navigation - Desktop & Mobile Responsive */}
                   <div className="border-t border-gray-200">
-                    <div className="flex justify-center gap-8 overflow-x-auto">
+                    <div className="flex justify-start md:justify-center gap-2 md:gap-8 overflow-x-auto scrollbar-hide px-2 md:px-0">
                       {[{key: 'overview', label: 'Ringkasan'}, {key: 'groups', label: 'Komunitas'}, {key: 'posts', label: 'Postingan'}, {key: 'pages', label: 'Halaman'}, {key: 'events', label: 'Kegiatan'}, {key: 'more', label: 'Lainnya'}].map((tab) => (
                         <button
                           key={tab.key}
                           onClick={() => setActiveTab(tab.key)}
-                          className={`py-3 px-1 font-medium whitespace-nowrap transition-colors ${
+                          className={`py-3 px-3 md:px-1 font-medium whitespace-nowrap transition-all rounded-t-lg md:rounded-none ${
                             activeTab === tab.key
-                              ? 'text-blue-600 border-b-2 border-blue-600'
-                              : 'text-gray-500 hover:text-blue-600'
+                              ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50 md:bg-transparent'
+                              : 'text-gray-500 hover:text-blue-600 hover:bg-gray-50 md:hover:bg-transparent'
                           }`}
                         >
                           {tab.label}

@@ -570,11 +570,9 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
               )}
             </div>
 
-            {/* Mobile Profile Button */}
-            <button
-              onClick={() => {
-                setShowDropdown(!showDropdown);
-              }}
+            {/* Mobile Profile Button - Navigate to ProfilMenu */}
+            <Link
+              to="/profil-menu"
               className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
             >
               <img
@@ -582,7 +580,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                 alt="Profile"
                 className="w-9 h-9 rounded-full object-cover border-2 border-gray-200"
               />
-            </button>
+            </Link>
 
           </div>
         </div>
