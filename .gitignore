@@ -1,6 +1,11 @@
 dist/
 node_modules/
 .wrangler/
+.vercel/
 .dev.vars
 worker-configuration.d.ts
 *.zip
+.env
+.env.local
+.env.production.local
+.env.development.local

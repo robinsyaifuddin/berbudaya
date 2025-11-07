@@ -1,0 +1,12 @@
+node_modules
+.wrangler
+.dev.vars
+*.log
+.DS_Store
+.env.local
+.env.*.local
+coverage
+*.zip
+migrations
+setup-db.ps1
+wrangler.json
