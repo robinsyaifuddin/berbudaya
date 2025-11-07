@@ -141,10 +141,17 @@ export default function Landing() {
     if (e) e.preventDefault();
     // Tampilkan modal untuk simulasi Google login
     setShowGoogleModal(true);
+    setGoogleEmail(''); // Reset email input
   };
 
   const handleGoogleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!googleEmail || !googleEmail.includes('@')) {
+      alert('❌ Masukkan email Google yang valid!');
+      return;
+    }
+    
     setIsLoading(true);
     
     // Simulasi Google Login - Buat user dari email Google
@@ -159,22 +166,39 @@ export default function Landing() {
     
     localStorage.setItem('demo_user', JSON.stringify(googleUser));
     
+    // Simulasi loading Google authentication
     setTimeout(() => {
       setShowGoogleModal(false);
+      setIsLoading(false);
+      // Redirect ke beranda dashboard
       window.location.href = '/beranda';
-    }, 800);
+    }, 1000);
+  };
+
+  const handleQuickGoogleLogin = () => {
+    // Quick login dengan akun Google demo untuk testing
+    const googleUser = {
+      id: 'google-user-' + Date.now(),
+      email: 'mr.robinsyaifuddin@gmail.com',
+      name: 'Robin Syaifuddin',
+      avatar: 'https://lh3.googleusercontent.com/a/default-user',
+      provider: 'google',
+      loginTime: new Date().toISOString()
+    };
+    
+    localStorage.setItem('demo_user', JSON.stringify(googleUser));
+    window.location.href = '/beranda';
   };
 
   const handleDemoLogin = () => {
     setIsLoading(true);
     
-    // SIMULASI LOGIN - Tanpa Backend
-    // Simpan user demo ke localStorage
+    // SIMULASI LOGIN - Menggunakan akun demo Robin Syaifuddin
     const demoUser = {
       id: 'demo-user-001',
-      email: 'demo@ruangbudaya.id',
-      name: 'Demo User',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+      email: 'mr.robinsyaifuddin@gmail.com',
+      name: 'Robin Syaifuddin',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
       loginTime: new Date().toISOString()
     };
     
@@ -182,7 +206,7 @@ export default function Landing() {
     
     // Simulasi 'memuat...' untuk UX yang lebih baik
     setTimeout(() => {
-      // Redirect ke beranda
+      // Redirect ke beranda dashboard
       window.location.href = '/beranda';
     }, 500);
   };
@@ -212,41 +236,47 @@ export default function Landing() {
     e.preventDefault();
     setIsLoading(true);
     
-    try {
-      // Coba backend dulu
-      const response = await fetch('/api/manual-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include',
-      });
-
-      if (response.ok) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-        window.location.href = '/beranda';
-        return;
+    // DEMO USER DATABASE
+    const demoUsers = [
+      {
+        email: 'mr.robinsyaifuddin@gmail.com',
+        password: 'robin123',
+        name: 'Robin Syaifuddin',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
+      },
+      {
+        email: 'demo@ruangbudaya.id',
+        password: 'demo123',
+        name: 'Demo User',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'
       }
-    } catch (error) {
-      console.log('Backend unavailable, using simulation mode');
-    }
+    ];
 
-    // FALLBACK: Simulasi login jika backend tidak tersedia
-    // Accept any credentials untuk demo
-    const manualUser = {
-      id: 'manual-user-' + Date.now(),
-      email: email,
-      name: name || email.split('@')[0],
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
-      loginTime: new Date().toISOString()
-    };
-    
-    localStorage.setItem('demo_user', JSON.stringify(manualUser));
-    
-    setTimeout(() => {
-      window.location.href = '/beranda';
-    }, 500);
+    // Cek kredensial dengan database demo
+    const validUser = demoUsers.find(
+      user => user.email.toLowerCase() === email.toLowerCase() && user.password === password
+    );
+
+    if (validUser) {
+      // Login berhasil
+      const loggedInUser = {
+        id: 'user-' + Date.now(),
+        email: validUser.email,
+        name: validUser.name,
+        avatar: validUser.avatar,
+        loginTime: new Date().toISOString()
+      };
+      
+      localStorage.setItem('demo_user', JSON.stringify(loggedInUser));
+      
+      setTimeout(() => {
+        window.location.href = '/beranda';
+      }, 500);
+    } else {
+      // Login gagal
+      setIsLoading(false);
+      alert('❌ Email atau password salah!\n\nGunakan akun demo:\nEmail: mr.robinsyaifuddin@gmail.com\nPassword: robin123');
+    }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -373,8 +403,17 @@ export default function Landing() {
               disabled={isLoading}
               className="w-full mt-4 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
             >
-              {isLoading ? 'Memproses...' : 'Login Demo (robinsyaifuddin@gmail.com)'}
+              {isLoading ? 'Memproses...' : '🚀 Quick Login sebagai Robin Syaifuddin'}
             </button>
+            
+            {/* Info Demo Credentials */}
+            <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+              <p className="text-xs text-blue-800 text-center">
+                💡 <strong>Demo Credentials:</strong><br />
+                Email: mr.robinsyaifuddin@gmail.com<br />
+                Password: robin123
+              </p>
+            </div>
 
             <div className="text-center mt-6">
               <span className="text-gray-600">Belum punya akun? </span>
@@ -1420,12 +1459,31 @@ export default function Landing() {
               </button>
             </form>
 
+            {/* Divider */}
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="px-2 bg-white text-gray-500">atau</span>
+              </div>
+            </div>
+
+            {/* Quick Login Button */}
+            <button
+              onClick={handleQuickGoogleLogin}
+              disabled={isLoading}
+              className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              🚀 Quick Login sebagai Robin Syaifuddin
+            </button>
+
             {/* Info */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
               <p className="text-xs text-blue-800">
                 <strong>Mode Simulasi:</strong> Ini adalah simulasi login Google. 
                 Sistem akan membuat akun demo berdasarkan email yang Anda masukkan. 
-                Nama akun akan diambil dari bagian depan email Anda.
+                Gunakan tombol Quick Login untuk langsung masuk ke dashboard.
               </p>
             </div>
           </div>
