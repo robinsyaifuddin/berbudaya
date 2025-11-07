@@ -531,7 +531,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                     <div className="py-2 border-b border-gray-200">
                       <h4 className="px-4 py-2 text-xs font-bold text-gray-900">Kelola</h4>
                       <Link
-                        to="/profil-menu"
+                        to="/posting-aktivitas"
                         onClick={() => setShowDropdown(false)}
                         className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
                       >
@@ -541,7 +541,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                         <span className="text-sm text-gray-900">Posting & Aktivitas</span>
                       </Link>
                       <Link
-                        to="/profil-menu"
+                        to="/kelola-komunitas"
                         onClick={() => setShowDropdown(false)}
                         className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
                       >

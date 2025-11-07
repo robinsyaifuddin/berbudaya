@@ -17,6 +17,8 @@ import AcaraPage from "@/react-app/pages/Acara";
 import PesanPage from "@/react-app/pages/Pesan";
 import ProfilPage from "@/react-app/pages/Profil";
 import ProfilMenuPage from "@/react-app/pages/ProfilMenu";
+import PostingAktivitasPage from "@/react-app/pages/PostingAktivitas";
+import KelolaKomunitasPage from "@/react-app/pages/KelolaKomunitas";
 import PengaturanPage from "@/react-app/pages/Pengaturan";
 import BantuanPage from "@/react-app/pages/Bantuan";
 import LandingPage from "@/react-app/pages/Landing";
@@ -120,6 +122,16 @@ export default function App() {
           <Route path="/profil-menu" element={
             <ProtectedRoute>
               <ProfilMenuPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/posting-aktivitas" element={
+            <ProtectedRoute>
+              <PostingAktivitasPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/kelola-komunitas" element={
+            <ProtectedRoute>
+              <KelolaKomunitasPage />
             </ProtectedRoute>
           } />
           <Route path="/user/:userId" element={
