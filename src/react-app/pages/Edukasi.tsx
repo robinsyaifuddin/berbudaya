@@ -227,7 +227,7 @@ export default function Edukasi() {
     <div className="min-h-screen bg-gray-50">
       <TopNavbar />
       
-      <div className="pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-20">
+      <div className="px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-18 sm:pt-20 pb-20 md:pb-12">
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">

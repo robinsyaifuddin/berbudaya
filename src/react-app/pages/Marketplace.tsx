@@ -182,7 +182,7 @@ export default function MarketplacePage() {
       <TopNavbar />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6 pt-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 pt-18 sm:pt-20 pb-20 md:pb-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Sidebar - Community */}
           <div className="hidden lg:block lg:col-span-3">

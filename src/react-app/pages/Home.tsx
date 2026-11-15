@@ -173,24 +173,24 @@ export default function Home() {
           <div className="flex items-center px-2 py-2 border-t border-gray-200">
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
+              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
             >
-              <ImageIcon className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-semibold text-gray-700 hidden sm:block group-hover:text-blue-600 transition-colors">Foto</span>
+              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">Foto</span>
             </button>
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
+              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
             >
-              <VideoIcon className="w-5 h-5 text-green-600" />
-              <span className="text-sm font-semibold text-gray-700 hidden sm:block group-hover:text-green-600 transition-colors">Video</span>
+              <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-green-600 transition-colors">Video</span>
             </button>
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
+              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
             >
-              <FileText className="w-5 h-5 text-red-600" />
-              <span className="text-sm font-semibold text-gray-700 hidden sm:block group-hover:text-red-600 transition-colors">Tulis artikel</span>
+              <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-red-600 transition-colors">Artikel</span>
             </button>
           </div>
         </div>
@@ -333,31 +333,31 @@ export default function Home() {
               <div className="flex items-center">
                 <button 
                   onClick={() => handleLike(post.id)}
-                  className={`flex items-center gap-1.5 px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group ${postLikes[post.id]?.liked ? 'text-red-500' : ''}`}
+                  className={`flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group ${postLikes[post.id]?.liked ? 'text-red-500' : ''}`}
                 >
-                  <Heart className={`w-5 h-5 transition-colors ${postLikes[post.id]?.liked ? 'fill-red-500 text-red-500' : 'text-gray-600 group-hover:text-red-500'}`} />
-                  <span className={`text-xs font-semibold ${postLikes[post.id]?.liked ? 'text-red-500' : 'text-gray-600 group-hover:text-red-500'}`}>Suka</span>
+                  <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${postLikes[post.id]?.liked ? 'fill-red-500 text-red-500' : 'text-gray-600 group-hover:text-red-500'}`} />
+                  <span className={`text-[11px] sm:text-xs font-semibold ${postLikes[post.id]?.liked ? 'text-red-500' : 'text-gray-600 group-hover:text-red-500'}`}>Suka</span>
                 </button>
                 <button 
                   onClick={() => handleComment(post)}
-                  className="flex items-center gap-1.5 px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group"
+                  className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group"
                 >
-                  <MessageCircle className="w-5 h-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                  <span className="text-xs font-semibold text-gray-600 group-hover:text-blue-600">Komentari</span>
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
+                  <span className="text-[11px] sm:text-xs font-semibold text-gray-600 group-hover:text-blue-600">Komen</span>
                 </button>
                 <button 
                   onClick={() => handleShare(post)}
-                  className="flex items-center gap-1.5 px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group"
+                  className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group"
                 >
-                  <Send className="w-5 h-5 text-gray-600 group-hover:text-green-600 transition-colors" />
-                  <span className="text-xs font-semibold text-gray-600 group-hover:text-green-600">Bagikan</span>
+                  <Send className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-green-600 transition-colors" />
+                  <span className="text-[11px] sm:text-xs font-semibold text-gray-600 group-hover:text-green-600">Bagikan</span>
                 </button>
                 <button 
                   onClick={() => handleSave(post)}
-                  className={`flex items-center gap-1.5 px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group ${savedPostIds.has(post.id) ? 'text-yellow-600' : ''}`}
+                  className={`flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group ${savedPostIds.has(post.id) ? 'text-yellow-600' : ''}`}
                 >
-                  <Bookmark className={`w-5 h-5 transition-colors ${savedPostIds.has(post.id) ? 'fill-yellow-600 text-yellow-600' : 'text-gray-600 group-hover:text-yellow-600'}`} />
-                  <span className={`text-xs font-semibold hidden lg:block ${savedPostIds.has(post.id) ? 'text-yellow-600' : 'text-gray-600 group-hover:text-yellow-600'}`}>Simpan</span>
+                  <Bookmark className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${savedPostIds.has(post.id) ? 'fill-yellow-600 text-yellow-600' : 'text-gray-600 group-hover:text-yellow-600'}`} />
+                  <span className={`text-[11px] sm:text-xs font-semibold ${savedPostIds.has(post.id) ? 'text-yellow-600' : 'text-gray-600 group-hover:text-yellow-600'}`}>Simpan</span>
                 </button>
               </div>
             </div>
