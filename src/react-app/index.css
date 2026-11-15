@@ -26,6 +26,24 @@
   box-sizing: border-box;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hindari teks panjang memecahkan layout horizontal */
+p, span, h1, h2, h3, h4, h5, h6, a {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 body {
   background-color: var(--bg-gray);
   font-family: 'Inter', system-ui, sans-serif;
@@ -35,7 +53,6 @@ body {
   color: var(--text-primary);
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {

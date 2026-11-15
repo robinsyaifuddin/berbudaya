@@ -10,43 +10,43 @@ import {
 const topCourses = [
   {
     id: 1,
-    title: 'Teknik Dasar Membatik Tulis untuk Pemula',
-    instructor: { name: 'Dewi Lestari', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
+    title: 'Masterclass Membatik Tulis Soga Alam Surakarta',
+    instructor: { name: 'Dewi Lestari Hadiningrat', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
     image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=400',
     level: 'Pemula',
-    students: 1245,
-    rating: 5.0,
-    category: 'Batik & Tenun'
+    students: 1420,
+    rating: 4.96,
+    category: 'Batik & Kriya'
   },
   {
     id: 2,
-    title: 'Seni Ukir Kayu Tradisional Jepara',
-    instructor: { name: 'Budi Santoso', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
+    title: 'Literasi Aksara Jawa Kuno: Dari Hanacaraka ke Naskah Babad',
+    instructor: { name: 'Ki Danang Daniswara, M.Hum', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' },
     image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=400',
     level: 'Pemula',
-    students: 892,
-    rating: 4.8,
-    category: 'Kerajinan'
+    students: 2180,
+    rating: 4.98,
+    category: 'Aksara & Bahasa'
   },
   {
     id: 3,
-    title: 'Filosofi dan Pertunjukan Wayang Kulit Jawa',
-    instructor: { name: 'Agus Setiawan', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' },
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
+    title: 'Sinkronisasi Ritme & Gerak Cepat Tari Saman Gayo',
+    instructor: { name: 'Cut Mutia Syahrani', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
+    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400',
     level: 'Menengah',
-    students: 567,
-    rating: 4.9,
-    category: 'Wayang'
+    students: 980,
+    rating: 4.92,
+    category: 'Tari Nusantara'
   },
   {
     id: 4,
-    title: 'Memainkan Gamelan Jawa: Dari Dasar hingga Mahir',
-    instructor: { name: 'Bambang Supriyanto', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
-    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400',
-    level: 'Lanjutan',
-    students: 423,
-    rating: 5.0,
-    category: 'Gamelan'
+    title: 'Harmoni Karawitan: Teknik Tabuhan Bonang & Saron Laras Slendro',
+    instructor: { name: 'Bambang Sukotjo', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400',
+    level: 'Menengah',
+    students: 760,
+    rating: 4.9,
+    category: 'Karawitan & Musik'
   }
 ];
 

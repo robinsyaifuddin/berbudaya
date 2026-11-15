@@ -1,15 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { Link } from 'react-router';
 import { Plus, Users, Settings, Eye, TrendingUp } from 'lucide-react';
-
-interface DemoUser {
-  id: string;
-  email: string;
-  name: string;
-  avatar: string;
-  loginTime: string;
-}
 
 interface Community {
   id: number;
@@ -56,24 +48,12 @@ const userCommunities: Community[] = [
 ];
 
 export default function KelolaKomunitasPage() {
-  const [user, setUser] = useState<DemoUser | null>(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newCommunity, setNewCommunity] = useState({
     name: '',
     description: '',
     category: 'Seni Pertunjukan'
   });
-
-  useEffect(() => {
-    const demoUserStr = localStorage.getItem('demo_user');
-    if (demoUserStr) {
-      try {
-        setUser(JSON.parse(demoUserStr));
-      } catch (error) {
-        console.error('Error parsing demo user:', error);
-      }
-    }
-  }, []);
 
   const handleCreateCommunity = (e: React.FormEvent) => {
     e.preventDefault();

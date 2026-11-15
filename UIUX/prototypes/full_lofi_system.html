@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RuangBudaya - Full Lo-Fi UI/UX Architecture & Modals Reference</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .hairline-border { border: 1px solid rgba(15, 23, 42, 0.08); }
+    .hairline-subtle { border: 1px solid rgba(15, 23, 42, 0.05); }
+    .tab-active { background-color: #0f172a; color: #ffffff; }
+    .tab-inactive { background-color: #ffffff; color: #64748b; }
+    .tab-inactive:hover { background-color: #f8fafc; color: #0f172a; }
+  </style>
+</head>
+<body class="bg-slate-100/70 text-slate-900 antialiased selection:bg-amber-100 selection:text-amber-900 min-h-screen">
+
+  <!-- TOP HEADER / STATUS -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur hairline-border border-x-0 border-t-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight">
+          RB
+        </div>
+        <div>
+          <span class="font-bold text-base tracking-tight text-slate-900">RuangBudaya</span>
+          <span class="ml-2 text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold border border-slate-200">
+            Komprehensif Lo-Fi UI (100% Fitur & Modal)
+          </span>
+        </div>
+      </div>
+
+      <!-- VIEW SELECTOR TABS -->
+      <div class="flex items-center space-x-1.5 overflow-x-auto py-1">
+        <button onclick="switchView('view-beranda')" id="btn-beranda" class="view-btn px-3 py-1.5 rounded-lg text-xs font-semibold tab-active hairline-border transition-all">
+          1. Beranda & Feed
+        </button>
+        <button onclick="switchView('view-marketplace')" id="btn-marketplace" class="view-btn px-3 py-1.5 rounded-lg text-xs font-semibold tab-inactive hairline-border transition-all">
+          2. Marketplace & Cart
+        </button>
+        <button onclick="switchView('view-crowdfunding')" id="btn-crowdfunding" class="view-btn px-3 py-1.5 rounded-lg text-xs font-semibold tab-inactive hairline-border transition-all">
+          3. Galang Dana (Donasi)
+        </button>
+        <button onclick="switchView('view-games')" id="btn-games" class="view-btn px-3 py-1.5 rounded-lg text-xs font-semibold tab-inactive hairline-border transition-all">
+          4. Gamifikasi (3 Game)
+        </button>
+        <button onclick="switchView('view-modals')" id="btn-modals" class="view-btn px-3 py-1.5 rounded-lg text-xs font-semibold tab-inactive hairline-border transition-all">
+          5. Kotak Modal & Dialog (Semua)
+        </button>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-2 text-xs font-medium text-slate-600">
+        <a href="https://www.figma.com/design/dLq19zRHpGSJZB7JNeRcUO" target="_blank" class="px-2.5 py-1 rounded bg-slate-50 hairline-border hover:bg-slate-100 text-slate-800">
+          Figma File ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: BERANDA FEED & SHELL KOMUNITAS     -->
+    <!-- ========================================== -->
+    <div id="view-beranda" class="view-section space-y-6">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">1. Tampilan Beranda & Navigasi Ekosistem</h2>
+          <p class="text-xs text-slate-500">Representasi `ModernLayout.tsx`, `Sidebar.tsx`, `PostComposer.tsx`, dan `RightPanel.tsx`</p>
+        </div>
+        <div class="flex space-x-2">
+          <button onclick="openModal('modal-create-post')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800">
+            + Uji Modal Buat Postingan
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- LEFT SIDEBAR COMPONENT -->
+        <div class="hidden lg:block lg:col-span-3 space-y-4">
+          <div class="bg-white rounded-xl p-4 hairline-border">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Navigasi Utama</p>
+            <nav class="space-y-1 text-sm font-medium">
+              <a href="#" class="flex items-center px-3 py-2 rounded-lg bg-slate-100 text-slate-900 font-semibold">
+                <span class="mr-2.5">🏠</span> Beranda Feed
+              </a>
+              <a href="#" onclick="switchView('view-marketplace')" class="flex items-center px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50">
+                <span class="mr-2.5">🛍️</span> Marketplace Seni
+              </a>
+              <a href="#" onclick="switchView('view-crowdfunding')" class="flex items-center px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50">
+                <span class="mr-2.5">🤝</span> Pelestarian Budaya
+              </a>
+              <a href="#" onclick="switchView('view-games')" class="flex items-center px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50">
+                <span class="mr-2.5">🎯</span> Arena Permainan
+              </a>
+              <a href="#" class="flex items-center px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50">
+                <span class="mr-2.5">📅</span> Agenda Tradisi
+              </a>
+              <a href="#" class="flex items-center px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50">
+                <span class="mr-2.5">💬</span> Pesan Langsung
+              </a>
+            </nav>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 hairline-border">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Komunitas Daerah</p>
+            <div class="space-y-2 text-xs text-slate-600">
+              <div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 cursor-pointer">
+                <span>Sanggar Tari Minang</span>
+                <span class="text-slate-400">1.2k m</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 cursor-pointer">
+                <span>Pengrajin Keris Solo</span>
+                <span class="text-slate-400">890 m</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 cursor-pointer">
+                <span>Komunitas Tenun Sikka</span>
+                <span class="text-slate-400">450 m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CENTER FEED COMPONENT -->
+        <div class="col-span-1 lg:col-span-6 space-y-4">
+          <!-- COMPOSER -->
+          <div class="bg-white rounded-xl p-4 hairline-border">
+            <div class="flex items-center space-x-3 mb-3">
+              <div class="w-9 h-9 rounded-full bg-slate-200"></div>
+              <input type="text" onclick="openModal('modal-create-post')" readonly placeholder="Tuliskan cerita cagar budaya, kriya, atau tradisimu..." class="w-full bg-slate-50 rounded-lg px-4 py-2 text-xs border border-slate-200 cursor-pointer hover:border-slate-300" />
+            </div>
+            <div class="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+              <div class="flex space-x-3">
+                <span class="cursor-pointer hover:text-slate-800">📷 Foto Tradisi</span>
+                <span class="cursor-pointer hover:text-slate-800">🎥 Dokumenter</span>
+                <span class="cursor-pointer hover:text-slate-800">🏷️ Tag Kategori</span>
+              </div>
+              <button onclick="openModal('modal-create-post')" class="px-3 py-1 rounded bg-slate-900 text-white font-medium text-xs">Post</button>
+            </div>
+          </div>
+
+          <!-- POST CARD 1 -->
+          <div class="bg-white rounded-xl p-5 hairline-border space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-900">Wayan Sudarma</h4>
+                  <p class="text-[11px] text-slate-400">Pengrajin Ukir Kayu • Gianyar, Bali • 3 jam lalu</p>
+                </div>
+              </div>
+              <button class="text-slate-400 hover:text-slate-600 text-sm">•••</button>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Penyelesaian tahap akhir ukiran relief motif Batuan untuk ornamen pintu Bale Dangin. Setiap lekuk dedaunan pakis melambangkan kesuburan dan keharmonisan alam.
+            </p>
+            <div class="aspect-[16/9] w-full bg-slate-100 rounded-lg hairline-border flex items-center justify-center text-slate-400 text-xs">
+              [Area Foto Dokumentasi Tradisi - Asli Tanpa Distorsi]
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+              <div class="flex space-x-4">
+                <button class="hover:text-slate-900 flex items-center space-x-1"><span>❤️</span><span>124 Suka</span></button>
+                <button onclick="openModal('modal-comments')" class="hover:text-slate-900 flex items-center space-x-1"><span>💬</span><span>18 Komentar</span></button>
+                <button onclick="openModal('modal-share')" class="hover:text-slate-900 flex items-center space-x-1"><span>🔗</span><span>Bagikan</span></button>
+              </div>
+              <button class="hover:text-slate-900">Simpan 🔖</button>
+            </div>
+          </div>
+
+          <!-- POST CARD 2 -->
+          <div class="bg-white rounded-xl p-5 hairline-border space-y-3">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+              <div>
+                <h4 class="text-xs font-bold text-slate-900">Siti Rahmawati</h4>
+                <p class="text-[11px] text-slate-400">Pelestari Tenun Sutera • Wajo, Sulsel • Kemarin</p>
+              </div>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Pewarnaan benang sutera dengan getah kayu secang dan kunyit lokal untuk menghasilkan rona jingga tanah yang tahan puluhan tahun.
+            </p>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+              <div class="flex space-x-4">
+                <button class="hover:text-slate-900">❤️ 92 Suka</button>
+                <button onclick="openModal('modal-comments')" class="hover:text-slate-900">💬 9 Komentar</button>
+                <button onclick="openModal('modal-share')" class="hover:text-slate-900">🔗 Bagikan</button>
+              </div>
+              <button class="hover:text-slate-900">Simpan 🔖</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT WIDGETS -->
+        <div class="hidden lg:block lg:col-span-3 space-y-4">
+          <div class="bg-white rounded-xl p-4 hairline-border">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Tantangan Kuis Budaya</h4>
+            <p class="text-xs text-slate-700 font-semibold mb-2">Alat musik Sasando berasal dari pulau mana?</p>
+            <div class="space-y-1.5 text-xs">
+              <div class="p-2 rounded bg-slate-50 hover:bg-slate-100 cursor-pointer hairline-border">A. Pulau Rote, NTT</div>
+              <div class="p-2 rounded bg-slate-50 hover:bg-slate-100 cursor-pointer hairline-border">B. Pulau Flores, NTT</div>
+              <div class="p-2 rounded bg-slate-50 hover:bg-slate-100 cursor-pointer hairline-border">C. Pulau Alor, NTT</div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-4 hairline-border">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Agenda Terdekat</h4>
+            <div class="space-y-2 text-xs">
+              <p class="font-bold text-slate-900">Gelar Tari Saman Massal</p>
+              <p class="text-slate-500 text-[11px]">Gayo Lues, Aceh • 20 Des 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: MARKETPLACE & CART / CHECKOUT      -->
+    <!-- ========================================== -->
+    <div id="view-marketplace" class="view-section hidden space-y-6">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">2. Marketplace Kriya & Checkout Flow</h2>
+          <p class="text-xs text-slate-500">Representasi `Marketplace.tsx`, `ProductDetail.tsx`, `Cart.tsx`, dan `CheckoutPage.tsx`</p>
+        </div>
+        <div class="flex space-x-2">
+          <button onclick="openModal('modal-cart')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800">
+            🛒 Uji Buka Keranjang (Modal Drawer)
+          </button>
+        </div>
+      </div>
+
+      <!-- PRODUCT CATALOG GRID -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Item 1 -->
+        <div class="bg-white rounded-xl p-4 hairline-border flex flex-col justify-between space-y-3">
+          <div class="aspect-[4/3] bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400 hairline-border">
+            Foto Kriya Tenun Ikat
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold uppercase">NTT</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-1">Kain Tenun Ikat Asli Sikka</h4>
+            <p class="text-xs font-semibold text-slate-900 mt-1">Rp 650.000</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Pengrajin Desa Watublapi</p>
+          </div>
+          <button onclick="openModal('modal-cart')" class="w-full py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors">
+            + Keranjang
+          </button>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="bg-white rounded-xl p-4 hairline-border flex flex-col justify-between space-y-3">
+          <div class="aspect-[4/3] bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400 hairline-border">
+            Foto Topeng Malangan
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold uppercase">Jawa Timur</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-1">Topeng Kayu Karakter Panji</h4>
+            <p class="text-xs font-semibold text-slate-900 mt-1">Rp 280.000</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Sanggar Asmorobangun</p>
+          </div>
+          <button onclick="openModal('modal-cart')" class="w-full py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors">
+            + Keranjang
+          </button>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="bg-white rounded-xl p-4 hairline-border flex flex-col justify-between space-y-3">
+          <div class="aspect-[4/3] bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400 hairline-border">
+            Foto Kerajinan Manik Dayak
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold uppercase">Kalimantan</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-1">Kalung Manik Manik Ba'a</h4>
+            <p class="text-xs font-semibold text-slate-900 mt-1">Rp 175.000</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Koperasi Pengrajin Dayak</p>
+          </div>
+          <button onclick="openModal('modal-cart')" class="w-full py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors">
+            + Keranjang
+          </button>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="bg-white rounded-xl p-4 hairline-border flex flex-col justify-between space-y-3">
+          <div class="aspect-[4/3] bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400 hairline-border">
+            Foto Kopi Robusta Toraja
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold uppercase">Sulawesi</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-1">Biji Kopi Sangrai Petik Merah</h4>
+            <p class="text-xs font-semibold text-slate-900 mt-1">Rp 85.000</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Petani Adat Gandangbatu</p>
+          </div>
+          <button onclick="openModal('modal-cart')" class="w-full py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors">
+            + Keranjang
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: CROWDFUNDING / DONASI PELSTARI    -->
+    <!-- ========================================== -->
+    <div id="view-crowdfunding" class="view-section hidden space-y-6">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">3. Galang Dana & Pelestarian Warisan Budaya</h2>
+          <p class="text-xs text-slate-500">Representasi `Crowdfunding.tsx`, `CrowdfundingDetail.tsx`, dan `CrowdfundingDonate.tsx`</p>
+        </div>
+        <button onclick="openModal('modal-donate')" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-700 text-white font-medium hover:bg-emerald-800">
+          🌱 Uji Modal Form Donasi Cagar Budaya
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Campaign Card 1 -->
+        <div class="bg-white rounded-xl p-5 hairline-border space-y-4">
+          <div class="aspect-video bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400">
+            Foto Dokumentasi Cagar Budaya
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">Arsitektur Adat</span>
+            <h3 class="text-sm font-bold text-slate-900 mt-1.5">Renovasi Atap Ijuk Rumah Gadang 20 Ruang</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Upaya penggantian rangka kayu andalas dan anyaman ijuk yang lapuk karena rembesan cuaca ekstrem.</p>
+          </div>
+          <div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2">
+              <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 74%"></div>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-500">Terkumpul: <strong>Rp 74.500.000</strong></span>
+              <span class="font-bold text-emerald-700">74%</span>
+            </div>
+          </div>
+          <button onclick="openModal('modal-donate')" class="w-full py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold">
+            Dukung Kampanye Ini
+          </button>
+        </div>
+
+        <!-- Campaign Card 2 -->
+        <div class="bg-white rounded-xl p-5 hairline-border space-y-4">
+          <div class="aspect-video bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400">
+            Foto Naskah Lontar Kuno
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-50 text-amber-800 font-semibold">Digitalisasi Manuskrip</span>
+            <h3 class="text-sm font-bold text-slate-900 mt-1.5">Penyelamatan Lontar Kuno Kerajaan Bali</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Konservasi minyak kemiri dan pemindaian resolusi tinggi untuk 85 naskah pengobatan dan babad kuno.</p>
+          </div>
+          <div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2">
+              <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 42%"></div>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-500">Terkumpul: <strong>Rp 21.000.000</strong></span>
+              <span class="font-bold text-emerald-700">42%</span>
+            </div>
+          </div>
+          <button onclick="openModal('modal-donate')" class="w-full py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold">
+            Dukung Kampanye Ini
+          </button>
+        </div>
+
+        <!-- Campaign Card 3 -->
+        <div class="bg-white rounded-xl p-5 hairline-border space-y-4">
+          <div class="aspect-video bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400">
+            Foto Regenerasi Sanggar Karawitan
+          </div>
+          <div>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold">Edukasi Generasi Muda</span>
+            <h3 class="text-sm font-bold text-slate-900 mt-1.5">Gamelan untuk Anak Pedalaman Banyuwangi</h3>
+            <p class="text-xs text-slate-600 line-clamp-2 mt-1">Pengadaan 1 set instrumen saron dan kendang untuk pelatihan gratis anak-anak sekolah dasar perbatasan hutan.</p>
+          </div>
+          <div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2">
+              <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 89%"></div>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-500">Terkumpul: <strong>Rp 35.600.000</strong></span>
+              <span class="font-bold text-emerald-700">89%</span>
+            </div>
+          </div>
+          <button onclick="openModal('modal-donate')" class="w-full py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold">
+            Dukung Kampanye Ini
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: GAMIFIKASI EDUKASI (3 GAME)       -->
+    <!-- ========================================== -->
+    <div id="view-games" class="view-section hidden space-y-6">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">4. Modul Gamifikasi Budaya Nusantara</h2>
+          <p class="text-xs text-slate-500">Representasi `KuisBudaya.tsx`, `PuzzleBudaya.tsx`, dan `TebakDaerah.tsx`</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Game 1: Kuis Budaya -->
+        <div class="bg-white rounded-xl p-5 hairline-border space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">🏆</span>
+            <h3 class="text-sm font-bold text-slate-900">Kuis Budaya Nusantara</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Format pilihan ganda interaktif dengan timer dan leaderboard komunitas mingguan.
+          </p>
+          <div class="p-3 bg-slate-50 rounded-lg hairline-border space-y-2 text-xs">
+            <p class="font-semibold text-slate-800">Pertanyaan #3: Tari Piring melambangkan apa?</p>
+            <div class="p-2 rounded bg-white hairline-border cursor-pointer hover:bg-slate-100">A. Rasa syukur atas panen melimpah</div>
+            <div class="p-2 rounded bg-white hairline-border cursor-pointer hover:bg-slate-100">B. Persiapan upacara peperangan</div>
+            <div class="p-2 rounded bg-white hairline-border cursor-pointer hover:bg-slate-100">C. Penyambutan raja laut</div>
+          </div>
+        </div>
+
+        <!-- Game 2: Puzzle Budaya -->
+        <div class="bg-white rounded-xl p-5 hairline-border space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">🧩</span>
+            <h3 class="text-sm font-bold text-slate-900">Puzzle Candi & Cagar Budaya</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Penyusunan kepingan relief dan arsitektur cagar budaya (drag & drop kepingan).
+          </p>
+          <div class="aspect-square bg-slate-50 rounded-lg hairline-border grid grid-cols-3 gap-1 p-2">
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">1</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">2</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">3</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">4</div>
+            <div class="bg-slate-300 rounded flex items-center justify-center text-[10px] text-slate-600 font-bold">Kosong</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">5</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">6</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">7</div>
+            <div class="bg-slate-200 rounded flex items-center justify-center text-[10px] text-slate-500 font-bold">8</div>
+          </div>
+        </div>
+
+        <!-- Game 3: Tebak Daerah -->
+        <div class="bg-white rounded-xl p-5 hairline-border space-y-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">🗺️</span>
+            <h3 class="text-sm font-bold text-slate-900">Tebak Asal Daerah</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Identifikasi senjata tradisional, motif batik, atau rumah adat berdasarkan siluet visual.
+          </p>
+          <div class="aspect-video bg-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-400 hairline-border">
+            [Siluet Senjata Tradisional Rencong]
+          </div>
+          <input type="text" placeholder="Ketik nama provinsi..." class="w-full bg-slate-50 text-xs px-3 py-2 rounded-lg hairline-border" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: MODAL & DIALOG REFERENCE LIST     -->
+    <!-- ========================================== -->
+    <div id="view-modals" class="view-section hidden space-y-6">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">5. Inventaris Kotak Modal & Dialog Aplikasi</h2>
+          <p class="text-xs text-slate-500">Klik tombol berikut untuk menguji dan melihat struktur Lo-Fi setiap dialog:</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button onclick="openModal('modal-create-post')" class="p-3 bg-white rounded-lg hairline-border text-left hover:bg-slate-50">
+          <p class="text-xs font-bold text-slate-900">Modal Buat Postingan</p>
+          <p class="text-[11px] text-slate-500">`CreatePostModal.tsx`</p>
+        </button>
+        <button onclick="openModal('modal-comments')" class="p-3 bg-white rounded-lg hairline-border text-left hover:bg-slate-50">
+          <p class="text-xs font-bold text-slate-900">Modal Komentar</p>
+          <p class="text-[11px] text-slate-500">`CommentModal.tsx`</p>
+        </button>
+        <button onclick="openModal('modal-share')" class="p-3 bg-white rounded-lg hairline-border text-left hover:bg-slate-50">
+          <p class="text-xs font-bold text-slate-900">Modal Bagikan (Share)</p>
+          <p class="text-[11px] text-slate-500">`ShareModal.tsx`</p>
+        </button>
+        <button onclick="openModal('modal-cart')" class="p-3 bg-white rounded-lg hairline-border text-left hover:bg-slate-50">
+          <p class="text-xs font-bold text-slate-900">Modal Keranjang Belanja</p>
+          <p class="text-[11px] text-slate-500">`CartContext.tsx`</p>
+        </button>
+        <button onclick="openModal('modal-donate')" class="p-3 bg-white rounded-lg hairline-border text-left hover:bg-slate-50">
+          <p class="text-xs font-bold text-slate-900">Modal Donasi Kampanye</p>
+          <p class="text-[11px] text-slate-500">`CrowdfundingDonate.tsx`</p>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL CONTAINERS (ACTIVE VIA JAVASCRIPT OPENMODAL())     -->
+  <!-- ======================================================== -->
+
+  <!-- 1. MODAL CREATE POST -->
+  <div id="modal-create-post" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 hairline-border shadow-xl space-y-4">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+        <h3 class="text-sm font-bold text-slate-900">Buat Cerita & Karya Budaya Baru</h3>
+        <button onclick="closeModal('modal-create-post')" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Judul Karya / Narasi</label>
+          <input type="text" placeholder="Misal: Ritual Ma'nene Toraja dan Maknanya" class="w-full px-3 py-2 bg-slate-50 rounded-lg hairline-border text-xs" />
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Kategori Tradisi</label>
+          <select class="w-full px-3 py-2 bg-slate-50 rounded-lg hairline-border text-xs text-slate-700">
+            <option>Kriya & Seni Rupa</option>
+            <option>Arsitektur & Rumah Adat</option>
+            <option>Tari & Musik Tradisional</option>
+            <option>Kuliner & Rempah Nusantara</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Isi Cerita</label>
+          <textarea rows="4" placeholder="Tuliskan detail kisah pelestarian..." class="w-full px-3 py-2 bg-slate-50 rounded-lg hairline-border text-xs"></textarea>
+        </div>
+        <div class="p-3 bg-slate-50 rounded-lg hairline-border border-dashed text-center text-slate-400">
+          Unggah Foto / Video Dokumenter
+        </div>
+      </div>
+      <div class="flex justify-end space-x-2 pt-2">
+        <button onclick="closeModal('modal-create-post')" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">Batal</button>
+        <button onclick="closeModal('modal-create-post')" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">Kirim Cerita</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MODAL COMMENTS -->
+  <div id="modal-comments" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 hairline-border shadow-xl space-y-4">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+        <h3 class="text-sm font-bold text-slate-900">Komentar Komunitas (18)</h3>
+        <button onclick="closeModal('modal-comments')" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+      </div>
+      <div class="max-h-60 overflow-y-auto space-y-3 text-xs pr-1">
+        <div class="flex space-x-2.5">
+          <div class="w-7 h-7 rounded-full bg-slate-200 shrink-0"></div>
+          <div class="flex-1 bg-slate-50 p-2.5 rounded-lg hairline-border">
+            <span class="font-bold text-slate-900">Agus Wijaya</span>
+            <p class="text-slate-600 mt-0.5">Bagus sekali reliefnya, apakah kayunya sudah melalui proses pengawetan tradisional rendam lumpur?</p>
+          </div>
+        </div>
+        <div class="flex space-x-2.5">
+          <div class="w-7 h-7 rounded-full bg-slate-200 shrink-0"></div>
+          <div class="flex-1 bg-slate-50 p-2.5 rounded-lg hairline-border">
+            <span class="font-bold text-slate-900">Dewi Kartika</span>
+            <p class="text-slate-600 mt-0.5">Semoga generasi muda di Gianyar tetap tekun belajar mengukir, bangga melihat karya ini!</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex space-x-2 pt-2 border-t border-slate-100">
+        <input type="text" placeholder="Tulis komentar balasan..." class="flex-1 px-3 py-2 bg-slate-50 rounded-lg hairline-border text-xs" />
+        <button class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-semibold">Kirim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL SHARE -->
+  <div id="modal-share" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 hairline-border shadow-xl space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <h3 class="text-sm font-bold text-slate-900">Bagikan Cerita Budaya</h3>
+        <button onclick="closeModal('modal-share')" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+      </div>
+      <div class="grid grid-cols-4 gap-2 text-center text-xs">
+        <div class="p-2.5 rounded-lg bg-slate-50 hairline-border hover:bg-slate-100 cursor-pointer">WhatsApp</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 hairline-border hover:bg-slate-100 cursor-pointer">Twitter/X</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 hairline-border hover:bg-slate-100 cursor-pointer">Facebook</div>
+        <div class="p-2.5 rounded-lg bg-slate-50 hairline-border hover:bg-slate-100 cursor-pointer">Salin Link</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MODAL CART (DRAWER STYLE) -->
+  <div id="modal-cart" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex justify-end">
+    <div class="bg-white w-full max-w-md h-full p-6 shadow-2xl flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+          <h3 class="text-sm font-bold text-slate-900">Keranjang Belanja Kriya (2 Item)</h3>
+          <button onclick="closeModal('modal-cart')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+        </div>
+        <div class="py-4 space-y-3 text-xs">
+          <div class="flex justify-between items-center p-3 rounded-lg bg-slate-50 hairline-border">
+            <div>
+              <p class="font-bold text-slate-900">Kain Tenun Ikat Asli Sikka</p>
+              <p class="text-slate-500">1 x Rp 650.000</p>
+            </div>
+            <button class="text-rose-600 hover:underline">Hapus</button>
+          </div>
+          <div class="flex justify-between items-center p-3 rounded-lg bg-slate-50 hairline-border">
+            <div>
+              <p class="font-bold text-slate-900">Topeng Kayu Karakter Panji</p>
+              <p class="text-slate-500">1 x Rp 280.000</p>
+            </div>
+            <button class="text-rose-600 hover:underline">Hapus</button>
+          </div>
+        </div>
+      </div>
+      <div class="pt-4 border-t border-slate-100 space-y-3">
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-slate-500">Subtotal Belanja</span>
+          <span class="text-sm font-bold text-slate-900">Rp 930.000</span>
+        </div>
+        <button onclick="closeModal('modal-cart'); alert('Mengarahkan ke Halaman Checkout (/checkout)...');" class="w-full py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+          Lanjut ke Pembayaran Aman →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. MODAL DONATE -->
+  <div id="modal-donate" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 hairline-border shadow-xl space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <h3 class="text-sm font-bold text-slate-900">Donasi Pelestarian Warisan</h3>
+        <button onclick="closeModal('modal-donate')" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <p class="text-slate-600">Pilih nominal gotong royong:</p>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="p-2.5 rounded-lg bg-slate-50 hairline-border hover:bg-slate-100 font-semibold text-slate-900">Rp 25.000</button>
+          <button class="p-2.5 rounded-lg bg-slate-50 hairline-border hover:bg-slate-100 font-semibold text-slate-900">Rp 50.000</button>
+          <button class="p-2.5 rounded-lg bg-slate-900 text-white font-semibold">Rp 100.000</button>
+        </div>
+        <input type="number" placeholder="Atau ketik nominal lainnya (Rp)" class="w-full px-3 py-2 bg-slate-50 rounded-lg hairline-border text-xs" />
+        <div class="space-y-1">
+          <label class="block font-semibold text-slate-700">Nama Donatur / Anonim</label>
+          <input type="text" placeholder="Hamba Allah / Komunitas Pecinta Budaya" class="w-full px-3 py-2 bg-slate-50 rounded-lg hairline-border text-xs" />
+        </div>
+      </div>
+      <div class="pt-2">
+        <button onclick="closeModal('modal-donate'); alert('Terima kasih atas kepedulian Anda untuk budaya Nusantara!');" class="w-full py-2.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold">
+          Donasi Sekarang (QRIS / Virtual Account)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchView(viewId) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById(viewId).classList.remove('hidden');
+
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('tab-inactive');
+      });
+
+      if (viewId === 'view-beranda') document.getElementById('btn-beranda').classList.add('tab-active');
+      if (viewId === 'view-marketplace') document.getElementById('btn-marketplace').classList.add('tab-active');
+      if (viewId === 'view-crowdfunding') document.getElementById('btn-crowdfunding').classList.add('tab-active');
+      if (viewId === 'view-games') document.getElementById('btn-games').classList.add('tab-active');
+      if (viewId === 'view-modals') document.getElementById('btn-modals').classList.add('tab-active');
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

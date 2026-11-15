@@ -1,107 +1,122 @@
-# 🎨 RuangBudaya.id - Platform Kolaborasi Budaya Indonesia
+# RuangBudaya.id
 
-Platform komprehensif untuk kreator, seniman, dan pencinta budaya Indonesia. Jual karya seni, ikuti proyek kolaboratif, dan pelajari budaya nusantara dalam satu platform terintegrasi.
+Platform ekosistem digital untuk preservasi, kolaborasi, dan monetisasi karya seni budaya Indonesia. Menghubungkan kreator, komunitas, dan publik melalui marketplace karya, pendanaan proyek kolaboratif, serta modul edukasi interaktif.
 
-## ✨ Fitur Utama
+---
 
-- 🔐 **Sistem Autentikasi Lengkap** - Login dengan Google OAuth atau Email/Password
-- 🎨 **Marketplace Seni** - Jual dan beli karya seni budaya Indonesia
-- 👥 **Komunitas Kreatif** - Terhubung dengan sesama seniman
-- 📚 **Edukasi Budaya** - Akses materi pembelajaran budaya Indonesia
-- 🚀 **Proyek Kolaboratif** - Berkolaborasi dalam proyek seni bersama
-- 📅 **Event & Acara** - Temukan dan ikuti acara budaya
+## Arsitektur & Tech Stack
 
-## 🚀 Quick Start
+Aplikasi ini dibangun menggunakan arsitektur serverless fullstack berbasis edge:
 
-### 1. Setup (Pertama Kali)
+- **Frontend**: React 19, TypeScript, React Router v7, Tailwind CSS, Lucide Icons
+- **Backend / API**: Hono (edge-compatible framework)
+- **Runtime & Deployment**: Cloudflare Workers (via Wrangler)
+- **Database**: Cloudflare D1 (Serverless SQLite)
+- **Object Storage**: Cloudflare R2
+- **Build Tool**: Vite 7
+
+---
+
+## Panduan Instalasi & Menjalankan Lokal
+
+Pastikan Node.js (v18+) dan npm telah terpasang di sistem Anda.
+
+### 1. Inisialisasi Proyek
+
+Jalankan perintah berikut untuk menginstal dependensi, menghasilkan tipe worker, dan menjalankan migrasi database lokal:
+
 ```bash
-npm install
-npm run cf-typegen
-npm run db:migrate
+npm run setup
 ```
 
-### 2. Jalankan Development Server
+> **Catatan:** Script `npm run setup` secara otomatis mengeksekusi `npm install`, `wrangler types`, dan migrasi Cloudflare D1 local.
+
+Jika ingin menjalankan migrasi data awal/seeding manual:
+```bash
+npm run db:setup
+```
+
+### 2. Menjalankan Environment Pengembangan
+
+Untuk menjalankan backend worker dan frontend secara terintegrasi melalui runtime Cloudflare:
+
 ```bash
 npm run dev:wrangler
 ```
 
-### 3. Akses Aplikasi
-Buka browser: `http://localhost:8787`
-
-## 🔑 Akun Demo
-
-Login dengan kredensial berikut untuk testing:
-
-- **Email**: robinsyaifuddin@gmail.com
-- **Password**: robin123
-
-## 📖 Dokumentasi Lengkap
-
-Lihat [AUTENTIKASI.md](./AUTENTIKASI.md) untuk panduan lengkap tentang:
-- Cara menjalankan aplikasi
-- Alur pengguna (login, register, dll)
-- Database management
-- Troubleshooting
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 19, TypeScript, TailwindCSS
-- **Backend**: Hono (Cloudflare Workers)
-- **Database**: Cloudflare D1 (SQLite)
-- **Storage**: Cloudflare R2
-- **Auth**: Google OAuth + Manual Login
-- **Build**: Vite 7
-
-## 📜 Available Scripts
-
-- `npm run dev:wrangler` - Jalankan dev server dengan Cloudflare Workers
-- `npm run dev` - Jalankan Vite dev server (frontend only)
-- `npm run build` - Build aplikasi untuk production
-- `npm run db:migrate` - Jalankan database migrations
-- `npm run cf-typegen` - Generate TypeScript types untuk Cloudflare
-- `npm run setup` - Setup lengkap (install + typegen + migrate)
-
-## 📁 Struktur Project
-
-```
-├── src/
-│   ├── react-app/          # Frontend React
-│   │   ├── components/     # Komponen React
-│   │   ├── pages/          # Halaman-halaman aplikasi
-│   │   └── App.tsx         # Root component
-│   ├── worker/             # Backend Cloudflare Worker
-│   │   └── index.ts        # API endpoints
-│   └── shared/             # Shared utilities
-├── migrations/             # Database migrations
-├── wrangler.json          # Cloudflare Workers config
-└── vite.config.ts         # Vite configuration
+Aplikasi dapat diakses melalui browser di:
+```text
+http://localhost:8787
 ```
 
-## 🌟 Halaman Aplikasi
-
-### Publik (Tidak Perlu Login)
-- `/landing` - Halaman pembuka
-
-### Terproteksi (Perlu Login)
-- `/` - Beranda
-- `/marketplace` - Marketplace Seni
-- `/proyek` - Proyek Kolaboratif
-- `/edukasi` - Edukasi Budaya
-- `/komunitas` - Forum Komunitas
-- `/acara` - Event & Acara
-- `/pesan` - Messaging
-- `/profil` - Profil User
-- `/pengaturan` - Settings
-- `/bantuan` - Help Center
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to submit issues or pull requests.
-
-## 📄 License
-
-© 2024 RuangBudaya.id. All rights reserved.
+*(Opsional: Jalankan `npm run dev` jika hanya ingin menjalankan frontend Vite standalone).*
 
 ---
 
-Built with ❤️ for Indonesian culture and creativity
+## Kredensial Uji Coba (Demo Account)
+
+Tersedia akun uji coba lokal untuk memverifikasi alur otentikasi dan fitur terproteksi:
+
+| Role / Akun | Email | Password |
+| :--- | :--- | :--- |
+| Default Demo User | `robinsyaifuddin@gmail.com` | `robin123` |
+
+Simulasi alur Google OAuth dan mekanisme session detail dapat dibaca di [AUTENTIKASI.md](./AUTENTIKASI.md).
+
+---
+
+## Daftar Script NPM
+
+| Perintah | Deskripsi |
+| :--- | :--- |
+| `npm run setup` | Menjalankan instalasi dependensi, typegen Cloudflare, dan migrasi D1 lokal |
+| `npm run dev:wrangler` | Menjalankan local development server via Cloudflare Workers runtime (`:8787`) |
+| `npm run dev` | Menjalankan Vite development server (frontend-only) |
+| `npm run build` | Melakukan compile TypeScript dan mem-bundle frontend untuk production |
+| `npm run db:migrate` | Menjalankan migrasi schema D1 ke environment lokal |
+| `npm run db:setup` | Menjalankan setup database tambahan / seed data |
+| `npm run cf-typegen` | Regenerasi definisi tipe TypeScript dari binding Cloudflare |
+| `npm run check` | Validasi tipe, build test, dan dry-run deploy Cloudflare |
+| `npm run lint` | Pengecekan standar kode dengan ESLint |
+
+---
+
+## Struktur Direktori
+
+```text
+.
+├── migrations/             # Skema D1 SQLite & file migrasi
+├── src/
+│   ├── react-app/          # Frontend client (React 19)
+│   │   ├── components/     # Komponen UI modular
+│   │   ├── pages/          # Halaman aplikasi (Public & Protected routes)
+│   │   └── App.tsx         # Routing & inisialisasi aplikasi
+│   ├── worker/             # Backend API (Hono pada Cloudflare Worker)
+│   │   └── index.ts        # Endpoint handler & D1 bindings
+│   └── shared/             # Tipe data bersama & utilitas
+├── wrangler.json          # Konfigurasi Cloudflare Workers & resource bindings
+└── vite.config.ts         # Konfigurasi bundler Vite
+```
+
+---
+
+## Modul & Rute Utama
+
+- **Publik**:
+  - `/landing` : Pengenalan platform, katalog kurasi, dan call-to-action.
+- **Terproteksi (User Session)**:
+  - `/` : Dashboard ringkasan aktivitas budaya.
+  - `/marketplace` : Kurasi dan transaksi karya seni nusantara.
+  - `/proyek` : Crowdfunding & inisiatif kolaborasi kesenian.
+  - `/edukasi` : Modul pembelajaran budaya & artikel interaktif.
+  - `/komunitas` : Forum diskusi kreator dan pegiat budaya.
+  - `/acara` : Manajemen dan direktori agenda kebudayaan.
+
+---
+
+## Dokumentasi Terkait
+
+- Panduan Otentikasi & Database: [AUTENTIKASI.md](./AUTENTIKASI.md)
+- Panduan Deployment Production: [DEPLOYMENT.md](./DEPLOYMENT.md)
+- Modul Permainan Budaya: [GAMES_README.md](./GAMES_README.md)
+- Detail Crowdfunding: [CROWDFUNDING_CONTENT_UPDATE.md](./CROWDFUNDING_CONTENT_UPDATE.md)

@@ -17,58 +17,44 @@ const samplePosts = [
   {
     id: 1,
     author: {
-      name: 'Sari Kusuma',
-      subtitle: 'Pengrajin Batik • Yogyakarta',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
-      timestamp: '15 menit yang lalu'
+      name: 'Dewi Lestari Hadiningrat',
+      subtitle: 'Maestro Pembatik • Surakarta',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+      timestamp: '25 menit yang lalu'
     },
-    content: 'Senang sekali bisa berbagi karya batik terbaru dengan motif nusantara yang mencerminkan kekayaan budaya Indonesia 🇮🇩✨ Proses pewarnaan alami menggunakan kulit pohon jati dan daun indigo. Hasilnya sangat memuaskan! #BatikIndonesia #SeniBudaya #Kerajinan',
-    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&h=600&fit=crop',
-    likes: 1234,
-    comments: 87,
-    bookmarks: 156
+    content: 'Pagi ini selesai proses nglorot sehelai kain batik tulis motif Kawung Nitik. Warna soganya diracik murni dari rebusan kulit kayu tingi dan jambal tanpa pewarna sintetis. Senang sekali modul pembelajarannya kini sudah bisa diakses teman-teman generasi muda di pilar Edukasi Ruang Budaya! 🌿✨ #BatikTulisSoga #PucuakRabuang #KriyaNusantara',
+    image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=600&fit=crop',
+    likes: 1245,
+    comments: 88,
+    bookmarks: 194
   },
   {
     id: 2,
     author: {
-      name: 'Budi Santoso',
-      subtitle: 'Pelukis Wayang • Solo',
+      name: 'Ki Gendon Giri',
+      subtitle: 'Pengrajin Wayang Kulit • Banyumas',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
       timestamp: '1 jam yang lalu'
     },
-    content: 'Workshop wayang kulit kemarin sangat inspiratif! Terima kasih kepada semua peserta yang antusias belajar seni tradisional kita. Mari lestarikan budaya Indonesia bersama-sama 🎭',
+    content: 'Menatah wayang tokoh Raden Gatotkaca memerlukan ketenangan nafas dan ketelitian memegang tatah baja. Setiap ornamen prada emas melambangkan watak ksatria yang kokoh berotot kawat bertulang besi. Karya terkurasi ini sudah resmi tersedia di Marketplace Budaya. 🎭🛡️ #WayangKulit #Gatotkaca #SeniTatahBanyumas',
     image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop',
-    likes: 2567,
-    comments: 145,
-    bookmarks: 289
+    likes: 2580,
+    comments: 142,
+    bookmarks: 310
   },
   {
     id: 3,
     author: {
-      name: 'Maya Anggraini',
-      subtitle: 'Desainer Tenun • Sumba',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
+      name: 'Komunitas Peduli Lontar Bali',
+      subtitle: 'Pelestari Manuskrip Kuno • Karangasem',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
       timestamp: '3 jam yang lalu'
     },
-    content: 'Koleksi tenun ikat terbaru terinspirasi dari motif tradisional Sumba dengan sentuhan modern. Setiap helai menceritakan kisah dan nilai-nilai leluhur yang tak lekang oleh waktu 🧵',
-    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&h=600&fit=crop',
-    likes: 3421,
-    comments: 201,
-    bookmarks: 445
-  },
-  {
-    id: 4,
-    author: {
-      name: 'Ahmad Rizki',
-      subtitle: 'Fotografer Budaya • Jakarta',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
-      timestamp: '5 jam yang lalu'
-    },
-    content: 'Mendokumentasikan tari Saman dari Aceh. Keindahan gerak yang serempak dan filosofi yang dalam membuat saya semakin cinta dengan kekayaan budaya Indonesia 📸',
-    image: 'https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=800&h=600&fit=crop',
-    likes: 5678,
-    comments: 298,
-    bookmarks: 678
+    content: 'Kabar Baik Crowdfunding: Berkat gotong royong 500+ donatur di Ruang Budaya, 85 cakep naskah lontar usada pengobatan kuno abad ke-17 di Puri Karangasem telah selesai dibersihkan dari parasit jamur menggunakan minyak kemiri organik. Siap memasuki fase alih media digital! 📜🌿 #PusakaLontar #UsadaBali #BudayaGo2026',
+    image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&h=600&fit=crop',
+    likes: 3410,
+    comments: 215,
+    bookmarks: 520
   }
 ];
 

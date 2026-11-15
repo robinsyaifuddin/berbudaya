@@ -4,182 +4,211 @@ import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
 import { Heart, Star, Truck, Package, RotateCcw, Calendar, ShoppingCart } from 'lucide-react';
 
-const productData = {
+const productData: Record<string, any> = {
   '1': {
     id: 1,
-    name: 'Batik Tulis Solo Premium',
-    price: 850000,
-    oldPrice: 1000000,
-    seller: 'Dewi Batik Gallery',
-    rating: 4.8,
-    reviews: 124,
-    category: 'Batik & Kain',
-    location: 'Solo, Jawa Tengah',
+    name: 'Songket Pandai Sikek Motif Pucuak Rabuang Emas',
+    price: 3850000,
+    oldPrice: 4200000,
+    seller: 'Pertenunan Harapan Ibu Pandai Sikek',
+    rating: 4.95,
+    reviews: 78,
+    category: 'Kriya & Tekstil',
+    location: 'Tanah Datar, Sumatera Barat',
     images: [
       'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&h=800&fit=crop',
       'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=600&h=800&fit=crop',
     ],
-    sizes: ['2m x 1.15m', '2.5m x 1.15m'],
+    sizes: ['2m x 1.05m (Set Kain + Selendang)'],
     colors: [
-      { name: 'Coklat Soga', class: 'bg-amber-900' },
-      { name: 'Biru Indigo', class: 'bg-blue-900' },
-      { name: 'Hitam', class: 'bg-black' },
+      { name: 'Merah Marun Emas', class: 'bg-red-900' },
+      { name: 'Hitam Emas Adat', class: 'bg-black' }
     ],
-    description: 'Batik tulis premium dari Solo dengan motif klasik parang dan kawung. Dibuat dengan teknik tradisional menggunakan canting dan malam berkualitas tinggi. Setiap helai membutuhkan waktu 2-3 bulan pengerjaan oleh pengrajin berpengalaman. Kain katun prima yang lembut dan nyaman dipakai. Cocok untuk acara formal, resepsi, atau koleksi pribadi.',
-    materials: 'Kain Katun Prima, Malam Batik Alami, Pewarna Soga',
-    care: 'Cuci dengan tangan menggunakan detergen lembut, jemur di tempat teduh',
+    culturalTag: {
+      ethnicGroup: 'Minangkabau',
+      philosophy: 'Motif Pucuak Rabuang melambangkan kearifan adat: waktu kecil berguna sebagai rebung penawar lapar, setelah besar menjadi bambu penyangga rumah adat dan masyarakat.',
+      technique: 'Tenun Balapak menggunakan alat tenun panta tradisional selama 45 hari pengerjaan dengan pakan benang emas murni.',
+      curationStandard: 'Terkurasi Dewan Kesenian Daerah & Bersertifikat Asal Geografis',
+      preservationImpact: 'Mendukung keberlanjutan 12 perajin tenun sepuh di Nagari Pandai Sikek.'
+    },
+    description: 'Kain Songket tenun tangan otentik khas Nagari Pandai Sikek. Memadukan warna merah marun klasik dengan sulaman benang emas pakan makao. Digunakan pada upacara batagak gala penghulu maupun pesta perkawinan adat luhak nan tigo.',
+    materials: 'Benang Katun Sutra Halus, Benang Emas Makao Asli, Pewarna Alami',
+    care: 'Jangan dicuci mesin. Simpan dengan cara digulung rapi dan dilapisi kain mori putih.',
     shipping: {
       estimated: '3-5 Hari Kerja',
-      type: 'JNE/J&T Regular',
-      arrival: '10-15 November 2024'
+      type: 'JNE/J&T Regular + Asuransi Penuh',
+      arrival: '16-19 November 2026'
     }
   },
   '2': {
     id: 2,
-    name: 'Wayang Kulit Rama Shinta',
-    price: 1200000,
-    oldPrice: undefined,
-    seller: 'Karya Wayang Nusantara',
-    rating: 4.9,
-    reviews: 89,
-    category: 'Wayang & Seni',
-    location: 'Yogyakarta',
+    name: 'Keris Gayaman Surakarta Luk 7 Pamor Wos Wutah',
+    price: 5200000,
+    oldPrice: 5800000,
+    seller: 'Besalen Empu Subandi Joyo',
+    rating: 5.0,
+    reviews: 42,
+    category: 'Senjata Tradisional',
+    location: 'Surakarta, Jawa Tengah',
     images: [
+      'https://images.unsplash.com/photo-1595434091143-b375ced5fe5c?w=600&h=800&fit=crop',
       'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1580477667995-2b94f01c9516?w=600&h=800&fit=crop',
     ],
-    sizes: ['Tinggi 60cm', 'Tinggi 80cm', 'Tinggi 100cm'],
+    sizes: ['Bilah 36 cm (Total 49 cm)'],
     colors: [
-      { name: 'Emas Klasik', class: 'bg-yellow-600' },
-      { name: 'Multi Warna', class: 'bg-gradient-to-r from-red-500 to-yellow-500' },
+      { name: 'Warangka Timoho Pelet', class: 'bg-amber-950' }
     ],
-    description: 'Wayang kulit sepasang Rama dan Shinta dari kisah Ramayana. Dibuat dari kulit kerbau pilihan dengan detail ukiran yang halus dan presisi. Dicat dengan warna tradisional yang tahan lama. Dilengkapi dengan gagang dari tanduk kerbau yang kokoh. Karya dalang dan pengukir berpengalaman lebih dari 30 tahun. Cocok untuk koleksi, dekorasi, atau pertunjukan.',
-    materials: 'Kulit Kerbau Premium, Cat Tradisional, Tanduk Kerbau',
-    care: 'Simpan di tempat kering, hindari sinar matahari langsung, bersihkan dengan kain lembut',
+    culturalTag: {
+      ethnicGroup: 'Jawa (Mataraman)',
+      philosophy: 'Pamor Beras Wutah (Wos Wutah) menyimbolkan doa kelimpahan rezeki, ketentraman batin, dan keharmonisan rumah tangga.',
+      technique: 'Ditempa manual ratusan lipatan bilah besi, baja, dan batu meteorit titanium asli dengan metode tempa lipat tradisi Abad ke-17.',
+      curationStandard: 'Sertifikasi Keaslian Logam & Kurasi Paguyuban Tosan Aji Solo',
+      preservationImpact: 'Melestarikan tradisi empu muda penerus besalen tosan aji Jawa Tengah.'
+    },
+    description: 'Keris mahakarya tradisi Surakarta Hadiningrat model Gayaman. Bilah berlekuk 7 (luk pitu) yang seimbang dan anggun, dilengkapi warangka kayu Timoho pelet pilihan serta pendok tembaga tatahan halus.',
+    materials: 'Besi Tempa Antik, Meteorit Nikel, Kayu Timoho Pelet, Kuningan Tatah Solo',
+    care: 'Olesi tipis dengan minyak cendana atau melati setiap 3 bulan sekali agar terhindar dari oksidasi.',
     shipping: {
-      estimated: '5-7 Hari Kerja',
-      type: 'Cargo Khusus (Fragile)',
-      arrival: '12-18 November 2024'
+      estimated: '4-6 Hari Kerja',
+      type: 'Cargo Khusus Pusaka (Asuransi Penuh)',
+      arrival: '17-21 November 2026'
     }
   },
   '3': {
     id: 3,
-    name: 'Angklung Mini Set',
-    price: 450000,
+    name: 'Kain Tenun Ikat Sumba Timur Motif Patola Ratu',
+    price: 2950000,
     oldPrice: undefined,
-    seller: 'Saung Angklung Mang Udjo',
-    rating: 4.7,
-    reviews: 156,
-    category: 'Alat Musik',
-    location: 'Bandung, Jawa Barat',
+    seller: 'Sanggar Tenun Oriang Prailiu',
+    rating: 4.9,
+    reviews: 56,
+    category: 'Batik & Kain',
+    location: 'Waingapu, Nusa Tenggara Timur',
     images: [
-      'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1460036521480-ff49c08c2781?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=600&h=800&fit=crop'
     ],
-    sizes: ['Set 5 Nada', 'Set 8 Nada', 'Set 12 Nada (Full Oktaf)'],
+    sizes: ['2.4m x 1.15m'],
     colors: [
-      { name: 'Natural Bamboo', class: 'bg-amber-700' },
-      { name: 'Varnish Coklat', class: 'bg-amber-900' },
+      { name: 'Kombu Merah Indigo Alami', class: 'bg-red-800' }
     ],
-    description: 'Set angklung mini berkualitas dari Saung Angklung Mang Udjo, Bandung. Terbuat dari bambu pilihan yang telah dikeringkan dengan sempurna untuk menghasilkan nada yang jernih dan resonan. Setiap angklung sudah di-tuning dengan presisi. Cocok untuk edukasi musik anak, terapi musik, atau koleksi alat musik tradisional. Dilengkapi dengan buku panduan cara bermain angklung.',
-    materials: 'Bambu Hitam Pilihan, Tali Rotan, Kayu Mahoni',
-    care: 'Simpan di tempat kering, hindari kelembaban tinggi, bersihkan dengan kain kering',
+    culturalTag: {
+      ethnicGroup: 'Sumba (Marapu)',
+      philosophy: 'Figur kuda (Andung) dan rusa melambangkan keberanian bangsawan, kepemimpinan bijaksana, serta penghormatan pada arwah leluhur Marapu.',
+      technique: 'Ikat lungsi celup 4 tingkatan warna alami ekstrak akar mengkudu (kombu) dan daun nila (wora) memakan waktu 4-6 bulan pengerjaan.',
+      curationStandard: 'Indikasi Geografis Tenun Ikat Sumba Timur',
+      preservationImpact: '100% laba dibagikan langsung ke kelompok penenun perempuan di desa adat Prailiu.'
+    },
+    description: 'Hinggi Kombu Tenun Ikat Sumba Timur karya maestro perempuan Sumba. Tekstur tebal dengan kekuatan benang kapas pintal tangan asli. Pewarnaan alami bebas bahan kimia sintetik.',
+    materials: 'Kapas Lokal Pintal Tangan, Ekstrak Daun Nila, Akar Pohon Mengkudu',
+    care: 'Hindari pencucian dengan detergen kimiawi keras; cukup diangin-anginkan di tempat teduh berangin.',
     shipping: {
-      estimated: '4-6 Hari Kerja',
+      estimated: '5-7 Hari Kerja',
       type: 'JNE/J&T Regular',
-      arrival: '11-16 November 2024'
+      arrival: '18-22 November 2026'
     }
   },
   '4': {
     id: 4,
-    name: 'Keris Jawa Pusaka',
-    price: 3500000,
-    oldPrice: undefined,
-    seller: 'Empu Jaya Sakti',
-    rating: 5.0,
-    reviews: 45,
-    category: 'Senjata Tradisional',
-    location: 'Surakarta',
+    name: 'Wayang Kulit Purwa Tokoh Gatotkaca Gagrag Banyumasan',
+    price: 1850000,
+    oldPrice: 2100000,
+    seller: 'Paguyuban Wayang Gendon Giri',
+    rating: 4.88,
+    reviews: 64,
+    category: 'Wayang & Seni',
+    location: 'Banyumas, Jawa Tengah',
     images: [
-      'https://images.unsplash.com/photo-1595434091143-b375ced5fe5c?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600&h=800&fit=crop'
     ],
-    sizes: ['Luk 5', 'Luk 7', 'Luk 9', 'Luk 13'],
+    sizes: ['Tinggi 72 cm (Total Gapit 95 cm)'],
     colors: [
-      { name: 'Besi Pamor Perak', class: 'bg-gray-400' },
-      { name: 'Besi Pamor Emas', class: 'bg-yellow-700' },
+      { name: 'Prada Emas Sungging', class: 'bg-amber-500' }
     ],
-    description: 'Keris pusaka Jawa dengan pamor berkualitas tinggi karya Empu berpengalaman. Dibuat dari besi meteorit dan baja berkualitas tinggi melalui proses tempa tradisional. Motif pamor yang indah dan bilah yang presisi. Warangka (sarung keris) dari kayu trembalo pilihan dengan ukiran halus. Mendho (hiasan atas) dari logam kuningan atau perak. Dilengkapi sertifikat keaslian dari Empu. Cocok untuk koleksi, pusaka keluarga, atau pelengkap busana adat.',
-    materials: 'Besi Meteorit, Baja Tempa, Kayu Trembalo, Kuningan/Perak',
-    care: 'Bersihkan bilah dengan minyak khusus keris, simpan di tempat kering, periksa secara berkala',
+    culturalTag: {
+      ethnicGroup: 'Jawa Banyumasan',
+      philosophy: 'Ksatria Pringgandani Gatotkaca melambangkan kesetiaan berbangsa, keteguhan hati memegang sumpah, dan keberanian membela kebenaran tanpa pamrih.',
+      technique: 'Ditatah secara presisi oleh pengrajin sepuh menggunakan kulit kerbau bunting kering dan gapit sungu (tanduk) kerbau bule asli.',
+      curationStandard: 'Standar Pementasan Wayang Lakon Mahabarata',
+      preservationImpact: 'Mendukung regenerasi pembuat wayang kulit di pedesaan Banyumas.'
+    },
+    description: 'Wayang kulit purwa tokoh Raden Gatotkaca kualitas pementasan (tancep mantap). Pewarnaan menggunakan cat prada emas berkualitas tinggi dengan teknik tatah sungging halus.',
+    materials: 'Kulit Kerbau Pilihan, Gapit Sungu Tanduk Kerbau Asli, Pewarna Prada Emas',
+    care: 'Simpan di dalam kotak kayu/kain beludru kering dengan kapur barus halus untuk mencegah serangga.',
     shipping: {
-      estimated: '7-10 Hari Kerja',
-      type: 'Cargo Asuransi (Barang Berharga)',
-      arrival: '14-21 November 2024'
+      estimated: '3-5 Hari Kerja',
+      type: 'JNE Regular (Kemasan Kayu Fragile)',
+      arrival: '17-20 November 2026'
     }
   },
   '5': {
     id: 5,
-    name: 'Kain Songket Palembang',
-    price: 1500000,
-    oldPrice: 1800000,
-    seller: 'Tenun Songket Lestari',
-    rating: 4.8,
-    reviews: 67,
-    category: 'Batik & Kain',
-    location: 'Palembang',
+    name: 'Noken Rajut Serat Kulit Kayu Mahkota Kasuari Papua',
+    price: 650000,
+    oldPrice: undefined,
+    seller: 'Mama-Mama Noken Wamena Mandiri',
+    rating: 4.98,
+    reviews: 112,
+    category: 'Kerajinan',
+    location: 'Wamena, Lembah Baliem, Papua Pegunungan',
     images: [
-      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1590736969955-71cc94901144?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1562137369-1a1a0bc66744?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=600&h=800&fit=crop'
     ],
-    sizes: ['2m x 1m', '2.5m x 1.2m'],
+    sizes: ['Lebar 32 cm x Panjang 38 cm'],
     colors: [
-      { name: 'Merah Maroon', class: 'bg-red-900' },
-      { name: 'Hijau Emerald', class: 'bg-green-800' },
-      { name: 'Biru Royal', class: 'bg-blue-900' },
+      { name: 'Coklat Alami Serat Pohon', class: 'bg-amber-800' }
     ],
-    description: 'Kain songket Palembang asli dengan benang emas 24 karat. Ditenun secara tradisional menggunakan alat tenun bukan mesin (ATBM). Motif lepus, bungo pacik, dan nago besaung yang khas Palembang. Setiap kain membutuhkan waktu pengerjaan 1-2 bulan. Kualitas premium dengan benang sutra berkualitas tinggi. Cocok untuk kebaya pengantin, busana formal, atau koleksi kain tradisional.',
-    materials: 'Benang Sutra, Benang Emas 24K, Pewarna Alami',
-    care: 'Dry clean only, simpan dengan digantung atau digulung, hindari lipatan tajam',
+    culturalTag: {
+      ethnicGroup: 'Dani / Hubula',
+      philosophy: 'Noken adalah simbol rahim ibu, kesuburan, kehidupan, persaudaraan, dan lambang kemandirian pangan masyarakat Papua.',
+      technique: 'Pintalan serat kulit kayu pohon melinjo (ganemo) atau anggrek hutan dirajut jemari tangan tanpa alat bantu jarum logam.',
+      curationStandard: 'Warisan Budaya Takbenda UNESCO (Inscribed 2012)',
+      preservationImpact: 'Memperkuat ekonomi langsung mama-mama perajin di pasar tradisional Lembah Baliem.'
+    },
+    description: 'Tas Noken tradisional asli Papua yang dibuat dengan ketelitian jemari Mama Papua. Tali fleksibel, elastis, kuat menahan beban, serta ramah lingkungan 100% terurai alami.',
+    materials: 'Serat Kulit Kayu Pohon Ganemo Asli Hutan Pegunungan Papua',
+    care: 'Bisa dicuci dengan air tawar dingin jika kotor, lalu dikeringkan di tempat terbuka teduh.',
     shipping: {
-      estimated: '4-6 Hari Kerja',
-      type: 'JNE/J&T YES (Kilat)',
-      arrival: '11-16 November 2024'
+      estimated: '6-9 Hari Kerja',
+      type: 'Pos Indonesia Kilat Khusus',
+      arrival: '19-24 November 2026'
     }
   },
   '6': {
     id: 6,
-    name: 'Anyaman Rotan Set',
-    price: 180000,
-    oldPrice: undefined,
-    seller: 'Kriya Rotan Indonesia',
-    rating: 4.6,
-    reviews: 342,
-    category: 'Kerajinan',
-    location: 'Cirebon',
+    name: 'Kecapi Sunda Rincik Perahu Kayu Mahoni Ukir Kujang',
+    price: 1450000,
+    oldPrice: 1650000,
+    seller: 'Bengkel Nada Parahyangan',
+    rating: 4.92,
+    reviews: 38,
+    category: 'Alat Musik',
+    location: 'Sumedang, Jawa Barat',
     images: [
-      'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1585666274671-1e0ce16e6808?w=600&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1588997859645-1c56e8f49e9b?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=600&h=800&fit=crop'
     ],
-    sizes: ['Set Kecil (3 items)', 'Set Sedang (5 items)', 'Set Besar (8 items)'],
+    sizes: ['Panjang 98 cm x Lebar 22 cm'],
     colors: [
-      { name: 'Natural', class: 'bg-amber-600' },
-      { name: 'Dark Brown', class: 'bg-amber-900' },
-      { name: 'White Wash', class: 'bg-amber-100' },
+      { name: 'Coklat Mahoni Klasik', class: 'bg-amber-900' }
     ],
-    description: 'Set anyaman rotan handmade dari Cirebon. Terdiri dari berbagai ukuran wadah multiguna yang cocok untuk penyimpanan, dekorasi, atau hampers. Rotan pilihan yang kuat dan lentur, dianyam dengan teknik tradisional yang rapi. Finishing halus dan tahan lama. Produk ramah lingkungan dan sustainable. Cocok untuk kebutuhan rumah tangga, dekorasi rumah, atau hadiah.',
-    materials: 'Rotan Pilihan, Cat Water Based (opsional)',
-    care: 'Bersihkan dengan lap lembab, hindari air berlebihan, jemur sesekali agar tidak lembab',
+    culturalTag: {
+      ethnicGroup: 'Sunda',
+      philosophy: 'Alunan dawai kecapi rincik memvisualisasikan gemercik air pegunungan Priangan yang menenangkan batin dan menjunjung keselarasan manusia dengan alam.',
+      technique: 'Kotak resonansi dibuat dari kayu mahoni solid berpola perahu koral, distem presisi tangga nada laras Salendro/Madenda.',
+      curationStandard: 'Standar Konser Gamelan Tembang Sunda Cianjuran',
+      preservationImpact: 'Menyediakan instrumen berkualitas bagi sanggar tari dan musik anak muda tanah Pasundan.'
+    },
+    description: 'Kecapi Sunda model Parahu dengan 15 dawai kawat baja anti karat. Dilengkapi ukiran ornamen kujang khas Sunda di bagian buritan dan kepala perahu.',
+    materials: 'Kayu Mahoni Solid Kering Udara 5 Tahun, Kawat Baja Jerman, Peninggi Kayu Sonokeling',
+    care: 'Kendurkan dawai sedikit jika tidak digunakan dalam jangka lama, simpan dalam suhu ruangan stabil.',
     shipping: {
       estimated: '3-5 Hari Kerja',
-      type: 'JNE/J&T Regular',
-      arrival: '10-15 November 2024'
+      type: 'JNE Trucking (Packing Kayu Aman)',
+      arrival: '17-20 November 2026'
     }
   }
 };

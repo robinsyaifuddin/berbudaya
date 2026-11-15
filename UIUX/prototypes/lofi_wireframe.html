@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RuangBudaya - Wireframe & Fungsionalitas Lo-Fi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .hairline-border { border: 1px solid rgba(15, 23, 42, 0.08); }
+    .hairline-border-dark { border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased selection:bg-amber-100 selection:text-amber-900">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md hairline-border border-x-0 border-t-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight">
+          RB
+        </div>
+        <span class="font-bold text-lg tracking-tight text-slate-900">RuangBudaya</span>
+        <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">Lo-Fi Prototype</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+        <a href="#beranda" class="text-slate-900 font-semibold hover:text-slate-900 transition-colors">Beranda</a>
+        <a href="#marketplace" class="hover:text-slate-900 transition-colors">Marketplace</a>
+        <a href="#crowdfunding" class="hover:text-slate-900 transition-colors">Galang Dana</a>
+        <a href="#edukasi" class="hover:text-slate-900 transition-colors">Edukasi & Game</a>
+        <a href="#acara" class="hover:text-slate-900 transition-colors">Acara</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <div class="hidden sm:flex items-center space-x-1 text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-md hairline-border">
+          <span>Tersambung ke Supabase & DB</span>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-xs font-semibold text-slate-700">
+          RS
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER (ASYMMETRIC 3-COLUMN BENTO) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- LEFT COLUMN: NAVIGATION & FILTER (3 COLS) -->
+      <aside class="hidden lg:block lg:col-span-3 space-y-4 sticky top-24">
+        <div class="bg-white rounded-xl p-4 hairline-border shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Eksplorasi Daerah</p>
+          <ul class="space-y-1 text-sm font-medium text-slate-600">
+            <li><button class="w-full text-left px-3 py-2 rounded-lg bg-slate-100 text-slate-900 font-semibold">Semua Nusantara</button></li>
+            <li><button class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">Jawa & Madura</button></li>
+            <li><button class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">Sumatera</button></li>
+            <li><button class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">Bali & Nusa Tenggara</button></li>
+            <li><button class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">Kalimantan & Sulawesi</button></li>
+            <li><button class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">Maluku & Papua</button></li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 hairline-border">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Pilar Pelestarian</p>
+          <div class="space-y-2 text-xs text-slate-600">
+            <div class="flex justify-between items-center py-1 border-b border-slate-100">
+              <span>Cagar Budaya Terdaftar</span>
+              <span class="font-bold text-slate-900">128</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-100">
+              <span>Pengrajin Mitra</span>
+              <span class="font-bold text-slate-900">45</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span>Total Donasi Aktif</span>
+              <span class="font-bold text-emerald-700">Rp 84.5M</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER COLUMN: CORE FEED & ACTIVE CONTENT (6 COLS) -->
+      <section class="col-span-1 lg:col-span-6 space-y-5">
+        
+        <!-- POST COMPOSER LO-FI -->
+        <div class="bg-white rounded-xl p-4 hairline-border">
+          <div class="flex space-x-3">
+            <div class="w-10 h-10 rounded-full bg-slate-200 shrink-0"></div>
+            <div class="flex-1">
+              <input type="text" placeholder="Bagikan karya, kisah tradisi, atau pembaruan komunitas..." class="w-full bg-slate-50 rounded-lg px-4 py-2.5 text-sm border border-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400 placeholder:text-slate-400" />
+            </div>
+          </div>
+          <div class="flex justify-between items-center mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500">
+            <div class="flex space-x-4">
+              <span class="cursor-pointer hover:text-slate-800">📷 Foto Tradisi</span>
+              <span class="cursor-pointer hover:text-slate-800">🎥 Dokumenter</span>
+              <span class="cursor-pointer hover:text-slate-800">📍 Lokasi</span>
+            </div>
+            <button class="bg-slate-900 hover:bg-slate-800 text-white font-medium px-4 py-1.5 rounded-lg transition-colors">
+              Publikasi
+            </button>
+          </div>
+        </div>
+
+        <!-- HIGHLIGHT KAMPANYE CROWDFUNDING (ANTI-SLOP CARD) -->
+        <div class="bg-white rounded-xl p-5 hairline-border">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+              Galang Dana Prioritas
+            </span>
+            <span class="text-xs text-slate-400">Sisa 14 Hari</span>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-1">
+            Restorasi Rumah Adat Sa'o Ria Flores Timur
+          </h3>
+          <p class="text-xs text-slate-600 line-clamp-2 mb-4 leading-relaxed">
+            Inisiatif gotong royong pemulihan struktur kayu ulin dan atap ilalang asli warisan leluhur masyarakat adat.
+          </p>
+          <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2 overflow-hidden">
+            <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 68%"></div>
+          </div>
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-500">Terkumpul: <strong class="text-slate-900">Rp 68.200.000</strong></span>
+            <span class="font-semibold text-emerald-700">68%</span>
+          </div>
+        </div>
+
+        <!-- MARKETPLACE PRODUCT MINI-GRID -->
+        <div class="bg-white rounded-xl p-5 hairline-border">
+          <div class="flex justify-between items-center mb-4">
+            <h4 class="text-sm font-bold text-slate-900">Kriya Unggulan Daerah</h4>
+            <a href="#marketplace" class="text-xs font-medium text-slate-500 hover:text-slate-900">Lihat Semua →</a>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 rounded-lg bg-slate-50 hairline-border">
+              <div class="w-full aspect-[4/3] bg-slate-200 rounded mb-2.5 flex items-center justify-center text-xs text-slate-400">Preview Tenun</div>
+              <p class="text-xs font-bold text-slate-900">Kain Tenun Ikat Sikka</p>
+              <p class="text-xs text-slate-500 mt-0.5">Rp 450.000</p>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-50 hairline-border">
+              <div class="w-full aspect-[4/3] bg-slate-200 rounded mb-2.5 flex items-center justify-center text-xs text-slate-400">Preview Keramik</div>
+              <p class="text-xs font-bold text-slate-900">Gerabah Kasongan Asli</p>
+              <p class="text-xs text-slate-500 mt-0.5">Rp 120.000</p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: INTERACTIVE WIDGETS & GAMES (3 COLS) -->
+      <aside class="col-span-1 lg:col-span-3 space-y-4">
+        
+        <!-- GAMIFIKASI BUDAYA LO-FI WIDGET -->
+        <div class="bg-white rounded-xl p-4 hairline-border">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="text-base">🎯</span>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900">Kuis Budaya Hari Ini</h4>
+          </div>
+          <p class="text-xs text-slate-600 mb-3">Tebak rumah adat suku Sasak di Lombok Tengah?</p>
+          <div class="space-y-1.5 text-xs">
+            <button class="w-full text-left px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 hairline-border transition-colors">A. Rumah Gadang</button>
+            <button class="w-full text-left px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 hairline-border transition-colors">B. Bale Lumbung</button>
+            <button class="w-full text-left px-3 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 hairline-border transition-colors">C. Rumah Tongkonan</button>
+          </div>
+        </div>
+
+        <!-- AGENDA KEGIATAN & FESTIVAL -->
+        <div class="bg-white rounded-xl p-4 hairline-border">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Kalender Budaya Terdekat</h4>
+          <div class="space-y-3 text-xs">
+            <div class="pb-2 border-b border-slate-100">
+              <p class="font-bold text-slate-900">Festival Reog Ponorogo</p>
+              <p class="text-slate-500 text-[11px] mt-0.5">Alun-Alun Ponorogo • 22 Nov 2026</p>
+            </div>
+            <div>
+              <p class="font-bold text-slate-900">Pawai Seni & Tari Bali</p>
+              <p class="text-slate-500 text-[11px] mt-0.5">Taman Budaya Denpasar • 28 Nov 2026</p>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- MOBILE BOTTOM NAVIGATION (FIXED FOR SMALL SCREENS) -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-slate-200 px-6 py-2.5 flex justify-between items-center text-xs font-medium text-slate-600 z-50">
+    <button class="flex flex-col items-center text-slate-900 font-semibold">
+      <span>🏠</span>
+      <span class="text-[10px] mt-0.5">Beranda</span>
+    </button>
+    <button class="flex flex-col items-center">
+      <span>🛍️</span>
+      <span class="text-[10px] mt-0.5">Belanja</span>
+    </button>
+    <button class="flex flex-col items-center">
+      <span>🤝</span>
+      <span class="text-[10px] mt-0.5">Donasi</span>
+    </button>
+    <button class="flex flex-col items-center">
+      <span>🎮</span>
+      <span class="text-[10px] mt-0.5">Game</span>
+    </button>
+    <button class="flex flex-col items-center">
+      <span>👤</span>
+      <span class="text-[10px] mt-0.5">Profil</span>
+    </button>
+  </div>
+
+</body>
+</html>

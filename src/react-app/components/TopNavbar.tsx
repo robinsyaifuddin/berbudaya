@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { ChatNotificationData } from './ChatNotification';
 import { useCart } from '@/react-app/contexts/CartContext';
+import MobileBottomNav from './MobileBottomNav';
 
 interface DemoUser {
   id: string;
@@ -293,8 +294,22 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
             </Link>
           </div>
 
-          {/* Right - Profile & Premium */}
-          <div className="flex items-center gap-1">
+          {/* Right - Profile & Cart & Search for Mobile */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            {/* Mobile Search / Cart Icon */}
+            <Link
+              to="/cart"
+              className="relative p-2 hover:bg-gray-100 rounded-full transition-colors md:hidden text-gray-700"
+              aria-label="Keranjang Belanja"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-blue-600 rounded-full text-white text-[9px] flex items-center justify-center font-bold px-1">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Link>
+
             {/* Pesan Icon - Compact */}
             <button
               onClick={() => {
@@ -570,15 +585,15 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
               )}
             </div>
 
-            {/* Mobile Profile Button - Navigate to ProfilMenu */}
+          {/* Mobile Profile Button - Navigate to ProfilMenu */}
             <Link
               to="/profil-menu"
-              className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="md:hidden p-1 rounded-full hover:bg-gray-100 transition-colors"
             >
               <img
                 src={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
                 alt="Profile"
-                className="w-9 h-9 rounded-full object-cover border-2 border-gray-200"
+                className="w-8 h-8 rounded-full object-cover border border-gray-200"
               />
             </Link>
 
@@ -587,8 +602,11 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
       </div>
     </nav>
 
-    {/* Messaging Panel - LinkedIn Style */}
-    <div className={`fixed bottom-0 right-6 w-80 bg-white border border-gray-300 rounded-t-lg shadow-2xl transition-all duration-300 z-50 ${showMessagingPanel ? 'h-96' : 'h-14'}`}>
+    {/* Mobile Bottom Navigation Bar */}
+    <MobileBottomNav connectionCount={connectionRequests.length} />
+
+    {/* Messaging Panel - LinkedIn Style (Hidden on small mobile to avoid blocking content/bottom nav) */}
+    <div className={`hidden md:block fixed bottom-0 right-6 w-80 bg-white border border-gray-300 rounded-t-lg shadow-2xl transition-all duration-300 z-50 ${showMessagingPanel ? 'h-96' : 'h-14'}`}>
       {/* Header */}
       <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-white rounded-t-lg">
         <div className="flex items-center gap-2">

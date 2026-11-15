@@ -12,87 +12,58 @@ interface Question {
 const questions: Question[] = [
   {
     id: 1,
-    question: "Tari Kecak berasal dari daerah?",
-    options: ["Bali", "Aceh", "Sumatera Utara", "Kalimantan Timur"],
-    answer: "Bali",
-    explanation: "Tari Kecak adalah tarian khas Bali yang menggunakan suara 'cak' sebagai irama."
+    question: 'Kain Songket Pandai Sikek di Minangkabau terkenal dengan motif rebung berfilosofi luhur. Apa nama motif tersebut?',
+    options: ['Pucuak Rabuang', 'Itik Pulang Patang', 'Kaluak Paku', 'Bungo Lado'],
+    answer: 'Pucuak Rabuang',
+    explanation: 'Pucuak Rabuang bermakna: kecil berguna menjadi rebung, besar bermanfaat menjadi bambu penopang kehidupan bersama.'
   },
   {
     id: 2,
-    question: "Candi Borobudur terletak di provinsi?",
-    options: ["Jawa Timur", "Jawa Tengah", "Jawa Barat", "Yogyakarta"],
-    answer: "Jawa Tengah",
-    explanation: "Candi Borobudur terletak di Magelang, Jawa Tengah dan merupakan candi Buddha terbesar di dunia."
+    question: 'Dalam seni kriya Keris Jawa, apakah yang dimaksud dengan Pamor pada permukaan bilah keris?',
+    options: [
+      'Pola guratan lipatan logam besi, baja, dan batu meteorit nikel',
+      'Ukiran kayu pada warangka sarung keris',
+      'Gagang keris dari tanduk kerbau',
+      'Mantra doa saat memandikan pusaka'
+    ],
+    answer: 'Pola guratan lipatan logam besi, baja, dan batu meteorit nikel',
+    explanation: 'Pamor adalah mahakarya seni metalurgi nusantara yang dihasilkan melalui teknik lipat tempa berulang ratusan kali.'
   },
   {
     id: 3,
-    question: "Rumah adat Tongkonan berasal dari?",
-    options: ["Sulawesi Selatan", "Sulawesi Utara", "Sulawesi Tengah", "Sulawesi Barat"],
-    answer: "Sulawesi Selatan",
-    explanation: "Tongkonan adalah rumah adat suku Toraja di Sulawesi Selatan dengan atap khas berbentuk perahu."
+    question: 'Tas tradisional Noken asal Papua telah diakui UNESCO. Apakah keunikan utama teknik pembuatannya?',
+    options: [
+      'Dirajut dari pilinan serat kulit kayu alami langsung dengan jemari tangan tanpa jarum',
+      'Dijahit menggunakan mesin bordir elektrik modern',
+      'Ditenun dari benang sutra impor',
+      'Dicetak dari bahan sintetis getah karet'
+    ],
+    answer: 'Dirajut dari pilinan serat kulit kayu alami langsung dengan jemari tangan tanpa jarum',
+    explanation: 'Noken dirajut oleh Mama-mama Papua menggunakan serat kayu ganemo/anggrek hutan secara teliti tanpa alat bantu jarum.'
   },
   {
     id: 4,
-    question: "Alat musik Angklung berasal dari?",
-    options: ["Jawa Barat", "Jawa Tengah", "Bali", "Sumatera"],
-    answer: "Jawa Barat",
-    explanation: "Angklung adalah alat musik tradisional dari Jawa Barat yang terbuat dari bambu dan diakui UNESCO."
+    question: 'Dua sistem laras tangga nada pentatonik utama dalam musik Karawitan dan Gamelan Jawa adalah?',
+    options: [
+      'Slendro (5 nada) dan Pelog (7 nada)',
+      'Diatonis Mayor dan Minor',
+      'Kromatik dan Blues',
+      'Dorian dan Phrygian'
+    ],
+    answer: 'Slendro (5 nada) dan Pelog (7 nada)',
+    explanation: 'Laras Slendro berkarakter gembira dan tegas, sedangkan Laras Pelog bernuansa hening, sakral, dan tenang.'
   },
   {
     id: 5,
-    question: "Rendang adalah makanan khas dari?",
-    options: ["Padang", "Aceh", "Palembang", "Medan"],
-    answer: "Padang",
-    explanation: "Rendang adalah masakan daging khas Minangkabau, Padang yang terkenal di seluruh dunia."
-  },
-  {
-    id: 6,
-    question: "Wayang Kulit berasal dari?",
-    options: ["Jawa", "Bali", "Sumatra", "Kalimantan"],
-    answer: "Jawa",
-    explanation: "Wayang Kulit adalah seni pertunjukan tradisional Jawa yang menggunakan boneka kulit."
-  },
-  {
-    id: 7,
-    question: "Batik Cap dikerjakan dengan cara?",
-    options: ["Dicap", "Ditulis", "Dibordir", "Dirajut"],
-    answer: "Dicap",
-    explanation: "Batik Cap dibuat dengan cara dicap menggunakan canting cap, berbeda dengan batik tulis."
-  },
-  {
-    id: 8,
-    question: "Tari Saman berasal dari?",
-    options: ["Aceh", "Sumatra Barat", "Riau", "Jambi"],
-    answer: "Aceh",
-    explanation: "Tari Saman adalah tarian massal dari Aceh yang dilakukan dengan gerakan serempak."
-  },
-  {
-    id: 9,
-    question: "Kain Tenun Ikat terkenal dari daerah?",
-    options: ["Nusa Tenggara", "Jawa", "Sumatra", "Kalimantan"],
-    answer: "Nusa Tenggara",
-    explanation: "Tenun Ikat Sumba dan Flores di Nusa Tenggara terkenal dengan motif dan tekniknya yang khas."
-  },
-  {
-    id: 10,
-    question: "Gamelan adalah alat musik dari?",
-    options: ["Jawa dan Bali", "Sumatra", "Sulawesi", "Kalimantan"],
-    answer: "Jawa dan Bali",
-    explanation: "Gamelan adalah ansambel musik tradisional Jawa dan Bali yang terdiri dari berbagai instrumen."
-  },
-  {
-    id: 11,
-    question: "Reog Ponorogo berasal dari?",
-    options: ["Jawa Timur", "Jawa Tengah", "Jawa Barat", "Yogyakarta"],
-    answer: "Jawa Timur",
-    explanation: "Reog Ponorogo adalah kesenian tari tradisional dari Ponorogo, Jawa Timur."
-  },
-  {
-    id: 12,
-    question: "Pakaian adat Kebaya identik dengan?",
-    options: ["Jawa", "Bali", "Sumatra", "Sulawesi"],
-    answer: "Jawa",
-    explanation: "Kebaya adalah pakaian adat perempuan Indonesia yang identik dengan budaya Jawa."
+    question: 'Arsitektur rumah adat Uma Kelada di Sumba Timur tidak memakai satu paku besi pun, mengapa?',
+    options: [
+      'Memakai sambungan pasak kayu bertingkat dan ikatan tali rotan lentur peredam gempa',
+      'Karena dilekatkan dengan semen cor purba',
+      'Karena digantung di dahan pohon beringin',
+      'Karena menggunakan perekat getah pohon karet'
+    ],
+    answer: 'Memakai sambungan pasak kayu bertingkat dan ikatan tali rotan lentur peredam gempa',
+    explanation: 'Prinsip arsitektur vernakular Nusantara mengutamakan kelenturan kinetik pasak kayu alami yang terbukti sangat tahan gempa.'
   }
 ];
 

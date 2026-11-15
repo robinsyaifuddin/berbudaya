@@ -1,15 +1,6 @@
-import { useState, useEffect } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { Link } from 'react-router';
 import { Plus, Heart, MessageSquare, Share2, Eye } from 'lucide-react';
-
-interface DemoUser {
-  id: string;
-  email: string;
-  name: string;
-  avatar: string;
-  loginTime: string;
-}
 
 interface Post {
   id: number;
@@ -82,18 +73,6 @@ const userPosts: Post[] = [
 ];
 
 export default function PostingAktivitasPage() {
-  const [user, setUser] = useState<DemoUser | null>(null);
-
-  useEffect(() => {
-    const demoUserStr = localStorage.getItem('demo_user');
-    if (demoUserStr) {
-      try {
-        setUser(JSON.parse(demoUserStr));
-      } catch (error) {
-        console.error('Error parsing demo user:', error);
-      }
-    }
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

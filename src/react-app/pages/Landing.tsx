@@ -1,6 +1,41 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import { useAuth } from '@getmocha/users-service/react';
-import { ArrowUpRight, Star, Users, Palette, BookOpen, Camera } from 'lucide-react';
+import { ArrowUpRight, Star, Users, Palette, BookOpen, Camera, Search } from 'lucide-react';
+
+interface LandingNavbarProps {
+  searchValue: string;
+  onSearchChange: (value: string) => void;
+  onLoginClick: () => void;
+}
+
+function LandingNavbar({ searchValue, onSearchChange, onLoginClick }: LandingNavbarProps) {
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
+        <Link to="/" className="flex items-center gap-2">
+          <img src="/logo.png" alt="RuangBudaya" className="h-10 w-auto object-contain" />
+          <span className="text-lg font-semibold text-gray-900">RuangBudaya</span>
+        </Link>
+        <div className="flex-1 max-w-md relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <input
+            value={searchValue}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Cari galeri budaya"
+            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+        <button
+          onClick={onLoginClick}
+          className="px-6 py-2 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+        >
+          Masuk
+        </button>
+      </div>
+    </header>
+  );
+}
 
 export default function Landing() {
   const [showLogin, setShowLogin] = useState(false);
@@ -18,9 +53,13 @@ export default function Landing() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [landingSearch, setLandingSearch] = useState('');
+  const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const { redirectToLogin } = useAuth();
+  const handleLoginClick = () => redirectToLogin();
+  const handleGalleryCTA = () => setShowGalleryModal(true);
 
   // Scroll Animation for Cultural Ornaments
   useEffect(() => {
@@ -855,7 +894,13 @@ export default function Landing() {
 
   // Main Landing Page
   return (
-    <div className="min-h-screen bg-gray-100">
+    <>
+      <LandingNavbar
+        searchValue={landingSearch}
+        onSearchChange={setLandingSearch}
+        onLoginClick={handleLoginClick}
+      />
+      <div className="min-h-screen bg-gray-100 pt-20">
       {/* Hero Section */}
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -1131,7 +1176,7 @@ export default function Landing() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                 <button
-                  onClick={() => window.location.href = '/gallery'}
+                  onClick={handleGalleryCTA}
                   className="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
                 >
                   Lihat Galeri Budaya
@@ -1489,6 +1534,34 @@ export default function Landing() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+      {showGalleryModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border border-gray-200">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Masuk untuk Jelajahi Galeri</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Untuk mengunggah ataupun melihat galeri budaya lengkap, silakan masuk terlebih dahulu.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => {
+                  setShowGalleryModal(false);
+                  handleLoginClick();
+                }}
+                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Masuk Sekarang
+              </button>
+              <button
+                onClick={() => setShowGalleryModal(false)}
+                className="flex-1 border border-gray-300 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

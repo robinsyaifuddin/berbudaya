@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      background: white;
+      margin: 0;
+      padding: 30px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #container {
+      display: inline-block;
+      background: white;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div class="mermaid">
+flowchart TD
+    Landing["1. Landing Page (Eksplorasi Publik)"] --> AuthModal["Modal Masuk / Registrasi Pegiat"]
+    Landing --> PublicGallery["Galeri Karya Warisan Budaya"]
+    Landing --> DirectMarket["Marketplace Publik"]
+    Landing --> DirectCrowd["Direktori Galang Dana"]
+
+    AuthModal --> HomeFeed["2. Beranda Utama (LinkedIn-Style Feed Budaya)"]
+
+    subgraph CorePlatform["Ekosistem Terintegrasi RuangBudaya"]
+        HomeFeed --> ComposerModal["Modal Buat Postingan / Portofolio"]
+        HomeFeed --> CommentDrawer["Drawer Komentar & Apresiasi"]
+        HomeFeed --> ShareModal["Modal Bagikan Karya"]
+
+        HomeFeed --> ModulJejaring["3. Jaringan & Komunitas Budaya (/jaringan)"]
+        ModulJejaring --> ProfileBudayawan["8. Profil Profesional Budayawan & Sanggar (/profil)"]
+
+        HomeFeed --> ModulMarket["4. Marketplace Kriya Nusantara (/marketplace)"]
+        ModulMarket --> ProductDetail["Detail Produk + Cultural Value Tagging (/marketplace/:id)"]
+        ProductDetail --> CartDrawer["Drawer Keranjang Belanja Kriya (/cart)"]
+        CartDrawer --> Checkout["Alur Direct Checkout Aman (/checkout)"]
+
+        HomeFeed --> ModulCrowd["5. Crowdfunding Cagar Budaya (/crowdfunding)"]
+        ModulCrowd --> CrowdDetail["Detail Transparansi Kampanye & RAB (/crowdfunding/:id)"]
+        CrowdDetail --> DonateModal["Modal Donasi Cepat QRIS & VA (/crowdfunding/:id/donate)"]
+
+        HomeFeed --> ModulEdukasi["6. Ruang Edukasi & Gamifikasi (/edukasi & /games)"]
+        ModulEdukasi --> GameKuis["Kuis Budaya Nusantara (/kuis-budaya)"]
+        ModulEdukasi --> GamePuzzle["Puzzle Cagar Budaya (/puzzle-budaya)"]
+        ModulEdukasi --> GameTebak["Tebak Daerah & Motif (/tebak-daerah)"]
+
+        HomeFeed --> ModulAcara["7. Kalender Agenda & Festival (/acara)"]
+        HomeFeed --> ModulPesan["9. Pesan & Kolaborasi Komunitas (/pesan)"]
+        HomeFeed --> ModulArsip["10. Koleksi Tersimpan (/saved-posts)"]
+    end
+    </div>
+  </div>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral'
+    });
+  </script>
+</body>
+</html>
