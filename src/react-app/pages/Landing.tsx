@@ -11,24 +11,24 @@ interface LandingNavbarProps {
 
 function LandingNavbar({ searchValue, onSearchChange, onLoginClick }: LandingNavbarProps) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="RuangBudaya" className="h-10 w-auto object-contain" />
-          <span className="text-lg font-semibold text-gray-900">RuangBudaya</span>
+    <header className="fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-3 sm:gap-4">
+        <Link to="/" className="flex items-center gap-2 shrink-0">
+          <img src="/logo.png" alt="RuangBudaya" className="h-8 sm:h-9 w-auto object-contain" />
+          <span className="text-base sm:text-lg font-semibold text-gray-900 tracking-tight">RuangBudaya</span>
         </Link>
-        <div className="flex-1 max-w-md relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <div className="flex-1 max-w-md relative hidden sm:block">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Cari galeri budaya"
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-9 pr-4 py-1.5 sm:py-2 border border-gray-200 rounded-full text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
           />
         </div>
         <button
           onClick={onLoginClick}
-          className="px-6 py-2 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+          className="px-4 sm:px-5 py-1.5 sm:py-2 bg-blue-600 text-white rounded-full text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-colors shrink-0"
         >
           Masuk
         </button>
@@ -900,23 +900,23 @@ export default function Landing() {
         onSearchChange={setLandingSearch}
         onLoginClick={handleLoginClick}
       />
-      <div className="min-h-screen bg-gray-100 pt-20">
+      <div className="min-h-screen bg-gray-100 pt-14 sm:pt-16">
       {/* Hero Section */}
-      <section className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="bg-white py-6 sm:py-8 lg:py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Side (Desktop) - Login Form with Decorative Elements */}
             {/* Mobile: Show second  |  Desktop: Show first (left) */}
-            <div className="relative order-2 lg:order-1">
+            <div className="relative order-2 lg:order-1 flex justify-center lg:justify-start">
               {/* Decorative circle - top right of form */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 border-2 border-dashed border-gray-300 rounded-full hidden lg:flex items-center justify-center">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                  <ArrowUpRight className="text-white w-6 h-6" />
+              <div className="absolute -top-6 -right-6 lg:-top-8 lg:-right-8 w-24 h-24 lg:w-28 lg:h-28 border-2 border-dashed border-gray-300 rounded-full hidden sm:flex items-center justify-center pointer-events-none">
+                <div className="w-10 h-10 lg:w-11 lg:h-11 bg-blue-600 rounded-full flex items-center justify-center shadow-md">
+                  <ArrowUpRight className="text-white w-5 h-5 lg:w-6 lg:h-6" />
                 </div>
               </div>
 
               {/* Main Card - Flip Card Container */}
-              <div className="relative z-10 max-w-sm mx-auto lg:mx-0 lg:mr-auto mb-6" style={{ perspective: '1000px' }}>
+              <div className="relative z-10 w-full max-w-[340px] sm:max-w-sm mx-auto lg:mx-0 mb-4" style={{ perspective: '1000px' }}>
                 <div 
                   className="relative transition-all duration-700" 
                   style={{
@@ -926,35 +926,35 @@ export default function Landing() {
                 >
                   {/* Front Side - Login Form */}
                   <div 
-                    className="bg-white rounded-3xl p-8 shadow-2xl"
+                    className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100"
                     style={{
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
                     }}
                   >
                 {/* Logo */}
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center mb-4">
                   <img 
                     src="/logo.png" 
                     alt="RuangBudaya" 
-                    className="h-12 w-auto object-contain"
+                    className="h-9 sm:h-10 w-auto object-contain"
                   />
                 </div>
 
                 {/* Header */}
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Selamat Datang Kembali</h2>
-                  <p className="text-gray-600 text-sm">Silakan masukkan detail Anda untuk masuk.</p>
+                <div className="text-center mb-4">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Selamat Datang Kembali</h2>
+                  <p className="text-gray-500 text-xs sm:text-sm">Silakan masukkan detail Anda untuk masuk.</p>
                 </div>
 
                 {/* Social Login Buttons */}
                 <button 
                   type="button"
                   onClick={redirectToLogin}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors mb-6"
+                  className="w-full flex items-center justify-center px-4 py-2.5 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors mb-4 text-xs sm:text-sm font-medium text-gray-700"
                   title="Masuk dengan Google"
                 >
-                  <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2.5 shrink-0" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -964,49 +964,49 @@ export default function Landing() {
                 </button>
 
                 {/* OR Divider */}
-                <div className="relative mb-6">
+                <div className="relative mb-4">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
+                    <div className="w-full border-t border-gray-200"></div>
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">OR</span>
+                  <div className="relative flex justify-center text-xs">
+                    <span className="px-2 bg-white text-gray-400 uppercase tracking-wider">or</span>
                   </div>
                 </div>
 
                 {/* Login Form */}
                 <form onSubmit={handleQuickLogin}>
                   {/* Email Input */}
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <input
                       type="email"
                       placeholder="Masukkan email..."
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                     />
                   </div>
 
                   {/* Password Input */}
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <input
                       type="password"
                       placeholder="••••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                     />
                   </div>
 
                   {/* Remember Me & Forgot Password */}
-                  <div className="flex items-center justify-between mb-6">
-                    <label className="flex items-center">
-                      <input type="checkbox" className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                      <span className="ml-2 text-sm text-gray-700">Ingat saya</span>
+                  <div className="flex items-center justify-between mb-4">
+                    <label className="flex items-center cursor-pointer">
+                      <input type="checkbox" className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                      <span className="ml-2 text-xs text-gray-600">Ingat saya</span>
                     </label>
                     <button 
                       type="button" 
                       onClick={handleForgotPasswordClick}
-                      className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                      className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors"
                     >
                       Lupa kata sandi?
                     </button>
@@ -1016,7 +1016,7 @@ export default function Landing() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold disabled:opacity-50 mb-4"
+                    className="w-full bg-gray-900 text-white py-2.5 rounded-xl hover:bg-gray-800 transition-colors text-sm font-semibold disabled:opacity-50 mb-3"
                   >
                     {isLoading ? 'Memuat...' : 'Masuk'}
                   </button>
@@ -1024,10 +1024,10 @@ export default function Landing() {
 
                 {/* Sign Up Link */}
                 <div className="text-center">
-                  <span className="text-sm text-gray-600">Belum punya akun? </span>
+                  <span className="text-xs text-gray-500">Belum punya akun? </span>
                   <button
                     onClick={() => setIsFlipped(true)}
-                    className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-xs text-blue-600 hover:text-blue-700 font-semibold"
                   >
                     Daftar
                   </button>
@@ -1036,7 +1036,7 @@ export default function Landing() {
 
               {/* Back Side - Register Form */}
               <div 
-                className="absolute top-0 left-0 w-full bg-white rounded-3xl p-8 shadow-2xl"
+                className="absolute top-0 left-0 w-full bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-xl border border-gray-100"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
@@ -1044,28 +1044,28 @@ export default function Landing() {
                 }}
               >
                 {/* Logo */}
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center mb-4">
                   <img 
                     src="/logo.png" 
                     alt="RuangBudaya" 
-                    className="h-12 w-auto object-contain"
+                    className="h-9 sm:h-10 w-auto object-contain"
                   />
                 </div>
 
                 {/* Header */}
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Daftar Akun</h2>
-                  <p className="text-gray-600 text-sm">Buat akun baru untuk bergabung.</p>
+                <div className="text-center mb-4">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Daftar Akun</h2>
+                  <p className="text-gray-500 text-xs sm:text-sm">Buat akun baru untuk bergabung.</p>
                 </div>
 
                 {/* Google Register Button */}
                 <button 
                   type="button"
                   onClick={redirectToLogin}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors mb-6"
+                  className="w-full flex items-center justify-center px-4 py-2.5 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors mb-4 text-xs sm:text-sm font-medium text-gray-700"
                   title="Daftar dengan Google"
                 >
-                  <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2.5 shrink-0" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -1075,49 +1075,49 @@ export default function Landing() {
                 </button>
 
                 {/* OR Divider */}
-                <div className="relative mb-6">
+                <div className="relative mb-4">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
+                    <div className="w-full border-t border-gray-200"></div>
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">OR</span>
+                  <div className="relative flex justify-center text-xs">
+                    <span className="px-2 bg-white text-gray-400 uppercase tracking-wider">or</span>
                   </div>
                 </div>
 
                 {/* Register Form */}
                 <form onSubmit={handleRegister}>
                   {/* Name Input */}
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <input
                       type="text"
                       placeholder="Nama Lengkap"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
 
                   {/* Email Input */}
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <input
                       type="email"
                       placeholder="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
 
                   {/* Password Input */}
-                  <div className="mb-6">
+                  <div className="mb-4">
                     <input
                       type="password"
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                       required
                     />
                   </div>
@@ -1126,7 +1126,7 @@ export default function Landing() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold disabled:opacity-50 mb-4"
+                    className="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition-colors text-sm font-semibold disabled:opacity-50 mb-3"
                   >
                     {isLoading ? 'Memuat...' : 'Buat Akun'}
                   </button>
@@ -1134,10 +1134,10 @@ export default function Landing() {
 
                 {/* Masuk Link */}
                 <div className="text-center">
-                  <span className="text-sm text-gray-600">Sudah punya akun? </span>
+                  <span className="text-xs text-gray-500">Sudah punya akun? </span>
                   <button
                     onClick={() => setIsFlipped(false)}
-                    className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-xs text-blue-600 hover:text-blue-700 font-semibold"
                   >
                     Masuk
                   </button>
@@ -1150,74 +1150,74 @@ export default function Landing() {
 
             {/* Right Side (Desktop) - Headline & Content */}
             {/* Mobile: Show first  |  Desktop: Show second (right) */}
-            <div className="space-y-8 order-1 lg:order-2">
+            <div className="space-y-4 sm:space-y-6 order-1 lg:order-2 text-center lg:text-left">
               {/* Main Headline */}
-              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
                 <span className="text-gray-900">Platform Budaya</span>
                 <br />
                 <span className="text-gray-900">yang </span>
                 <span className="relative inline-block">
                   <span className="text-gray-900">Kolaboratif</span>
-                  <span className="absolute bottom-2 left-0 w-full h-4 bg-blue-400 -z-10 rounded"></span>
+                  <span className="absolute bottom-1 sm:bottom-2 left-0 w-full h-3 sm:h-4 bg-blue-200/70 -z-10 rounded"></span>
                 </span>
                 <br />
                 <span className="text-gray-900">untuk </span>
                 <span className="relative inline-block">
                   <span className="text-gray-900">Kreator</span>
-                  <span className="absolute bottom-2 left-0 w-full h-4 bg-blue-600 -z-10 rounded"></span>
+                  <span className="absolute bottom-1 sm:bottom-2 left-0 w-full h-3 sm:h-4 bg-blue-500/30 -z-10 rounded"></span>
                 </span>
               </h1>
 
               {/* Subheadline */}
-              <p className="text-gray-600 text-lg max-w-lg">
+              <p className="text-gray-600 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
                 RuangBudaya hadir untuk menghubungkan kreator dengan komunitas. Jelajahi seni budaya nusantara dan wujudkan kolaborasi kreatif Anda.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1 sm:pt-2">
                 <button
                   onClick={handleGalleryCTA}
-                  className="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  className="bg-blue-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl hover:bg-blue-700 transition-colors font-semibold text-sm sm:text-base shadow-sm"
                 >
                   Lihat Galeri Budaya
                 </button>
                 <button
                   onClick={() => setIsFlipped(true)}
                   disabled={isLoading}
-                  className="w-full sm:w-auto border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors font-semibold disabled:opacity-50"
+                  className="border-2 border-gray-900 text-gray-900 px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl hover:bg-gray-50 transition-colors font-semibold text-sm sm:text-base disabled:opacity-50"
                 >
                   {isLoading ? 'Memuat...' : 'Daftar Akun'}
                 </button>
               </div>
 
               {/* Trust Badge & Rating */}
-              <div className="pt-6">
-                <p className="text-sm text-gray-500 mb-2">Trusted By :-</p>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="pt-4 sm:pt-6 border-t border-gray-100 sm:border-0">
+                <p className="text-xs sm:text-sm text-gray-500 mb-2">Trusted By :-</p>
+                <div className="flex flex-row flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6">
                   {/* Active Users */}
-                  <div className="flex items-baseline space-x-2">
-                    <span className="text-4xl lg:text-5xl font-bold text-blue-600">2.5M+</span>
-                    <span className="text-gray-600 font-medium text-lg">Active Users</span>
+                  <div className="flex items-baseline space-x-1.5 sm:space-x-2">
+                    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-600">2.5M+</span>
+                    <span className="text-gray-600 font-medium text-xs sm:text-sm lg:text-base">Active Users</span>
                   </div>
                   
                   {/* Rating Card */}
-                  <div className="bg-white rounded-2xl p-4 shadow-lg border border-gray-200">
-                    <div className="flex items-center gap-4">
+                  <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-md sm:shadow-lg border border-gray-200">
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <div>
-                        <div className="flex items-baseline space-x-1 mb-1">
-                          <span className="text-3xl font-bold text-gray-900">4.9</span>
+                        <div className="flex items-baseline space-x-1 mb-0.5 sm:mb-1">
+                          <span className="text-2xl sm:text-3xl font-bold text-gray-900">4.9</span>
                         </div>
                         <div className="flex space-x-1">
                           {[1,2,3,4,5].map(i => (
-                            <Star key={i} className="w-4 h-4 fill-blue-500 text-blue-500" />
+                            <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-blue-500 text-blue-500" />
                           ))}
                         </div>
                       </div>
                       <div className="flex -space-x-2">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" />
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" />
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" />
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop" className="w-8 h-8 rounded-full border-2 border-white" alt="User" />
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white object-cover" alt="User" />
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white object-cover" alt="User" />
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white object-cover" alt="User" />
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-white object-cover" alt="User" />
                         <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center text-white text-xs font-bold">+</div>
                       </div>
                     </div>

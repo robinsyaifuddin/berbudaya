@@ -98,28 +98,30 @@ export default function RightSidebar() {
       {/* Saved Posts Section */}
       <SavedPostsSidebar />
 
-      {/* News Section - LinkedIn Style */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-3 py-2">
-          <h4 className="font-semibold text-gray-900 text-sm mb-2">Berita RuangBudaya</h4>
-          <div className="space-y-2">
-            {newsItems.slice(0, showAllNews ? newsItems.length : 5).map((news) => (
+      {/* News Section - Refined Editorial Minimalist */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+        <div className="px-4 py-3.5 border-b border-slate-100 flex items-center justify-between">
+          <h4 className="font-semibold text-slate-900 text-xs tracking-tight">Kabar Kebudayaan</h4>
+          <span className="text-[10px] text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded-full">Terkini</span>
+        </div>
+        <div className="px-4 py-3">
+          <div className="space-y-3">
+            {newsItems.slice(0, showAllNews ? newsItems.length : 4).map((news) => (
               <button
                 key={news.id}
-                className="w-full text-left group"
+                className="w-full text-left group transition-all"
               >
-                <div className="flex items-start gap-1">
-                  <span className="text-xs text-gray-400 mt-0.5">•</span>
+                <div className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors mt-1.5 shrink-0"></span>
                   <div className="flex-1">
-                    <h5 className="text-xs font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                    <h5 className="text-xs font-semibold text-slate-800 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
                       {news.title}
                     </h5>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      {news.author} • {news.timeAgo}
-                    </p>
-                    <p className="text-xs text-gray-400 mt-0.5">
-                      {news.readers} pembaca
-                    </p>
+                    <div className="flex items-center gap-1.5 text-[11px] text-slate-500 mt-1">
+                      <span>{news.author}</span>
+                      <span>•</span>
+                      <span>{news.timeAgo}</span>
+                    </div>
                   </div>
                 </div>
               </button>
@@ -127,37 +129,40 @@ export default function RightSidebar() {
           </div>
           <button
             onClick={() => setShowAllNews(!showAllNews)}
-            className="flex items-center gap-1 mt-2 text-xs text-gray-600 hover:text-blue-600 font-medium transition-colors"
+            className="flex items-center gap-1 mt-3 text-xs text-slate-600 hover:text-blue-600 font-medium transition-colors pt-2 border-t border-slate-100 w-full justify-center"
           >
-            Lihat selengkapnya <ChevronDown className={`w-3 h-3 transition-transform ${showAllNews ? 'rotate-180' : ''}`} />
+            {showAllNews ? 'Perkecil' : 'Lihat semua kabar'} <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAllNews ? 'rotate-180' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* Game Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-3 py-2">
-          <h4 className="font-semibold text-gray-900 text-sm mb-2">Game hari ini</h4>
-          <div className="space-y-2">
-            {games.map((game) => {
-              const Icon = game.Icon;
-              return (
-                <Link
-                  key={game.id}
-                  to={game.link}
-                  className={`flex items-center gap-3 p-3 rounded-xl ${game.color} ${game.hoverColor} hover:shadow-lg transition-all duration-300 group border border-gray-200/50 hover:border-transparent hover:scale-[1.02]`}
-                >
-                  <div className={`${game.iconColor} bg-white/80 backdrop-blur-sm p-2 rounded-lg shadow-sm`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1">
-                    <h5 className="text-xs font-bold text-gray-900 mb-0.5">{game.name}</h5>
-                    <p className="text-xs text-gray-600 leading-tight">{game.subtitle}</p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              );
-            })}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+        <div className="px-4 py-3.5 border-b border-slate-100">
+          <h4 className="font-semibold text-slate-900 text-xs tracking-tight">Eksplorasi Budaya Interaktif</h4>
+        </div>
+        <div className="p-3 space-y-2">
+          {games.map((game) => {
+            const Icon = game.Icon;
+            return (
+              <Link
+                key={game.id}
+                to={game.link}
+                className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100/90 border border-slate-100 transition-all duration-150 group"
+              >
+                <div className="p-2 rounded-lg bg-white shadow-xs border border-slate-200/60 text-slate-700 group-hover:text-blue-600 transition-colors shrink-0">
+                  <Icon className="w-4 h-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h5 className="text-xs font-semibold text-slate-900 group-hover:text-blue-600 transition-colors truncate">{game.name}</h5>
+                  <p className="text-[11px] text-slate-500 truncate leading-tight">{game.subtitle}</p>
+                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all shrink-0" />
+              </Link>
+            );
+          })}
+        </div>
+      </div>
           </div>
         </div>
       </div>

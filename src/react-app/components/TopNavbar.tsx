@@ -250,47 +250,49 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
             </div>
           </div>
 
-          {/* Center - Navigation Icons with Labels (LinkedIn Style) */}
+          {/* Center - Navigation Icons with Labels (Modern Professional Culture Hub) */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2 flex-1 justify-center max-w-2xl">
             <Link
               to="/beranda"
-              className="flex flex-col items-center px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors min-w-[70px] lg:min-w-[80px]"
+              className="flex flex-col items-center px-3 py-1.5 hover:bg-slate-100/80 rounded-xl transition-all duration-150 min-w-[70px] lg:min-w-[76px] group"
             >
-              <Home className="w-6 h-6 text-gray-700 mb-1" />
-              <span className="text-xs font-medium text-gray-700">Beranda</span>
+              <Home className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
+              <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Beranda</span>
             </Link>
             <Link
               to="/jaringan"
-              className="flex flex-col items-center px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors relative min-w-[70px] lg:min-w-[80px]"
+              className="flex flex-col items-center px-3 py-1.5 hover:bg-slate-100/80 rounded-xl transition-all duration-150 relative min-w-[70px] lg:min-w-[76px] group"
             >
-              <Users className="w-6 h-6 text-gray-700 mb-1" />
-              <span className="text-xs font-medium text-gray-700">Jaringan</span>
-              {connectionRequests.length > 0 && (
-                <span className="absolute top-1 right-2 w-5 h-5 bg-red-500 rounded-full text-white text-[10px] flex items-center justify-center font-bold">
-                  {connectionRequests.length}
-                </span>
-              )}
+              <div className="relative">
+                <Users className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
+                {connectionRequests.length > 0 && (
+                  <span className="absolute -top-1 -right-2 min-w-[15px] h-[15px] bg-rose-500 rounded-full text-white text-[9px] flex items-center justify-center font-bold px-0.5 shadow-sm">
+                    {connectionRequests.length}
+                  </span>
+                )}
+              </div>
+              <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Jaringan</span>
             </Link>
             <Link
               to="/marketplace"
-              className="flex flex-col items-center px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors min-w-[70px] lg:min-w-[80px]"
+              className="flex flex-col items-center px-3 py-1.5 hover:bg-slate-100/80 rounded-xl transition-all duration-150 min-w-[70px] lg:min-w-[76px] group"
             >
-              <ShoppingBag className="w-6 h-6 text-gray-700 mb-1" />
-              <span className="text-xs font-medium text-gray-700">Marketplace</span>
+              <ShoppingBag className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
+              <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Pasar Seni</span>
             </Link>
             <Link
               to="/crowdfunding"
-              className="flex flex-col items-center px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors min-w-[70px] lg:min-w-[80px]"
+              className="flex flex-col items-center px-3 py-1.5 hover:bg-slate-100/80 rounded-xl transition-all duration-150 min-w-[70px] lg:min-w-[76px] group"
             >
-              <Heart className="w-6 h-6 text-gray-700 mb-1" />
-              <span className="text-xs font-medium text-gray-700">Crowdfunding</span>
+              <Heart className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
+              <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Donasi</span>
             </Link>
             <Link
               to="/edukasi"
-              className="flex flex-col items-center px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors min-w-[70px] lg:min-w-[80px]"
+              className="flex flex-col items-center px-3 py-1.5 hover:bg-slate-100/80 rounded-xl transition-all duration-150 min-w-[70px] lg:min-w-[76px] group"
             >
-              <BookOpen className="w-6 h-6 text-gray-700 mb-1" />
-              <span className="text-xs font-medium text-gray-700">Edukasi</span>
+              <BookOpen className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
+              <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Akademi</span>
             </Link>
           </div>
 

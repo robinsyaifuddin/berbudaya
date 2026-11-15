@@ -209,15 +209,15 @@ export default function MarketplacePage() {
           <div className="col-span-1 lg:col-span-9">
             {/* Page Title */}
             <div className="mb-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Pasar Budaya Nusantara</h1>
-              <p className="text-gray-600 text-sm">Menampilkan <span className="font-semibold">{products.length} produk</span> dari <span className="font-semibold">1000+ produk</span></p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-1.5">Pasar Budaya Nusantara</h1>
+              <p className="text-slate-600 text-sm">Menampilkan <span className="font-semibold text-slate-800">{filteredProducts.length} karya otentik</span> kurasi langsung dari sanggar & maestro daerah</p>
             </div>
 
             {/* Header with Filters */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700">Filter</span>
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-3 sm:p-4 mb-6">
+              <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mr-1">Filter</span>
                   
                   {/* Category Dropdown */}
                   <div className="relative">
@@ -227,15 +227,15 @@ export default function MarketplacePage() {
                         setShowLocationDropdown(false);
                         setShowSortDropdown(false);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full text-sm hover:border-gray-400 transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 border border-slate-200 rounded-full text-xs sm:text-sm font-medium text-slate-700 hover:border-slate-400 bg-slate-50/50 hover:bg-white transition-colors"
                     >
-                      <span>Kategori</span>
-                      <ChevronDown className="w-4 h-4" />
+                      <span>{selectedCategory}</span>
+                      <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                     </button>
                     {showCategoryDropdown && (
                       <>
                         <div className="fixed inset-0 z-10" onClick={() => setShowCategoryDropdown(false)} />
-                        <div className="absolute top-full mt-2 left-0 bg-white rounded-lg shadow-xl border border-gray-200 z-50 min-w-[200px]">
+                        <div className="absolute top-full mt-2 left-0 bg-white rounded-xl shadow-xl border border-slate-200 z-50 min-w-[200px] py-1">
                           {categories.map((cat) => (
                             <button
                               key={cat}
@@ -243,9 +243,9 @@ export default function MarketplacePage() {
                                 setSelectedCategory(cat);
                                 setShowCategoryDropdown(false);
                               }}
-                              className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center justify-between"
+                              className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center justify-between transition-colors"
                             >
-                              <span className="text-sm">{cat}</span>
+                              <span className="text-xs sm:text-sm text-slate-700">{cat}</span>
                               {selectedCategory === cat && <Check className="w-4 h-4 text-blue-600" />}
                             </button>
                           ))}
@@ -262,15 +262,15 @@ export default function MarketplacePage() {
                         setShowCategoryDropdown(false);
                         setShowSortDropdown(false);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full text-sm hover:border-gray-400 transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 border border-slate-200 rounded-full text-xs sm:text-sm font-medium text-slate-700 hover:border-slate-400 bg-slate-50/50 hover:bg-white transition-colors"
                     >
-                      <span>Lokasi</span>
-                      <ChevronDown className="w-4 h-4" />
+                      <span>{selectedLocation}</span>
+                      <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                     </button>
                     {showLocationDropdown && (
                       <>
                         <div className="fixed inset-0 z-10" onClick={() => setShowLocationDropdown(false)} />
-                        <div className="absolute top-full mt-2 left-0 bg-white rounded-lg shadow-xl border border-gray-200 z-50 min-w-[200px]">
+                        <div className="absolute top-full mt-2 left-0 bg-white rounded-xl shadow-xl border border-slate-200 z-50 min-w-[200px] py-1">
                           {locations.map((loc) => (
                             <button
                               key={loc}
@@ -278,9 +278,9 @@ export default function MarketplacePage() {
                                 setSelectedLocation(loc);
                                 setShowLocationDropdown(false);
                               }}
-                              className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center justify-between"
+                              className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center justify-between transition-colors"
                             >
-                              <span className="text-sm">{loc}</span>
+                              <span className="text-xs sm:text-sm text-slate-700">{loc}</span>
                               {selectedLocation === loc && <Check className="w-4 h-4 text-blue-600" />}
                             </button>
                           ))}
@@ -298,15 +298,15 @@ export default function MarketplacePage() {
                       setShowCategoryDropdown(false);
                       setShowLocationDropdown(false);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full text-sm hover:border-gray-400 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 border border-slate-200 rounded-full text-xs sm:text-sm font-medium text-slate-700 hover:border-slate-400 bg-slate-50/50 hover:bg-white transition-colors"
                   >
-                    <span>Urutkan</span>
-                    <ChevronDown className="w-4 h-4" />
+                    <span>{selectedSort}</span>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                   </button>
                   {showSortDropdown && (
                     <>
                       <div className="fixed inset-0 z-10" onClick={() => setShowSortDropdown(false)} />
-                      <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-xl border border-gray-200 z-50 min-w-[220px]">
+                      <div className="absolute top-full mt-2 right-0 bg-white rounded-xl shadow-xl border border-slate-200 z-50 min-w-[220px] py-1">
                         {sortOptions.map((sort) => (
                           <button
                             key={sort}
@@ -314,9 +314,9 @@ export default function MarketplacePage() {
                               setSelectedSort(sort);
                               setShowSortDropdown(false);
                             }}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center justify-between"
+                            className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center justify-between transition-colors"
                           >
-                            <span className="text-sm">{sort}</span>
+                            <span className="text-xs sm:text-sm text-slate-700">{sort}</span>
                             {selectedSort === sort && <Check className="w-4 h-4 text-blue-600" />}
                           </button>
                         ))}
@@ -328,80 +328,84 @@ export default function MarketplacePage() {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredProducts.map((product) => (
                 <Link
                   key={product.id}
                   to={`/marketplace/${product.id}`}
-                  className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg transition-shadow"
+                  className="group bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-lg border border-slate-200/90 hover:border-slate-300 transition-all duration-200 flex flex-col justify-between"
                 >
-                  {/* Product Image */}
-                  <div className="relative h-48">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
-                    {product.badge && (
-                      <div className={`absolute top-3 left-3 px-3 py-1 rounded text-xs font-bold text-white ${
-                        product.badge === 'Sale' ? 'bg-red-600' :
-                        product.badge === 'Popular' ? 'bg-orange-600' :
-                        'bg-blue-600'
-                      }`}>
-                        {product.badge === 'Sale' && product.discount ? `-${product.discount}%` : product.badge}
-                      </div>
-                    )}
-                    <button className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-white transition-colors">
-                      <Heart className="w-4 h-4 text-gray-600" />
-                    </button>
-                  </div>
-
-                  {/* Product Content */}
-                  <div className="p-4">
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mb-2">
-                      {renderStars(product.rating)}
-                      <span className="text-xs text-gray-500 ml-1">({product.reviews})</span>
-                    </div>
-
-                    <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 min-h-[48px]">
-                      {product.name}
-                    </h3>
-
-                    {/* Seller */}
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
-                        <Check className="w-3 h-3 text-white" />
-                      </div>
-                      <span className="text-xs text-gray-700 font-medium">{product.seller}</span>
-                      {product.verified && (
-                        <Check className="w-4 h-4 text-blue-600" />
+                  <div>
+                    {/* Product Image */}
+                    <div className="relative h-52 overflow-hidden bg-slate-100">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      {product.badge && (
+                        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold text-white bg-slate-900/85 backdrop-blur-xs shadow-xs">
+                          {product.badge}
+                        </div>
                       )}
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                        className="absolute top-3 right-3 p-2 bg-white/90 hover:bg-white rounded-full text-slate-600 hover:text-rose-500 shadow-xs backdrop-blur-xs transition-colors"
+                        title="Simpan ke Wishlist"
+                      >
+                        <Heart className="w-3.5 h-3.5" />
+                      </button>
                     </div>
 
-                    {/* Location */}
-                    <p className="text-xs text-gray-500 mb-3">{product.location}</p>
+                    {/* Product Content */}
+                    <div className="p-4">
+                      {/* Rating & Reviews */}
+                      <div className="flex items-center gap-1.5 mb-2">
+                        {renderStars(product.rating)}
+                        <span className="text-xs font-semibold text-slate-700 ml-0.5">{product.rating}</span>
+                        <span className="text-xs text-slate-400">({product.reviews})</span>
+                      </div>
 
-                    {/* Price */}
-                    <div className="mb-3">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-lg font-bold text-gray-900">
-                          {formatPrice(product.price)}
-                        </span>
-                        {product.oldPrice && (
-                          <span className="text-xs text-gray-400 line-through">
-                            {formatPrice(product.oldPrice)}
-                          </span>
+                      <h3 className="font-semibold text-slate-900 text-sm mb-2 line-clamp-2 min-h-[40px] group-hover:text-blue-600 transition-colors leading-snug">
+                        {product.name}
+                      </h3>
+
+                      {/* Seller & Verification */}
+                      <div className="flex items-center gap-1.5 mb-2 text-xs text-slate-600">
+                        <span className="truncate font-medium">{product.seller}</span>
+                        {product.verified && (
+                          <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[8px] font-bold shrink-0">✓</span>
                         )}
                       </div>
-                    </div>
 
-                    {/* Add to Cart Button */}
+                      {/* Location */}
+                      <p className="text-[11px] text-slate-400 mb-3">{product.location}</p>
+
+                      {/* Price */}
+                      <div className="mb-4">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-lg font-bold text-slate-900">
+                            {formatPrice(product.price)}
+                          </span>
+                          {product.oldPrice && (
+                            <span className="text-xs text-slate-400 line-through">
+                              {formatPrice(product.oldPrice)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Add to Cart Button */}
+                  <div className="px-4 pb-4">
                     <button 
                       onClick={(e) => handleAddToCart(e, product)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                      className="w-full bg-slate-900 hover:bg-blue-600 text-white py-2.5 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-2 active:scale-[0.98] shadow-xs"
                     >
-                      <ShoppingCart className="w-4 h-4" />
+                      <ShoppingCart className="w-3.5 h-3.5" />
                       <span>Tambah ke Keranjang</span>
                     </button>
                   </div>
