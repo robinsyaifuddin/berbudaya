@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { 
   Edit, Mail, Globe, MessageCircle, Plus, ChevronUp, 
-  Calendar, User, Briefcase, GraduationCap, MapPin
+  Calendar, User, Briefcase, GraduationCap, MapPin,
+  Trophy, Award, BookOpen, Heart, MessageSquare
 } from 'lucide-react';
 
 interface DemoUser {
@@ -17,32 +18,32 @@ const culturalInterests = [
   { 
     name: 'Wayang Kulit', 
     region: 'Jawa Tengah & Jawa Timur',
-    icon: '🎭',
-    description: 'Seni pertunjukan tradisional'
+    category: 'Seni Pertunjukan',
+    description: 'Seni pertunjukan tradisi pedalangan dan wayang purwa.'
   },
   { 
     name: 'Tari Saman', 
     region: 'Aceh',
-    icon: '💃',
-    description: 'Tarian tradisional yang dinamis'
+    category: 'Seni Tari',
+    description: 'Tarian tepuk tangan dan ritme serempak berkecepatan tinggi.'
   },
   { 
-    name: 'Batik', 
+    name: 'Batik Tulis Pewarna Alam', 
     region: 'Jawa',
-    icon: '👔',
-    description: 'Kain tradisional dengan motif khas'
+    category: 'Kriya Tradisional',
+    description: 'Kain mori dengan malam panas dan ekstraksi tumbuhan nusantara.'
   },
   { 
     name: 'Angklung', 
     region: 'Jawa Barat',
-    icon: '🎵',
-    description: 'Alat musik tradisional dari bambu'
+    category: 'Musik Tradisional',
+    description: 'Alat musik bambu bernada pentatonis dan diatonis.'
   },
   { 
     name: 'Reog Ponorogo', 
     region: 'Jawa Timur',
-    icon: '🦁',
-    description: 'Kesenian dengan topeng singa barong'
+    category: 'Kesenian Rakyat',
+    description: 'Kesenian topeng dadak merak dan tari ksatria jathil.'
   }
 ];
 
@@ -325,10 +326,16 @@ export default function ProfilPage() {
                     ].map((post, idx) => (
                       <div key={idx} className="border-b border-gray-200 pb-4 last:border-0">
                         <h4 className="font-semibold text-gray-900 mb-2">{post.title}</h4>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
                           <span>{post.date}</span>
-                          <span>❤️ {post.likes}</span>
-                          <span>💬 {post.comments}</span>
+                          <span className="flex items-center gap-1 font-medium text-rose-600">
+                            <Heart className="w-3.5 h-3.5 fill-rose-600" />
+                            {post.likes}
+                          </span>
+                          <span className="flex items-center gap-1 font-medium text-blue-600">
+                            <MessageSquare className="w-3.5 h-3.5" />
+                            {post.comments}
+                          </span>
                         </div>
                       </div>
                     ))}
@@ -396,30 +403,43 @@ export default function ProfilPage() {
                   <h3 className="text-xl font-bold text-gray-900 mb-6">Informasi Lainnya</h3>
                   <div className="space-y-6">
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-3">Penghargaan</h4>
+                      <h4 className="font-semibold text-gray-900 mb-3 text-sm">Penghargaan & Rekognisi</h4>
                       <div className="space-y-3">
-                        <div className="flex items-start gap-3">
-                          <span className="text-2xl">🏆</span>
+                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                          <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                            <Trophy className="w-5 h-5" />
+                          </div>
                           <div>
-                            <p className="font-medium text-gray-900">Budayawan Muda Terbaik 2023</p>
-                            <p className="text-sm text-gray-600">Kementerian Pendidikan dan Kebudayaan</p>
+                            <p className="font-semibold text-gray-900 text-sm">Budayawan Muda Berprestasi 2023</p>
+                            <p className="text-xs text-gray-500">Kementerian Kebudayaan & Kemendikbudristek</p>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3">
-                          <span className="text-2xl">🎖️</span>
+                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                          <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+                            <Award className="w-5 h-5" />
+                          </div>
                           <div>
-                            <p className="font-medium text-gray-900">Pelestari Budaya Terbaik</p>
-                            <p className="text-sm text-gray-600">UNESCO Indonesia</p>
+                            <p className="font-semibold text-gray-900 text-sm">Pelestari Warisan Budaya Terbaik</p>
+                            <p className="text-xs text-gray-500">Komite Nasional Warisan Budaya Indonesia</p>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-3">Publikasi</h4>
+                      <h4 className="font-semibold text-gray-900 mb-3 text-sm">Publikasi & Karya Ilmiah</h4>
                       <div className="space-y-2">
-                        <p className="text-sm text-gray-700">📚 "Wayang Kulit dalam Perspektif Modern" (2023)</p>
-                        <p className="text-sm text-gray-700">📚 "Batik: Warisan Budaya Dunia" (2022)</p>
-                        <p className="text-sm text-gray-700">📚 "Tari Tradisional Nusantara" (2021)</p>
+                        <div className="flex items-center gap-2 p-2.5 rounded-lg border border-gray-100 bg-white hover:bg-gray-50 transition-colors">
+                          <BookOpen className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                          <p className="text-xs font-medium text-gray-800">"Wayang Kulit dalam Perspektif Modern dan Digitalisasi Tradisi" (2023)</p>
+                        </div>
+                        <div className="flex items-center gap-2 p-2.5 rounded-lg border border-gray-100 bg-white hover:bg-gray-50 transition-colors">
+                          <BookOpen className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                          <p className="text-xs font-medium text-gray-800">"Batik Soga Alam: Konservasi Warisan Budaya Dunia" (2022)</p>
+                        </div>
+                        <div className="flex items-center gap-2 p-2.5 rounded-lg border border-gray-100 bg-white hover:bg-gray-50 transition-colors">
+                          <BookOpen className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                          <p className="text-xs font-medium text-gray-800">"Antologi Gerak dan Ritme Tari Tradisional Nusantara" (2021)</p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -448,9 +468,12 @@ export default function ProfilPage() {
                           <p className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors mb-1">
                             {interest.name}
                           </p>
-                          <p className="text-xs text-gray-500 mb-1">
-                            📍 {interest.region}
-                          </p>
+                          <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
+                            <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                            <span>{interest.region}</span>
+                            <span>•</span>
+                            <span className="text-blue-600 font-medium">{interest.category}</span>
+                          </div>
                           <p className="text-sm text-gray-600 leading-relaxed">
                             {interest.description}
                           </p>

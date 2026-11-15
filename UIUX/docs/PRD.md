@@ -1,5 +1,5 @@
 # PRODUCT REQUIREMENTS DOCUMENT (PRD)
-## RUANG BUDAYA: PLATFORM JEJARING SOSIAL, EDUKASI, DAN EKONOMI DIGITAL PEMAJUAN KEBUDAYAAN INDONESIA
+## PAWONGAN: PLATFORM JEJARING SOSIAL, EDUKASI, DAN EKONOMI DIGITAL PEMAJUAN KEBUDAYAAN INDONESIA
 *(The Professional & Creative Cultural Network of Indonesia — "LinkedIn Khusus Komunitas & Pegiat Budaya Nusantara")*  
 **Dokumen Induk Resmi — Acuan Desain UI/UX, Arsitektur Sistem, Keamanan, & Implementasi Produksi (Vercel + GitHub + Supabase)**  
 *Diselaraskan Penuh dengan Proposal Resmi BUDAYA GO! 2026 (Kompetisi Inovasi Budaya Indonesia)*
@@ -9,7 +9,7 @@
 ## 1. Executive Summary & Visi Produk
 
 ### 1.1 Identitas Resmi & Konteks Proposal
-- **Nama Resmi Produk**: **RUANG BUDAYA: Platform Jejaring Sosial, Edukasi, dan Ekonomi Digital untuk Pemajuan Kebudayaan Indonesia**
+- **Nama Resmi Produk**: **PAWONGAN: Platform Jejaring Sosial, Edukasi, dan Ekonomi Digital untuk Pemajuan Kebudayaan Indonesia**
 - **Ajang Kompetisi**: BUDAYA GO! 2026
 - **Tema Utama**: *Indonesia Cultural Power*
 - **Subtema Pilihan**: *Inventing the Future from Indonesian Culture (Promosi dan Kreasi Ekonomi Kebudayaan)*
@@ -23,8 +23,8 @@
      - *Peran & Tanggung Jawab*: Memastikan seluruh kurasi konten dan fitur selaras dengan 10 Objek Pemajuan Kebudayaan (UU No. 5 Tahun 2017), menjaga penghormatan hak komunal adat (TKCE), memverifikasi keabsahan data cagar budaya, serta merumuskan metadata Cultural Value Tagging (CVT) dan materi gamifikasi edukasi tradisi.
 
 ### 1.2 Visi & Nilai Inti Platform ("LinkedIn Khusus Komunitas Budaya")
-Ruang Budaya memosisikan diri sebagai **Jejaring Sosial-Kreatif-Profesional Kebudayaan Indonesia Terpadu**:
-Sebagaimana LinkedIn menghubungkan para profesional korporat di seluruh dunia, Ruang Budaya menjadi ruang kredibel tempat maestro seni tradisi, pengrajin kriya lokal, akademisi budaya, pengelola sanggar, komunitas adat, serta generasi muda (Gen Z & Milenial) saling:
+Pawongan memosisikan diri sebagai **Jejaring Sosial-Kreatif-Profesional Kebudayaan Indonesia Terpadu**:
+Sebagaimana LinkedIn menghubungkan para profesional korporat di seluruh dunia, Pawongan menjadi ruang kredibel tempat maestro seni tradisi, pengrajin kriya lokal, akademisi budaya, pengelola sanggar, komunitas adat, serta generasi muda (Gen Z & Milenial) saling:
 1. **Membangun Portofolio Budaya Terverifikasi**: Memamerkan rekam jejak karya, sertifikasi tradisi, dan keahlian seni langka.
 2. **Berjejaring & Berkolaborasi (Networking)**: Menghubungkan sanggar seni dengan kurator pameran, event organizer, atau sponsor CSR.
 3. **Mendorong Transaksi Adil Beretika (Fair-Trade E-Commerce)**: Menjual kriya langsung dari tangan pertama tanpa perantara tengkulak melalui narasi filosofis (*Cultural Value Tagging*).
@@ -39,7 +39,7 @@ Platform dibangun berlandaskan **10 Objek Pemajuan Kebudayaan (OPK)**:
 
 ## 2. Filosofi Desain: Anti-Slop UI & High-Taste Cultural Aesthetics
 
-Platform Ruang Budaya menolak keras segala bentuk desain generik ala AI ("AI Slop"), template murah, atau ornamen visual membingungkan. Desain dirancang mengacu pada standar visual kelas dunia (Stripe, Linear, dan LinkedIn Modern) yang dipadukan dengan jiwa estetika Nusantara:
+Platform Pawongan menolak keras segala bentuk desain generik ala AI ("AI Slop"), template murah, atau ornamen visual membingungkan. Desain dirancang mengacu pada standar visual kelas dunia (Stripe, Linear, dan LinkedIn Modern) yang dipadukan dengan jiwa estetika Nusantara:
 
 ### 2.1 Aturan Emas Anti-Slop UI
 - **Dilarang Keras Gradien Neon / AI Purple**: Menghapus gradien ungu-pink murahan dan efek glow berlebihan.
@@ -83,7 +83,7 @@ flowchart TD
     AuthModal --> HomeFeed["2. Beranda Utama (LinkedIn-Style Feed Budaya)"]
 
     %% Core Ecosystem
-    subgraph CorePlatform["Ekosistem Terintegrasi RuangBudaya"]
+    subgraph CorePlatform["Ekosistem Terintegrasi Pawongan"]
         HomeFeed --> ComposerModal["Modal Buat Postingan / Portofolio"]
         HomeFeed --> CommentDrawer["Drawer Komentar & Apresiasi"]
         HomeFeed --> ShareModal["Modal Bagikan Karya"]
@@ -118,15 +118,15 @@ flowchart TD
 ---
 
 ### 4.1 Halaman 1: Landing Page (`Landing.tsx`)
-- **Fungsi Utama**: Etalase utama publik, memperkenalkan 4 pilar Ruang Budaya, menampilkan karya kurasi terbaik, serta mengajak maestro, perajin, dan anak muda bergabung.
+- **Fungsi Utama**: Etalase utama publik, memperkenalkan 4 pilar Pawongan, menampilkan karya kurasi terbaik, serta mengajak maestro, perajin, dan anak muda bergabung.
 - **Koneksi Halaman**:
   - Menghubungkan ke `AuthModal` (Masuk / Daftar).
   - Menghubungkan ke `Gallery.tsx` (Eksplorasi Galeri Publik).
   - Menghubungkan langsung ke pratinjau `Marketplace.tsx`, `Crowdfunding.tsx`, dan `Acara.tsx`.
 - **Elemen & Komponen**:
   1. **Sticky Glassmorphism Top Navigation Bar**:
-     - *Monogram Logo*: "RB" (Ruang Budaya) dengan hairline border taktil.
-     - *Nav Links*: "Tentang Ruang Budaya", "4 Pilar", "Galeri Warisan", "Pasar Kriya", "Galang Dana", "Agenda Tradisi".
+     - *Monogram Logo*: "RB" (Pawongan) dengan hairline border taktil.
+     - *Nav Links*: "Tentang Pawongan", "4 Pilar", "Galeri Warisan", "Pasar Kriya", "Galang Dana", "Agenda Tradisi".
      - *Action Buttons*:
        - Tombol `Masuk` (Secondary button: hairline border, text slate-700).
        - Tombol `Gabung Komunitas` (Primary button: solid slate-900, text white, hover ring).
@@ -448,7 +448,7 @@ flowchart TD
 - **Milestone 2: Desain Hi-Fi UI/UX di Figma (Target: 7 Hari Kerja)**:
   Pembuatan kanvas desain lengkap di file Figma tim (`dLq19zRHpGSJZB7JNeRcUO`): Design Token, 10 Halaman Lengkap, Varian Komponen, dan Seluruh Modal Interaktif.
 - **Milestone 3: Refactoring Frontend React & Tailwind Anti-Slop (Target: 7 Hari Kerja)**:
-  Implementasi tata letak bento asimetris, perbaikan tipografi, penghapusan elemen AI Slop, dan integrasi Lucide Icons pada codebase `sc ruangbudaya`.
+  Implementasi tata letak bento asimetris, perbaikan tipografi, penghapusan elemen AI Slop, dan integrasi Lucide Icons pada codebase `sc pawongan`.
 - **Milestone 4: Integrasi Database Supabase & Keamanan RLS (Target: 5 Hari Kerja)**:
   Pemasangan skema tabel PostgreSQL, RLS policies, autentikasi sesi, serta integrasi storage gambar kriya.
 - **Milestone 5: Pengujian Kinerja, Audit Keamanan, & Deploy Vercel (Target: 3 Hari Kerja)**:
@@ -458,4 +458,4 @@ flowchart TD
 
 ## 8. Kesimpulan & Status Kesiapan Implementasi
 
-Dokumen **PRD** ini menjadi satu-satunya pedoman tunggal (*Single Source of Truth*) yang mengikat seluruh proses desain dan pengkodean platform Ruang Budaya. Dengan standar **Anti-Slop UI**, **High Taste Design**, dan arsitektur modern **GitHub + Vercel + Supabase**, Ruang Budaya siap menjadi mahakarya inovasi digital kebudayaan yang membanggakan bagi Indonesia.
+Dokumen **PRD** ini menjadi satu-satunya pedoman tunggal (*Single Source of Truth*) yang mengikat seluruh proses desain dan pengkodean platform Pawongan. Dengan standar **Anti-Slop UI**, **High Taste Design**, dan arsitektur modern **GitHub + Vercel + Supabase**, Pawongan siap menjadi mahakarya inovasi digital kebudayaan yang membanggakan bagi Indonesia.

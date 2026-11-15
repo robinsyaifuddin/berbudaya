@@ -1,6 +1,6 @@
 import ModernLayout from '@/react-app/components/ModernLayout';
 import { useState, useEffect } from 'react';
-import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X } from 'lucide-react';
+import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe, Sparkles } from 'lucide-react';
 import CreatePostModal from '@/react-app/components/CreatePostModal';
 import ShareModal from '@/react-app/components/ShareModal';
 import CommentModal from '@/react-app/components/CommentModal';
@@ -267,7 +267,7 @@ export default function Home() {
                     <h3 className="font-semibold text-gray-900 text-sm hover:text-blue-600 hover:underline cursor-pointer">{post.author.name}</h3>
                     <p className="text-xs text-gray-500">{post.author.subtitle}</p>
                     <p className="text-xs text-gray-400 flex items-center gap-1">
-                      {post.author.timestamp} • <span className="text-[10px]">🌐</span>
+                      {post.author.timestamp} • <Globe className="w-3 h-3 text-gray-400" />
                     </p>
                   </div>
                 </div>
@@ -308,7 +308,7 @@ export default function Home() {
                       <Heart className="w-2.5 h-2.5 fill-white text-white" />
                     </div>
                     <div className="w-4 h-4 bg-amber-500 rounded-full flex items-center justify-center border border-white">
-                      <span className="text-[8px]">💡</span>
+                      <Sparkles className="w-2.5 h-2.5 text-white" />
                     </div>
                   </div>
                   <span className="ml-1">{postLikes[post.id]?.count >= 1000 ? `${(postLikes[post.id]?.count/1000).toFixed(1)}rb` : postLikes[post.id]?.count}</span>

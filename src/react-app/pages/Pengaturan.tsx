@@ -1,177 +1,243 @@
 import ModernLayout from '@/react-app/components/ModernLayout';
-import { User, Lock, Bell, Globe, Shield, CreditCard, HelpCircle } from 'lucide-react';
+import { User, Lock, Bell, Globe, Shield, CreditCard, HelpCircle, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 
 export default function PengaturanPage() {
+  const [fullName, setFullName] = useState('Robin Syaifuddin');
+  const [email, setEmail] = useState('robin.syaifuddin@budaya.id');
+  const [phone, setPhone] = useState('+62 812 3456 7890');
+  const [bio, setBio] = useState('Pelestari seni tradisi dan kriya Nusantara. Mengembangkan ruang digital bersama pengrajin dan seniman daerah.');
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const demoUserStr = localStorage.getItem('demo_user');
+    if (demoUserStr) {
+      try {
+        const u = JSON.parse(demoUserStr);
+        if (u.name) setFullName(u.name);
+        if (u.email) setEmail(u.email);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    setToastMessage('Perubahan informasi profil berhasil disimpan!');
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
   return (
     <ModernLayout showLeftSidebar={false} showRightSidebar={false}>
-      
-      <div className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold font-playfair text-dark-brown mb-6">
-          Pengaturan Akun
-        </h1>
+      <div className="max-w-4xl mx-auto p-4 md:p-6">
+        {/* Toast */}
+        {toastMessage && (
+          <div className="fixed top-20 right-6 z-50 bg-gray-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 border border-gray-700 animate-fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 mb-1">
+            Pengaturan Akun & Privasi
+          </h1>
+          <p className="text-sm text-gray-600">
+            Kelola profil kebudayaan, preferensi keamanan, dan notifikasi platform
+          </p>
+        </div>
 
         {/* Profile Settings */}
-        <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 mb-6">
-          <div className="flex items-center gap-3 mb-6">
-            <User className="w-6 h-6 text-terracotta" />
-            <h2 className="text-xl font-bold font-playfair text-dark-brown">
-              Informasi Profil
-            </h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+              <User className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">
+                Informasi Profil
+              </h2>
+              <p className="text-xs text-gray-500">Data ini akan ditampilkan pada profil publik budayawan Anda</p>
+            </div>
           </div>
           
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-dark-brown mb-2">
-                Nama Lengkap
-              </label>
-              <input
-                type="text"
-                defaultValue="Dewi Lestari"
-                className="w-full px-4 py-3 rounded-lg border border-warm-gray/50 focus:outline-none focus:ring-2 focus:ring-terracotta/50"
-              />
+          <form onSubmit={handleSaveProfile} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Nama Lengkap
+                </label>
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                  Email Akun
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                />
+              </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-dark-brown mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                defaultValue="dewi.lestari@email.com"
-                className="w-full px-4 py-3 rounded-lg border border-warm-gray/50 focus:outline-none focus:ring-2 focus:ring-terracotta/50"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-dark-brown mb-2">
-                Nomor Telepon
+              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                Nomor Telepon / WhatsApp
               </label>
               <input
                 type="tel"
-                defaultValue="+62 812 3456 7890"
-                className="w-full px-4 py-3 rounded-lg border border-warm-gray/50 focus:outline-none focus:ring-2 focus:ring-terracotta/50"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-dark-brown mb-2">
-                Bio
+              <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+                Biografi Kebudayaan
               </label>
               <textarea
-                rows={4}
-                defaultValue="Pengrajin batik tulis dengan pengalaman lebih dari 15 tahun. Fokus pada pelestarian motif batik tradisional Solo dengan teknik pewarnaan alami."
-                className="w-full px-4 py-3 rounded-lg border border-warm-gray/50 focus:outline-none focus:ring-2 focus:ring-terracotta/50 resize-none"
+                rows={3}
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
               />
             </div>
             
-            <button className="bg-gradient-to-r from-terracotta to-gold text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
-              Simpan Perubahan
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm active:scale-[0.98]"
+            >
+              Simpan Perubahan Profil
             </button>
-          </div>
+          </form>
         </div>
 
         {/* Security Settings */}
-        <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 mb-6">
-          <div className="flex items-center gap-3 mb-6">
-            <Lock className="w-6 h-6 text-terracotta" />
-            <h2 className="text-xl font-bold font-playfair text-dark-brown">
-              Keamanan
-            </h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+              <Lock className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">
+                Keamanan & Akses
+              </h2>
+              <p className="text-xs text-gray-500">Kelola kata sandi dan proteksi akun berlapis</p>
+            </div>
           </div>
           
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-warm-gray/20 rounded-xl">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200/60">
               <div>
-                <p className="font-semibold text-dark-brown">Ubah Kata Sandi</p>
-                <p className="text-sm text-gray-600">Terakhir diubah 3 bulan yang lalu</p>
+                <p className="font-semibold text-gray-900 text-sm">Kata Sandi Akun</p>
+                <p className="text-xs text-gray-500">Terakhir diperbarui secara berkala</p>
               </div>
-              <button className="text-terracotta font-semibold hover:text-gold transition-colors">
-                Ubah
+              <button
+                onClick={() => {
+                  setToastMessage('Fitur ubah kata sandi dibuka!');
+                  setTimeout(() => setToastMessage(null), 2500);
+                }}
+                className="px-4 py-2 border border-gray-300 hover:border-gray-400 bg-white text-gray-700 text-xs font-semibold rounded-lg transition-colors"
+              >
+                Ubah Sandi
               </button>
             </div>
             
-            <div className="flex items-center justify-between p-4 bg-warm-gray/20 rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200/60">
               <div>
-                <p className="font-semibold text-dark-brown">Autentikasi Dua Faktor</p>
-                <p className="text-sm text-gray-600">Tambahkan lapisan keamanan ekstra</p>
+                <p className="font-semibold text-gray-900 text-sm">Autentikasi Dua Langkah (2FA)</p>
+                <p className="text-xs text-gray-500">Proteksi ekstra dengan kode konfirmasi masuk</p>
               </div>
-              <button className="bg-terracotta text-white px-4 py-2 rounded-lg font-semibold hover:bg-gold transition-colors">
-                Aktifkan
+              <button
+                onClick={() => {
+                  setToastMessage('2FA saat ini aktif dalam mode verifikasi Google OAuth!');
+                  setTimeout(() => setToastMessage(null), 2500);
+                }}
+                className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 transition-colors"
+              >
+                Terproteksi
               </button>
             </div>
           </div>
         </div>
 
         {/* Notification Settings */}
-        <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 mb-6">
-          <div className="flex items-center gap-3 mb-6">
-            <Bell className="w-6 h-6 text-terracotta" />
-            <h2 className="text-xl font-bold font-playfair text-dark-brown">
-              Notifikasi
-            </h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+            <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+              <Bell className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">
+                Preferensi Notifikasi
+              </h2>
+              <p className="text-xs text-gray-500">Tentukan pembaruan apa saja yang ingin Anda terima</p>
+            </div>
           </div>
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border-b border-warm-gray/30">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div>
-                <p className="font-semibold text-dark-brown">Notifikasi Email</p>
-                <p className="text-sm text-gray-600">Terima pembaruan melalui email</p>
+                <p className="font-medium text-gray-900 text-sm">Notifikasi Kolaborasi & Relasi</p>
+                <p className="text-xs text-gray-500">Kabar saat ada permintaan koneksi atau ajakan sanggar</p>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-terracotta/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-terracotta"></div>
-              </label>
+              <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
             </div>
             
-            <div className="flex items-center justify-between p-4 border-b border-warm-gray/30">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div>
-                <p className="font-semibold text-dark-brown">Notifikasi Push</p>
-                <p className="text-sm text-gray-600">Terima notifikasi di browser</p>
+                <p className="font-medium text-gray-900 text-sm">Pembaruan Donasi & Crowdfunding</p>
+                <p className="text-xs text-gray-500">Kabar progres kampanye yang Anda dukung</p>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-terracotta/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-terracotta"></div>
-              </label>
+              <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
             </div>
             
-            <div className="flex items-center justify-between p-4">
+            <div className="flex items-center justify-between py-2">
               <div>
-                <p className="font-semibold text-dark-brown">Notifikasi Acara</p>
-                <p className="text-sm text-gray-600">Pengingat acara dan festival</p>
+                <p className="font-medium text-gray-900 text-sm">Pengingat Agenda & Festival Seni</p>
+                <p className="text-xs text-gray-500">Jadwal acara pementasan budaya di wilayah Anda</p>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-terracotta/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-terracotta"></div>
-              </label>
+              <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
             </div>
           </div>
         </div>
 
-        {/* Other Settings */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 cursor-pointer hover:shadow-lg transition-all">
-            <Globe className="w-8 h-8 text-terracotta mb-3" />
-            <h3 className="font-bold text-dark-brown mb-2">Bahasa & Wilayah</h3>
-            <p className="text-sm text-gray-600">Atur preferensi bahasa dan lokasi</p>
+        {/* Other Navigation Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-400 transition-all">
+            <Globe className="w-5 h-5 text-blue-600 mb-2" />
+            <h3 className="font-semibold text-gray-900 text-sm mb-1">Bahasa & Wilayah</h3>
+            <p className="text-xs text-gray-500">Bahasa Indonesia (WIB)</p>
           </div>
           
-          <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 cursor-pointer hover:shadow-lg transition-all">
-            <Shield className="w-8 h-8 text-gold mb-3" />
-            <h3 className="font-bold text-dark-brown mb-2">Privasi</h3>
-            <p className="text-sm text-gray-600">Kelola pengaturan privasi akun</p>
+          <div className="bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-400 transition-all">
+            <Shield className="w-5 h-5 text-blue-600 mb-2" />
+            <h3 className="font-semibold text-gray-900 text-sm mb-1">Privasi Profil</h3>
+            <p className="text-xs text-gray-500">Terbuka untuk Umum</p>
           </div>
           
-          <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 cursor-pointer hover:shadow-lg transition-all">
-            <CreditCard className="w-8 h-8 text-terracotta mb-3" />
-            <h3 className="font-bold text-dark-brown mb-2">Pembayaran</h3>
-            <p className="text-sm text-gray-600">Metode pembayaran dan tagihan</p>
-          </div>
+          <Link to="/cart" className="bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-400 transition-all block">
+            <CreditCard className="w-5 h-5 text-blue-600 mb-2" />
+            <h3 className="font-semibold text-gray-900 text-sm mb-1">Pembayaran Kriya</h3>
+            <p className="text-xs text-gray-500">Kelola Tagihan & Nota</p>
+          </Link>
           
-          <div className="bg-white rounded-2xl shadow-sm border border-warm-gray/30 p-6 cursor-pointer hover:shadow-lg transition-all">
-            <HelpCircle className="w-8 h-8 text-gold mb-3" />
-            <h3 className="font-bold text-dark-brown mb-2">Bantuan & Dukungan</h3>
-            <p className="text-sm text-gray-600">Hubungi tim dukungan kami</p>
-          </div>
+          <Link to="/bantuan" className="bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-400 transition-all block">
+            <HelpCircle className="w-5 h-5 text-blue-600 mb-2" />
+            <h3 className="font-semibold text-gray-900 text-sm mb-1">Pusat Bantuan</h3>
+            <p className="text-xs text-gray-500">FAQ & Kontak Tim</p>
+          </Link>
         </div>
       </div>
     </ModernLayout>

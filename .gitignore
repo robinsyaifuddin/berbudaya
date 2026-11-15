@@ -12,4 +12,7 @@ worker-configuration.d.ts
 *.pem
 *.key
 *.log
+*.py
+*.pyc
+__pycache__/
 

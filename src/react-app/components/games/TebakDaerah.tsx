@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Map, Trophy, RefreshCw, Heart, ArrowLeft, Keyboard } from 'lucide-react';
+import { Map, Trophy, RefreshCw, Heart, ArrowLeft, Keyboard, CheckCircle2, AlertCircle, Sparkles, BookOpen } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 
 interface GameQuestion {
@@ -299,45 +299,52 @@ export default function TebakDaerah({ onClose }: Props) {
                       className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all text-lg font-semibold uppercase"
                       disabled={gameState !== 'playing'}
                     />
-                    <p className="text-xs text-gray-500 mt-1">💡 Setiap huruf yang kamu ketik akan otomatis ditebak</p>
+                    <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                      <span>Setiap huruf yang kamu ketik akan otomatis ditebak</span>
+                    </p>
                   </div>
                 )}
 
                 {/* Result Message */}
                 {gameState === 'won' && (
-                  <div className="bg-blue-50 border-2 border-blue-500 rounded-2xl p-6 mb-4">
+                  <div className="bg-emerald-50 border border-emerald-300 rounded-2xl p-6 mb-4">
                     <div className="text-center">
-                      <div className="text-5xl mb-3">🎉</div>
-                      <h3 className="text-2xl font-bold text-blue-700 mb-2">Benar!</h3>
-                      <p className="text-lg text-gray-700 mb-1">
-                        {currentQuestion.hint.replace('berasal dari', 'berasal dari')} <strong>{currentQuestion.answer}</strong>
+                      <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <CheckCircle2 className="w-7 h-7" />
+                      </div>
+                      <h3 className="text-xl font-bold text-emerald-900 mb-1">Tebakan Tepat!</h3>
+                      <p className="text-sm text-gray-700 mb-1">
+                        {currentQuestion.hint} <strong>{currentQuestion.answer}</strong>
                       </p>
-                      <p className="text-sm text-blue-600 mt-2">+10 Poin</p>
+                      <p className="text-xs font-semibold text-emerald-700 mt-1">+10 Poin Wawasan Budaya</p>
                     </div>
                     <button
                       onClick={handleNextQuestion}
-                      className="w-full mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all hover:scale-[1.02]"
+                      className="w-full mt-4 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-all"
                     >
-                      {currentQuestionIndex + 1 < questions.length ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil'}
+                      {currentQuestionIndex + 1 < questions.length ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil Akhir'}
                     </button>
                   </div>
                 )}
 
                 {gameState === 'lost' && (
-                  <div className="bg-red-50 border-2 border-red-500 rounded-2xl p-6 mb-4">
+                  <div className="bg-rose-50 border border-rose-300 rounded-2xl p-6 mb-4">
                     <div className="text-center">
-                      <div className="text-5xl mb-3">😔</div>
-                      <h3 className="text-2xl font-bold text-red-700 mb-2">Waktu Habis!</h3>
-                      <p className="text-lg text-gray-700 mb-1">
-                        Jawaban yang benar: <strong>{currentQuestion.answer}</strong>
+                      <div className="w-12 h-12 bg-rose-100 text-rose-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <AlertCircle className="w-7 h-7" />
+                      </div>
+                      <h3 className="text-xl font-bold text-rose-900 mb-1">Kesempatan Habis</h3>
+                      <p className="text-sm text-gray-700 mb-1">
+                        Jawaban yang tepat adalah: <strong>{currentQuestion.answer}</strong>
                       </p>
-                      <p className="text-sm text-gray-600 mt-2">{currentQuestion.hint}</p>
+                      <p className="text-xs text-gray-600 mt-1">{currentQuestion.hint}</p>
                     </div>
                     <button
                       onClick={handleNextQuestion}
-                      className="w-full mt-4 bg-gradient-to-r from-gray-600 to-gray-700 text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all hover:scale-[1.02]"
+                      className="w-full mt-4 bg-gray-800 text-white py-3 rounded-xl font-bold hover:bg-gray-900 transition-all"
                     >
-                      {currentQuestionIndex + 1 < questions.length ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil'}
+                      {currentQuestionIndex + 1 < questions.length ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil Akhir'}
                     </button>
                   </div>
                 )}
@@ -451,14 +458,17 @@ export default function TebakDaerah({ onClose }: Props) {
             </div>
 
             {/* Info */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl shadow-xl p-6 text-white">
-              <h3 className="font-bold mb-2">💡 Cara Bermain</h3>
-              <ul className="text-sm space-y-1 text-blue-50">
-                <li>• Tebak huruf satu per satu</li>
-                <li>• Atau ketik langsung jawabanmu</li>
-                <li>• Maksimal 6 kesalahan</li>
-                <li>• Setiap jawaban benar: +10 poin</li>
-                <li>• Selesaikan semua pertanyaan!</li>
+            <div className="bg-gray-900 rounded-3xl shadow-xl p-6 text-white border border-gray-800">
+              <div className="flex items-center gap-2 mb-2 font-bold text-blue-400">
+                <BookOpen className="w-4 h-4" />
+                <span>Petunjuk Cara Bermain</span>
+              </div>
+              <ul className="text-xs space-y-1.5 text-gray-300 leading-relaxed">
+                <li>• Tebak huruf penyusun kata asal daerah satu per satu</li>
+                <li>• Atau ketik langsung jawaban lengkap pada kolom teks</li>
+                <li>• Maksimal toleransi 6 kesalahan tebakan</li>
+                <li>• Setiap tebakan benar menambah +10 poin wawasan</li>
+                <li>• Selesaikan seluruh 10 soal untuk membuka lencana budaya</li>
               </ul>
             </div>
           </div>

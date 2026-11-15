@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Puzzle, Trophy, RefreshCw, Lightbulb, Clock, ArrowLeft } from 'lucide-react';
+import { Puzzle, Trophy, RefreshCw, Lightbulb, Clock, ArrowLeft, Shield, Zap, Flame, Award } from 'lucide-react';
 
 interface PuzzleImage {
   id: number;
@@ -138,40 +138,46 @@ export default function PuzzleBudaya({ onClose }: Props) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <button
                 onClick={() => setGridSize(3)}
-                className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 ${
+                className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 text-center ${
                   gridSize === 3
-                    ? 'bg-green-50 border-green-500'
-                    : 'bg-gray-50 border-gray-200 hover:border-green-300'
+                    ? 'bg-blue-50 border-blue-600'
+                    : 'bg-gray-50 border-gray-200 hover:border-blue-300'
                 }`}
               >
-                <div className="text-4xl mb-2">🌱</div>
+                <div className="w-12 h-12 mx-auto mb-2 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center">
+                  <Shield className="w-6 h-6" />
+                </div>
                 <h3 className="font-bold text-gray-900 mb-1">Mudah</h3>
                 <p className="text-sm text-gray-600">3 × 3 Grid</p>
                 <p className="text-xs text-gray-500 mt-2">9 Potongan</p>
               </button>
               <button
                 onClick={() => setGridSize(4)}
-                className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 ${
+                className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 text-center ${
                   gridSize === 4
-                    ? 'bg-blue-50 border-blue-500'
-                    : 'bg-gray-50 border-gray-200 hover:border-blue-300'
+                    ? 'bg-amber-50 border-amber-600'
+                    : 'bg-gray-50 border-gray-200 hover:border-amber-300'
                 }`}
               >
-                <div className="text-4xl mb-2">🌟</div>
+                <div className="w-12 h-12 mx-auto mb-2 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center">
+                  <Zap className="w-6 h-6" />
+                </div>
                 <h3 className="font-bold text-gray-900 mb-1">Sedang</h3>
                 <p className="text-sm text-gray-600">4 × 4 Grid</p>
                 <p className="text-xs text-gray-500 mt-2">16 Potongan</p>
               </button>
               <button
                 onClick={() => setGridSize(5)}
-                className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 ${
+                className={`p-6 rounded-2xl border-2 transition-all hover:scale-105 text-center ${
                   gridSize === 5
-                    ? 'bg-red-50 border-red-500'
-                    : 'bg-gray-50 border-gray-200 hover:border-red-300'
+                    ? 'bg-rose-50 border-rose-600'
+                    : 'bg-gray-50 border-gray-200 hover:border-rose-300'
                 }`}
               >
-                <div className="text-4xl mb-2">🔥</div>
-                <h3 className="font-bold text-gray-900 mb-1">Sulit</h3>
+                <div className="w-12 h-12 mx-auto mb-2 bg-rose-100 text-rose-700 rounded-xl flex items-center justify-center">
+                  <Flame className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-1">Tantangan</h3>
                 <p className="text-sm text-gray-600">5 × 5 Grid</p>
                 <p className="text-xs text-gray-500 mt-2">25 Potongan</p>
               </button>
@@ -258,9 +264,10 @@ export default function PuzzleBudaya({ onClose }: Props) {
               </div>
 
               {!hintUsed && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
-                  <p className="text-sm text-yellow-800 text-center">
-                    🎉 <strong>Bonus!</strong> Kamu menyelesaikan tanpa hint!
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center justify-center gap-2">
+                  <Award className="w-5 h-5 text-amber-600" />
+                  <p className="text-sm font-semibold text-amber-900">
+                    Prestasi Hebat! Berhasil diselesaikan murni tanpa petunjuk!
                   </p>
                 </div>
               )}
