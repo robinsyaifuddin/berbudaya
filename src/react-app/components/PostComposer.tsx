@@ -43,8 +43,3 @@ export default function PostComposer() {
     </div>
   );
 }
-        </div>
-      </div>
-    </div>
-  );
-}

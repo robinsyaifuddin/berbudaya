@@ -1,5 +1,6 @@
 import ModernLayout from '@/react-app/components/ModernLayout';
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { Search, X, UserPlus } from 'lucide-react';
 
 interface NetworkUser {
@@ -196,25 +197,32 @@ export default function JaringanPage() {
                           <div className="h-16 bg-gradient-to-r from-slate-800 via-blue-900 to-indigo-950"></div>
                           <button
                             onClick={() => handleDismiss(person.id)}
-                            className="absolute top-2 right-2 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-sm transition-colors"
+                            className="absolute top-2 right-2 p-1.5 bg-black/30 hover:bg-black/50 text-white rounded-full backdrop-blur-sm transition-colors z-10"
                             title="Abaikan saran"
                           >
                             <X className="w-3.5 h-3.5" />
                           </button>
-                          <img
-                            src={person.avatar}
-                            alt={person.name}
-                            className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 w-15 h-15 rounded-full border-3 border-white object-cover shadow-sm"
-                          />
+                          <Link
+                            to={`/user/${person.id}`}
+                            className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 block rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          >
+                            <img
+                              src={person.avatar}
+                              alt={person.name}
+                              className="w-15 h-15 rounded-full border-3 border-white object-cover shadow-sm hover:scale-105 transition-transform"
+                            />
+                          </Link>
                         </div>
 
                         {/* Card Body */}
                         <div className="pt-9 pb-3 px-3.5 text-center">
-                          <span className="inline-block px-2 py-0.5 mb-1.5 text-[10px] font-medium text-blue-700 bg-blue-50 border border-blue-100 rounded-full">
+                          <p className="text-[11px] font-medium text-slate-500 mb-1">
                             {person.category}
-                          </span>
-                          <h4 className="text-sm font-semibold text-slate-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer line-clamp-1">
-                            {person.name}
+                          </p>
+                          <h4 className="text-sm font-semibold text-slate-900 mb-1 hover:text-blue-600 transition-colors line-clamp-1">
+                            <Link to={`/user/${person.id}`}>
+                              {person.name}
+                            </Link>
                           </h4>
                           <p className="text-xs text-slate-600 mb-2 line-clamp-2 min-h-[32px] leading-relaxed">
                             {person.headline}

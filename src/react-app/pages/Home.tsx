@@ -1,6 +1,7 @@
 import ModernLayout from '@/react-app/components/ModernLayout';
 import { useState, useEffect } from 'react';
-import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe, Sparkles } from 'lucide-react';
+import { Link } from 'react-router';
+import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe } from 'lucide-react';
 import CreatePostModal from '@/react-app/components/CreatePostModal';
 import ShareModal from '@/react-app/components/ShareModal';
 import CommentModal from '@/react-app/components/CommentModal';
@@ -150,47 +151,47 @@ export default function Home() {
     <ModernLayout>
       <div className="space-y-2 pb-8">
 
-        {/* Post Composer - LinkedIn Style */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        {/* Post Composer */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
           {/* Main Input */}
-          <div className="p-4">
+          <div className="p-3.5 sm:p-4">
             <div className="flex items-center gap-3">
               <img
                 src={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
                 alt="Your avatar"
-                className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                className="w-10 h-10 rounded-full object-cover border border-slate-100 shadow-xs flex-shrink-0"
               />
               <button 
                 onClick={() => setShowPostModal(true)}
-                className="flex-1 px-5 py-3 text-left text-gray-600 border-2 border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all text-sm font-medium"
+                className="flex-1 px-4 py-2.5 text-left text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100/80 hover:border-slate-300 transition-all text-xs sm:text-sm font-medium"
               >
-                Mulai buat posting
+                Mulai buat posting atau bagikan karya budaya...
               </button>
             </div>
           </div>
 
           {/* Post Options */}
-          <div className="flex items-center px-2 py-2 border-t border-gray-200">
+          <div className="flex items-center px-3 py-2 border-t border-slate-100 bg-slate-50/50">
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group shadow-2xs"
             >
-              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
-              <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">Foto</span>
+              <ImageIcon className="w-4 h-4 text-blue-600 flex-shrink-0" />
+              <span className="text-xs font-medium text-slate-700 group-hover:text-blue-600 transition-colors">Foto Galeri</span>
             </button>
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group shadow-2xs"
             >
-              <VideoIcon className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
-              <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-green-600 transition-colors">Video</span>
+              <VideoIcon className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <span className="text-xs font-medium text-slate-700 group-hover:text-emerald-600 transition-colors">Rekaman Video</span>
             </button>
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-gray-100 rounded-lg transition-colors flex-1 justify-center group"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group shadow-2xs"
             >
-              <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 flex-shrink-0" />
-              <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-red-600 transition-colors">Artikel</span>
+              <FileText className="w-4 h-4 text-amber-600 flex-shrink-0" />
+              <span className="text-xs font-medium text-slate-700 group-hover:text-amber-600 transition-colors">Artikel Narasi</span>
             </button>
           </div>
         </div>
@@ -203,17 +204,17 @@ export default function Home() {
           userName={user?.name || 'User'}
         />
 
-        {/* Sort Bar - LinkedIn Style */}
-        <div className="border-b border-gray-300">
+        {/* Sort Bar */}
+        <div className="border-b border-slate-200/80 my-2">
           <div className="flex items-center justify-between px-2 py-1.5">
-            <span className="text-xs text-gray-500">Surut menurut:</span>
+            <span className="text-[11px] text-slate-400">Urutkan lini masa:</span>
             <div className="relative">
               <button
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
-                className="flex items-center gap-1 text-xs font-semibold text-gray-900 hover:bg-gray-100 px-2 py-1 rounded transition-colors"
+                className="flex items-center gap-1 text-xs font-semibold text-slate-800 hover:text-blue-600 px-2 py-1 rounded-lg transition-colors"
               >
                 <span>{sortBy === 'recent' ? 'Terpopuler' : 'Terbaru'}</span>
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-3 h-3 text-slate-400" />
               </button>
               {showSortDropdown && (
                 <>
@@ -221,14 +222,14 @@ export default function Home() {
                     className="fixed inset-0 z-10"
                     onClick={() => setShowSortDropdown(false)}
                   />
-                  <div className="absolute right-0 mt-1 w-40 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-20">
+                  <div className="absolute right-0 mt-1 w-36 bg-white rounded-xl shadow-xl border border-slate-200 py-1 z-20">
                     <button
                       onClick={() => {
                         setSortBy('recent');
                         setShowSortDropdown(false);
                       }}
-                      className={`w-full text-left px-3 py-2 text-xs hover:bg-gray-50 transition-colors ${
-                        sortBy === 'recent' ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                      className={`w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 transition-colors ${
+                        sortBy === 'recent' ? 'text-blue-600 font-semibold' : 'text-slate-700'
                       }`}
                     >
                       Terpopuler
@@ -238,8 +239,8 @@ export default function Home() {
                         setSortBy('top');
                         setShowSortDropdown(false);
                       }}
-                      className={`w-full text-left px-3 py-2 text-xs hover:bg-gray-50 transition-colors ${
-                        sortBy === 'top' ? 'text-blue-600 font-semibold' : 'text-gray-700'
+                      className={`w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 transition-colors ${
+                        sortBy === 'top' ? 'text-blue-600 font-semibold' : 'text-slate-700'
                       }`}
                     >
                       Terbaru
@@ -251,38 +252,44 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Feed Posts - LinkedIn Style */}
+        {/* Feed Posts */}
         {samplePosts.map((post) => (
-          <div key={post.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div key={post.id} className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
             {/* Post Header */}
-            <div className="p-2.5">
+            <div className="p-3.5 sm:p-4">
               <div className="flex items-start justify-between mb-2">
-                <div className="flex items-start gap-2">
-                  <img
-                    src={post.author.avatar}
-                    alt={post.author.name}
-                    className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                  />
+                <div className="flex items-start gap-2.5">
+                  <Link to={`/user/${post.id}`}>
+                    <img
+                      src={post.author.avatar}
+                      alt={post.author.name}
+                      className="w-10 h-10 rounded-full object-cover border border-slate-100 shadow-xs flex-shrink-0 hover:ring-2 hover:ring-blue-500 transition-all"
+                    />
+                  </Link>
                   <div>
-                    <h3 className="font-semibold text-gray-900 text-sm hover:text-blue-600 hover:underline cursor-pointer">{post.author.name}</h3>
-                    <p className="text-xs text-gray-500">{post.author.subtitle}</p>
-                    <p className="text-xs text-gray-400 flex items-center gap-1">
-                      {post.author.timestamp} • <Globe className="w-3 h-3 text-gray-400" />
+                    <h3 className="font-semibold text-slate-900 text-sm hover:text-blue-600 transition-colors">
+                      <Link to={`/user/${post.id}`}>
+                        {post.author.name}
+                      </Link>
+                    </h3>
+                    <p className="text-xs text-slate-500">{post.author.subtitle}</p>
+                    <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                      {post.author.timestamp} • <Globe className="w-3 h-3 text-slate-400" />
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button className="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
-                    <MoreHorizontal className="w-4 h-4 text-gray-600" />
+                  <button className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
+                    <MoreHorizontal className="w-4 h-4" />
                   </button>
-                  <button className="p-1.5 hover:bg-gray-100 rounded-full transition-colors">
-                    <X className="w-4 h-4 text-gray-600" />
+                  <button className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
               {/* Post Content */}
-              <p className="text-gray-900 text-sm leading-relaxed">{post.content}</p>
+              <p className="text-slate-800 text-sm leading-relaxed">{post.content}</p>
             </div>
 
             {/* Post Image */}
@@ -295,69 +302,60 @@ export default function Home() {
             )}
 
             {/* Post Stats */}
-            <div className="px-3 py-2">
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <button className="flex items-center gap-1 hover:text-blue-600 transition-colors">
+            <div className="px-4 py-2 border-b border-slate-100">
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <button className="flex items-center gap-1.5 hover:text-blue-600 transition-colors">
                   <div className="flex items-center -space-x-1">
-                    <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center border border-white">
-                      <svg className="w-2.5 h-2.5 fill-white" viewBox="0 0 16 16">
-                        <path d="M2 8l4 4 8-8-1.5-1.5L6 9 3.5 6.5z"/>
-                      </svg>
-                    </div>
-                    <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center border border-white">
+                    <div className="w-4 h-4 bg-rose-500 rounded-full flex items-center justify-center border border-white">
                       <Heart className="w-2.5 h-2.5 fill-white text-white" />
                     </div>
-                    <div className="w-4 h-4 bg-amber-500 rounded-full flex items-center justify-center border border-white">
-                      <Sparkles className="w-2.5 h-2.5 text-white" />
-                    </div>
                   </div>
-                  <span className="ml-1">{postLikes[post.id]?.count >= 1000 ? `${(postLikes[post.id]?.count/1000).toFixed(1)}rb` : postLikes[post.id]?.count}</span>
+                  <span className="text-[11px] text-slate-600 font-medium ml-1">
+                    {postLikes[post.id]?.count >= 1000 ? `${(postLikes[post.id]?.count/1000).toFixed(1)}rb` : postLikes[post.id]?.count} apresiasi
+                  </span>
                 </button>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-[11px] text-slate-400">
                   <button onClick={() => handleComment(post)} className="hover:text-blue-600 transition-colors">
-                    {post.comments} komentar
+                    {post.comments} tanggapan
                   </button>
                   <span>•</span>
                   <button onClick={() => handleShare(post)} className="hover:text-blue-600 transition-colors">
-                    {post.bookmarks} kali dibagikan
+                    {post.bookmarks} dibagikan
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="border-t border-gray-200"></div>
-
-            {/* Post Actions - LinkedIn Style */}
-            <div className="px-1 py-1">
+            {/* Post Actions */}
+            <div className="px-2 py-1 bg-slate-50/50">
               <div className="flex items-center">
                 <button 
                   onClick={() => handleLike(post.id)}
-                  className={`flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group ${postLikes[post.id]?.liked ? 'text-red-500' : ''}`}
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group ${postLikes[post.id]?.liked ? 'text-rose-600' : 'text-slate-600'}`}
                 >
-                  <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${postLikes[post.id]?.liked ? 'fill-red-500 text-red-500' : 'text-gray-600 group-hover:text-red-500'}`} />
-                  <span className={`text-[11px] sm:text-xs font-semibold ${postLikes[post.id]?.liked ? 'text-red-500' : 'text-gray-600 group-hover:text-red-500'}`}>Suka</span>
+                  <Heart className={`w-4 h-4 transition-transform group-hover:scale-110 ${postLikes[post.id]?.liked ? 'fill-rose-500 text-rose-500' : 'group-hover:text-rose-600'}`} />
+                  <span className="text-xs font-semibold">Suka</span>
                 </button>
                 <button 
                   onClick={() => handleComment(post)}
-                  className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group text-slate-600 hover:text-blue-600"
                 >
-                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                  <span className="text-[11px] sm:text-xs font-semibold text-gray-600 group-hover:text-blue-600">Komen</span>
+                  <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-semibold">Tanggapi</span>
                 </button>
                 <button 
                   onClick={() => handleShare(post)}
-                  className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group text-slate-600 hover:text-emerald-600"
                 >
-                  <Send className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-green-600 transition-colors" />
-                  <span className="text-[11px] sm:text-xs font-semibold text-gray-600 group-hover:text-green-600">Bagikan</span>
+                  <Send className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <span className="text-xs font-semibold">Bagikan</span>
                 </button>
                 <button 
                   onClick={() => handleSave(post)}
-                  className={`flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1.5 hover:bg-gray-100 rounded transition-colors flex-1 justify-center group ${savedPostIds.has(post.id) ? 'text-yellow-600' : ''}`}
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group ${savedPostIds.has(post.id) ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}
                 >
-                  <Bookmark className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${savedPostIds.has(post.id) ? 'fill-yellow-600 text-yellow-600' : 'text-gray-600 group-hover:text-yellow-600'}`} />
-                  <span className={`text-[11px] sm:text-xs font-semibold ${savedPostIds.has(post.id) ? 'text-yellow-600' : 'text-gray-600 group-hover:text-yellow-600'}`}>Simpan</span>
+                  <Bookmark className={`w-4 h-4 group-hover:scale-110 transition-transform ${savedPostIds.has(post.id) ? 'fill-amber-500 text-amber-500' : ''}`} />
+                  <span className="text-xs font-semibold">Simpan</span>
                 </button>
               </div>
             </div>

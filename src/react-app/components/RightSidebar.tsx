@@ -163,24 +163,19 @@ export default function RightSidebar() {
           })}
         </div>
       </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Community Call to Action - Simple Style */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-3 py-3">
-          <h4 className="font-semibold text-gray-900 text-sm mb-2">Lestarikan Budaya Bersama</h4>
-          <p className="text-xs text-gray-600 leading-relaxed mb-3">
-            Bergabunglah dalam misi melestarikan warisan budaya Indonesia
-          </p>
-          <Link
-            to="/komunitas"
-            className="block w-full text-center px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Gabung Sekarang
-          </Link>
-        </div>
+      {/* Community Call to Action */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4">
+        <h4 className="font-semibold text-slate-900 text-xs tracking-tight mb-1.5">Lestarikan Budaya Bersama</h4>
+        <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
+          Bergabunglah dalam jejaring dan aksi pelestarian karya budaya Nusantara.
+        </p>
+        <Link
+          to="/komunitas"
+          className="block w-full text-center px-4 py-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors shadow-xs active:scale-[0.98]"
+        >
+          Gabung Komunitas
+        </Link>
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ export default function PostCard({ author, content, image }: PostCardProps) {
           <div>
             <div className="flex items-center gap-2">
               <h4 className="font-semibold text-slate-900 text-sm">{author.name}</h4>
-              <span className="text-[11px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">{author.role}</span>
+              <span className="text-xs text-slate-500">• {author.role}</span>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-0.5">
               <span>{author.location}</span>

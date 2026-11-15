@@ -309,34 +309,50 @@ export default function Edukasi() {
             </div>
 
             {/* Quiz Section */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Kuis Budaya</h2>
-                <button className="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center gap-1">
-                  Lihat Semua <ChevronRight className="w-4 h-4" />
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/90">
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">Kuis Budaya Nusantara</h2>
+                  <p className="text-xs text-slate-500 mt-0.5">Uji dan pertajam wawasan adat & kesenian daerah</p>
+                </div>
+                <button className="text-blue-600 hover:text-blue-700 text-xs font-semibold flex items-center gap-1">
+                  Lihat Semua <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {quizData.map((quiz) => (
-                  <div key={quiz.id} className="relative group bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl p-6 text-white overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                    <div className="absolute top-0 right-0 text-6xl opacity-10">{quiz.icon}</div>
-                    <h3 className="font-bold text-lg mb-3 relative z-10">{quiz.title}</h3>
-                    <div className="space-y-2 text-sm mb-4 relative z-10">
-                      <div className="flex items-center gap-2">
-                        <HelpCircle className="w-4 h-4" />
-                        <span>{quiz.questions} pertanyaan</span>
+                  <div 
+                    key={quiz.id} 
+                    className="relative group bg-slate-900 rounded-2xl p-5 text-white overflow-hidden shadow-sm hover:shadow-md transition-all border border-slate-800 flex flex-col justify-between"
+                  >
+                    {/* Subtle decorative motif behind text */}
+                    <div className="absolute -right-4 -bottom-4 text-7xl opacity-5 select-none pointer-events-none">
+                      {quiz.icon}
+                    </div>
+
+                    <div className="relative z-10 mb-4">
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="px-2 py-0.5 bg-slate-800 text-slate-300 rounded-full text-[10px] font-medium border border-slate-700">
+                          {quiz.difficulty}
+                        </span>
+                        <div className="flex items-center gap-1 text-[11px] text-slate-400">
+                          <Timer className="w-3.5 h-3.5" />
+                          <span>{quiz.duration}</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Timer className="w-4 h-4" />
-                        <span>{quiz.duration}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Trophy className="w-4 h-4" />
-                        <span className="px-2 py-0.5 bg-white/20 rounded-full text-xs">{quiz.difficulty}</span>
+
+                      <h3 className="font-semibold text-white text-sm mb-1.5 leading-snug">
+                        {quiz.title}
+                      </h3>
+
+                      <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                        <HelpCircle className="w-3.5 h-3.5 text-blue-400" />
+                        <span>{quiz.questions} pertanyaan interaktif</span>
                       </div>
                     </div>
-                    <button className="relative z-10 w-full bg-white text-blue-600 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+
+                    <button className="relative z-10 w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-xl text-xs font-semibold transition-all active:scale-[0.98] shadow-xs">
                       Mulai Kuis
                     </button>
                   </div>

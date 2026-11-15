@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { TrendingUp, Users, Grid3x3, FileText, Calendar, Crown } from 'lucide-react';
+import { TrendingUp, Users, Grid3x3, FileText, Calendar } from 'lucide-react';
 
 interface DemoUser {
   id: string;
@@ -53,12 +53,9 @@ export default function ProfileSidebar() {
               {user?.name || 'Kreator RuangBudaya'}
             </h3>
           </Link>
-          <p className="text-xs text-slate-600 mt-0.5 px-3 leading-relaxed">
+          <p className="text-xs text-slate-500 mt-0.5 px-3 leading-relaxed">
             Pegiat & Kreator Budaya Nusantara
           </p>
-          <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-medium text-blue-700 bg-blue-50 rounded-full border border-blue-100">
-            Anggota Terverifikasi
-          </span>
         </div>
 
         {/* Divider */}

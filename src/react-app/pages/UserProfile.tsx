@@ -1,154 +1,96 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router';
+import { useParams, Link, useNavigate } from 'react-router';
 import {
   MapPin, Calendar, Link as LinkIcon, Mail, Phone, Briefcase,
-  Award, Users, Image as ImageIcon, FileText, Heart, MessageCircle,
-  UserPlus, Send, MoreVertical, ArrowLeft
+  Award, Image as ImageIcon, FileText, Heart, MessageCircle,
+  UserPlus, Send, ArrowLeft, Check, Sparkles, Share2, ShieldCheck, ChevronRight
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
-
-// Mock user data - dalam implementasi nyata, data ini akan dari API
-const getUserData = (userId: string) => {
-  const users: Record<string, any> = {
-    '1': {
-      id: '1',
-      name: 'Dewi Lestari',
-      username: '@dewilestari',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
-      cover: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=1200&h=300&fit=crop',
-      bio: 'Pengrajin batik tulis dari Solo. Melestarikan warisan budaya Indonesia melalui karya seni batik. 🎨',
-      location: 'Solo, Jawa Tengah',
-      website: 'batikdewi.com',
-      email: 'dewi@batikdewi.com',
-      phone: '+62 812-3456-7890',
-      profession: 'Pengrajin Batik',
-      joinedDate: 'Bergabung Maret 2023',
-      verified: true,
-      followers: 2450,
-      following: 892,
-      posts: 145,
-      isFollowing: false,
-      posts_list: [
-        {
-          id: 1,
-          type: 'image',
-          image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=600&h=600&fit=crop',
-          likes: 234,
-          comments: 45
-        },
-        {
-          id: 2,
-          type: 'image',
-          image: 'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=600&h=600&fit=crop',
-          likes: 189,
-          comments: 32
-        },
-        {
-          id: 3,
-          type: 'image',
-          image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&h=600&fit=crop',
-          likes: 312,
-          comments: 56
-        }
-      ]
-    },
-    '2': {
-      id: '2',
-      name: 'Budi Santoso',
-      username: '@budisantoso',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
-      cover: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=1200&h=300&fit=crop',
-      bio: 'Pengukir kayu Jepara. Membawa tradisi ukiran klasik ke era modern.',
-      location: 'Jepara, Jawa Tengah',
-      website: 'ukiranjepara.com',
-      email: 'budi@ukiranjepara.com',
-      phone: '+62 813-4567-8901',
-      profession: 'Pengukir Kayu',
-      joinedDate: 'Bergabung Januari 2023',
-      verified: true,
-      followers: 1890,
-      following: 543,
-      posts: 98,
-      isFollowing: false,
-      posts_list: [
-        {
-          id: 1,
-          type: 'image',
-          image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=600&h=600&fit=crop',
-          likes: 178,
-          comments: 28
-        },
-        {
-          id: 2,
-          type: 'image',
-          image: 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=600&h=600&fit=crop',
-          likes: 245,
-          comments: 41
-        }
-      ]
-    },
-    '3': {
-      id: '3',
-      name: 'Siti Nurhaliza',
-      username: '@sitinurhaliza',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop',
-      cover: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=1200&h=300&fit=crop',
-      bio: 'Penenun songket Palembang. Melestarikan seni tenun tradisional Indonesia.',
-      location: 'Palembang, Sumatera Selatan',
-      website: 'songketsiti.com',
-      email: 'siti@songketsiti.com',
-      phone: '+62 814-5678-9012',
-      profession: 'Penenun Songket',
-      joinedDate: 'Bergabung Mei 2023',
-      verified: false,
-      followers: 1234,
-      following: 678,
-      posts: 67,
-      isFollowing: false,
-      posts_list: [
-        {
-          id: 1,
-          type: 'image',
-          image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&h=600&fit=crop',
-          likes: 156,
-          comments: 23
-        }
-      ]
-    }
-  };
-
-  return users[userId] || null;
-};
+import { usersDatabase, UserProfileData } from '@/react-app/data/usersDatabase';
 
 export default function UserProfile() {
   const { userId } = useParams<{ userId: string }>();
-  const [userData, setUserData] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState<'posts' | 'about'>('posts');
-  const [isFollowing, setIsFollowing] = useState(false);
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState<UserProfileData | null>(null);
+  const [activeTab, setActiveTab] = useState<'posts' | 'about' | 'experience'>('posts');
+  const [isConnected, setIsConnected] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     if (userId) {
-      const data = getUserData(userId);
-      setUserData(data);
-      setIsFollowing(data?.isFollowing || false);
+      const data = usersDatabase[userId];
+      if (data) {
+        setUserData(data);
+      } else {
+        // Fallback dummy jika ID arbitrary
+        setUserData({
+          id: userId,
+          name: `Penggiat Budaya #${userId}`,
+          username: `@user_${userId}`,
+          avatar: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop`,
+          cover: `https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=400&fit=crop`,
+          headline: 'Pecinta & Pelestari Seni Budaya Nusantara',
+          category: 'Kesenian Tradisi',
+          profession: 'Pelestari Warisan Budaya',
+          bio: 'Aktif berkontribusi dalam pemajuan kebudayaan daerah, festival seni, dan jejaring komunitas nusantara.',
+          location: 'Indonesia',
+          joinedDate: 'Bergabung 2024',
+          verified: false,
+          followers: 120,
+          following: 85,
+          posts: 12,
+          culturalFocus: ['Seni Tari', 'Musik Etnik', 'Kriya Nusantara'],
+          achievements: [
+            {
+              title: 'Partisipan Festival Budaya Nusantara',
+              organization: 'Komunitas Seni Tradisi',
+              year: '2024'
+            }
+          ],
+          experience: [
+            {
+              role: 'Anggota Aktif',
+              organization: 'Jejaring Budaya Nusantara',
+              period: '2023 - Sekarang',
+              description: 'Terlibat aktif dalam berbagai pementasan dan diskusi pelestarian nilai tradisi.'
+            }
+          ],
+          posts_list: [
+            {
+              id: 991,
+              title: 'Semangat Menjaga Warisan Leluhur',
+              content: 'Setiap gerakan dan simfoni memiliki makna mendalam yang memperkaya identitas bangsa.',
+              image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop',
+              likes: 45,
+              comments: 7,
+              timestamp: 'Kemarin'
+            }
+          ]
+        });
+      }
     }
   }, [userId]);
 
+  const handleCopyProfile = () => {
+    navigator.clipboard?.writeText(window.location.href);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
+
   if (!userData) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-slate-50">
         <TopNavbar />
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="text-6xl mb-4">😔</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Pengguna Tidak Ditemukan</h2>
-            <p className="text-gray-600 mb-6">Profil yang Anda cari tidak tersedia.</p>
+        <div className="flex items-center justify-center h-[80vh]">
+          <div className="text-center p-8 bg-white border border-slate-200 rounded-2xl max-w-sm mx-auto shadow-sm">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Profil Tidak Ditemukan</h2>
+            <p className="text-xs text-slate-500 mb-5">Pengguna yang Anda cari mungkin telah dinonaktifkan atau tautan salah.</p>
             <Link
-              to="/"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              to="/jaringan"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-blue-600 transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              Kembali ke Beranda
+              <ArrowLeft className="w-4 h-4" />
+              Kembali ke Jaringan
             </Link>
           </div>
         </div>
@@ -156,231 +98,339 @@ export default function UserProfile() {
     );
   }
 
-  const handleFollowToggle = () => {
-    setIsFollowing(!isFollowing);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <TopNavbar />
 
-      <div className="pt-16">
-        {/* Cover Image */}
-        <div className="relative h-64 md:h-80 bg-gradient-to-r from-blue-600 to-indigo-600 overflow-hidden">
-          <img
-            src={userData.cover}
-            alt="Cover"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-        </div>
+      <main className="pt-16 pb-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          {/* Back Navigation Bar */}
+          <div className="py-3 flex items-center justify-between text-xs text-slate-500">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-1.5 font-medium text-slate-700 hover:text-blue-600 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Kembali
+            </button>
+            <div className="flex items-center gap-1 text-[11px] text-slate-400">
+              <Link to="/jaringan" className="hover:text-slate-600">Jaringan</Link>
+              <ChevronRight className="w-3 h-3" />
+              <span className="text-slate-700 font-medium truncate max-w-[140px]">{userData.name}</span>
+            </div>
+          </div>
 
-        <div className="max-w-5xl mx-auto px-4 -mt-16 md:-mt-20 pb-8">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-            {/* Profile Header */}
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col md:flex-row gap-6">
-                {/* Avatar */}
-                <div className="relative">
+          {/* Profile Card Container */}
+          <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden mb-6">
+            {/* Cover Header */}
+            <div className="relative h-44 sm:h-56 bg-slate-800 overflow-hidden">
+              <img
+                src={userData.cover}
+                alt="Sampul Profil"
+                className="w-full h-full object-cover opacity-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <button
+                  onClick={handleCopyProfile}
+                  className="px-3 py-1.5 bg-black/40 hover:bg-black/60 text-white rounded-xl text-xs font-medium backdrop-blur-md transition-colors flex items-center gap-1.5 border border-white/10"
+                >
+                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
+                  {copiedLink ? 'Tersalin' : 'Bagikan'}
+                </button>
+              </div>
+            </div>
+
+            {/* Profile Intro & Avatar */}
+            <div className="px-5 sm:px-8 pb-6">
+              <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 -mt-14 sm:-mt-16 mb-5">
+                <div className="relative w-28 h-28 sm:w-32 sm:h-32">
                   <img
                     src={userData.avatar}
                     alt={userData.name}
-                    className="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-4 border-white shadow-xl"
+                    className="w-full h-full rounded-2xl object-cover border-4 border-white shadow-md bg-white"
                   />
                   {userData.verified && (
-                    <div className="absolute bottom-2 right-2 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center border-2 border-white">
-                      <Award className="w-5 h-5 text-white" />
+                    <div
+                      title="Pelestari Budaya Terverifikasi"
+                      className="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-600 text-white rounded-lg flex items-center justify-center border-2 border-white shadow-sm"
+                    >
+                      <ShieldCheck className="w-4 h-4" />
                     </div>
                   )}
                 </div>
 
-                {/* Profile Info */}
-                <div className="flex-1">
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                    <div>
-                      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
-                        {userData.name}
-                      </h1>
-                      <p className="text-gray-600 mb-2">{userData.username}</p>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Briefcase className="w-4 h-4" />
-                        <span>{userData.profession}</span>
-                      </div>
-                    </div>
+                {/* Primary Action Buttons */}
+                <div className="flex items-center gap-2.5">
+                  <button
+                    onClick={() => setIsConnected(!isConnected)}
+                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all active:scale-[0.98] ${
+                      isConnected
+                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                        : 'bg-slate-900 hover:bg-blue-600 text-white shadow-sm'
+                    }`}
+                  >
+                    {isConnected ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-blue-600" />
+                        Terhubung
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus className="w-3.5 h-3.5" />
+                        Hubungkan
+                      </>
+                    )}
+                  </button>
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={handleFollowToggle}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold transition-all ${
-                          isFollowing
-                            ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                            : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-md'
-                        }`}
+                  <Link
+                    to="/pesan"
+                    className="flex items-center gap-1.5 px-4 py-2.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
+                  >
+                    <Send className="w-3.5 h-3.5 text-slate-500" />
+                    Kirim Pesan
+                  </Link>
+                </div>
+              </div>
+
+              {/* Bio & Details */}
+              <div className="space-y-3">
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-1">
+                    {userData.name}
+                  </h1>
+                  <p className="text-xs text-slate-500 font-medium">
+                    {userData.username} • {userData.profession} • <span className="text-slate-700 font-semibold">{userData.category}</span>
+                  </p>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed max-w-3xl">
+                  {userData.bio}
+                </p>
+
+                {/* Metas: Lokasi, Website, Tanggal */}
+                <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 pt-1 border-t border-slate-100">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                    <span>{userData.location}</span>
+                  </div>
+                  {userData.website && (
+                    <div className="flex items-center gap-1.5">
+                      <LinkIcon className="w-3.5 h-3.5 text-slate-400" />
+                      <a
+                        href={`https://${userData.website}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-600 hover:underline"
                       >
-                        {isFollowing ? (
-                          <>
-                            <Users className="w-4 h-4" />
-                            Mengikuti
-                          </>
-                        ) : (
-                          <>
-                            <UserPlus className="w-4 h-4" />
-                            Ikuti
-                          </>
-                        )}
-                      </button>
-                      <button className="p-2.5 border-2 border-gray-300 rounded-xl hover:bg-blue-50 hover:border-blue-600 transition-all">
-                        <Send className="w-5 h-5 text-gray-700" />
-                      </button>
-                      <button className="p-2.5 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition-all">
-                        <MoreVertical className="w-5 h-5 text-gray-700" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Bio */}
-                  <p className="text-gray-700 mb-4 leading-relaxed">{userData.bio}</p>
-
-                  {/* Stats */}
-                  <div className="flex flex-wrap gap-6 mb-4">
-                    <div>
-                      <span className="font-bold text-gray-900">{userData.posts}</span>
-                      <span className="text-gray-600 text-sm ml-1">Postingan</span>
-                    </div>
-                    <div>
-                      <span className="font-bold text-gray-900">{userData.followers.toLocaleString()}</span>
-                      <span className="text-gray-600 text-sm ml-1">Pengikut</span>
-                    </div>
-                    <div>
-                      <span className="font-bold text-gray-900">{userData.following.toLocaleString()}</span>
-                      <span className="text-gray-600 text-sm ml-1">Mengikuti</span>
-                    </div>
-                  </div>
-
-                  {/* Additional Info */}
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4" />
-                      <span>{userData.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <LinkIcon className="w-4 h-4" />
-                      <a href={`https://${userData.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                         {userData.website}
                       </a>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>{userData.joinedDate}</span>
-                    </div>
+                  )}
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                    <span>{userData.joinedDate}</span>
+                  </div>
+                </div>
+
+                {/* Statistics Pills */}
+                <div className="flex items-center gap-6 pt-3">
+                  <div>
+                    <span className="text-sm font-bold text-slate-900">{userData.posts}</span>
+                    <span className="text-xs text-slate-500 ml-1.5">Karya</span>
+                  </div>
+                  <div className="h-3 w-px bg-slate-200" />
+                  <div>
+                    <span className="text-sm font-bold text-slate-900">{userData.followers.toLocaleString('id-ID')}</span>
+                    <span className="text-xs text-slate-500 ml-1.5">Pengikut</span>
+                  </div>
+                  <div className="h-3 w-px bg-slate-200" />
+                  <div>
+                    <span className="text-sm font-bold text-slate-900">{userData.following.toLocaleString('id-ID')}</span>
+                    <span className="text-xs text-slate-500 ml-1.5">Koneksi</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="border-t border-gray-200">
-              <div className="flex">
+            {/* Navigation Tabs */}
+            <div className="border-t border-slate-100 px-5 sm:px-8 bg-slate-50/50">
+              <div className="flex gap-6 overflow-x-auto">
                 <button
                   onClick={() => setActiveTab('posts')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-colors border-b-2 ${
+                  className={`py-3.5 text-xs font-semibold flex items-center gap-1.5 border-b-2 transition-colors whitespace-nowrap ${
                     activeTab === 'posts'
-                      ? 'border-blue-600 text-blue-600 bg-blue-50'
-                      : 'border-transparent text-gray-600 hover:bg-gray-50'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-800'
                   }`}
                 >
-                  <ImageIcon className="w-5 h-5" />
-                  Postingan
+                  <ImageIcon className="w-3.5 h-3.5" />
+                  Karya & Postingan ({userData.posts_list.length})
                 </button>
                 <button
                   onClick={() => setActiveTab('about')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-semibold transition-colors border-b-2 ${
+                  className={`py-3.5 text-xs font-semibold flex items-center gap-1.5 border-b-2 transition-colors whitespace-nowrap ${
                     activeTab === 'about'
-                      ? 'border-blue-600 text-blue-600 bg-blue-50'
-                      : 'border-transparent text-gray-600 hover:bg-gray-50'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-800'
                   }`}
                 >
-                  <FileText className="w-5 h-5" />
-                  Tentang
+                  <FileText className="w-3.5 h-3.5" />
+                  Tentang & Keahlian
+                </button>
+                <button
+                  onClick={() => setActiveTab('experience')}
+                  className={`py-3.5 text-xs font-semibold flex items-center gap-1.5 border-b-2 transition-colors whitespace-nowrap ${
+                    activeTab === 'experience'
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-800'
+                  }`}
+                >
+                  <Briefcase className="w-3.5 h-3.5" />
+                  Dedikasi & Riwayat
                 </button>
               </div>
             </div>
+          </div>
 
-            {/* Tab Content */}
-            <div className="p-6 md:p-8">
-              {activeTab === 'posts' ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {userData.posts_list.map((post: any) => (
-                    <div
-                      key={post.id}
-                      className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer"
-                    >
-                      <img
-                        src={post.image}
-                        alt="Post"
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100">
-                        <div className="flex items-center gap-2 text-white font-semibold">
-                          <Heart className="w-5 h-5" />
-                          <span>{post.likes}</span>
+          {/* Tab Content Display */}
+          {activeTab === 'posts' && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {userData.posts_list.map((post) => (
+                  <article
+                    key={post.id}
+                    className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden hover:border-slate-300 transition-all shadow-sm flex flex-col justify-between"
+                  >
+                    <div>
+                      {post.image && (
+                        <div className="h-48 overflow-hidden bg-slate-100">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-full object-cover hover:scale-102 transition-transform duration-300"
+                          />
                         </div>
-                        <div className="flex items-center gap-2 text-white font-semibold">
-                          <MessageCircle className="w-5 h-5" />
-                          <span>{post.comments}</span>
-                        </div>
+                      )}
+                      <div className="p-4">
+                        <div className="text-[11px] text-slate-400 mb-1.5">{post.timestamp}</div>
+                        <h3 className="font-semibold text-slate-900 text-sm mb-1.5 leading-snug">
+                          {post.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                          {post.content}
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {/* Contact Info */}
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">Informasi Kontak</h3>
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3 text-gray-700">
-                        <Mail className="w-5 h-5 text-blue-600" />
-                        <span>{userData.email}</span>
+
+                    <div className="px-4 py-3 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                      <div className="flex items-center gap-4">
+                        <span className="flex items-center gap-1 hover:text-red-500 cursor-pointer transition-colors">
+                          <Heart className="w-3.5 h-3.5" />
+                          {post.likes}
+                        </span>
+                        <span className="flex items-center gap-1 hover:text-blue-600 cursor-pointer transition-colors">
+                          <MessageCircle className="w-3.5 h-3.5" />
+                          {post.comments}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-3 text-gray-700">
-                        <Phone className="w-5 h-5 text-blue-600" />
+                      <span className="text-[10px] text-slate-400">Warisan Budaya</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'about' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Left Column: Fokus Budaya */}
+              <div className="md:col-span-2 space-y-5">
+                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
+                  <h3 className="font-semibold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-blue-600" />
+                    Fokus & Keahlian Budaya
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {userData.culturalFocus.map((focus, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 text-xs font-medium text-slate-700 bg-slate-100 rounded-lg border border-slate-200/80"
+                      >
+                        {focus}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
+                  <h3 className="font-semibold text-sm text-slate-900 mb-3 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-amber-500" />
+                    Penghargaan & Pengakuan Adat
+                  </h3>
+                  <div className="space-y-3">
+                    {userData.achievements.map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-3 pb-3 border-b border-slate-100 last:border-0 last:pb-0">
+                        <div className="w-2 h-2 rounded-full bg-blue-600 mt-1.5 shrink-0" />
+                        <div>
+                          <h4 className="text-xs font-semibold text-slate-900">{item.title}</h4>
+                          <p className="text-[11px] text-slate-500">{item.organization} • {item.year}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Kontak Langsung */}
+              <div className="space-y-4">
+                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
+                  <h3 className="font-semibold text-sm text-slate-900 mb-3">Informasi Kontak</h3>
+                  <div className="space-y-2.5 text-xs text-slate-600">
+                    {userData.email && (
+                      <div className="flex items-center gap-2">
+                        <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span className="truncate">{userData.email}</span>
+                      </div>
+                    )}
+                    {userData.phone && (
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         <span>{userData.phone}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-gray-700">
-                        <MapPin className="w-5 h-5 text-blue-600" />
-                        <span>{userData.location}</span>
-                      </div>
-                      <div className="flex items-center gap-3 text-gray-700">
-                        <LinkIcon className="w-5 h-5 text-blue-600" />
-                        <a href={`https://${userData.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                          {userData.website}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bio */}
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">Tentang</h3>
-                    <p className="text-gray-700 leading-relaxed">{userData.bio}</p>
-                  </div>
-
-                  {/* Join Date */}
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">Bergabung</h3>
-                    <div className="flex items-center gap-2 text-gray-700">
-                      <Calendar className="w-5 h-5 text-blue-600" />
-                      <span>{userData.joinedDate}</span>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span>{userData.location}</span>
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
-          </div>
+          )}
+
+          {activeTab === 'experience' && (
+            <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm">
+              <h3 className="font-semibold text-sm text-slate-900 mb-5 flex items-center gap-2">
+                <Briefcase className="w-4 h-4 text-blue-600" />
+                Dedikasi Komunitas & Riwayat Pelestarian
+              </h3>
+              <div className="space-y-6">
+                {userData.experience.map((exp, idx) => (
+                  <div key={idx} className="relative pl-6 pb-6 border-l-2 border-slate-200 last:border-0 last:pb-0">
+                    <div className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-blue-600" />
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-900">{exp.role}</h4>
+                      <p className="text-xs font-medium text-blue-600 mb-1">{exp.organization} • {exp.period}</p>
+                      <p className="text-xs text-slate-600 leading-relaxed">{exp.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
