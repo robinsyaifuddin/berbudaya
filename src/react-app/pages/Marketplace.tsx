@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import {
-  Menu,
   Search,
   ShoppingCart,
   Star,
@@ -21,7 +20,6 @@ import {
   Apple,
   Car,
   Briefcase,
-  Grid,
   Award,
   Check
 } from 'lucide-react';
