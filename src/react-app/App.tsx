@@ -30,13 +30,15 @@ import PuzzleBudayaPage from "@/react-app/pages/games/PuzzleBudayaPage";
 import TebakDaerahPage from "@/react-app/pages/games/TebakDaerahPage";
 import SavedPostsPage from "@/react-app/pages/SavedPosts";
 import UserProfilePage from "@/react-app/pages/UserProfile";
+import ErrorBoundary from "@/react-app/components/ErrorBoundary";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <Routes>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <Routes>
           {/* Public Routes - No Authentication Required */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/landing" element={<LandingPage />} />
@@ -174,5 +176,6 @@ export default function App() {
         </Router>
       </CartProvider>
     </AuthProvider>
+  </ErrorBoundary>
   );
 }

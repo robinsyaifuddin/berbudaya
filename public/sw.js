@@ -1,17 +1,7 @@
-const CACHE_NAME = 'ruangbudaya-v1';
-const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/logo.png'
-];
+// Versi cache dinaikkan untuk membersihkan stale cache lama yang menyebabkan blank page
+const CACHE_NAME = 'ruangbudaya-v2';
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
@@ -19,7 +9,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys.map((key) => caches.delete(key))
       );
     })
   );
@@ -27,20 +17,31 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Hanya tangani GET request
-  if (event.request.method !== 'GET') return;
+  // Hanya tangani GET request dengan skema http/https
+  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) return;
 
+  // Network first untuk file HTML/halaman agar selalu mendapatkan versi bundle terbaru
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('/index.html'))
+    );
+    return;
+  }
+
+  // Stale-while-revalidate untuk aset statis lainnya
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).catch(() => {
-        // Fallback jika offline
-        if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
         }
-      });
+        return networkResponse;
+      }).catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
     })
   );
 });
