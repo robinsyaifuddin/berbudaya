@@ -15,7 +15,7 @@ function LandingNavbar({ searchValue, onSearchChange, onLoginClick }: LandingNav
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-3 sm:gap-4">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <img src="/logo.png" alt="RuangBudaya" className="h-8 sm:h-9 w-auto object-contain" />
-          <span className="text-base sm:text-lg font-semibold text-gray-900 tracking-tight">RuangBudaya</span>
+          <span className="hidden sm:inline text-base sm:text-lg font-semibold text-gray-900 tracking-tight">RuangBudaya</span>
         </Link>
         <div className="flex-1 max-w-md relative hidden sm:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
