@@ -1,4 +1,4 @@
-import { Home, Users, Calendar, BookOpen, ShoppingBag, Briefcase, MessageSquare, User, Settings, HelpCircle, LogOut } from 'lucide-react';
+﻿import { Home, Users, Calendar, BookOpen, ShoppingBag, Briefcase, MessageSquare, User, Settings, HelpCircle, LogOut } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 
@@ -66,7 +66,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
         <div className="lg:hidden p-4 border-b border-gray">
           <img 
             src="/logo.png" 
-            alt="RuangBudaya" 
+            alt="Berbudaya" 
             className="h-10 w-auto object-contain"
           />
         </div>
@@ -132,7 +132,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
         {/* Footer */}
         <div className="p-4 mt-auto text-center text-xs text-tertiary border-t border-gray">
-          <p> 2025 RuangBudaya.id</p>
+          <p> 2025 Berbudaya.id</p>
           <div className="flex justify-center gap-4 mt-2">
             <Link to="/bantuan" className="text-tertiary hover:text-secondary">
               Bantuan

@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from "react";
+﻿import { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;
@@ -48,7 +48,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                     JSON.stringify({
                       id: 'demo-123',
                       name: 'official.rbnsyaf',
-                      email: 'user@ruangbudaya.id',
+                      email: 'user@Berbudaya.id',
                       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop',
                       loginTime: new Date().toISOString()
                     })

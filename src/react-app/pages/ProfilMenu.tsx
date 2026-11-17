@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { Link } from 'react-router';
 import { 
@@ -251,7 +251,7 @@ export default function ProfilMenuPage() {
                   </button>
                 </Link>
               </div>
-              <p className="text-gray-600 mt-2">Semua postingan dan aktivitas Anda di RuangBudaya</p>
+              <p className="text-gray-600 mt-2">Semua postingan dan aktivitas Anda di Berbudaya</p>
             </div>
 
             {/* Posts List */}

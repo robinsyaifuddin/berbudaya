@@ -1,8 +1,8 @@
-# 🔐 Panduan Autentikasi RuangBudaya.id
+﻿# 🔐 Panduan Autentikasi Berbudaya.id
 
 ## 📋 Ringkasan
 
-Web RuangBudaya.id sekarang dilengkapi dengan sistem autentikasi lengkap yang meliputi:
+Web Berbudaya.id sekarang dilengkapi dengan sistem autentikasi lengkap yang meliputi:
 - Halaman landing pembuka
 - Login dengan email/password
 - Pendaftaran akun baru
@@ -163,6 +163,6 @@ Jika ada masalah:
 
 ## 🎉 Selamat!
 
-Sistem autentikasi RuangBudaya.id sudah siap digunakan! 
+Sistem autentikasi Berbudaya.id sudah siap digunakan! 
 
 Akses web Anda dan mulai berkreasi! 🚀

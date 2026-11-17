@@ -1,4 +1,4 @@
-# 🔥 Social Features - RuangBudaya
+﻿# 🔥 Social Features - Berbudaya
 
 Dokumentasi lengkap untuk fitur interaksi sosial pada postingan.
 
@@ -100,7 +100,7 @@ const shareLinks = {
 
 #### URL Structure:
 ```
-https://ruangbudaya.com/post/{post.id}
+https://Berbudaya.com/post/{post.id}
 ```
 
 Setiap postingan memiliki unique ID dari author profile dan prefix ID yang berbeda.
@@ -149,7 +149,7 @@ Storage: `localStorage.getItem('saved_posts')`
 **Status:** ✅ Fully Functional
 
 #### Lokasi:
-RightSidebar → Bagian paling atas (sebelum "Berita RuangBudaya")
+RightSidebar → Bagian paling atas (sebelum "Berita Berbudaya")
 
 #### Fitur:
 - ✅ **Compact Card Design**: Minimalis & elegant
@@ -381,8 +381,8 @@ https://your-domain.com/post/{postId}
 
 ### Example:
 ```
-https://ruangbudaya.com/post/1
-https://ruangbudaya.com/post/2
+https://Berbudaya.com/post/1
+https://Berbudaya.com/post/2
 ```
 
 ### URL Parameters:
@@ -394,7 +394,7 @@ https://ruangbudaya.com/post/2
 ```javascript
 const postUrl = `${window.location.origin}/post/${post.id}`;
 const encodedUrl = encodeURIComponent(postUrl);
-const encodedTitle = encodeURIComponent(`${post.author.name} - RuangBudaya`);
+const encodedTitle = encodeURIComponent(`${post.author.name} - Berbudaya`);
 const encodedContent = encodeURIComponent(post.content.substring(0, 200));
 ```
 

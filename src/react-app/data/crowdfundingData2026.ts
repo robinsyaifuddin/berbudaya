@@ -1,4 +1,4 @@
-import { CampaignDetail } from './crowdfundingData';
+﻿import { CampaignDetail } from './crowdfundingData';
 
 export const CAMPAIGNS_2026: Record<string, CampaignDetail> = {
   '1': {
@@ -83,7 +83,7 @@ URGENSI KEGIATAN:
     description: 'Penyelamatan naskah kuno berbahan daun lontar berisi pengobatan Usada Bali dan sastra Jawa Kuno melalui pemindaian multi-spektral dan preservasi fisik.',
     fullDescription: `Ratusan cakep naskah lontar abad ke-16 hingga ke-18 di kawasan Karangasem Bali terancam rusak parah akibat jamur, serangga pemakan serat daun, dan kelembapan ekstrem iklim tropis. Naskah-naskah ini memuat khazanah ilmu pengetahuan luhur Nusantara: sistem pengobatan tradisional Usada, astronomi Wariga, arsitektur Asta Kosala Kosali, hingga epos Kakawin bernilai sejarah dunia.
 
-Melalui program kemitraan filolog independen dan juru konservasi naskah lokal, donasi Anda dialokasikan untuk pembersihan kimiawi alami (minyak kemiri dan serbuk intaran), perbaikan lempengan daun lontar yang patah, serta alih media digital resolusi ultra-tinggi yang dapat diakses publik gratis di Ruang Budaya.`,
+Melalui program kemitraan filolog independen dan juru konservasi naskah lokal, donasi Anda dialokasikan untuk pembersihan kimiawi alami (minyak kemiri dan serbuk intaran), perbaikan lempengan daun lontar yang patah, serta alih media digital resolusi ultra-tinggi yang dapat diakses publik gratis di Berbudaya.`,
     image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&fit=crop',
     gallery: [
       'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&fit=crop',
@@ -133,7 +133,7 @@ Melalui program kemitraan filolog independen dan juru konservasi naskah lokal, d
     faq: [
       {
         question: 'Dapatkah naskah hasil digitalisasi dibaca oleh umum?',
-        answer: 'Ya, seluruh citra pindaian dan terjemahan bebas akan diunggah ke repositori Ensiklopedia Edukasi Ruang Budaya.'
+        answer: 'Ya, seluruh citra pindaian dan terjemahan bebas akan diunggah ke repositori Ensiklopedia Edukasi Berbudaya.'
       }
     ]
   },

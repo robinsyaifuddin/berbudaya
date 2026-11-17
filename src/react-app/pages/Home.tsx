@@ -1,4 +1,4 @@
-import ModernLayout from '@/react-app/components/ModernLayout';
+﻿import ModernLayout from '@/react-app/components/ModernLayout';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe } from 'lucide-react';
@@ -23,7 +23,7 @@ const samplePosts = [
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
       timestamp: '25 menit yang lalu'
     },
-    content: 'Pagi ini selesai proses nglorot sehelai kain batik tulis motif Kawung Nitik. Warna soganya diracik murni dari rebusan kulit kayu tingi dan jambal tanpa pewarna sintetis. Senang sekali modul pembelajarannya kini sudah bisa diakses teman-teman generasi muda di pilar Edukasi Ruang Budaya! 🌿✨ #BatikTulisSoga #PucuakRabuang #KriyaNusantara',
+    content: 'Pagi ini selesai proses nglorot sehelai kain batik tulis motif Kawung Nitik. Warna soganya diracik murni dari rebusan kulit kayu tingi dan jambal tanpa pewarna sintetis. Senang sekali modul pembelajarannya kini sudah bisa diakses teman-teman generasi muda di pilar Edukasi Berbudaya! 🌿✨ #BatikTulisSoga #PucuakRabuang #KriyaNusantara',
     image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=600&fit=crop',
     likes: 1245,
     comments: 88,
@@ -51,7 +51,7 @@ const samplePosts = [
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
       timestamp: '3 jam yang lalu'
     },
-    content: 'Kabar Baik Crowdfunding: Berkat gotong royong 500+ donatur di Ruang Budaya, 85 cakep naskah lontar usada pengobatan kuno abad ke-17 di Puri Karangasem telah selesai dibersihkan dari parasit jamur menggunakan minyak kemiri organik. Siap memasuki fase alih media digital! 📜🌿 #PusakaLontar #UsadaBali #BudayaGo2026',
+    content: 'Kabar Baik Crowdfunding: Berkat gotong royong 500+ donatur di Berbudaya, 85 cakep naskah lontar usada pengobatan kuno abad ke-17 di Puri Karangasem telah selesai dibersihkan dari parasit jamur menggunakan minyak kemiri organik. Siap memasuki fase alih media digital! 📜🌿 #PusakaLontar #UsadaBali #BudayaGo2026',
     image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&h=600&fit=crop',
     likes: 3410,
     comments: 215,

@@ -1,4 +1,4 @@
-import ModernLayout from '@/react-app/components/ModernLayout';
+﻿import ModernLayout from '@/react-app/components/ModernLayout';
 import { Search, BookOpen, MessageCircle, Mail, Phone, HelpCircle, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -7,8 +7,8 @@ const faqs = [
     category: 'Seputar Platform',
     questions: [
       {
-        q: 'Apa itu RuangBudaya.id?',
-        a: 'RuangBudaya.id adalah jejaring sosial kebudayaan nasional Indonesia yang menghubungkan pelaku budaya, pengrajin kriya, sanggar tari, dalang, akademisi, dan generasi muda pecinta seni budaya Indonesia.'
+        q: 'Apa itu Berbudaya.id?',
+        a: 'Berbudaya.id adalah jejaring sosial kebudayaan nasional Indonesia yang menghubungkan pelaku budaya, pengrajin kriya, sanggar tari, dalang, akademisi, dan generasi muda pecinta seni budaya Indonesia.'
       },
       {
         q: 'Bagaimana cara mendaftar dan verifikasi profil budayawan?',
@@ -203,10 +203,10 @@ export default function BantuanPage() {
               </p>
             </div>
             <a
-              href="mailto:bantuan@ruangbudaya.id"
+              href="mailto:bantuan@Berbudaya.id"
               className="text-xs font-semibold text-blue-600 hover:text-blue-700"
             >
-              bantuan@ruangbudaya.id →
+              bantuan@Berbudaya.id →
             </a>
           </div>
           

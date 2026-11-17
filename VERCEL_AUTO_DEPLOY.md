@@ -1,4 +1,4 @@
-# 🚀 Setup Auto-Deployment GitHub → Vercel
+﻿# 🚀 Setup Auto-Deployment GitHub → Vercel
 
 Panduan lengkap untuk mengaktifkan sinkronisasi otomatis antara GitHub dan Vercel, sehingga setiap commit langsung di-deploy.
 
@@ -19,7 +19,7 @@ Setiap kali Anda push commit ke GitHub, Vercel akan **otomatis**:
 
 ## 📋 Prerequisites
 
-✅ Repository GitHub: `helloruangbudaya/ruangbudaya`  
+✅ Repository GitHub: `helloBerbudaya/Berbudaya`  
 ✅ Akun Vercel sudah dibuat  
 ✅ File `vercel.json` sudah ada di repository  
 
@@ -40,7 +40,7 @@ Setiap kali Anda push commit ke GitHub, Vercel akan **otomatis**:
 
 1. Setelah login, klik **"Add New..."** → **"Project"**
 2. Vercel akan menampilkan list repository GitHub Anda
-3. Cari dan pilih: **`ruangbudaya`**
+3. Cari dan pilih: **`Berbudaya`**
 4. Klik **"Import"**
 
 **Catatan**: Jika repository tidak muncul, klik **"Adjust GitHub App Permissions"**
@@ -99,8 +99,8 @@ Jika aplikasi Anda memerlukan environment variables:
 Setelah deployment selesai:
 
 1. Vercel akan memberikan URL:
-   - **Production**: `https://ruangbudaya.vercel.app`
-   - **Preview**: `https://ruangbudaya-xxx.vercel.app`
+   - **Production**: `https://Berbudaya.vercel.app`
+   - **Preview**: `https://Berbudaya-xxx.vercel.app`
 
 2. Klik URL untuk test website
 
@@ -201,9 +201,9 @@ Setelah import project, Vercel akan:
 
 | Branch | Deployment Type | URL |
 |--------|----------------|-----|
-| `main` | **Production** | `ruangbudaya.vercel.app` |
-| `dev` / `feature/*` | **Preview** | `ruangbudaya-git-dev.vercel.app` |
-| Pull Requests | **Preview** | `ruangbudaya-pr-123.vercel.app` |
+| `main` | **Production** | `Berbudaya.vercel.app` |
+| `dev` / `feature/*` | **Preview** | `Berbudaya-git-dev.vercel.app` |
+| Pull Requests | **Preview** | `Berbudaya-pr-123.vercel.app` |
 
 ### **Preview Deployments**:
 
@@ -252,7 +252,7 @@ git push
 **Solusi**:
 1. Check GitHub App Permissions:
    - GitHub → Settings → Applications → Vercel
-   - Pastikan repository `ruangbudaya` ter-install
+   - Pastikan repository `Berbudaya` ter-install
 2. Re-connect Vercel:
    - Vercel → Project Settings → Git
    - Re-connect repository
@@ -285,7 +285,7 @@ git push
 ### **Custom Domain**
 
 1. Vercel Dashboard → **Settings** → **Domains**
-2. Add domain: `ruangbudaya.id`
+2. Add domain: `Berbudaya.id`
 3. Update DNS records sesuai instruksi
 4. Tunggu DNS propagation (5-10 menit)
 
@@ -372,7 +372,7 @@ git push origin feature/new-feature
 ## 🎯 Checklist Setup
 
 - [ ] Login ke Vercel dengan GitHub
-- [ ] Import repository `ruangbudaya`
+- [ ] Import repository `Berbudaya`
 - [ ] Verify build configuration
 - [ ] Deploy pertama kali
 - [ ] Test website di production URL

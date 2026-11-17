@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -542,7 +542,7 @@ h6 { font-size: 0.75rem; font-weight: 600; }
 }
 
 /* ==========================================================================
-   Ruang Budaya 5% Shape Curvature Enforcer
+   Berbudaya 5% Shape Curvature Enforcer
    Menjamin seluruh container, kartu, dialog, dan tombol dibatasi kelengkungannya
    maksimal 5% (6px - 8px) demi konsistensi geometri crisp anti-AI slop.
    Avatar & badge lingkaran dikecualikan secara terisolasi.

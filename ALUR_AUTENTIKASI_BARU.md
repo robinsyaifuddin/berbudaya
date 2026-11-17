@@ -1,4 +1,4 @@
-# 🎯 Alur Autentikasi Baru - RuangBudaya.id
+﻿# 🎯 Alur Autentikasi Baru - Berbudaya.id
 
 ## 📋 Ringkasan Perubahan
 

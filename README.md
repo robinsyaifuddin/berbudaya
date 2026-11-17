@@ -1,4 +1,4 @@
-# RuangBudaya.id
+﻿# Berbudaya.id
 
 Platform ekosistem digital untuk preservasi, kolaborasi, dan monetisasi karya seni budaya Indonesia. Menghubungkan kreator, komunitas, dan publik melalui marketplace karya, pendanaan proyek kolaboratif, serta modul edukasi interaktif.
 

@@ -1,4 +1,4 @@
-export interface CulturalProduct {
+﻿export interface CulturalProduct {
   id: number;
   name: string;
   origin: string;
@@ -14,7 +14,7 @@ export interface CulturalProduct {
   verified: boolean;
   badge?: 'Pilihan Maestro' | 'Warisan Langka' | 'Best Seller' | 'Karya Terverifikasi';
   images: string[];
-  // Cultural Value Tagging (Pilar 2 Ruang Budaya)
+  // Cultural Value Tagging (Pilar 2 Berbudaya)
   culturalTag: {
     ethnicGroup: string; // Suku / Etnis Asal
     philosophy: string; // Filosofi & Makna Simbolis

@@ -1,11 +1,11 @@
----
-name: ruangbudaya-design-system
-description: Design System & Visual Guidelines resmi untuk proyek web Ruang Budaya. Mencegah AI slop, menjaga hierarki konten, tipografi Poppins, token warna terpadu (Tailwind), radius cekungan shape 5% (rounded-lg / rounded-md 6px-8px), icon button taktil (Lucide), dan konsistensi lintas seluruh halaman.
+﻿---
+name: Berbudaya-design-system
+description: Design System & Visual Guidelines resmi untuk proyek web Berbudaya. Mencegah AI slop, menjaga hierarki konten, tipografi Poppins, token warna terpadu (Tailwind), radius cekungan shape 5% (rounded-lg / rounded-md 6px-8px), icon button taktil (Lucide), dan konsistensi lintas seluruh halaman.
 ---
 
-# Ruang Budaya — Design System & Anti-AI Slop Guidelines
+# Berbudaya — Design System & Anti-AI Slop Guidelines
 
-Skill ini adalah standar acuan visual dan interaksi mutlak untuk seluruh halaman di proyek **Ruang Budaya** (Beranda, Profil, Pasar Seni, Donasi/Crowdfunding, Jaringan Budaya, Komunitas, Eksplorasi/Games, dsb.).
+Skill ini adalah standar acuan visual dan interaksi mutlak untuk seluruh halaman di proyek **Berbudaya** (Beranda, Profil, Pasar Seni, Donasi/Crowdfunding, Jaringan Budaya, Komunitas, Eksplorasi/Games, dsb.).
 
 ---
 

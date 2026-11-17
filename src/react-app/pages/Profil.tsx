@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { 
   Edit3, Mail, Globe, Plus, 
@@ -45,11 +45,11 @@ export default function ProfilPage() {
   const [coverGradient, setCoverGradient] = useState('from-blue-600 via-indigo-600 to-sky-700');
   
   // Additional details
-  const [email, setEmail] = useState('emma.smith@ruangbudaya.id');
+  const [email, setEmail] = useState('emma.smith@Berbudaya.id');
   const [languages, setLanguages] = useState('Indonesia, Inggris, Jawa');
   const [pronouns, setPronouns] = useState('Dia / Beliau');
   const [nickname, setNickname] = useState('Emma');
-  const [website, setWebsite] = useState('https://ruangbudaya.id/kreator/emma');
+  const [website, setWebsite] = useState('https://Berbudaya.id/kreator/emma');
 
   // Keahlian
   const [skills, setSkills] = useState<string[]>([
@@ -91,7 +91,7 @@ export default function ProfilPage() {
     {
       id: '1',
       role: 'Lead Cultural Content Creator',
-      institution: 'RuangBudaya Indonesia',
+      institution: 'Berbudaya Indonesia',
       period: '2022 - Sekarang · Penuh Waktu',
       description: 'Memimpin riset kuratorial konten nusantara, memproduksi 50+ dokumenter mini kesenian lokal, serta menginisiasi pameran virtual.'
     },
@@ -363,7 +363,7 @@ export default function ProfilPage() {
                   </div>
                   <div className="p-3 bg-neutral-50 hover:bg-neutral-100/80 border border-neutral-200/70 rounded-xl transition cursor-pointer">
                     <p className="text-xs font-semibold text-neutral-900">Peran Komunitas</p>
-                    <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">{role} aktif di RuangBudaya.</p>
+                    <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">{role} aktif di Berbudaya.</p>
                   </div>
                   <div className="p-3 bg-neutral-50 hover:bg-neutral-100/80 border border-neutral-200/70 rounded-xl transition cursor-pointer" onClick={openEditSummary}>
                     <p className="text-xs font-semibold text-neutral-900">Lengkapi Sorotan Profil</p>

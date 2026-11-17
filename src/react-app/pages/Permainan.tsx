@@ -1,18 +1,15 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link } from 'react-router';
 import { 
   Puzzle, 
   HelpCircle, 
   Compass, 
   Trophy, 
-  Sparkles, 
   Play, 
   Flame, 
   Users, 
   Clock, 
-  ChevronRight, 
   Award,
-  Layers,
   ArrowUpRight
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
@@ -136,7 +133,7 @@ export default function PermainanPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         
         {/* ========================================================= */}
-        {/* HERO SECTION: Ruang Budaya Consistent Cultural Palette */}
+        {/* HERO SECTION: Berbudaya Consistent Cultural Palette */}
         {/* ========================================================= */}
         <section className="relative rounded-lg overflow-hidden bg-white border border-slate-200/90 shadow-sm mb-10">
           
@@ -401,7 +398,7 @@ export default function PermainanPage() {
                 Tantang Rekan Komunitas & Rebut Posisi Teratas
               </h3>
               <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                Setiap keberhasilan menyelesaikan puzzle dan kuis menambah poin reputasi adat Anda di komunitas RuangBudaya. Buktikan wawasan kebudayaan nusantaramu sekarang!
+                Setiap keberhasilan menyelesaikan puzzle dan kuis menambah poin reputasi adat Anda di komunitas Berbudaya. Buktikan wawasan kebudayaan nusantaramu sekarang!
               </p>
             </div>
 

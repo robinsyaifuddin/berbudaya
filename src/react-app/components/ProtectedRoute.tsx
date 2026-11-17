@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
 import { Globe } from 'lucide-react';
 
@@ -53,7 +53,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         <div className="text-center">
           <div className="flex items-center justify-center mb-6">
             <Globe className="h-12 w-12 text-blue-600 mr-3 animate-spin" />
-            <span className="text-3xl font-bold text-gray-900">RuangBudaya.id</span>
+            <span className="text-3xl font-bold text-gray-900">Berbudaya.id</span>
           </div>
           <h2 className="text-xl text-gray-600 mb-4">Memuat...</h2>
           <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>

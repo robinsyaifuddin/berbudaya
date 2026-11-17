@@ -1,4 +1,4 @@
-import { Search, Bell, MessageCircle, Menu, Globe } from 'lucide-react';
+﻿import { Search, Bell, MessageCircle, Menu, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 interface TopBarProps {
@@ -37,7 +37,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">R</span>
             </div>
-            <h1 className="text-xl font-bold text-primary hidden sm:block">RuangBudaya.id</h1>
+            <h1 className="text-xl font-bold text-primary hidden sm:block">Berbudaya.id</h1>
           </div>
         </div>
 

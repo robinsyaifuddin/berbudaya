@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { 
   Home, Search, Bell, MessageCircle, Users, 
-  Settings, LogOut, Menu, ShoppingBag, Heart, BookOpen, ShoppingCart,
-  X, Minus, Send, ChevronDown, Puzzle, Newspaper, Calendar, Image as GalleryIcon,
+  Settings, LogOut, Menu, ShoppingBag, Heart, ShoppingCart,
+  X, Send, ChevronDown, Puzzle, Newspaper, Calendar, Image as GalleryIcon,
   ArrowLeft
 } from 'lucide-react';
 import { ChatNotificationData } from './ChatNotification';
@@ -147,7 +147,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
 
   // Messenger Roomchat Popups state (Facebook style)
   const [activeChat, setActiveChat] = useState<ActiveChatContact | null>(null);
-  const [isChatMinimized, setIsChatMinimized] = useState(false);
+  const [isChatMinimized] = useState(false);
   const [chatSearchText, setChatSearchText] = useState('');
   const [inputMsg, setInputMsg] = useState('');
   const [chatHistory, setChatHistory] = useState<Record<number, ChatMessage[]>>({
@@ -320,7 +320,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
             <Link to="/beranda" className="flex items-center">
               <img 
                 src="/logo.png" 
-                alt="RuangBudaya" 
+                alt="Berbudaya" 
                 className="h-8 sm:h-10 w-auto object-contain"
               />
             </Link>
@@ -881,7 +881,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                       {activeChat.name}
                     </p>
                   </Link>
-                  <p className="text-xs text-gray-500 mt-0.5">Kreator & Pegiat Ruang Budaya</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Kreator & Pegiat Berbudaya</p>
                   <Link
                     to={`/user/${activeChat.userId || activeChat.id}`}
                     onClick={() => setShowMessagingPanel(false)}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { TrendingUp, Users, Grid3x3, FileText, Calendar } from 'lucide-react';
 
@@ -50,7 +50,7 @@ export default function ProfileSidebar() {
         <div className="pt-9 pb-3 text-center">
           <Link to="/profil" className="block hover:underline">
             <h3 className="font-semibold text-slate-900 text-sm px-3">
-              {user?.name || 'Kreator RuangBudaya'}
+              {user?.name || 'Kreator Berbudaya'}
             </h3>
           </Link>
           <p className="text-xs text-slate-500 mt-0.5 px-3 leading-relaxed">

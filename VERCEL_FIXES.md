@@ -1,4 +1,4 @@
-# ✅ Perbaikan untuk Vercel Deployment
+﻿# ✅ Perbaikan untuk Vercel Deployment
 
 ## 🔧 Masalah yang Diperbaiki
 
@@ -103,7 +103,7 @@ Setelah perbaikan ini:
 
 2. **Import di Vercel**:
    - Login ke https://vercel.com
-   - Import repository `helloruangbudaya/ruangbudaya`
+   - Import repository `helloBerbudaya/Berbudaya`
    - Klik Deploy
    - Done! ✅
 

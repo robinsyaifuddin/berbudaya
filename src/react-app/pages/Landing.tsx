@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '@getmocha/users-service/react';
 import { ArrowUpRight, Star, Users, Palette, BookOpen, Camera, Search } from 'lucide-react';
@@ -14,8 +14,8 @@ function LandingNavbar({ searchValue, onSearchChange, onLoginClick }: LandingNav
     <header className="fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-3 sm:gap-4">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src="/logo.png" alt="RuangBudaya" className="h-8 sm:h-9 w-auto object-contain" />
-          <span className="hidden sm:inline text-base sm:text-lg font-semibold text-gray-900 tracking-tight">RuangBudaya</span>
+          <img src="/logo.png" alt="Berbudaya" className="h-8 sm:h-9 w-auto object-contain" />
+          <span className="hidden sm:inline text-base sm:text-lg font-semibold text-gray-900 tracking-tight">Berbudaya</span>
         </Link>
         <div className="flex-1 max-w-md relative hidden sm:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -258,7 +258,7 @@ export default function Landing() {
     // Login dengan email yang diisi atau demo
     const user = {
       id: 'user-' + Date.now(),
-      email: email || 'demo@ruangbudaya.id',
+      email: email || 'demo@Berbudaya.id',
       name: email ? email.split('@')[0] : 'Demo User',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
       loginTime: new Date().toISOString()
@@ -284,7 +284,7 @@ export default function Landing() {
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
       },
       {
-        email: 'demo@ruangbudaya.id',
+        email: 'demo@Berbudaya.id',
         password: 'demo123',
         name: 'Demo User',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'
@@ -373,11 +373,11 @@ export default function Landing() {
               <div className="flex items-center justify-center mb-4">
                 <img 
                   src="/logo.png" 
-                  alt="RuangBudaya" 
+                  alt="Berbudaya" 
                   className="h-10 w-auto object-contain"
                 />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Masuk ke RuangBudaya</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Masuk ke Berbudaya</h1>
               <p className="text-gray-600">Bergabunglah dengan komunitas kreatif Indonesia</p>
             </div>
 
@@ -513,11 +513,11 @@ export default function Landing() {
               <div className="flex items-center justify-center mb-4">
                 <img 
                   src="/logo.png" 
-                  alt="RuangBudaya" 
+                  alt="Berbudaya" 
                   className="h-10 w-auto object-contain"
                 />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Bergabung dengan RuangBudaya</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Bergabung dengan Berbudaya</h1>
               <p className="text-gray-600">Mulai perjalanan kreatif Anda bersama kami</p>
             </div>
 
@@ -646,7 +646,7 @@ export default function Landing() {
               <div className="flex items-center justify-center mb-4">
                 <img 
                   src="/logo.png" 
-                  alt="RuangBudaya" 
+                  alt="Berbudaya" 
                   className="h-10 w-auto object-contain"
                 />
               </div>
@@ -864,7 +864,7 @@ export default function Landing() {
           <div className="text-white text-center max-w-md">
             <h2 className="text-4xl font-bold mb-6">Pemulihan Akun</h2>
             <p className="text-xl mb-8 text-blue-100">
-              Jangan khawatir! Kami akan membantu Anda mendapatkan kembali akses ke akun RuangBudaya Anda.
+              Jangan khawatir! Kami akan membantu Anda mendapatkan kembali akses ke akun Berbudaya Anda.
             </p>
             <div className="space-y-4">
               <div className="flex items-center text-blue-100">
@@ -936,7 +936,7 @@ export default function Landing() {
                 <div className="flex justify-center mb-4">
                   <img 
                     src="/logo.png" 
-                    alt="RuangBudaya" 
+                    alt="Berbudaya" 
                     className="h-9 sm:h-10 w-auto object-contain"
                   />
                 </div>
@@ -1047,7 +1047,7 @@ export default function Landing() {
                 <div className="flex justify-center mb-4">
                   <img 
                     src="/logo.png" 
-                    alt="RuangBudaya" 
+                    alt="Berbudaya" 
                     className="h-9 sm:h-10 w-auto object-contain"
                   />
                 </div>
@@ -1170,7 +1170,7 @@ export default function Landing() {
 
               {/* Subheadline */}
               <p className="text-gray-600 text-sm sm:text-base lg:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                RuangBudaya hadir untuk menghubungkan kreator dengan komunitas. Jelajahi seni budaya nusantara dan wujudkan kolaborasi kreatif Anda.
+                Berbudaya hadir untuk menghubungkan kreator dengan komunitas. Jelajahi seni budaya nusantara dan wujudkan kolaborasi kreatif Anda.
               </p>
 
               {/* CTA Buttons */}
@@ -1367,7 +1367,7 @@ export default function Landing() {
             <div className="space-y-4">
               <img 
                 src="/logo.png" 
-                alt="RuangBudaya" 
+                alt="Berbudaya" 
                 className="h-10 w-auto object-contain brightness-0 invert"
               />
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
@@ -1420,7 +1420,7 @@ export default function Landing() {
           <div className="border-t border-gray-800 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
               <p className="text-gray-500 text-xs">
-                © 2025 RuangBudaya.id. Hak cipta dilindungi.
+                © 2025 Berbudaya.id. Hak cipta dilindungi.
               </p>
               <div className="flex space-x-5 text-xs">
                 <a href="#" className="text-gray-500 hover:text-blue-500 transition-colors">Privasi</a>

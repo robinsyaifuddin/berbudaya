@@ -1,4 +1,4 @@
-# 🚀 Panduan Cepat - Mulai di Sini!
+﻿# 🚀 Panduan Cepat - Mulai di Sini!
 
 ## Langkah 1️⃣: Akses Website Anda
 
@@ -146,7 +146,7 @@ Untuk menambah halaman baru:
 
 ## 🎉 Selesai!
 
-Website RuangBudaya.id Anda sudah siap dengan:
+Website Berbudaya.id Anda sudah siap dengan:
 - ✅ Halaman landing profesional
 - ✅ Sistem login/register lengkap
 - ✅ Akun demo untuk testing

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useParams, Link } from 'react-router';
 import { Check, ChevronRight, ChevronDown, Wallet, CreditCard, Building2, ShieldCheck, Info, Copy, QrCode } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
@@ -110,47 +110,47 @@ export default function CrowdfundingDonatePage() {
       'permata': { 
         type: 'account',
         accountNumber: '8800 1234 5678 9012',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'maybank': { 
         type: 'account',
         accountNumber: '1234 5678 9012',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'bca': { 
         type: 'account',
         accountNumber: '1234 567 890',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'bni': { 
         type: 'account',
         accountNumber: '1234 5678 9012',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'bri': { 
         type: 'account',
         accountNumber: '1234 5678 9012 345',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'cimb': { 
         type: 'account',
         accountNumber: '1234 5678 9012',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'transfer-bca': { 
         type: 'account',
         accountNumber: '1234 567 890',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'transfer-mandiri': { 
         type: 'account',
         accountNumber: '1234 5678 9012 345',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       },
       'transfer-bni': { 
         type: 'account',
         accountNumber: '1234 5678 9012',
-        accountName: 'Yayasan Ruang Budaya Indonesia'
+        accountName: 'Yayasan Berbudaya Indonesia'
       }
     };
     return details[method];

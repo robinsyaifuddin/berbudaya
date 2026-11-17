@@ -1,4 +1,4 @@
-# 📤 Instruksi Push ke GitHub
+﻿# 📤 Instruksi Push ke GitHub
 
 ## ⚠️ Token GitHub Expired
 
@@ -11,14 +11,14 @@ Token GitHub yang tersimpan mungkin sudah expired. Gunakan salah satu cara berik
 ### 1. Generate Token Baru
 1. Buka: https://github.com/settings/tokens
 2. Klik "Generate new token (classic)"
-3. Beri nama: "Ruang Budaya Deploy"
+3. Beri nama: "Berbudaya Deploy"
 4. Pilih scope: **repo** (semua)
 5. Generate dan **copy token**
 
 ### 2. Push dengan Token
 ```bash
 # Set remote dengan token baru
-git remote set-url origin https://YOUR_TOKEN@github.com/helloruangbudaya/ruangbudaya.git
+git remote set-url origin https://YOUR_TOKEN@github.com/helloBerbudaya/Berbudaya.git
 
 # Push
 git push origin main
@@ -30,7 +30,7 @@ git push origin main
 
 1. Download GitHub Desktop: https://desktop.github.com/
 2. File → Add Local Repository
-3. Pilih folder: `C:\Users\j\Documents\Website\web Ruang Budaya`
+3. Pilih folder: `C:\Users\j\Documents\Website\web Berbudaya`
 4. Login dengan akun GitHub
 5. Klik "Push origin"
 

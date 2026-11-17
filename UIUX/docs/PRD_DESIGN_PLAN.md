@@ -1,5 +1,5 @@
-# PRODUCT REQUIREMENTS DOCUMENT (PRD) & DESIGN PLAN
-## RUANG BUDAYA: PLATFORM JEJARING SOSIAL, EDUKASI, DAN EKONOMI DIGITAL UNTUK PEMAJUAN KEBUDAYAAN INDONESIA
+﻿# PRODUCT REQUIREMENTS DOCUMENT (PRD) & DESIGN PLAN
+## Berbudaya: PLATFORM JEJARING SOSIAL, EDUKASI, DAN EKONOMI DIGITAL UNTUK PEMAJUAN KEBUDAYAAN INDONESIA
 *(The Professional & Creative Cultural Network of Indonesia — Diselaraskan 100% dengan Proposal Resmi BUDAYA GO! 2026)*
 
 ---
@@ -7,7 +7,7 @@
 ## 1. Executive Summary & Visi Produk (Sesuai Proposal Budaya Go! 2026)
 
 ### 1.1 Visi & Identitas Resmi
-- **Nama Resmi Produk**: RUANG BUDAYA: Platform Jejaring Sosial, Edukasi, dan Ekonomi Digital untuk Pemajuan Kebudayaan Indonesia.
+- **Nama Resmi Produk**: Berbudaya: Platform Jejaring Sosial, Edukasi, dan Ekonomi Digital untuk Pemajuan Kebudayaan Indonesia.
 - **Kompetisi**: BUDAYA GO! 2026 | Subtema: *Inventing the Future from Indonesian Culture (Promosi dan Kreasi Ekonomi Kebudayaan)*.
 - **Tim Pengembang**: Robin Syaifuddin (Project Manager), Muhammad Zahran Albara (Front-End & UI/UX Engineering), Karina (UI/UX Designer), Asya Rahma Zakia (Cultural Content Research), Aditya Wahyu Suhendra (Back-End & Edge Architect).
 - **Visi Utama**: Menjadi ekosistem digital kebudayaan nasional nomor satu di Indonesia yang memadukan fungsi jejaring profesional sosial layaknya **LinkedIn khusus komunitas budaya**, dengan 4 pilar terintegrasi:
@@ -31,7 +31,7 @@ flowchart TD
     Landing --> Gallery["Galeri Warisan & Budaya Nusantara"]
     Auth --> HomeFeed["Beranda Feed (LinkedIn-Style Jaringan Budaya)"]
 
-    subgraph EmpatPilar["4 Pilar Terpadu RuangBudaya"]
+    subgraph EmpatPilar["4 Pilar Terpadu Berbudaya"]
         HomeFeed --> PostModal["Modal Unggah Karya & Narasi Budaya"]
         HomeFeed --> CommentDrawer["Drawer Komentar & Apresiasi"]
         
@@ -62,7 +62,7 @@ flowchart TD
 ### 3.1 Landing Page (`Landing.tsx`)
 - **Tujuan**: Memperkenalkan platform kepada publik, menonjolkan 4 pilar ekosistem, serta mengajak partisipasi publik dalam pemajuan kebudayaan nasional.
 - **Elemen & Tombol**:
-  - **Header Navigasi**: Logo RuangBudaya, tautan menu (Tentang Kami, 4 Pilar Budaya, Galeri Warisan, Kriya Unggulan, Kalender Acara), tombol `Masuk`, dan tombol CTA `Gabung Komunitas`.
+  - **Header Navigasi**: Logo Berbudaya, tautan menu (Tentang Kami, 4 Pilar Budaya, Galeri Warisan, Kriya Unggulan, Kalender Acara), tombol `Masuk`, dan tombol CTA `Gabung Komunitas`.
   - **Hero Section (Bento Asimetris 60/40)**:
     - *Sisi Kiri*: Badge `"Inovasi Resmi BUDAYA GO! 2026"`, Headline `"Jejaring Sosial, Edukasi, dan Ekonomi Digital Pemajuan Kebudayaan Indonesia"`, sub-narasi 10 Objek Pemajuan Kebudayaan, tombol CTA `Mulai Eksplorasi Sekarang` dan `Dukung Cagar Budaya`.
     - *Sisi Kanan*: Interactive Showcase Card menampilkan kartu profil Maestro Pengrajin, kain tenun bersertifikasi, dan live progress restorasi rumah adat.

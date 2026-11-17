@@ -1,4 +1,4 @@
-# 🚀 Panduan Deployment ke Vercel
+﻿# 🚀 Panduan Deployment ke Vercel
 
 ## Persiapan
 
@@ -27,7 +27,7 @@ git push
 
 2. **Import Project**
    - Klik "Add New Project"
-   - Pilih repository: `helloruangbudaya/ruangbudaya`
+   - Pilih repository: `helloBerbudaya/Berbudaya`
    - Klik "Import"
 
 3. **Konfigurasi Project**
@@ -180,7 +180,7 @@ git push
 
 1. Buka project di Vercel Dashboard
 2. Pilih "Settings" → "Domains"
-3. Tambahkan custom domain (misal: `ruangbudaya.id`)
+3. Tambahkan custom domain (misal: `Berbudaya.id`)
 4. Update DNS records sesuai instruksi Vercel
 5. Tunggu DNS propagation (5-10 menit)
 

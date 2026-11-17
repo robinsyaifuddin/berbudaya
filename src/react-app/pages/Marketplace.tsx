@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import {
   Search,
@@ -250,7 +250,7 @@ export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-['Inter',system-ui,sans-serif] antialiased text-[13px]">
       
-      {/* NAVBAR RESMI RUANGBUDAYA */}
+      {/* NAVBAR RESMI Berbudaya */}
       <TopNavbar />
 
       {/* JARAK KE BAWAH DARI NAVBAR */}
@@ -757,7 +757,7 @@ export default function MarketplacePage() {
             </div>
             <div>
               <h3 className="text-[14px] font-bold leading-tight">
-                Bergabung dalam Komunitas Pengrajin RuangBudaya
+                Bergabung dalam Komunitas Pengrajin Berbudaya
               </h3>
               <p className="text-[11px] text-blue-200 mt-0.5">
                 Dapatkan info rilisan karya pusaka dan voucher promo budaya berkala langsung ke email Anda.
@@ -806,7 +806,7 @@ export default function MarketplacePage() {
 
       </main>
 
-      {/* FOOTER WARNA BIRU TUA (DEEP NAVY BLUE SESUAI TEMA WEB RUANGBUDAYA) */}
+      {/* FOOTER WARNA BIRU TUA (DEEP NAVY BLUE SESUAI TEMA WEB Berbudaya) */}
       <footer className="bg-[#0f172a] text-slate-300 mt-14 pt-10 pb-6 border-t border-slate-800 text-[12px]">
         <div className="max-w-[1280px] mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-8 border-b border-white/10">
@@ -861,7 +861,7 @@ export default function MarketplacePage() {
           </div>
 
           <div className="pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-            <p>© 2026 RuangBudaya. Seluruh hak cipta dilindungi.</p>
+            <p>© 2026 Berbudaya. Seluruh hak cipta dilindungi.</p>
             <div className="flex gap-4">
               <span className="hover:text-slate-400 cursor-pointer">Kebijakan Privasi</span>
               <span>•</span>

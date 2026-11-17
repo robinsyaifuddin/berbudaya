@@ -1,5 +1,5 @@
-// Versi cache dinaikkan untuk membersihkan stale cache lama yang menyebabkan blank page
-const CACHE_NAME = 'ruangbudaya-v2';
+﻿// Versi cache dinaikkan untuk membersihkan stale cache lama yang menyebabkan blank page
+const CACHE_NAME = 'Berbudaya-v2';
 
 self.addEventListener('install', () => {
   self.skipWaiting();

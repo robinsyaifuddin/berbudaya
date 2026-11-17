@@ -1,5 +1,5 @@
--- ==========================================================
--- RUANGBUDAYA DATABASE SCHEMA (POSTGRESQL / SUPABASE)
+﻿-- ==========================================================
+-- Berbudaya DATABASE SCHEMA (POSTGRESQL / SUPABASE)
 -- Scalable Social Networking & Cultural Ecosystem Architecture
 -- ==========================================================
 

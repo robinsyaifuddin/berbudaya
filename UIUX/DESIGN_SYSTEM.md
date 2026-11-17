@@ -1,10 +1,10 @@
-# RuangBudaya (BudayaGo) UI/UX Design System & Architecture
+﻿# Berbudaya (BudayaGo) UI/UX Design System & Architecture
 
 ## 1. Tautan Proyek Desain
-- **Figma Master Project (Flow & Prototype)**: [RuangBudaya - Full App Flow & Prototype](https://www.figma.com/design/Du1CJFUUhiRqC347AwEZvX) (File Key: `Du1CJFUUhiRqC347AwEZvX`)
-- **Figma Design System & Components**: [RuangBudaya UIUX Redesign System](https://www.figma.com/design/dLq19zRHpGSJZB7JNeRcUO)
+- **Figma Master Project (Flow & Prototype)**: [Berbudaya - Full App Flow & Prototype](https://www.figma.com/design/Du1CJFUUhiRqC347AwEZvX) (File Key: `Du1CJFUUhiRqC347AwEZvX`)
+- **Figma Design System & Components**: [Berbudaya UIUX Redesign System](https://www.figma.com/design/dLq19zRHpGSJZB7JNeRcUO)
 - **Status Integrasi**: Terkoneksi via Figma MCP (Robin Syaifuddin)
-- **Aturan Pengerjaan**: Mengacu pada skill `figma-single-project-flow` — seluruh iterasi, variasi layar, dan alur demo prototype RuangBudaya wajib diperbarui langsung di dalam file master di atas tanpa membuat file baru.
+- **Aturan Pengerjaan**: Mengacu pada skill `figma-single-project-flow` — seluruh iterasi, variasi layar, dan alur demo prototype Berbudaya wajib diperbarui langsung di dalam file master di atas tanpa membuat file baru.
 
 ---
 
@@ -16,7 +16,7 @@ flowchart TD
     Landing --> Gallery["Eksplorasi Budaya (/gallery)"]
     Auth --> Home["Beranda Feed (/beranda)"]
 
-    subgraph Platform["Ekosistem RuangBudaya"]
+    subgraph Platform["Ekosistem Berbudaya"]
         Home --> Market["Marketplace Kriya & Seni (/marketplace)"]
         Market --> ProductDetail["Detail Produk (/marketplace/:id)"]
         ProductDetail --> Cart["Keranjang Belanja (/cart)"]

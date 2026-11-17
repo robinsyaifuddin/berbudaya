@@ -1,4 +1,4 @@
-# 🔐 Panduan Login Demo - RuangBudaya
+﻿# 🔐 Panduan Login Demo - Berbudaya
 
 ## 👤 User Demo
 
@@ -187,7 +187,7 @@ Saat ini tersedia 2 user demo:
 | Email | Password | Name | Avatar |
 |-------|----------|------|--------|
 | `mr.robinsyaifuddin@gmail.com` | `robin123` | Robin Syaifuddin | Male Avatar |
-| `demo@ruangbudaya.id` | `demo123` | Demo User | Female Avatar |
+| `demo@Berbudaya.id` | `demo123` | Demo User | Female Avatar |
 
 Tambah user demo baru dengan edit array `demoUsers` di `Landing.tsx`:
 
@@ -252,4 +252,4 @@ Jika ada masalah dengan login:
 
 ---
 
-**Login berhasil? 🎉 Selamat menjelajahi RuangBudaya!**
+**Login berhasil? 🎉 Selamat menjelajahi Berbudaya!**

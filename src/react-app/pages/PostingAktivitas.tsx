@@ -1,4 +1,4 @@
-import TopNavbar from '@/react-app/components/TopNavbar';
+﻿import TopNavbar from '@/react-app/components/TopNavbar';
 import { Link } from 'react-router';
 import { Plus, Heart, MessageSquare, Share2, Eye } from 'lucide-react';
 
@@ -85,7 +85,7 @@ export default function PostingAktivitasPage() {
             <div className="flex items-center justify-between mb-2">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Posting & Aktivitas</h1>
-                <p className="text-gray-600 mt-1">Semua postingan dan aktivitas Anda di RuangBudaya</p>
+                <p className="text-gray-600 mt-1">Semua postingan dan aktivitas Anda di Berbudaya</p>
               </div>
               <Link to="/beranda">
                 <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">

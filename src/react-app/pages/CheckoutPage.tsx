@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
@@ -53,17 +53,17 @@ export default function CheckoutPage() {
       'bca': { 
         type: 'account',
         accountNumber: '1234 567 890',
-        accountName: 'Ruang Budaya Indonesia'
+        accountName: 'Berbudaya Indonesia'
       },
       'mandiri': { 
         type: 'account',
         accountNumber: '1234 5678 9012 345',
-        accountName: 'Ruang Budaya Indonesia'
+        accountName: 'Berbudaya Indonesia'
       },
       'bni': { 
         type: 'account',
         accountNumber: '1234 5678 9012',
-        accountName: 'Ruang Budaya Indonesia'
+        accountName: 'Berbudaya Indonesia'
       }
     };
     return details[method];
@@ -97,7 +97,7 @@ export default function CheckoutPage() {
       `${index + 1}. ${item.name}\n   - Ukuran: ${item.selectedSize}, Warna: ${item.selectedColor}\n   - ${formatPrice(item.price)} x ${item.quantity} = ${formatPrice(item.price * item.quantity)}`
     ).join('\n\n');
 
-    const message = `*PESANAN MARKETPLACE RUANG BUDAYA*\n\n` +
+    const message = `*PESANAN MARKETPLACE Berbudaya*\n\n` +
       `*DATA PENERIMA:*\n` +
       `Nama: ${formData.name}\n` +
       `No. HP: ${formData.phone}\n` +
@@ -112,7 +112,7 @@ export default function CheckoutPage() {
       `Total: ${formatPrice(total)}\n\n` +
       `Metode Pembayaran: ${getPaymentMethodName(selectedPayment)}\n\n` +
       `Mohon konfirmasi pesanan dan kirimkan bukti transfer.\n\n` +
-      `Terima kasih telah berbelanja di Ruang Budaya! 🙏`;
+      `Terima kasih telah berbelanja di Berbudaya! 🙏`;
 
     const whatsappNumber = '62887437525303';
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;

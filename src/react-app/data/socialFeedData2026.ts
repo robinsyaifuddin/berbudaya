@@ -1,4 +1,4 @@
-export interface CulturalFeedPost {
+﻿export interface CulturalFeedPost {
   id: number;
   author: {
     name: string;
@@ -23,7 +23,7 @@ export const CULTURAL_FEED_POSTS: CulturalFeedPost[] = [
     id: 1,
     author: {
       name: 'Dewi Lestari Hadiningrat',
-      role: 'Maestro Pembatik & Mentor Ruang Budaya',
+      role: 'Maestro Pembatik & Mentor Berbudaya',
       location: 'Laweyan, Surakarta',
       badge: 'Mentor Terverifikasi',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120'
@@ -31,7 +31,7 @@ export const CULTURAL_FEED_POSTS: CulturalFeedPost[] = [
     timestamp: '25 menit yang lalu',
     category: 'Kriya Budaya',
     culturalTag: '#BatikTulisSoga #PucuakRabuang #KriyaNusantara',
-    content: 'Pagi ini selesai proses nglorot (melarutkan malam dalam air mendidih) untuk sehelai kain batik tulis motif Kawung Nitik. Warna soganya kami racik dari rebusan kulit kayu tingi dan jambal. Ada keheningan yang luar biasa saat melihat pola putih mori tersingkap setelah 3 bulan pengerjaan teliti. Senang sekali modul kursusnya sudah bisa dipelajari teman-teman muda di Ruang Budaya!',
+    content: 'Pagi ini selesai proses nglorot (melarutkan malam dalam air mendidih) untuk sehelai kain batik tulis motif Kawung Nitik. Warna soganya kami racik dari rebusan kulit kayu tingi dan jambal. Ada keheningan yang luar biasa saat melihat pola putih mori tersingkap setelah 3 bulan pengerjaan teliti. Senang sekali modul kursusnya sudah bisa dipelajari teman-teman muda di Berbudaya!',
     image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&fit=crop',
     likes: 428,
     comments: 54,
@@ -50,7 +50,7 @@ export const CULTURAL_FEED_POSTS: CulturalFeedPost[] = [
     timestamp: '2 jam yang lalu',
     category: 'Pelestarian',
     culturalTag: '#PusakaLontar #UsadaBali #BudayaGo2026',
-    content: 'Update Program Pelestarian: Berkat gotong royong 500+ donatur di pilar Crowdfunding Ruang Budaya, 85 cakep naskah lontar usada pengobatan kuno abad ke-17 telah berhasil dibersihkan dari parasit jamur menggunakan ramuan minyak kemiri dan serbuk intaran! Lempir lontar yang rapuh kembali lentur dan siap dialihmediakan ke format digital multi-spektral.',
+    content: 'Update Program Pelestarian: Berkat gotong royong 500+ donatur di pilar Crowdfunding Berbudaya, 85 cakep naskah lontar usada pengobatan kuno abad ke-17 telah berhasil dibersihkan dari parasit jamur menggunakan ramuan minyak kemiri dan serbuk intaran! Lempir lontar yang rapuh kembali lentur dan siap dialihmediakan ke format digital multi-spektral.',
     image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&fit=crop',
     likes: 812,
     comments: 97,

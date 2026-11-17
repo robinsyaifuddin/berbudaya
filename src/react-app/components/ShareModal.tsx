@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { X, Link as LinkIcon, Check, Facebook, Twitter, Linkedin, MessageCircle } from 'lucide-react';
 
 interface ShareModalProps {
@@ -22,7 +22,7 @@ export default function ShareModal({ isOpen, onClose, post }: ShareModalProps) {
 
   const postUrl = `${window.location.origin}/post/${post.id}`;
   const encodedUrl = encodeURIComponent(postUrl);
-  const encodedTitle = encodeURIComponent(`${post.author.name} - RuangBudaya`);
+  const encodedTitle = encodeURIComponent(`${post.author.name} - Berbudaya`);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(postUrl);
@@ -93,7 +93,7 @@ export default function ShareModal({ isOpen, onClose, post }: ShareModalProps) {
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">{post.author.name}</h4>
-                  <p className="text-xs text-gray-500">RuangBudaya</p>
+                  <p className="text-xs text-gray-500">Berbudaya</p>
                 </div>
               </div>
               <p className="text-sm text-gray-700 line-clamp-3">{post.content}</p>

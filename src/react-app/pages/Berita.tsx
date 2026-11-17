@@ -1,18 +1,13 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { 
   Newspaper, 
-  Calendar, 
-  Clock, 
   ChevronRight, 
   Bookmark, 
   Search, 
-  Filter, 
   TrendingUp, 
   ShieldCheck, 
   Sparkles, 
   ArrowUpRight, 
-  Layers, 
-  Globe, 
   CheckCircle2, 
   Send,
   SlidersHorizontal,
@@ -43,7 +38,7 @@ const newsArticles: NewsItem[] = [
     subCategory: 'Konservasi Daerah',
     image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=1000&auto=format&fit=crop&q=80',
     excerpt: 'Langkah strategis pemerintah daerah dalam menjaga orisinalitas tenun tradisional sekaligus memperluas jangkauan pasar internasional para pengrajin lokal melalui standarisasi geografis.',
-    author: 'Redaksi RuangBudaya',
+    author: 'Redaksi Berbudaya',
     authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
     date: '17 Nov 2026',
     readTime: '4 min baca',
@@ -639,7 +634,7 @@ export default function BeritaPage() {
 
             {/* Advisory / Disclaimer Info */}
             <div className="p-4 rounded-xl border border-zinc-200 bg-white text-xs text-zinc-500">
-              <span className="font-semibold text-zinc-800">RuangBudaya Media: </span>
+              <span className="font-semibold text-zinc-800">Berbudaya Media: </span>
               Kanal agregasi warta dan literasi seni budaya berbasis arsip independen terkurasi untuk memperkuat ekosistem kebudayaan Indonesia.
             </div>
 
