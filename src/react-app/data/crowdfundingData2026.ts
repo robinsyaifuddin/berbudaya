@@ -5,7 +5,7 @@ export const CAMPAIGNS_2026: Record<string, CampaignDetail> = {
     id: 1,
     title: 'Revitalisasi Sanggar Tari Topeng Cirebon Gaya Slangit & Klana',
     description: 'Bantu renovasi ruang latihan sanggar maestro sepuh Mimi Rasinah dan pengadaan 30 set topeng kayu jaranan untuk anak-anak pedesaan Cirebon.',
-    fullDescription: `Tari Topeng Cirebon merupakan salah satu puncak mahakarya seni pertunjukan Indonesia dengan karakter gerak yang adiluhung (Panji, Samba, Rumyang, Tumenggung, dan Klana). Sayangnya, sanggar tari tradisi peninggalan maestro legendaris di Desa Slangit kini mengalami kerusakan atap yang parah, dan set topeng kayu jati lawas mulai lapuk dimakan usia.
+    fullDescription: `Tari Topeng Cirebon merupakan salah satu puncak mahakarya seni teater & tari Indonesia dengan karakter gerak yang adiluhung (Panji, Samba, Rumyang, Tumenggung, dan Klana). Sayangnya, sanggar tari tradisi peninggalan maestro legendaris di Desa Slangit kini mengalami kerusakan atap yang parah, dan set topeng kayu jati lawas mulai lapuk dimakan usia.
 
 Program crowdfunding ini diinisiasi bersama Dewan Kesenian Cirebon dan keluarga penerus sanggar untuk memastikan anak-anak generasi muda di pesisir utara Jawa tetap memiliki ruang layak belajar menari tanpa dipungut biaya sepeser pun.
 
@@ -24,7 +24,7 @@ URGENSI KEGIATAN:
     target: 50000000,
     daysLeft: 18,
     donors: 326,
-    category: 'Seni Pertunjukan',
+    category: 'Seni Teater & Tari',
     location: 'Cirebon, Jawa Barat',
     organizer: 'Yayasan Pelestari Tari Topeng Nusantara',
     verified: true,

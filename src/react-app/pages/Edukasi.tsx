@@ -140,7 +140,7 @@ const culturalArticles = [
   },
   {
     id: 2,
-    title: 'Perjalanan Sejarah Wayang Kulit: Dari Ritual Hingga Seni Pertunjukan',
+    title: 'Perjalanan Sejarah Wayang Kulit: Dari Ritual Hingga Seni Teater & Tari',
     author: {
       name: 'Pak Sutrisno',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100',

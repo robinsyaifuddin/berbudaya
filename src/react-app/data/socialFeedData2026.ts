@@ -8,7 +8,7 @@ export interface CulturalFeedPost {
     avatar: string;
   };
   timestamp: string;
-  category: 'Kriya Budaya' | 'Pelestarian' | 'Edukasi' | 'Seni Pertunjukan';
+  category: 'Kriya Budaya' | 'Pelestarian' | 'Edukasi' | 'Seni Teater & Tari';
   culturalTag: string; // Misal: #PamorKeris #TenunSumba #TopengCirebon
   content: string;
   image?: string;
@@ -67,7 +67,7 @@ export const CULTURAL_FEED_POSTS: CulturalFeedPost[] = [
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120'
     },
     timestamp: '4 jam yang lalu',
-    category: 'Seni Pertunjukan',
+    category: 'Seni Teater & Tari',
     culturalTag: '#WayangKulit #Gatotkaca #SeniTatahBanyumas',
     content: 'Menatah wayang tokoh Gatotkaca bukan sekadar memotong kulit kerbau, tetapi juga menjiwai karakter ksatria yang kokoh berotot kawat bertulang besi namun tetap rendah hati. Setiap detail ornamen prada emas pada mahkota Badhong memerlukan ketelitian mata dan ketenangan nafas. Tokoh ini kini sudah resmi terkurasi di katalog Marketplace Budaya kami.',
     image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&fit=crop',

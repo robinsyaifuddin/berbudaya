@@ -11,14 +11,25 @@ export default defineConfig(({ mode }) => {
       allowedHosts: true,
     },
     build: {
-      chunkSizeWarningLimit: 5000,
+      chunkSizeWarningLimit: 2000,
       outDir: 'dist',
       sourcemap: !isProduction,
       minify: isProduction ? 'esbuild' : false,
+      cssCodeSplit: true,
       rollupOptions: {
         output: {
-          manualChunks: {
-            'react-vendor': ['react', 'react-dom', 'react-router'],
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+                return 'vendor-react';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-lucide';
+              }
+              if (id.includes('@supabase') || id.includes('hono')) {
+                return 'vendor-backend';
+              }
+            }
           },
         },
       },

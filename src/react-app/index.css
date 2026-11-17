@@ -1,14 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   --primary-blue: #1877F2;
   --secondary-blue: #42A5F5;
   --light-blue: #E7F3FF;
@@ -26,16 +29,22 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
   max-width: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 img, video, canvas, svg {
   max-width: 100%;
   height: auto;
+  content-visibility: auto;
 }
 
 /* Hindari teks panjang memecahkan layout horizontal */
@@ -530,4 +539,22 @@ h6 { font-size: 0.75rem; font-weight: 600; }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;  /* Chrome, Safari and Opera */
+}
+
+/* ==========================================================================
+   Ruang Budaya 5% Shape Curvature Enforcer
+   Menjamin seluruh container, kartu, dialog, dan tombol dibatasi kelengkungannya
+   maksimal 5% (6px - 8px) demi konsistensi geometri crisp anti-AI slop.
+   Avatar & badge lingkaran dikecualikan secara terisolasi.
+   ========================================================================== */
+.rounded-3xl,
+.rounded-2xl {
+  border-radius: 0.5rem !important; /* 8px ~ 5% curvature */
+}
+
+button.rounded-full:not(.avatar):not([data-avatar]):not(.badge-counter),
+a.rounded-full:not(.avatar):not([data-avatar]):not(.badge-counter),
+span.rounded-full:not(.avatar):not([data-avatar]):not(.badge-counter):not(.dot-indicator),
+div.rounded-full:not(.avatar):not([data-avatar]):not(.badge-counter):not(.dot-indicator) {
+  border-radius: 0.375rem !important; /* 6px */
 }

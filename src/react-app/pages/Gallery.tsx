@@ -17,7 +17,7 @@ const galleryItems = [
   },
   {
     id: 2,
-    title: 'Tari Kecak Bali - Seni Pertunjukan Sakral',
+    title: 'Tari Kecak Bali - Seni Teater & Tari Sakral',
     image: 'https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=800&h=900&fit=crop&q=90',
     author: { name: 'Made Suarta', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop' },
     likes: 2456,
@@ -167,39 +167,39 @@ export default function GalleryPage() {
       <TopNavbar />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8 pt-20">
+      <div className="max-w-7xl mx-auto px-4 py-5 md:py-6 pt-20">
         {/* Search & Filter Bar */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-4 md:p-6 mb-6">
-          <div className="flex flex-col md:flex-row gap-4">
+        <div className="bg-white rounded-lg shadow-xs border border-slate-200/90 p-4 mb-5">
+          <div className="flex flex-col md:flex-row gap-2.5">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Cari galeri kebudayaan..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-600 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all"
+                className="w-full pl-9 pr-3.5 py-2 border border-slate-200 rounded-md focus:border-primary-600 focus:ring-1 focus:ring-primary-500 focus:outline-none transition-all text-xs sm:text-sm placeholder-slate-400"
               />
             </div>
 
             {/* Filter Button */}
-            <button className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-gray-300 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition-colors">
-              <Filter className="w-5 h-5 text-gray-600" />
-              <span className="font-medium text-gray-700">Filter</span>
+            <button className="flex items-center justify-center gap-2 px-3.5 py-2 border border-slate-200 rounded-md hover:border-slate-300 hover:bg-slate-50 transition-colors text-xs sm:text-sm">
+              <Filter className="w-3.5 h-3.5 text-slate-600" />
+              <span className="font-medium text-slate-700">Filter</span>
             </button>
           </div>
 
           {/* Category Tabs */}
-          <div className="flex gap-2 overflow-x-auto mt-4 pb-2 scrollbar-hide">
+          <div className="flex gap-2 overflow-x-auto mt-3 pb-1 scrollbar-hide">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-all ${
                   selectedCategory === cat
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-primary-600 text-white shadow-xs font-semibold'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 {cat}
@@ -213,14 +213,14 @@ export default function GalleryPage() {
           {galleryItems.map((item) => (
             <div
               key={item.id}
-              className="break-inside-avoid bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 group cursor-pointer overflow-hidden border border-gray-200"
+              className="break-inside-avoid bg-white rounded-lg shadow-xs hover:shadow-md transition-all duration-300 group cursor-pointer overflow-hidden border border-slate-200/90"
             >
               <div className="relative overflow-hidden">
                 <img
                   src={item.image}
                   alt={item.title}
                   loading="lazy"
-                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   style={{ height: `${item.height}px` }}
                 />
                 {/* Gradient overlay always visible but subtle */}
@@ -230,19 +230,19 @@ export default function GalleryPage() {
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
                 
                 {/* Category Badge */}
-                <div className="absolute top-3 right-3 px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-bold shadow-lg">
+                <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 bg-primary-600 text-white rounded-md text-[10px] font-semibold shadow-xs">
                   {item.category}
                 </div>
                 
                 {/* Overlay Actions */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/50 to-transparent transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
                   <div className="flex items-center justify-between text-white">
-                    <button className="flex items-center gap-2 text-sm font-semibold backdrop-blur-sm bg-white/20 px-3 py-1.5 rounded-full hover:bg-white/30 transition-colors">
-                      <Heart className="w-4 h-4" />
+                    <button className="flex items-center gap-1.5 text-xs font-medium backdrop-blur-sm bg-white/20 px-2.5 py-1 rounded-md hover:bg-white/30 transition-colors">
+                      <Heart className="w-3.5 h-3.5" />
                       <span>{item.likes >= 1000 ? `${(item.likes/1000).toFixed(1)}k` : item.likes}</span>
                     </button>
-                    <button className="flex items-center gap-2 text-sm font-semibold backdrop-blur-sm bg-white/20 px-3 py-1.5 rounded-full hover:bg-white/30 transition-colors">
-                      <MessageCircle className="w-4 h-4" />
+                    <button className="flex items-center gap-1.5 text-xs font-medium backdrop-blur-sm bg-white/20 px-2.5 py-1 rounded-md hover:bg-white/30 transition-colors">
+                      <MessageCircle className="w-3.5 h-3.5" />
                       <span>{item.comments}</span>
                     </button>
                   </div>
@@ -250,20 +250,20 @@ export default function GalleryPage() {
               </div>
 
               {/* Card Content */}
-              <div className="p-4">
-                <h3 className="font-bold text-gray-900 text-sm mb-2.5 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+              <div className="p-3.5">
+                <h3 className="font-semibold text-slate-900 text-xs sm:text-sm mb-2 line-clamp-2 leading-snug group-hover:text-primary-600 transition-colors">
                   {item.title}
                 </h3>
                 <Link 
                   to={`/user/${item.id % 3 + 1}`}
-                  className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                 >
                   <img
                     src={item.author.avatar}
                     alt={item.author.name}
-                    className="w-7 h-7 rounded-full object-cover ring-2 ring-gray-100"
+                    className="w-6 h-6 rounded-full object-cover ring-1 ring-slate-200"
                   />
-                  <span className="text-xs text-gray-600 font-medium hover:text-blue-600 transition-colors">{item.author.name}</span>
+                  <span className="text-[11px] text-slate-500 font-medium hover:text-primary-600 transition-colors">{item.author.name}</span>
                 </Link>
               </div>
             </div>

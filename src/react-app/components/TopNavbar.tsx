@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { 
   Home, Search, Bell, MessageCircle, Users, 
-  Settings, LogOut, Menu, MoreHorizontal, ShoppingBag, Heart, BookOpen, ShoppingCart
+  Settings, LogOut, Menu, ShoppingBag, Heart, BookOpen, ShoppingCart,
+  X, Minus, Send, ChevronDown, Puzzle, Newspaper, Calendar, Image as GalleryIcon,
+  ArrowLeft
 } from 'lucide-react';
 import { ChatNotificationData } from './ChatNotification';
 import { useCart } from '@/react-app/contexts/CartContext';
@@ -14,6 +16,22 @@ interface DemoUser {
   name: string;
   avatar: string;
   loginTime: string;
+}
+
+interface ChatMessage {
+  id: number;
+  sender: 'me' | 'them';
+  text: string;
+  time: string;
+}
+
+interface ActiveChatContact {
+  id: number;
+  userId?: string;
+  name: string;
+  avatar: string;
+  role?: string;
+  status?: string;
 }
 
 interface TopNavbarProps {
@@ -125,6 +143,78 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
   const [chatNotifications, setChatNotifications] = useState<ChatNotificationData[]>([]);
   const [notificationId, setNotificationId] = useState(1);
   const [showMessagingPanel, setShowMessagingPanel] = useState(false);
+  const [showLainnyaDropdown, setShowLainnyaDropdown] = useState(false);
+
+  // Messenger Roomchat Popups state (Facebook style)
+  const [activeChat, setActiveChat] = useState<ActiveChatContact | null>(null);
+  const [isChatMinimized, setIsChatMinimized] = useState(false);
+  const [chatSearchText, setChatSearchText] = useState('');
+  const [inputMsg, setInputMsg] = useState('');
+  const [chatHistory, setChatHistory] = useState<Record<number, ChatMessage[]>>({
+    1: [
+      { id: 1, sender: 'them', text: 'Halo! Saya tertarik dengan motif batik parang yang Anda posting kemarin', time: '10:25' },
+      { id: 2, sender: 'me', text: 'Halo! Terima kasih sudah menghubungi. Motif parang itu memang salah satu karya terbaik kami', time: '10:27' },
+      { id: 3, sender: 'them', text: 'Apakah bisa custom ukuran dan warna?', time: '10:28' },
+      { id: 4, sender: 'me', text: 'Tentu bisa! Kami menerima custom order untuk ukuran dan warna.', time: '10:29' },
+      { id: 5, sender: 'them', text: 'Halo! Saya tertarik dengan motif batik parang yang Anda posting', time: '10:30' }
+    ],
+    2: [
+      { id: 1, sender: 'them', text: 'Halo mas, wayang kulit pesanan saya sedang diproses?', time: '08:45' },
+      { id: 2, sender: 'me', text: 'Iya betul, saat ini sedang proses tatah dan pewarnaan prada emas.', time: '08:50' },
+      { id: 3, sender: 'them', text: 'Pertunjukan wayang besok dimulai jam 19:00. Jangan lupa ya!', time: '09:15' }
+    ],
+    3: [
+      { id: 1, sender: 'them', text: 'Salam budaya! Kami mengundang sanggar Anda di festival akhir bulan.', time: 'Kemarin' },
+      { id: 2, sender: 'me', text: 'Salam! Terdengar sangat menarik. Kapan kita bisa koordinasikan jadwalnya?', time: 'Kemarin' },
+      { id: 3, sender: 'them', text: 'Boleh, kita bisa kolaborasi untuk festival nanti. Kapan bisa kita meeting?', time: 'Baru saja' }
+    ]
+  });
+
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (activeChat && !isChatMinimized) {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeChat, chatHistory, isChatMinimized]);
+
+  const handleSendMessage = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!inputMsg.trim() || !activeChat) return;
+
+    const newMsg: ChatMessage = {
+      id: Date.now(),
+      sender: 'me',
+      text: inputMsg.trim(),
+      time: 'Baru saja'
+    };
+
+    setChatHistory((prev) => ({
+      ...prev,
+      [activeChat.id]: [...(prev[activeChat.id] || []), newMsg]
+    }));
+    setInputMsg('');
+
+    // Reset textarea height to initial state
+    const textarea = document.getElementById('chat-room-textarea') as HTMLTextAreaElement | null;
+    if (textarea) {
+      textarea.style.height = 'auto';
+    }
+
+    // Simulate smart auto-reply like Facebook
+    setTimeout(() => {
+      const replyMsg: ChatMessage = {
+        id: Date.now() + 1,
+        sender: 'them',
+        text: 'Baik, terima kasih konfirmasinya! Segera kami tindak lanjuti.',
+        time: 'Baru saja'
+      };
+      setChatHistory((prev) => ({
+        ...prev,
+        [activeChat.id]: [...(prev[activeChat.id] || []), replyMsg]
+      }));
+    }, 1200);
+  };
   
   const cartItemsCount = getTotalItems();
 
@@ -287,13 +377,82 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
               <Heart className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
               <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Donasi</span>
             </Link>
-            <Link
-              to="/edukasi"
-              className="flex flex-col items-center px-3 py-1.5 hover:bg-slate-100/80 rounded-xl transition-all duration-150 min-w-[70px] lg:min-w-[76px] group"
-            >
-              <BookOpen className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
-              <span className="text-[11px] font-medium text-slate-600 group-hover:text-blue-600 transition-colors tracking-tight">Akademi</span>
-            </Link>
+            {/* Menu Lainnya dengan Dropdown Submenu */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowLainnyaDropdown(prev => !prev);
+                  setShowDropdown(false);
+                  setShowActivityDropdown(false);
+                }}
+                className={`flex flex-col items-center px-3 py-1.5 rounded-xl transition-all duration-150 min-w-[70px] lg:min-w-[76px] group ${
+                  showLainnyaDropdown ? 'bg-slate-100 text-blue-600' : 'hover:bg-slate-100/80 text-slate-600'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-0.5">
+                  <Menu className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors mb-0.5" />
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${showLainnyaDropdown ? 'rotate-180 text-blue-600' : ''}`} />
+                </div>
+                <span className="text-[11px] font-medium group-hover:text-blue-600 transition-colors tracking-tight">Lainnya</span>
+              </button>
+
+              {/* Submenu Dropdown Popover */}
+              {showLainnyaDropdown && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setShowLainnyaDropdown(false)}
+                  />
+                  <div className="absolute right-0 lg:left-1/2 lg:-translate-x-1/2 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-stone-200/90 py-2 z-40 animate-in fade-in duration-150">
+                    <Link
+                      to="/permainan"
+                      onClick={() => setShowLainnyaDropdown(false)}
+                      className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
+                    >
+                      <Puzzle className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                      <span className="text-sm font-medium tracking-tight">Permainan</span>
+                    </Link>
+
+                    <Link
+                      to="/berita"
+                      onClick={() => setShowLainnyaDropdown(false)}
+                      className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
+                    >
+                      <Newspaper className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                      <span className="text-sm font-medium tracking-tight">Berita</span>
+                    </Link>
+
+                    <Link
+                      to="/komunitas"
+                      onClick={() => setShowLainnyaDropdown(false)}
+                      className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
+                    >
+                      <Users className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                      <span className="text-sm font-medium tracking-tight">Komunitas</span>
+                    </Link>
+
+                    <Link
+                      to="/acara"
+                      onClick={() => setShowLainnyaDropdown(false)}
+                      className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
+                    >
+                      <Calendar className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                      <span className="text-sm font-medium tracking-tight">Acara</span>
+                    </Link>
+
+                    <Link
+                      to="/gallery"
+                      onClick={() => setShowLainnyaDropdown(false)}
+                      className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
+                    >
+                      <GalleryIcon className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                      <span className="text-sm font-medium tracking-tight">Galeri</span>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Right - Profile & Cart & Search for Mobile */}
@@ -315,14 +474,16 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
             {/* Pesan Icon - Compact */}
             <button
               onClick={() => {
-                handleTestNotification();
-                setTimeout(() => {
-                  window.location.href = '/pesan';
-                }, 300);
+                setShowMessagingPanel((prev) => !prev);
+                setShowDropdown(false);
+                setShowActivityDropdown(false);
               }}
-              className="relative p-2 hover:bg-gray-100 rounded-full transition-colors hidden md:block"
+              title="Obrolan Pesan"
+              className={`relative p-2 rounded-full transition-colors hidden md:block ${
+                showMessagingPanel ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100 text-gray-700'
+              }`}
             >
-              <MessageCircle className="w-6 h-6 text-gray-700" />
+              <MessageCircle className="w-6 h-6" />
               {chatNotifications.length > 0 && (
                 <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-white text-[9px] flex items-center justify-center font-bold">
                   {chatNotifications.length}
@@ -607,102 +768,276 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
     {/* Mobile Bottom Navigation Bar */}
     <MobileBottomNav connectionCount={connectionRequests.length} />
 
-    {/* Messaging Panel - LinkedIn Style (Hidden on small mobile to avoid blocking content/bottom nav) */}
-    <div className={`hidden md:block fixed bottom-0 right-6 w-80 bg-white border border-gray-300 rounded-t-lg shadow-2xl transition-all duration-300 z-50 ${showMessagingPanel ? 'h-96' : 'h-14'}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-white rounded-t-lg">
-        <div className="flex items-center gap-2">
-          <MessageCircle className="w-5 h-5 text-gray-700" />
-          <h3 className="font-semibold text-gray-900 text-sm">Pesan</h3>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="p-1 hover:bg-gray-100 rounded-full transition-colors">
-            <MoreHorizontal className="w-5 h-5 text-gray-600" />
-          </button>
-          <button 
-            onClick={() => setShowMessagingPanel(!showMessagingPanel)}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            {showMessagingPanel ? (
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-              </svg>
-            )}
-          </button>
-        </div>
-      </div>
+    {/* Facebook-style Messenger Dropdown / Obrolan Box in Navbar */}
+    {showMessagingPanel && (
+      <>
+        {/* Backdrop for closing on outside click */}
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => {
+            setShowMessagingPanel(false);
+          }}
+        />
+        <div className="fixed top-16 right-4 sm:right-16 w-88 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden flex flex-col animate-in fade-in slide-in-from-top-2 duration-200 h-[520px] max-h-[85vh]">
+          {/* Header */}
+          <div className="p-3.5 border-b border-gray-100 flex items-center justify-between bg-white flex-shrink-0">
+            {activeChat ? (
+              /* Header saat berada di Roomchat */
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <button
+                    onClick={() => setActiveChat(null)}
+                    title="Kembali ke daftar obrolan"
+                    className="p-1.5 -ml-1 hover:bg-gray-100 rounded-full text-gray-600 transition-colors"
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
+                  <Link
+                    to={`/user/${activeChat.userId || activeChat.id}`}
+                    onClick={() => {
+                      setShowMessagingPanel(false);
+                    }}
+                    className="flex items-center gap-2.5 group cursor-pointer"
+                    title={`Lihat profil ${activeChat.name}`}
+                  >
+                    <div className="relative flex-shrink-0">
+                      <img
+                        src={activeChat.avatar}
+                        alt={activeChat.name}
+                        className="w-10 h-10 rounded-full object-cover ring-2 ring-transparent group-hover:ring-blue-500 transition-all"
+                      />
+                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border border-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-gray-900 text-sm truncate leading-tight group-hover:text-blue-600 transition-colors">
+                        {activeChat.name}
+                      </h4>
+                      <p className="text-[11px] text-green-600 font-medium leading-none mt-0.5">Aktif sekarang</p>
+                    </div>
+                  </Link>
+                </div>
 
-      {/* Messages Content */}
-      {showMessagingPanel && (
-        <div className="h-[calc(100%-56px)] flex flex-col">
-          {/* Search */}
-          <div className="p-3 border-b border-gray-200">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Cari pesan"
-                className="w-full pl-9 pr-3 py-2 bg-gray-100 border-0 rounded-md text-sm outline-none focus:bg-gray-200 transition-colors"
-              />
-            </div>
+                <div className="flex items-center gap-1 text-gray-500">
+                  <button 
+                    onClick={() => {
+                      setActiveChat(null);
+                      setShowMessagingPanel(false);
+                    }}
+                    title="Tutup obrolan"
+                    className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-500"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Header saat berada di Daftar Obrolan */
+              <>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold text-gray-900 text-lg">Obrolan</h3>
+                  <span className="text-xs bg-blue-50 text-blue-600 font-semibold px-2 py-0.5 rounded-full">
+                    {chatNotifications.length} Baru
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 text-gray-500">
+                  <button 
+                    onClick={handleTestNotification}
+                    title="Simulasi pesan baru"
+                    className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-xs text-blue-600 font-medium"
+                  >
+                    + Simulasi
+                  </button>
+                  <button 
+                    onClick={() => setShowMessagingPanel(false)}
+                    className="p-1.5 hover:bg-gray-100 rounded-full transition-colors text-gray-500"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </>
+            )}
           </div>
 
-          {/* Messages List */}
-          <div className="flex-1 overflow-y-auto">
-            {chatNotifications.length > 0 ? (
-              <div className="divide-y divide-gray-200">
-                {chatNotifications.slice(0, 5).map((notification) => (
-                  <div key={notification.id} className="p-3 hover:bg-gray-50 cursor-pointer transition-colors">
-                    <div className="flex items-start gap-3">
-                      <img
-                        src={notification.avatar}
-                        alt={notification.name}
-                        className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <h4 className="font-semibold text-gray-900 text-sm truncate">{notification.name}</h4>
-                          <span className="text-xs text-gray-500">{notification.time}</span>
-                        </div>
-                        <p className="text-xs text-gray-600 line-clamp-2">{notification.message}</p>
-                      </div>
+          {/* Body: Roomchat View ATAU Daftar Obrolan View */}
+          {activeChat ? (
+            /* ================= VIEW ROOMCHAT DI DALAM KOTAK OBROLAN ================= */
+            <div className="flex-1 flex flex-col min-h-0 bg-white">
+              {/* Bubble Messages Scroll Area */}
+              <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-gray-50/50">
+                {/* Intro Pengguna dengan Link ke Profil */}
+                <div className="text-center py-2.5">
+                  <Link
+                    to={`/user/${activeChat.userId || activeChat.id}`}
+                    onClick={() => setShowMessagingPanel(false)}
+                    className="inline-block group cursor-pointer"
+                    title={`Lihat profil ${activeChat.name}`}
+                  >
+                    <img
+                      src={activeChat.avatar}
+                      alt={activeChat.name}
+                      className="w-16 h-16 rounded-full object-cover mx-auto mb-1.5 ring-2 ring-white shadow-sm group-hover:ring-blue-500 group-hover:scale-105 transition-all"
+                    />
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">
+                      {activeChat.name}
+                    </p>
+                  </Link>
+                  <p className="text-xs text-gray-500 mt-0.5">Kreator & Pegiat Ruang Budaya</p>
+                  <Link
+                    to={`/user/${activeChat.userId || activeChat.id}`}
+                    onClick={() => setShowMessagingPanel(false)}
+                    className="inline-block mt-1 text-[11px] font-medium text-blue-600 hover:text-blue-700 hover:underline"
+                  >
+                    Lihat Profil Lengkap →
+                  </Link>
+                  <div className="h-px bg-gray-200/80 my-3 w-2/3 mx-auto" />
+                </div>
+
+                {/* Pesan-pesan */}
+                {(chatHistory[activeChat.id] || []).map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex flex-col ${msg.sender === 'me' ? 'items-end' : 'items-start'}`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-[13.5px] leading-relaxed shadow-sm break-words whitespace-pre-wrap ${
+                        msg.sender === 'me'
+                          ? 'bg-blue-600 text-white rounded-br-none'
+                          : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
+                      }`}
+                    >
+                      {msg.text}
                     </div>
+                    <span className="text-[10px] text-gray-400 mt-1 px-1">
+                      {msg.time}
+                    </span>
                   </div>
                 ))}
+                <div ref={chatEndRef} />
               </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center p-6">
-                <MessageCircle className="w-12 h-12 text-gray-300 mb-3" />
-                <h4 className="font-semibold text-gray-900 mb-1">Belum ada pesan</h4>
-                <p className="text-sm text-gray-500 mb-4">
-                  Hubungi orang dan mulai percakapan untuk mengawali karier Anda
-                </p>
-                <button 
-                  onClick={() => window.location.href = '/pesan'}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-blue-700 transition-colors"
+
+              {/* Form Input Balasan Chat Ala WhatsApp (Auto-expanding textarea, Enter = Baris Baru, Send button = Kirim) */}
+              <div className="p-3 bg-white border-t border-gray-100 flex items-end gap-2 flex-shrink-0">
+                <textarea
+                  id="chat-room-textarea"
+                  value={inputMsg}
+                  onChange={(e) => {
+                    setInputMsg(e.target.value);
+                    e.target.style.height = 'auto';
+                    e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                  }}
+                  onKeyDown={(e) => {
+                    // Mekanisme WhatsApp Web: Ctrl+Enter atau Shift+Enter atau Enter biasa
+                    // Enter biasa membuat baris baru, jika pengguna menekan tombol Ctrl+Enter bisa kirim opsional
+                    if (e.key === 'Enter' && e.ctrlKey) {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
+                  rows={1}
+                  placeholder={`Ketik pesan untuk ${activeChat.name.split(' ')[0]}...`}
+                  className="flex-1 bg-gray-100 hover:bg-gray-200/50 focus:bg-white text-[13.5px] px-3.5 py-2.5 rounded-2xl border border-transparent focus:border-blue-400 outline-none transition-all placeholder:text-gray-400 text-gray-800 resize-none max-h-28 overflow-y-auto leading-relaxed break-words"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleSendMessage()}
+                  disabled={!inputMsg.trim()}
+                  title="Kirim pesan"
+                  className={`p-2.5 rounded-full transition-all flex-shrink-0 ${
+                    inputMsg.trim() 
+                      ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md scale-100 hover:scale-105 active:scale-95' 
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  }`}
                 >
-                  Kirim pesan
+                  <Send className="w-4 h-4" />
                 </button>
               </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            /* ================= VIEW DAFTAR OBROLAN ================= */
+            <>
+              {/* Search Bar */}
+              <div className="p-3 border-b border-gray-100 bg-gray-50/50 flex-shrink-0">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type="text"
+                    value={chatSearchText}
+                    onChange={(e) => setChatSearchText(e.target.value)}
+                    placeholder="Cari di Obrolan..."
+                    className="w-full pl-9 pr-3 py-2 bg-gray-100 hover:bg-gray-200/70 focus:bg-white border border-transparent focus:border-blue-400 rounded-xl text-sm outline-none transition-all placeholder:text-gray-400 text-gray-800"
+                  />
+                </div>
+              </div>
 
-          {/* Footer */}
-          <div className="p-3 border-t border-gray-200">
-            <Link
-              to="/pesan"
-              className="block text-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              Lihat semua di Pesan
-            </Link>
-          </div>
+              {/* List Obrolan */}
+              <div className="flex-1 overflow-y-auto divide-y divide-gray-50">
+                {chatNotifications
+                  .filter((n) => n.name.toLowerCase().includes(chatSearchText.toLowerCase()) || n.message.toLowerCase().includes(chatSearchText.toLowerCase()))
+                  .map((notification) => (
+                    <div
+                      key={notification.id}
+                      onClick={() => {
+                        // Petakan ke userId yang sesuai (1, 2, 3, 4) jika ada atau gunakan id notifikasi
+                        const matchedUserId = notification.name.includes('Bambang') ? '1' : 
+                                              notification.name.includes('Dewi') ? '4' : 
+                                              notification.name.includes('Siti') ? '2' : String(notification.id);
+                        setActiveChat({
+                          id: notification.id,
+                          userId: matchedUserId,
+                          name: notification.name,
+                          avatar: notification.avatar,
+                          role: 'Penggiat Budaya',
+                          status: 'Aktif sekarang'
+                        });
+                      }}
+                      className="p-3 hover:bg-gray-50/90 cursor-pointer transition-colors flex items-center gap-3 group relative"
+                    >
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={notification.avatar}
+                          alt={notification.name}
+                          className="w-12 h-12 rounded-full object-cover ring-2 ring-transparent group-hover:ring-blue-100 transition-all"
+                        />
+                        <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-0.5">
+                          <h4 className="font-semibold text-gray-900 text-sm truncate group-hover:text-blue-600 transition-colors">
+                            {notification.name}
+                          </h4>
+                          <span className="text-[11px] text-gray-400 flex-shrink-0">{notification.time}</span>
+                        </div>
+                        <p className="text-xs text-gray-600 line-clamp-1 group-hover:text-gray-800">
+                          {notification.message}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+
+                {chatNotifications.length === 0 && (
+                  <div className="p-8 text-center text-gray-500">
+                    <MessageCircle className="w-10 h-10 text-gray-300 mx-auto mb-2" />
+                    <p className="text-sm font-medium">Belum ada obrolan</p>
+                    <p className="text-xs text-gray-400 mt-1">Pesan yang masuk akan muncul di sini.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="p-3 border-t border-gray-100 bg-gray-50/80 text-center flex-shrink-0">
+                <Link
+                  to="/pesan"
+                  onClick={() => setShowMessagingPanel(false)}
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+                >
+                  Buka Semua di Halaman Pesan Penuh →
+                </Link>
+              </div>
+            </>
+          )}
         </div>
-      )}
-    </div>
+      </>
+    )}
     </>
   );
 }

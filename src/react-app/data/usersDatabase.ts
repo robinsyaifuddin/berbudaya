@@ -325,14 +325,14 @@ export const usersDatabase: Record<string, UserProfileData> = {
     achievements: [
       {
         title: 'Komposer Karya Musik Tradisi Baru Terbaik',
-        organization: 'Festival Seni Pertunjukan Internasional',
+        organization: 'Festival Seni Teater & Tari Internasional',
         year: '2024'
       }
     ],
     experience: [
       {
         role: 'Kepala Laboratorium Karawitan & Akustik',
-        organization: 'Fakultas Seni Pertunjukan ISI Surakarta',
+        organization: 'Fakultas Seni Teater & Tari ISI Surakarta',
         period: '2017 - Sekarang',
         description: 'Membimbing riset akustik instrumen kuno dan perancangan konser gamelan kamar.'
       }

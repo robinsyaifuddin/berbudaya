@@ -31,7 +31,7 @@ const campaigns: Campaign[] = [
     target: 50000000,
     daysLeft: 18,
     donors: 326,
-    category: 'Seni Pertunjukan',
+    category: 'Seni Teater & Tari',
     location: 'Cirebon, Jawa Barat',
     urgent: true,
     badge: 'Mendesak & Terverifikasi',
@@ -269,7 +269,7 @@ export default function CrowdfundingPage() {
             </div>
 
         {/* Header with Filters */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-3 sm:p-4 mb-6 relative">
+        <div className="bg-white rounded-lg shadow-xs border border-slate-200/90 p-3 sm:p-3.5 mb-5 relative">
           <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mr-1">Filter</span>
@@ -282,7 +282,7 @@ export default function CrowdfundingPage() {
                     setShowRegionDropdown(false);
                     setShowSortDropdown(false);
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 border border-slate-200 rounded-full text-xs sm:text-sm font-medium text-slate-700 hover:border-slate-400 bg-slate-50/50 hover:bg-white transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 border border-slate-200 rounded-md text-xs sm:text-sm font-medium text-slate-700 hover:border-slate-300 bg-slate-50/50 hover:bg-white transition-colors"
                 >
                   <span>{selectedCategory}</span>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -383,44 +383,44 @@ export default function CrowdfundingPage() {
         </div>
 
         {/* Campaign Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {campaigns.map((campaign) => {
             const progress = calculateProgress(campaign.raised, campaign.target);
             return (
               <Link
                 key={campaign.id}
                 to={`/crowdfunding/${campaign.id}`}
-                className="group bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-lg border border-slate-200/90 hover:border-slate-300 transition-all duration-200 flex flex-col justify-between"
+                className="group bg-white rounded-lg overflow-hidden shadow-xs hover:shadow-sm border border-slate-200/90 hover:border-primary-300 transition-all flex flex-col justify-between"
               >
                 <div>
                   {/* Campaign Image */}
-                  <div className="relative h-48 overflow-hidden bg-slate-100">
+                  <div className="relative h-44 sm:h-48 overflow-hidden bg-slate-100">
                     <img
                       src={campaign.image}
                       alt={campaign.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {campaign.urgent && (
-                      <div className="absolute top-3 left-3 bg-rose-600 text-white px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wide uppercase shadow-xs">
+                      <div className="absolute top-2.5 left-2.5 bg-rose-600 text-white px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide uppercase shadow-xs">
                         Prioritas Restorasi
                       </div>
                     )}
                     {campaign.badge && (
-                      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/80 via-slate-950/40 to-transparent p-3 pt-6">
+                      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent p-2.5 pt-5">
                         <p className="text-white text-xs font-semibold">{campaign.badge}</p>
                       </div>
                     )}
                   </div>
 
                   {/* Campaign Content */}
-                  <div className="p-4">
-                    <span className="inline-block px-2 py-0.5 mb-2 text-[10px] font-medium text-blue-700 bg-blue-50 rounded-full border border-blue-100">
+                  <div className="p-3.5 sm:p-4">
+                    <span className="inline-block px-2 py-0.5 mb-2 text-[10px] font-medium text-primary-700 bg-primary-50 rounded-md border border-primary-100">
                       {campaign.category}
                     </span>
-                    <h3 className="font-semibold text-slate-900 text-sm mb-1.5 line-clamp-2 min-h-[40px] group-hover:text-blue-600 transition-colors leading-snug">
+                    <h3 className="font-semibold text-slate-900 text-xs sm:text-sm mb-1.5 line-clamp-2 min-h-[38px] group-hover:text-primary-600 transition-colors leading-snug">
                       {campaign.title}
                     </h3>
-                    <p className="text-xs text-slate-600 mb-3 line-clamp-2 min-h-[34px] leading-relaxed">
+                    <p className="text-[11px] sm:text-xs text-slate-600 mb-3 line-clamp-2 min-h-[32px] leading-relaxed">
                       {campaign.description}
                     </p>
 

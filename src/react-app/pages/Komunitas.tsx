@@ -42,7 +42,7 @@ const communities: Community[] = [
     image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop',
     members: 1200,
     province: 'Jawa Timur',
-    category: 'Seni Pertunjukan',
+    category: 'Seni Teater & Tari',
     activities: 32,
     rating: 4.6,
     verified: true
@@ -128,7 +128,7 @@ const provinces = [
   'DKI Jakarta', 'Bali', 'Sumatera Barat', 'Kalimantan Selatan'
 ];
 
-const categories = ['Semua', 'Kriya', 'Seni Pertunjukan', 'Tari', 'Musik', 'Kuliner', 'Arsitektur', 'Sastra'];
+const categories = ['Semua', 'Kriya', 'Seni Teater & Tari', 'Tari', 'Musik', 'Kuliner', 'Arsitektur', 'Sastra'];
 
 export default function KomunitasPage() {
   const [selectedProvince, setSelectedProvince] = useState('Semua Provinsi');
@@ -201,33 +201,33 @@ export default function KomunitasPage() {
         {/* Page Title & Action */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 mb-1">
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 mb-1">
               Komunitas & Paguyuban Budaya
             </h1>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs sm:text-sm text-slate-600">
               Jelajahi dan terhubung dengan sanggar seni, paguyuban kriya, dan komunitas tradisi di seluruh Nusantara
             </p>
           </div>
           <Link
             to="/kelola-komunitas"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-all shadow-sm active:scale-[0.98] w-fit"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-medium text-xs sm:text-sm transition-all shadow-xs active:scale-[0.98] w-fit"
           >
             <span>+ Buat Komunitas Baru</span>
           </Link>
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-5 mb-6">
-          <div className="flex flex-col md:flex-row gap-3">
+        <div className="bg-white rounded-lg shadow-xs border border-slate-200/90 p-3.5 sm:p-4 mb-6">
+          <div className="flex flex-col md:flex-row gap-2.5">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Cari sanggar seni, kriya, atau tradisi..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all text-sm"
+                className="w-full pl-9 pr-3.5 py-2 border border-slate-200 rounded-md focus:border-primary-600 focus:ring-1 focus:ring-primary-500 focus:outline-none transition-all text-xs sm:text-sm text-slate-800 placeholder-slate-400"
               />
             </div>
 
@@ -238,16 +238,16 @@ export default function KomunitasPage() {
                   setShowProvinceDropdown(!showProvinceDropdown);
                   setShowCategoryDropdown(false);
                 }}
-                className="w-full md:w-auto flex items-center justify-between gap-2 px-4 py-2.5 border border-gray-300 rounded-xl text-sm font-medium hover:border-gray-400 transition-colors bg-white text-gray-700"
+                className="w-full md:w-auto flex items-center justify-between gap-2 px-3.5 py-2 border border-slate-200 rounded-md text-xs sm:text-sm font-medium hover:border-slate-300 transition-colors bg-white text-slate-700"
               >
-                <MapPin className="w-4 h-4 text-blue-600" />
+                <MapPin className="w-3.5 h-3.5 text-primary-600" />
                 <span>{selectedProvince}</span>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
               {showProvinceDropdown && (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setShowProvinceDropdown(false)} />
-                  <div className="absolute top-full mt-2 left-0 right-0 md:right-auto md:w-60 bg-white rounded-xl shadow-xl border border-gray-200 z-20 max-h-80 overflow-y-auto py-1">
+                  <div className="absolute top-full mt-1.5 left-0 right-0 md:right-auto md:w-56 bg-white rounded-md shadow-lg border border-slate-200 z-20 max-h-72 overflow-y-auto py-1">
                     {provinces.map((prov) => (
                       <button
                         key={prov}
@@ -304,40 +304,40 @@ export default function KomunitasPage() {
         </div>
 
         {/* Communities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
           {filteredCommunities.slice(0, visibleCount).map((community) => {
             const isJoined = joinedCommunities.includes(community.id);
             return (
               <div
                 key={community.id}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group flex flex-col justify-between"
+                className="bg-white rounded-lg overflow-hidden shadow-xs border border-slate-200/90 hover:border-primary-300 hover:shadow-sm transition-all group flex flex-col justify-between"
               >
                 <div>
                   {/* Image */}
-                  <div className="relative h-44 overflow-hidden bg-gray-100">
+                  <div className="relative h-44 overflow-hidden bg-slate-100">
                     <img
                       src={community.image}
                       alt={community.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {community.trending && (
-                      <div className="absolute top-3 left-3 bg-gray-900/80 backdrop-blur-md text-amber-300 px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1 border border-amber-400/20">
-                        <TrendingUp className="w-3.5 h-3.5" />
+                      <div className="absolute top-2.5 left-2.5 bg-slate-900/85 backdrop-blur-md text-amber-300 px-2 py-0.5 rounded-md text-[10px] font-semibold flex items-center gap-1 border border-amber-400/20">
+                        <TrendingUp className="w-3 h-3" />
                         <span>Populer</span>
                       </div>
                     )}
                     {community.verified && (
-                      <div className="absolute top-3 right-3 bg-blue-600 text-white p-1 rounded-full shadow-sm">
-                        <Check className="w-3.5 h-3.5" />
+                      <div className="absolute top-2.5 right-2.5 bg-primary-600 text-white p-1 rounded-full shadow-xs">
+                        <Check className="w-3 h-3" />
                       </div>
                     )}
-                    <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md text-gray-800 px-2.5 py-0.5 rounded-md text-xs font-semibold border border-gray-200">
+                    <div className="absolute bottom-2.5 left-2.5 bg-white/95 text-slate-800 px-2 py-0.5 rounded-md text-[10px] font-semibold border border-slate-200 shadow-xs">
                       {community.category}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-5">
+                  <div className="p-4">
                     <div className="flex items-start justify-between mb-1.5">
                       <h3 className="text-base font-bold text-gray-900 line-clamp-1 flex-1 group-hover:text-blue-600 transition-colors">
                         {community.name}

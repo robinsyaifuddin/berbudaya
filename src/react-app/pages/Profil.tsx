@@ -63,8 +63,8 @@ export default function ProfilPage() {
     { 
       name: 'Wayang Kulit', 
       region: 'Jawa Tengah & Jawa Timur',
-      category: 'Seni Pertunjukan',
-      description: 'Seni pertunjukan tradisi pedalangan dan cerita epos wayang purwa.'
+      category: 'Seni Teater & Tari',
+      description: 'Seni teater & tari tradisi pedalangan dan cerita epos wayang purwa.'
     },
     { 
       name: 'Tari Saman', 

@@ -22,7 +22,7 @@ const userCommunities: Community[] = [
     members: 1250,
     image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=300&h=200&fit=crop',
     role: 'admin',
-    category: 'Seni Pertunjukan',
+    category: 'Seni Teater & Tari',
     growth: '+12% bulan ini'
   },
   {
@@ -52,13 +52,13 @@ export default function KelolaKomunitasPage() {
   const [newCommunity, setNewCommunity] = useState({
     name: '',
     description: '',
-    category: 'Seni Pertunjukan'
+    category: 'Seni Teater & Tari'
   });
 
   const handleCreateCommunity = (e: React.FormEvent) => {
     e.preventDefault();
     alert(`Komunitas "${newCommunity.name}" berhasil dibuat!\n\nIni adalah mode demo. Dalam produksi, komunitas akan disimpan ke database.`);
-    setNewCommunity({ name: '', description: '', category: 'Seni Pertunjukan' });
+    setNewCommunity({ name: '', description: '', category: 'Seni Teater & Tari' });
     setShowCreateForm(false);
   };
 
@@ -109,7 +109,7 @@ export default function KelolaKomunitasPage() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
-                    <option value="Seni Pertunjukan">Seni Pertunjukan</option>
+                    <option value="Seni Teater & Tari">Seni Teater & Tari</option>
                     <option value="Kerajinan">Kerajinan</option>
                     <option value="Musik Tradisional">Musik Tradisional</option>
                     <option value="Kuliner">Kuliner</option>

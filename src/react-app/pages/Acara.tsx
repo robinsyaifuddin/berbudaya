@@ -143,34 +143,34 @@ export default function AcaraPage() {
       
       <div className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 mb-6 shadow-sm">
+        <div className="bg-white border border-slate-200/90 rounded-lg p-5 md:p-6 mb-5 shadow-xs">
           <div className="max-w-3xl">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 mb-2">
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 mb-1.5">
               Agenda Acara & Festival Seni Tradisi
             </h1>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">
               Temukan jadwal pementasan wayang, workshop membatik, pasar seni kriya, dan festival budaya di seluruh Indonesia
             </p>
           </div>
           
           {/* Search Bar */}
           <div className="relative max-w-xl">
-            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
               placeholder="Cari acara, sanggar penampil, atau kota lokasi..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all bg-white"
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-md focus:border-primary-600 focus:ring-1 focus:ring-primary-500 focus:outline-none transition-all text-xs sm:text-sm placeholder-slate-400"
             />
           </div>
         </div>
 
         {/* Calendar Navigation */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <CalendarIcon className="w-4 h-4 text-blue-600" />
-            <h3 className="font-semibold text-gray-900 text-sm">Pilih Periode Bulan</h3>
+        <div className="bg-white rounded-lg shadow-xs border border-slate-200/90 p-4 mb-5">
+          <div className="flex items-center gap-2 mb-2.5">
+            <CalendarIcon className="w-4 h-4 text-primary-600" />
+            <h3 className="font-semibold text-slate-900 text-xs sm:text-sm">Pilih Periode Bulan</h3>
           </div>
           
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
@@ -178,10 +178,10 @@ export default function AcaraPage() {
               <button
                 key={index}
                 onClick={() => setSelectedMonth(index)}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-colors ${
                   selectedMonth === index
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-primary-600 text-white shadow-xs font-semibold'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 {month}
@@ -191,15 +191,15 @@ export default function AcaraPage() {
         </div>
 
         {/* Category Filters */}
-        <div className="flex gap-2 overflow-x-auto pb-4 mb-6 no-scrollbar">
+        <div className="flex gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === category
-                  ? 'bg-blue-50 text-blue-700 font-semibold border border-blue-200'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
+                  ? 'bg-primary-600 text-white font-semibold shadow-xs'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
               {category}

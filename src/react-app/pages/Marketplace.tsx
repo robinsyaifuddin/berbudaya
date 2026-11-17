@@ -253,7 +253,7 @@ export default function MarketplacePage() {
       {/* NAVBAR RESMI RUANGBUDAYA */}
       <TopNavbar />
 
-      {/* JARAK KE BAWAH DARI NAVBAR (pt-20 memberi ruang lega sehingga strip promo tidak bertabrakan dengan navbar) */}
+      {/* JARAK KE BAWAH DARI NAVBAR */}
       <div className="pt-20">
         {/* SUB-HEADER / PROMO STRIP SESUAI TEMA BIRU UTAMA */}
         <div className="bg-[#1e3a8a] text-white text-[11px] py-2 px-4 shadow-xs">
@@ -270,109 +270,95 @@ export default function MarketplacePage() {
             </div>
           </div>
         </div>
-
-        {/* SUB-NAVIGATION DARI GAMBAR 2 (TEMA BIRU) */}
-        <div className="border-b border-blue-100 bg-white shadow-2xs">
-          <div className="max-w-[1280px] mx-auto px-4 flex items-center justify-between gap-6 py-2.5">
-            <div className="flex items-center gap-8 text-[12px] font-medium text-slate-600 overflow-x-auto no-scrollbar">
-              <Link to="/marketplace" className="text-blue-600 font-bold whitespace-nowrap">Beranda Pasar</Link>
-              <a href="#promo" className="hover:text-blue-600 whitespace-nowrap transition-colors">Promo Spesial</a>
-              <a href="#new-arrivals" className="hover:text-blue-600 whitespace-nowrap transition-colors">Koleksi Baru</a>
-              <a href="#featured" className="hover:text-blue-600 whitespace-nowrap transition-colors">Karya Terlaris</a>
-              <a href="#brands" className="hover:text-blue-600 whitespace-nowrap transition-colors">Sanggar Mitra</a>
-              <a href="#blog" className="hover:text-blue-600 whitespace-nowrap transition-colors">Kisah Pengrajin</a>
-              <Link to="/cart" className="hover:text-blue-600 whitespace-nowrap transition-colors">Lacak Pesanan</Link>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* MAIN CONTAINER */}
       <main className="max-w-[1280px] mx-auto px-4 py-6 space-y-7">
 
-        {/* SECTION 1: HERO ROW (Full Width Hero dengan Bar Pencarian & Dropdown Kategori di Atas) */}
-        <section className="flex flex-col gap-4">
-          {/* BAR PENCARIAN & DROPDOWN KATEGORI SEBELAH ATAS DARI GAMBAR BANNER */}
-          <div className="bg-white rounded-xl border border-slate-200 p-3 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-            {/* Sebelah kiri: Kolom Pencarian Cepat */}
-            <div className="relative w-full sm:flex-1">
-              <input
-                type="text"
-                placeholder="Cari karya kriya, kain songket, keris, dekorasi adat..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 text-[12px] bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-blue-600 focus:bg-white focus:ring-1 focus:ring-blue-600 transition-all text-slate-800 placeholder:text-slate-400"
-              />
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-            </div>
+        {/* BAR PENCARIAN & DROPDOWN KATEGORI */}
+        <section className="bg-white rounded-xl border border-slate-200 p-3 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/* Sebelah kiri: Kolom Pencarian Cepat */}
+          <div className="relative w-full sm:flex-1">
+            <input
+              type="text"
+              placeholder="Cari karya kriya, kain songket, keris, dekorasi adat..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 text-[12px] bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-blue-600 focus:bg-white focus:ring-1 focus:ring-blue-600 transition-all text-slate-800 placeholder:text-slate-400"
+            />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          </div>
 
-            {/* Sebelah kanan: Dropdown Kategori Pilihan */}
-            <div className="relative w-full sm:w-auto shrink-0">
-              <button
-                type="button"
-                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-[12px] font-medium text-slate-700 hover:text-blue-600 transition-colors"
-              >
-                <span className="truncate max-w-[150px]">{activeCategory}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-              </button>
+          {/* Sebelah kanan: Dropdown Kategori Pilihan */}
+          <div className="relative w-full sm:w-auto shrink-0">
+            <button
+              type="button"
+              onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+              className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-[12px] font-medium text-slate-700 hover:text-blue-600 transition-colors"
+            >
+              <span className="truncate max-w-[150px]">{activeCategory}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            </button>
 
-              {showCategoryDropdown && (
-                <>
-                  <div 
-                    className="fixed inset-0 z-20" 
-                    onClick={() => setShowCategoryDropdown(false)} 
-                  />
-                  <div className="absolute right-0 top-full mt-1.5 w-56 bg-white border border-slate-200 rounded-xl shadow-xl z-30 py-1.5 divide-y divide-slate-100">
+            {showCategoryDropdown && (
+              <>
+                <div 
+                  className="fixed inset-0 z-20" 
+                  onClick={() => setShowCategoryDropdown(false)} 
+                />
+                <div className="absolute right-0 top-full mt-1.5 w-56 bg-white border border-slate-200 rounded-xl shadow-xl z-30 py-1.5 divide-y divide-slate-100">
+                  <button
+                    onClick={() => {
+                      setActiveCategory('Semua Kategori');
+                      setShowCategoryDropdown(false);
+                    }}
+                    className="w-full px-3.5 py-2 text-left text-[12px] flex items-center justify-between hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    <span className={activeCategory === 'Semua Kategori' ? 'font-bold text-blue-600' : 'text-slate-700'}>
+                      Semua Kategori
+                    </span>
+                    {activeCategory === 'Semua Kategori' && <Check className="w-3.5 h-3.5 text-blue-600" />}
+                  </button>
+                  {categorySidebar.map((item, idx) => (
                     <button
+                      key={idx}
                       onClick={() => {
-                        setActiveCategory('Semua Kategori');
+                        setActiveCategory(item.name);
                         setShowCategoryDropdown(false);
                       }}
                       className="w-full px-3.5 py-2 text-left text-[12px] flex items-center justify-between hover:bg-blue-50 hover:text-blue-600 transition-colors"
                     >
-                      <span className={activeCategory === 'Semua Kategori' ? 'font-bold text-blue-600' : 'text-slate-700'}>
-                        Semua Kategori
+                      <span className={activeCategory === item.name ? 'font-bold text-blue-600' : 'text-slate-700'}>
+                        {item.name}
                       </span>
-                      {activeCategory === 'Semua Kategori' && <Check className="w-3.5 h-3.5 text-blue-600" />}
+                      {activeCategory === item.name && <Check className="w-3.5 h-3.5 text-blue-600" />}
                     </button>
-                    {categorySidebar.map((item, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => {
-                          setActiveCategory(item.name);
-                          setShowCategoryDropdown(false);
-                        }}
-                        className="w-full px-3.5 py-2 text-left text-[12px] flex items-center justify-between hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                      >
-                        <span className={activeCategory === item.name ? 'font-bold text-blue-600' : 'text-slate-700'}>
-                          {item.name}
-                        </span>
-                        {activeCategory === item.name && <Check className="w-3.5 h-3.5 text-blue-600" />}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
+        </section>
 
-          {/* Big Hero Banner Full Width */}
-          <div className="rounded-xl bg-gradient-to-br from-blue-50/80 via-slate-50 to-blue-100/40 border border-blue-200/80 p-8 md:p-12 relative overflow-hidden min-h-[380px] flex flex-col justify-between shadow-xs">
-            <div className="max-w-md z-10 space-y-3">
-              <span className="inline-block px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold tracking-wide uppercase">
-                Kurasi Resmi Sanggar
-              </span>
-              <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.1]">
+        {/* SECTION 1: HERO & PRODUK TERATAS (KIRI: BANNER KURASI RESMI, KANAN: 4 CARD DENGAN 2 BARIS) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* KOLOM KIRI: BANNER */}
+          <div className="lg:col-span-5 rounded-2xl bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-950 text-white p-7 md:p-8 flex flex-col justify-between relative overflow-hidden shadow-sm border border-blue-800">
+            {/* Subtle decorative background glow */}
+            <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="relative z-10 space-y-4">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.15]">
                 Hadirkan Budaya <br />Di Ruang Hunian Anda
               </h1>
-              <p className="text-slate-600 text-[13px] md:text-[14px] leading-relaxed pt-1">
+              <p className="text-blue-100/90 text-[12.5px] leading-relaxed">
                 Karya kriya otentik, keris pusaka, dan tenun sutra dari tangan maestro nusantara untuk memperindah setiap sudut rumah Anda.
               </p>
-              <div className="pt-3">
+              
+              <div className="pt-2">
                 <a
                   href="#new-arrivals"
-                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-[12px] font-semibold px-5 py-2.5 rounded-lg shadow-sm transition-colors active:scale-[0.98]"
+                  className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-blue-900 text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
                 >
                   <span>Belanja Sekarang</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -380,26 +366,95 @@ export default function MarketplacePage() {
               </div>
             </div>
 
-            {/* Pagination Dots at Bottom of Banner */}
-            <div className="flex items-center gap-1.5 z-10 pt-4">
-              <span className="w-5 h-1.5 rounded-full bg-blue-600" />
-              <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-              <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+            {/* Pagination Dots at Bottom */}
+            <div className="relative z-10 flex items-center gap-1.5 pt-8">
+              <span className="w-6 h-1.5 rounded-full bg-white" />
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
+            </div>
+          </div>
+
+          {/* KOLOM KANAN: PRODUK TERATAS (4 CARD DALAM 2 BARIS X 2 KOLOM) */}
+          <div className="lg:col-span-7 flex flex-col justify-between">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                <h2 className="text-[14px] font-bold text-slate-900">Produk Teratas Banyak Peminat</h2>
+              </div>
+              <a href="#featured" className="text-[11px] font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 hover:underline">
+                <span>Lihat Selengkapnya</span>
+                <ChevronRight className="w-3 h-3" />
+              </a>
             </div>
 
-            {/* Right Side Visual Furniture + Lifestyle Showcase */}
-            <div className="hidden sm:block absolute right-6 top-1/2 -translate-y-1/2 w-[340px] md:w-[380px] pointer-events-none">
-              <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&h=500&fit=crop"
-                  alt="Ruang Budaya Showcase"
-                  className="rounded-xl shadow-xl object-cover w-full h-[300px] border border-white"
-                />
-                <div className="absolute -top-3 -left-3 bg-white/95 backdrop-blur-xs border border-blue-100 rounded-lg p-2.5 shadow-md">
-                  <span className="text-[10px] font-bold text-blue-600 block">Ruang Maestro</span>
-                  <span className="text-[11px] font-semibold text-slate-800">Ukir Jati & Keramik Adat</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {featuredProducts.slice(0, 4).map((product) => (
+                <div
+                  key={product.id}
+                  className="group bg-white rounded-xl border border-slate-200/90 p-3 hover:border-blue-400 hover:shadow-md transition-all duration-200 flex flex-col justify-between relative"
+                >
+                  <div className="flex gap-3">
+                    {/* Thumbnail Image */}
+                    <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-lg bg-slate-100 overflow-hidden shrink-0">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      {product.discountBadge && (
+                        <span className="absolute top-1 left-1 bg-rose-600 text-white text-[9px] font-bold px-1 py-0.2 rounded shadow-2xs">
+                          {product.discountBadge}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Content Details */}
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[10px] text-blue-600 font-medium block truncate mb-0.5">
+                        {product.category}
+                      </span>
+                      <h3 className="text-[12px] font-bold text-slate-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+                        {product.name}
+                      </h3>
+
+                      {/* Rating & Reviews */}
+                      <div className="flex items-center gap-1 text-[10px] text-slate-500 mt-1">
+                        <span className="font-semibold text-slate-800">{product.rating}</span>
+                        <span className="text-slate-400">({product.reviews} ulasan)</span>
+                      </div>
+
+                      {/* Price & Old Price */}
+                      <div className="mt-1 flex items-baseline gap-1.5 flex-wrap">
+                        <span className="text-[13px] font-extrabold text-slate-900">
+                          {formatPrice(product.price)}
+                        </span>
+                        {product.oldPrice && (
+                          <span className="text-[10px] text-slate-400 line-through">
+                            {formatPrice(product.oldPrice)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card Bottom CTA */}
+                  <div className="flex items-center gap-2 pt-2.5 mt-2 border-t border-slate-100">
+                    <Link
+                      to={`/marketplace/${product.id}`}
+                      className="flex-1 py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-black font-semibold text-[11px] rounded-md text-center transition-colors"
+                    >
+                      Detail
+                    </Link>
+                    <button
+                      onClick={(e) => handleBuy(e, product)}
+                      className="py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold rounded-md flex items-center justify-center gap-1.5 transition-colors active:scale-95 shadow-2xs"
+                    >
+                      <ShoppingCart className="w-3 h-3" />
+                      <span>Beli</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
