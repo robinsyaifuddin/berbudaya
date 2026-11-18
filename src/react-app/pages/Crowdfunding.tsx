@@ -253,7 +253,7 @@ export default function CrowdfundingPage() {
               </div>
               <Link 
                 to="/komunitas"
-                className="ml-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors whitespace-nowrap"
+                className="ml-3 px-4 py-2 bg-[#133384] hover:bg-[#1844A6] text-white text-xs font-semibold rounded-lg transition-colors whitespace-nowrap"
               >
                 Buat Komunitas
               </Link>

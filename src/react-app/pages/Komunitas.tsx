@@ -210,7 +210,7 @@ export default function KomunitasPage() {
           </div>
           <Link
             to="/kelola-komunitas"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary-600 hover:bg-primary-700 text-white font-medium text-xs sm:text-sm transition-all shadow-xs active:scale-[0.98] w-fit"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#133384] hover:bg-[#1844A6] text-white font-medium text-xs sm:text-sm transition-all shadow-xs active:scale-[0.98] w-fit"
           >
             <span>+ Buat Komunitas Baru</span>
           </Link>
@@ -386,7 +386,7 @@ export default function KomunitasPage() {
                       className={`flex-1 py-2 px-3 rounded-xl font-medium text-xs transition-all flex items-center justify-center gap-1.5 ${
                         isJoined
                           ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
-                          : 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
+                          : 'bg-[#133384] hover:bg-[#1844A6] text-white shadow-sm'
                       }`}
                     >
                       {isJoined ? (
@@ -481,7 +481,7 @@ export default function KomunitasPage() {
                     handleToggleJoin(selectedPreviewCommunity.id, selectedPreviewCommunity.name);
                     setSelectedPreviewCommunity(null);
                   }}
-                  className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-all"
+                  className="flex-1 py-2.5 bg-[#133384] hover:bg-[#1844A6] text-white rounded-xl text-sm font-medium transition-all"
                 >
                   {joinedCommunities.includes(selectedPreviewCommunity.id) ? 'Batal Gabung' : 'Gabung Komunitas Ini'}
                 </button>
@@ -500,7 +500,7 @@ export default function KomunitasPage() {
       {/* Floating Action Button */}
       <Link
         to="/kelola-komunitas"
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all font-medium text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
+        className="fixed bottom-6 right-6 bg-[#133384] hover:bg-[#1844A6] text-white px-5 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all font-medium text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
       >
         <span className="text-lg leading-none">+</span>
         <span className="hidden sm:inline">Buat Komunitas</span>

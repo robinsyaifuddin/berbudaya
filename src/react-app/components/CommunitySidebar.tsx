@@ -41,7 +41,7 @@ export default function CommunitySidebar() {
 
       <Link
         to="/komunitas"
-        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
+        className="w-full bg-[#133384] hover:bg-[#1844A6] text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
       >
         <Plus className="w-5 h-5" />
         <span>Buat Komunitas</span>

@@ -6,19 +6,21 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    // Instant synchronous check from localStorage to avoid delay / spinner lag
+    return !!localStorage.getItem('demo_user');
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Cek localStorage untuk user yang sudah login
         const demoUser = localStorage.getItem('demo_user');
         if (demoUser) {
           setIsAuthenticated(true);
           return;
         }
 
-        // Cek backend authentication (jika menggunakan backend)
+        // Cek backend authentication jika demoUser tidak ada
         try {
           const response = await fetch('/api/auth/status', {
             credentials: 'include',
@@ -26,15 +28,13 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
           
           if (response.ok) {
             const data = await response.json();
-            setIsAuthenticated(data.authenticated);
+            setIsAuthenticated(!!data.authenticated);
             return;
           }
-        } catch (backendError) {
-          // Backend belum tersedia atau error, lanjut ke pengecekan lokal
-          console.log('Backend auth check unavailable, checking local only');
+        } catch {
+          // Backend belum tersedia atau error
         }
 
-        // Jika tidak ada user yang login, set ke false
         setIsAuthenticated(false);
       } catch (error) {
         console.error('Error checking auth:', error);
@@ -42,8 +42,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       }
     };
 
-    checkAuth();
-  }, []);
+    if (!isAuthenticated) {
+      checkAuth();
+    }
+  }, [isAuthenticated]);
 
   if (isAuthenticated === null) {
     // Loading state: hanya putaran spinner bersih dan minimalis

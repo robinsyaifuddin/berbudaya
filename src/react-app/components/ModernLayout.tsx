@@ -8,12 +8,14 @@ interface ModernLayoutProps {
   children: ReactNode;
   showLeftSidebar?: boolean;
   showRightSidebar?: boolean;
+  leftSidebarContent?: ReactNode;
 }
 
 export default function ModernLayout({ 
   children, 
   showLeftSidebar = true, 
-  showRightSidebar = true 
+  showRightSidebar = true,
+  leftSidebarContent
 }: ModernLayoutProps) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -40,7 +42,7 @@ export default function ModernLayout({
                   <X className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
-              <ProfileSidebar />
+              {leftSidebarContent || <ProfileSidebar />}
             </div>
           </div>
         </>
@@ -53,7 +55,7 @@ export default function ModernLayout({
             {/* Left Sidebar - Profile & Navigasi */}
             {showLeftSidebar && (
               <aside className="hidden lg:block lg:col-span-3 sticky top-[76px] self-start">
-                <ProfileSidebar />
+                {leftSidebarContent || <ProfileSidebar />}
               </aside>
             )}
 

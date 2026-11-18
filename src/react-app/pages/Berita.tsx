@@ -167,7 +167,6 @@ export default function BeritaPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua Berita');
   const [searchQuery, setSearchQuery] = useState('');
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
-  const [activeTab, setActiveTab] = useState<'index' | 'terminal'>('index');
   const [sortOption, setSortOption] = useState<'latest' | 'popular'>('latest');
 
   const toggleBookmark = (id: number) => {
@@ -251,21 +250,6 @@ export default function BeritaPage() {
               <Search className="w-4 h-4 text-slate-700" />
               <span className="font-semibold text-sm text-slate-900 tracking-tight">Direktori & Terminal Warta Kebudayaan</span>
             </div>
-            <div className="flex items-center gap-1.5 self-start sm:self-auto bg-slate-100 p-1 rounded-md text-xs font-medium">
-              <button 
-                onClick={() => setActiveTab('index')}
-                className={`px-3 py-1 rounded-md transition-all ${activeTab === 'index' ? 'bg-white text-slate-900 shadow-2xs font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                Indeks Standar
-              </button>
-              <button 
-                onClick={() => setActiveTab('terminal')}
-                className={`px-3 py-1 rounded-md transition-all flex items-center gap-1 ${activeTab === 'terminal' ? 'bg-primary-600 text-white shadow-2xs font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                <Sparkles className="w-3 h-3" />
-                Riset Budaya Terpadu
-              </button>
-            </div>
           </div>
 
           <div className="relative">
@@ -325,10 +309,10 @@ export default function BeritaPage() {
               <section>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-1 h-4 bg-rose-600 rounded-full" />
+                    <div className="w-1 h-4 bg-primary-600 rounded-full" />
                     <h2 className="text-base font-bold text-zinc-950 tracking-tight">Sorotan Utama</h2>
                   </div>
-                  <span className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer">
+                  <span className="text-xs font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-1 cursor-pointer">
                     Semua Sorotan <ChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -342,25 +326,25 @@ export default function BeritaPage() {
                         alt={featuredArticle.title}
                         className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                       />
-                      <span className="absolute top-3 left-3 px-2.5 py-1 bg-rose-600 text-white text-[10px] font-bold uppercase tracking-wider rounded-md shadow-xs">
+                      <span className="absolute top-3 left-3 px-2.5 py-1 bg-primary-600 text-white text-[10px] font-bold uppercase tracking-wider rounded-md shadow-xs">
                         Featured
                       </span>
                       <button 
                         onClick={() => toggleBookmark(featuredArticle.id)}
-                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-rose-600 transition-colors shadow-xs"
+                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-primary-600 transition-colors shadow-xs"
                       >
-                        <Bookmark className={`w-3.5 h-3.5 ${bookmarkedIds.includes(featuredArticle.id) ? 'fill-rose-600 text-rose-600' : ''}`} />
+                        <Bookmark className={`w-3.5 h-3.5 ${bookmarkedIds.includes(featuredArticle.id) ? 'fill-primary-600 text-primary-600' : ''}`} />
                       </button>
                     </div>
 
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
-                        <div className="flex items-center gap-2 text-[11px] font-semibold tracking-wide text-rose-600 uppercase mb-2">
+                        <div className="flex items-center gap-2 text-[11px] font-semibold tracking-wide text-primary-600 uppercase mb-2">
                           <span>{featuredArticle.category}</span>
                           <span className="text-zinc-300">•</span>
                           <span className="text-zinc-500">{featuredArticle.subCategory}</span>
                         </div>
-                        <h3 className="text-base sm:text-lg font-bold text-zinc-900 leading-snug group-hover:text-rose-600 transition-colors">
+                        <h3 className="text-base sm:text-lg font-bold text-zinc-900 leading-snug group-hover:text-primary-600 transition-colors">
                           {featuredArticle.title}
                         </h3>
                         <p className="mt-2 text-xs sm:text-sm text-zinc-600 line-clamp-3 leading-relaxed">
@@ -380,7 +364,7 @@ export default function BeritaPage() {
                             <div className="text-[10px] text-zinc-400">{featuredArticle.date}</div>
                           </div>
                         </div>
-                        <div className="w-7 h-7 rounded-full bg-rose-50 flex items-center justify-center text-rose-600 group-hover:bg-rose-600 group-hover:text-white transition-all">
+                        <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all">
                           <ArrowUpRight className="w-3.5 h-3.5" />
                         </div>
                       </div>
@@ -403,12 +387,12 @@ export default function BeritaPage() {
                             />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1.5 text-[10px] font-semibold text-rose-600 uppercase mb-1">
+                            <div className="flex items-center gap-1.5 text-[10px] font-semibold text-primary-600 uppercase mb-1">
                               <span>{article.category}</span>
                               <span className="text-zinc-300">•</span>
                               <span className="text-zinc-400 font-normal">{article.readTime}</span>
                             </div>
-                            <h4 className="text-xs sm:text-sm font-bold text-zinc-900 leading-snug line-clamp-2 group-hover:text-rose-600 transition-colors">
+                            <h4 className="text-xs sm:text-sm font-bold text-zinc-900 leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">
                               {article.title}
                             </h4>
                           </div>
@@ -436,13 +420,13 @@ export default function BeritaPage() {
             <section>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-1 h-4 bg-rose-600 rounded-full" />
+                  <div className="w-1 h-4 bg-primary-600 rounded-full" />
                   <h2 className="text-base font-bold text-zinc-950 tracking-tight">Warta Terbaru</h2>
                   <span className="text-xs text-zinc-400 font-normal ml-1">
                     Menampilkan 1–{gridArticles.length} dari {newsArticles.length} laporan
                   </span>
                 </div>
-                <span className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1 cursor-pointer">
+                <span className="text-xs font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-1 cursor-pointer">
                   Lihat Arsip Lengkap <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
@@ -464,19 +448,19 @@ export default function BeritaPage() {
                         />
                         <button 
                           onClick={() => toggleBookmark(article.id)}
-                          className="absolute top-2.5 right-2.5 p-1.5 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-rose-600 transition-colors shadow-2xs"
+                          className="absolute top-2.5 right-2.5 p-1.5 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-primary-600 transition-colors shadow-2xs"
                         >
-                          <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-rose-600 text-rose-600' : ''}`} />
+                          <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-primary-600 text-primary-600' : ''}`} />
                         </button>
                       </div>
 
                       <div className="p-4 flex-1 flex flex-col justify-between">
                         <div>
                           <div className="flex items-center justify-between text-[10px] text-zinc-500 mb-2">
-                            <span className="font-semibold text-rose-600 uppercase tracking-wide">{article.category}</span>
+                            <span className="font-semibold text-primary-600 uppercase tracking-wide">{article.category}</span>
                             <span>{article.readTime}</span>
                           </div>
-                          <h3 className="font-bold text-zinc-900 text-sm leading-snug group-hover:text-rose-600 transition-colors line-clamp-2 mb-1.5">
+                          <h3 className="font-bold text-zinc-900 text-sm leading-snug group-hover:text-primary-600 transition-colors line-clamp-2 mb-1.5">
                             {article.title}
                           </h3>
                           <p className="text-zinc-600 text-xs line-clamp-2 leading-relaxed">
@@ -496,7 +480,7 @@ export default function BeritaPage() {
                               <div className="text-[9px] text-zinc-400">{article.date}</div>
                             </div>
                           </div>
-                          <div className="w-6 h-6 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-rose-50 group-hover:text-rose-600 transition-colors">
+                          <div className="w-6 h-6 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
                             <ArrowUpRight className="w-3 h-3" />
                           </div>
                         </div>
@@ -520,7 +504,7 @@ export default function BeritaPage() {
                   <ChevronLeft className="w-3.5 h-3.5" /> Sebelumnya
                 </button>
                 <div className="flex items-center gap-1">
-                  <button className="w-8 h-8 rounded-lg bg-rose-600 text-white text-xs font-bold shadow-xs">1</button>
+                  <button className="w-8 h-8 rounded-lg bg-primary-600 text-white text-xs font-bold shadow-xs">1</button>
                   <button className="w-8 h-8 rounded-lg border border-zinc-200 text-zinc-700 hover:bg-zinc-100 text-xs font-medium">2</button>
                   <button className="w-8 h-8 rounded-lg border border-zinc-200 text-zinc-700 hover:bg-zinc-100 text-xs font-medium">3</button>
                   <span className="px-1 text-xs text-zinc-400">...</span>
@@ -539,7 +523,7 @@ export default function BeritaPage() {
             {/* Popular Searches Pills */}
             <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 shadow-xs">
               <div className="flex items-center gap-2 text-xs font-bold text-zinc-900 uppercase tracking-wider mb-3">
-                <TrendingUp className="w-3.5 h-3.5 text-rose-600" />
+                <TrendingUp className="w-3.5 h-3.5 text-primary-600" />
                 Pencarian Populer
               </div>
               <div className="flex flex-wrap gap-2">
@@ -547,7 +531,7 @@ export default function BeritaPage() {
                   <button 
                     key={tag}
                     onClick={() => setSearchQuery(tag)}
-                    className="px-3 py-1 bg-zinc-50 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 border border-zinc-200 rounded-lg text-xs font-medium text-zinc-700 transition-all"
+                    className="px-3 py-1 bg-zinc-50 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 border border-zinc-200 rounded-lg text-xs font-medium text-zinc-700 transition-all"
                   >
                     {tag}
                   </button>
@@ -558,7 +542,7 @@ export default function BeritaPage() {
             {/* Institutional Framework / Standard Mutu */}
             <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 shadow-xs">
               <div className="flex items-center gap-2 text-xs font-bold text-zinc-900 uppercase tracking-wider mb-3">
-                <ShieldCheck className="w-4 h-4 text-rose-600" />
+                <ShieldCheck className="w-4 h-4 text-primary-600" />
                 Standar Kurasi & Integritas
               </div>
               <ul className="space-y-2.5 text-xs text-zinc-600">
@@ -580,7 +564,7 @@ export default function BeritaPage() {
                 </li>
               </ul>
               <div className="mt-4 pt-3 border-t border-zinc-100">
-                <span className="text-xs font-semibold text-rose-600 hover:text-rose-700 inline-flex items-center gap-1 cursor-pointer">
+                <span className="text-xs font-semibold text-primary-600 hover:text-primary-700 inline-flex items-center gap-1 cursor-pointer">
                   Pelajari metodologi kurasi kami <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
@@ -590,10 +574,10 @@ export default function BeritaPage() {
             <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 shadow-xs">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse" />
+                  <div className="w-1.5 h-1.5 bg-primary-600 rounded-full animate-pulse" />
                   <h3 className="text-xs font-bold text-zinc-900 uppercase tracking-wider">Kabar Singkat Terkini</h3>
                 </div>
-                <span className="text-[11px] font-semibold text-rose-600 hover:underline cursor-pointer">Semua</span>
+                <span className="text-[11px] font-semibold text-primary-600 hover:underline cursor-pointer">Semua</span>
               </div>
 
               <div className="divide-y divide-zinc-100">
@@ -606,7 +590,7 @@ export default function BeritaPage() {
                       <span>•</span>
                       <span>{item.time}</span>
                     </div>
-                    <p className="text-xs font-medium text-zinc-800 group-hover:text-rose-600 transition-colors leading-snug">
+                    <p className="text-xs font-medium text-zinc-800 group-hover:text-primary-600 transition-colors leading-snug">
                       {item.title}
                     </p>
                   </div>
@@ -616,8 +600,8 @@ export default function BeritaPage() {
 
             {/* Custom Research & Submission Card */}
             <div className="bg-zinc-950 text-white rounded-2xl p-5 shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-rose-600/20 blur-2xl pointer-events-none rounded-full" />
-              <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-2">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary-600/20 blur-2xl pointer-events-none rounded-full" />
+              <div className="flex items-center gap-2 text-primary-400 text-xs font-bold uppercase tracking-wider mb-2">
                 <Send className="w-3.5 h-3.5" />
                 Kirim Laporan Budaya
               </div>
@@ -627,7 +611,7 @@ export default function BeritaPage() {
               <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
                 Kirimkan naskah atau warta komunitas Anda ke dewan kurasi kami untuk ditinjau dan dipublikasikan.
               </p>
-              <button className="w-full mt-4 py-2.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
+              <button className="w-full mt-4 py-2.5 px-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-xs rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
                 Ajukan Warta / Riset <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
             </div>

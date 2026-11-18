@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
 import {
-  MapPin, Calendar, Link as LinkIcon, Mail, Phone, Briefcase,
-  Award, Image as ImageIcon, FileText, Heart, MessageCircle,
-  UserPlus, Send, ArrowLeft, Check, Sparkles, Share2, ShieldCheck, ChevronRight
+  MapPin, Calendar, Link as LinkIcon, Mail, Briefcase,
+  Image as ImageIcon, FileText, Heart, MessageCircle,
+  UserPlus, Send, ArrowLeft, Check, Share2, ShieldCheck, ChevronRight,
+  Globe, User, GraduationCap, ShoppingBag, Star
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { usersDatabase, UserProfileData } from '@/react-app/data/usersDatabase';
+import { CULTURAL_PRODUCTS } from '@/react-app/data/productsData';
 
 export default function UserProfile() {
   const { userId } = useParams<{ userId: string }>();
@@ -15,6 +17,31 @@ export default function UserProfile() {
   const [activeTab, setActiveTab] = useState<'posts' | 'about' | 'experience'>('posts');
   const [isConnected, setIsConnected] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  // Rekomendasi produk yang relevan dengan profil ini
+  const relatedProducts = useMemo(() => {
+    if (!userData) return [];
+    
+    // Cari produk yang sesuai kategori atau seller terkait profil
+    const matching = CULTURAL_PRODUCTS.filter(p => {
+      const matchCat = userData.category && (
+        p.category.toLowerCase().includes(userData.category.toLowerCase()) ||
+        userData.category.toLowerCase().includes(p.category.toLowerCase())
+      );
+      const matchFocus = userData.culturalFocus?.some(f => 
+        p.name.toLowerCase().includes(f.toLowerCase()) || 
+        p.category.toLowerCase().includes(f.toLowerCase())
+      );
+      const matchName = p.seller.toLowerCase().includes(userData.name.toLowerCase());
+      return matchCat || matchFocus || matchName;
+    });
+
+    if (matching.length >= 2) {
+      return matching.slice(0, 3);
+    }
+    // Fallback ambil rekomendasi produk unggulan
+    return CULTURAL_PRODUCTS.slice(0, 3);
+  }, [userData]);
 
   useEffect(() => {
     if (userId) {
@@ -77,6 +104,19 @@ export default function UserProfile() {
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
+  const handleOpenDirectChat = () => {
+    if (!userData) return;
+    const chatContact = {
+      id: Number(userData.id) || 1,
+      userId: userData.id,
+      name: userData.name,
+      avatar: userData.avatar,
+      role: userData.profession || 'Penggiat Budaya',
+      status: 'Aktif sekarang'
+    };
+    window.dispatchEvent(new CustomEvent('open_direct_chat', { detail: chatContact }));
+  };
+
   if (!userData) {
     return (
       <div className="min-h-screen bg-slate-50">
@@ -99,257 +139,246 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-neutral-100/70 text-neutral-900 pb-16">
       <TopNavbar />
 
-      <main className="pt-16 pb-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          {/* Back Navigation Bar */}
-          <div className="py-3 flex items-center justify-between text-xs text-slate-500">
-            <button
-              onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-1.5 font-medium text-slate-700 hover:text-blue-600 transition-colors"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              Kembali
-            </button>
-            <div className="flex items-center gap-1 text-[11px] text-slate-400">
-              <Link to="/jaringan" className="hover:text-slate-600">Jaringan</Link>
-              <ChevronRight className="w-3 h-3" />
-              <span className="text-slate-700 font-medium truncate max-w-[140px]">{userData.name}</span>
-            </div>
+      <main className="pt-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        {/* Back Navigation Bar */}
+        <div className="py-2.5 mb-2 flex items-center justify-between text-xs text-neutral-500">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-1.5 font-medium text-neutral-700 hover:text-blue-600 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Kembali
+          </button>
+          <div className="flex items-center gap-1 text-[11px] text-neutral-400">
+            <Link to="/jaringan" className="hover:text-neutral-600">Jaringan</Link>
+            <ChevronRight className="w-3 h-3" />
+            <span className="text-neutral-700 font-medium truncate max-w-[140px]">{userData.name}</span>
           </div>
+        </div>
 
-          {/* Profile Card Container */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden mb-6">
-            {/* Cover Header */}
-            <div className="relative h-44 sm:h-56 bg-slate-800 overflow-hidden">
-              <img
-                src={userData.cover}
-                alt="Sampul Profil"
-                className="w-full h-full object-cover opacity-90"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />
-              <div className="absolute top-4 right-4 flex items-center gap-2">
+        {/* 2-Column Grid matching Profil.tsx */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+          
+          {/* Main Column (8 Cols in Desktop) */}
+          <div className="lg:col-span-8 space-y-5">
+            {/* Profile Card Container */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm overflow-hidden">
+              {/* Cover Header */}
+              <div className="relative h-36 sm:h-52 bg-slate-800 overflow-hidden">
+                <img
+                  src={userData.cover}
+                  alt="Sampul Profil"
+                  className="w-full h-full object-cover"
+                />
+                {/* Tombol Bagikan Icon Only di Pojok Kanan Atas Banner */}
                 <button
                   onClick={handleCopyProfile}
-                  className="px-3 py-1.5 bg-black/40 hover:bg-black/60 text-white rounded-xl text-xs font-medium backdrop-blur-md transition-colors flex items-center gap-1.5 border border-white/10"
+                  title="Bagikan Profil"
+                  className="absolute top-3 right-3 p-2 bg-white/90 hover:bg-white text-neutral-700 rounded-full shadow-sm backdrop-blur transition active:scale-95 flex items-center justify-center"
                 >
-                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
-                  {copiedLink ? 'Tersalin' : 'Bagikan'}
+                  {copiedLink ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4 text-neutral-700" />}
                 </button>
+              </div>
+
+              {/* Profile Intro & Avatar */}
+              <div className="px-5 sm:px-7 pb-6 relative">
+                {/* Avatar & Action button row */}
+                <div className="flex justify-between items-end -mt-16 sm:-mt-20 mb-3 sm:mb-4">
+                  <div className="relative group">
+                    <img
+                      src={userData.avatar}
+                      alt={userData.name}
+                      className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white shadow-md object-cover bg-neutral-100"
+                    />
+                    {userData.verified && (
+                      <div
+                        title="Pelestari Budaya Terverifikasi"
+                        className="absolute bottom-1 right-1 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm"
+                      >
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Primary Action Buttons */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setIsConnected(!isConnected)}
+                      className="p-2 sm:px-3.5 sm:py-1.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-full text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 active:scale-95 shadow-sm"
+                    >
+                      {isConnected ? (
+                        <>
+                          <Check className="w-4 h-4 text-emerald-400" />
+                          <span>Terhubung</span>
+                        </>
+                      ) : (
+                        <>
+                          <UserPlus className="w-4 h-4 text-white" />
+                          <span>Hubungkan</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={handleOpenDirectChat}
+                      className="p-2 sm:px-3.5 sm:py-1.5 border border-neutral-300 hover:bg-neutral-50 rounded-full text-neutral-700 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 active:scale-95"
+                    >
+                      <Send className="w-4 h-4 text-neutral-600" />
+                      <span className="hidden sm:inline">Kirim Pesan</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Bio & Details */}
+                <div className="space-y-1 sm:space-y-1.5">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
+                      {userData.name}
+                    </h1>
+                    {userData.verified && (
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
+                        <ShieldCheck className="w-4 h-4 text-blue-600" /> Terverifikasi
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-xs text-neutral-500 font-medium">
+                    {userData.username} • {userData.profession} • <span className="text-neutral-700 font-semibold">{userData.category}</span>
+                  </p>
+
+                  <p className="text-sm sm:text-base text-neutral-700 font-normal leading-snug max-w-2xl pt-1">
+                    {userData.bio}
+                  </p>
+
+                  {/* Metas: Lokasi, Tanggal, Pengikut, Koneksi */}
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-neutral-500 pt-1.5">
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-neutral-400" />
+                      {userData.location}
+                    </span>
+                    <span>•</span>
+                    <span className="text-neutral-500">
+                      <strong className="text-neutral-800 font-semibold">{userData.followers.toLocaleString('id-ID')}</strong> pengikut
+                    </span>
+                    <span>•</span>
+                    <span className="text-neutral-500">
+                      <strong className="text-neutral-800 font-semibold">{userData.following.toLocaleString('id-ID')}</strong> koneksi
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Navigation Tabs */}
+              <div className="border-t border-slate-100 px-5 sm:px-8 bg-slate-50/50">
+                <div className="flex gap-6 overflow-x-auto scrollbar-hide">
+                  <button
+                    onClick={() => setActiveTab('posts')}
+                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      activeTab === 'posts' ? 'active font-bold' : ''
+                    }`}
+                  >
+                    <ImageIcon className="w-3.5 h-3.5" />
+                    Karya & Postingan ({userData.posts_list.length})
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('about')}
+                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      activeTab === 'about' ? 'active font-bold' : ''
+                    }`}
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    Tentang & Keahlian
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('experience')}
+                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      activeTab === 'experience' ? 'active font-bold' : ''
+                    }`}
+                  >
+                    <Briefcase className="w-3.5 h-3.5" />
+                    Dedikasi & Riwayat
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Profile Intro & Avatar */}
-            <div className="px-5 sm:px-8 pb-6">
-              <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 -mt-14 sm:-mt-16 mb-5">
-                <div className="relative w-28 h-28 sm:w-32 sm:h-32">
-                  <img
-                    src={userData.avatar}
-                    alt={userData.name}
-                    className="w-full h-full rounded-2xl object-cover border-4 border-white shadow-md bg-white"
-                  />
-                  {userData.verified && (
-                    <div
-                      title="Pelestari Budaya Terverifikasi"
-                      className="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-600 text-white rounded-lg flex items-center justify-center border-2 border-white shadow-sm"
+            {/* Tab Content Display */}
+            {activeTab === 'posts' && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {userData.posts_list.map((post) => (
+                    <article
+                      key={post.id}
+                      className="bg-white rounded-2xl border border-neutral-200/80 overflow-hidden hover:border-neutral-300 transition-all shadow-sm flex flex-col justify-between"
                     >
-                      <ShieldCheck className="w-4 h-4" />
-                    </div>
-                  )}
-                </div>
+                      <div>
+                        {post.image && (
+                          <div className="h-48 overflow-hidden bg-slate-100">
+                            <img
+                              src={post.image}
+                              alt={post.title}
+                              className="w-full h-full object-cover hover:scale-102 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+                        <div className="p-4">
+                          <div className="text-[11px] text-slate-400 mb-1.5">{post.timestamp}</div>
+                          <h3 className="font-semibold text-slate-900 text-sm mb-1.5 leading-snug">
+                            {post.title}
+                          </h3>
+                          <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                            {post.content}
+                          </p>
+                        </div>
+                      </div>
 
-                {/* Primary Action Buttons */}
-                <div className="flex items-center gap-2.5">
-                  <button
-                    onClick={() => setIsConnected(!isConnected)}
-                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all active:scale-[0.98] ${
-                      isConnected
-                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
-                        : 'bg-slate-900 hover:bg-blue-600 text-white shadow-sm'
-                    }`}
-                  >
-                    {isConnected ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-blue-600" />
-                        Terhubung
-                      </>
-                    ) : (
-                      <>
-                        <UserPlus className="w-3.5 h-3.5" />
-                        Hubungkan
-                      </>
-                    )}
-                  </button>
-
-                  <Link
-                    to="/pesan"
-                    className="flex items-center gap-1.5 px-4 py-2.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
-                  >
-                    <Send className="w-3.5 h-3.5 text-slate-500" />
-                    Kirim Pesan
-                  </Link>
+                      <div className="px-4 py-3 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <div className="flex items-center gap-4">
+                          <span className="flex items-center gap-1 hover:text-red-500 cursor-pointer transition-colors">
+                            <Heart className="w-3.5 h-3.5" />
+                            {post.likes}
+                          </span>
+                          <span className="flex items-center gap-1 hover:text-blue-600 cursor-pointer transition-colors">
+                            <MessageCircle className="w-3.5 h-3.5" />
+                            {post.comments}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-slate-400">Warisan Budaya</span>
+                      </div>
+                    </article>
+                  ))}
                 </div>
               </div>
+            )}
 
-              {/* Bio & Details */}
-              <div className="space-y-3">
-                <div>
-                  <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-1">
-                    {userData.name}
-                  </h1>
-                  <p className="text-xs text-slate-500 font-medium">
-                    {userData.username} • {userData.profession} • <span className="text-slate-700 font-semibold">{userData.category}</span>
+            {/* TAB 2: ABOUT & SKILLS */}
+            {activeTab === 'about' && (
+              <>
+                {/* About / Summary Section */}
+                <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
+                  <div className="mb-3">
+                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Tentang Saya</h2>
+                  </div>
+                  <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-line">
+                    {userData.bio}
                   </p>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed max-w-3xl">
-                  {userData.bio}
-                </p>
-
-                {/* Metas: Lokasi, Website, Tanggal */}
-                <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 pt-1 border-t border-slate-100">
-                  <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{userData.location}</span>
+                {/* Skills Section */}
+                <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
+                  <div className="mb-4">
+                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Keahlian & Keilmuan Budaya</h2>
+                    <p className="text-xs text-neutral-500">Spesialisasi kesenian yang dikuasai</p>
                   </div>
-                  {userData.website && (
-                    <div className="flex items-center gap-1.5">
-                      <LinkIcon className="w-3.5 h-3.5 text-slate-400" />
-                      <a
-                        href={`https://${userData.website}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        {userData.website}
-                      </a>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{userData.joinedDate}</span>
-                  </div>
-                </div>
 
-                {/* Statistics Pills */}
-                <div className="flex items-center gap-6 pt-3">
-                  <div>
-                    <span className="text-sm font-bold text-slate-900">{userData.posts}</span>
-                    <span className="text-xs text-slate-500 ml-1.5">Karya</span>
-                  </div>
-                  <div className="h-3 w-px bg-slate-200" />
-                  <div>
-                    <span className="text-sm font-bold text-slate-900">{userData.followers.toLocaleString('id-ID')}</span>
-                    <span className="text-xs text-slate-500 ml-1.5">Pengikut</span>
-                  </div>
-                  <div className="h-3 w-px bg-slate-200" />
-                  <div>
-                    <span className="text-sm font-bold text-slate-900">{userData.following.toLocaleString('id-ID')}</span>
-                    <span className="text-xs text-slate-500 ml-1.5">Koneksi</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation Tabs */}
-            <div className="border-t border-slate-100 px-5 sm:px-8 bg-slate-50/50">
-              <div className="flex gap-6 overflow-x-auto">
-                <button
-                  onClick={() => setActiveTab('posts')}
-                  className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
-                    activeTab === 'posts' ? 'active font-bold' : ''
-                  }`}
-                >
-                  <ImageIcon className="w-3.5 h-3.5" />
-                  Karya & Postingan ({userData.posts_list.length})
-                </button>
-                <button
-                  onClick={() => setActiveTab('about')}
-                  className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
-                    activeTab === 'about' ? 'active font-bold' : ''
-                  }`}
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  Tentang & Keahlian
-                </button>
-                <button
-                  onClick={() => setActiveTab('experience')}
-                  className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
-                    activeTab === 'experience' ? 'active font-bold' : ''
-                  }`}
-                >
-                  <Briefcase className="w-3.5 h-3.5" />
-                  Dedikasi & Riwayat
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Tab Content Display */}
-          {activeTab === 'posts' && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {userData.posts_list.map((post) => (
-                  <article
-                    key={post.id}
-                    className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden hover:border-slate-300 transition-all shadow-sm flex flex-col justify-between"
-                  >
-                    <div>
-                      {post.image && (
-                        <div className="h-48 overflow-hidden bg-slate-100">
-                          <img
-                            src={post.image}
-                            alt={post.title}
-                            className="w-full h-full object-cover hover:scale-102 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <div className="p-4">
-                        <div className="text-[11px] text-slate-400 mb-1.5">{post.timestamp}</div>
-                        <h3 className="font-semibold text-slate-900 text-sm mb-1.5 leading-snug">
-                          {post.title}
-                        </h3>
-                        <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                          {post.content}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="px-4 py-3 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                      <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1 hover:text-red-500 cursor-pointer transition-colors">
-                          <Heart className="w-3.5 h-3.5" />
-                          {post.likes}
-                        </span>
-                        <span className="flex items-center gap-1 hover:text-blue-600 cursor-pointer transition-colors">
-                          <MessageCircle className="w-3.5 h-3.5" />
-                          {post.comments}
-                        </span>
-                      </div>
-                      <span className="text-[10px] text-slate-400">Warisan Budaya</span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'about' && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {/* Left Column: Fokus Budaya */}
-              <div className="md:col-span-2 space-y-5">
-                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
-                  <h3 className="font-semibold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-blue-600" />
-                    Fokus & Keahlian Budaya
-                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {userData.culturalFocus.map((focus, idx) => (
-                      <span
+                      <span 
                         key={idx}
-                        className="px-3 py-1 text-xs font-medium text-slate-700 bg-slate-100 rounded-lg border border-slate-200/80"
+                        className="inline-flex items-center px-3 py-1.5 bg-neutral-100/80 text-neutral-800 rounded-lg text-xs sm:text-sm font-medium border border-neutral-200/60"
                       >
                         {focus}
                       </span>
@@ -357,72 +386,232 @@ export default function UserProfile() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
-                  <h3 className="font-semibold text-sm text-slate-900 mb-3 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-amber-500" />
-                    Penghargaan & Pengakuan Adat
-                  </h3>
-                  <div className="space-y-3">
+                {/* Minat / Penghargaan Section inside About */}
+                <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
+                  <div className="mb-4">
+                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Penghargaan & Pengakuan Adat</h2>
+                    <p className="text-xs text-neutral-500">Apresiasi dedikasi pelestarian tradisi</p>
+                  </div>
+
+                  <div className="divide-y divide-neutral-100">
                     {userData.achievements.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-3 pb-3 border-b border-slate-100 last:border-0 last:pb-0">
-                        <div className="w-2 h-2 rounded-full bg-blue-600 mt-1.5 shrink-0" />
-                        <div>
-                          <h4 className="text-xs font-semibold text-slate-900">{item.title}</h4>
-                          <p className="text-[11px] text-slate-500">{item.organization} • {item.year}</p>
+                      <div key={idx} className="py-3.5 first:pt-0 last:pb-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">{item.title}</h3>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-neutral-500 mt-1">
+                          <MapPin className="w-3.5 h-3.5 shrink-0 text-neutral-400" />
+                          <span>{item.organization} · {item.year}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
+              </>
+            )}
 
-              {/* Right Column: Kontak Langsung */}
-              <div className="space-y-4">
-                <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
-                  <h3 className="font-semibold text-sm text-slate-900 mb-3">Informasi Kontak</h3>
-                  <div className="space-y-2.5 text-xs text-slate-600">
-                    {userData.email && (
-                      <div className="flex items-center gap-2">
-                        <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="truncate">{userData.email}</span>
+            {/* TAB 3: DEDIKASI & RIWAYAT (EXPERIENCE & EDUCATION) */}
+            {activeTab === 'experience' && (
+              <div className="space-y-5">
+                {/* Experiences */}
+                <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
+                  <div className="mb-6">
+                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pengalaman Profesional & Komunitas</h2>
+                    <p className="text-xs text-neutral-500 mt-0.5">Peran dalam pelestarian dan industri seni kebudayaan</p>
+                  </div>
+
+                  <div className="relative">
+                    {userData.experience.map((exp, idx) => {
+                      const isLast = idx === userData.experience.length - 1;
+                      return (
+                        <div key={idx} className="relative flex gap-4 pb-7 last:pb-1">
+                          {/* Vertical Connector Line */}
+                          {!isLast && (
+                            <div className="absolute left-[17px] top-[34px] bottom-0 w-[1.5px] bg-neutral-200" />
+                          )}
+
+                          {/* Round Dark Icon */}
+                          <div className="relative z-10 w-[34px] h-[34px] rounded-full bg-neutral-900 flex items-center justify-center shrink-0 shadow-sm ring-4 ring-white">
+                            <Briefcase className="w-4 h-4 text-white" />
+                          </div>
+
+                          <div className="flex-1 min-w-0 pt-0.5">
+                            <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">{exp.role}</h3>
+                            <p className="text-xs sm:text-sm font-medium text-neutral-700 mt-0.5">{exp.organization}</p>
+                            <p className="text-xs text-neutral-400 font-medium mt-0.5 mb-2">{exp.period}</p>
+                            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{exp.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Educations */}
+                <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
+                  <div className="mb-6">
+                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pendidikan</h2>
+                    <p className="text-xs text-neutral-500 mt-0.5">Latar belakang pendidikan akademis</p>
+                  </div>
+
+                  <div className="relative">
+                    <div className="relative flex gap-4 pb-1">
+                      <div className="relative z-10 w-[34px] h-[34px] rounded-full bg-neutral-900 flex items-center justify-center shrink-0 shadow-sm ring-4 ring-white">
+                        <GraduationCap className="w-4 h-4 text-white" />
                       </div>
-                    )}
-                    {userData.phone && (
-                      <div className="flex items-center gap-2">
-                        <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span>{userData.phone}</span>
+                      <div className="flex-1 min-w-0 pt-0.5">
+                        <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">Institut Seni Indonesia (ISI) Surakarta</h3>
+                        <p className="text-xs sm:text-sm text-neutral-700 mt-0.5">Sarjana Seni (S.Sn) · Seni Pedalangan & Pedalangan Klasik</p>
+                        <p className="text-xs text-neutral-400 font-medium mt-0.5">2012 - 2016</p>
                       </div>
-                    )}
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span>{userData.location}</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {activeTab === 'experience' && (
-            <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm">
-              <h3 className="font-semibold text-sm text-slate-900 mb-5 flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-blue-600" />
-                Dedikasi Komunitas & Riwayat Pelestarian
-              </h3>
-              <div className="space-y-6">
-                {userData.experience.map((exp, idx) => (
-                  <div key={idx} className="relative pl-6 pb-6 border-l-2 border-slate-200 last:border-0 last:pb-0">
-                    <div className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-blue-600" />
-                    <div>
-                      <h4 className="text-sm font-semibold text-slate-900">{exp.role}</h4>
-                      <p className="text-xs font-medium text-blue-600 mb-1">{exp.organization} • {exp.period}</p>
-                      <p className="text-xs text-slate-600 leading-relaxed">{exp.description}</p>
+          {/* Right Column / Sidebar (4 Cols in Desktop) */}
+          <div className="lg:col-span-4 space-y-5">
+            {/* Informasi Kontak & Pribadi */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5">
+              <h2 className="text-sm sm:text-base font-bold text-neutral-900 mb-3.5">Informasi Pribadi</h2>
+              <div className="space-y-3 text-xs sm:text-sm">
+                <div className="flex items-start gap-2.5">
+                  <Mail className="w-4 h-4 text-neutral-400 mt-0.5 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Email</p>
+                    <a
+                      href={`mailto:${userData.email || 'kontak@kreator.id'}`}
+                      className="text-neutral-800 hover:text-blue-600 truncate block font-medium"
+                    >
+                      {userData.email || `${userData.username.replace('@', '')}@gmail.com`}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5">
+                  <Globe className="w-4 h-4 text-neutral-400 mt-0.5 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Bahasa</p>
+                    <p className="text-neutral-800 font-medium">Indonesia, Daerah</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5">
+                  <User className="w-4 h-4 text-neutral-400 mt-0.5 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Nama Panggilan & Pronouns</p>
+                    <p className="text-neutral-800 font-medium">{userData.name.split(' ')[0]} (Dia / Beliau)</p>
+                  </div>
+                </div>
+
+                {userData.website && (
+                  <div className="flex items-start gap-2.5">
+                    <LinkIcon className="w-4 h-4 text-neutral-400 mt-0.5 shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Tautan Web</p>
+                      <a
+                        href={userData.website.startsWith('http') ? userData.website : `https://${userData.website}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-600 hover:underline truncate block font-medium"
+                      >
+                        {userData.website}
+                      </a>
                     </div>
+                  </div>
+                )}
+
+                <div className="flex items-start gap-2.5">
+                  <Calendar className="w-4 h-4 text-neutral-400 mt-0.5 shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Bergabung</p>
+                    <p className="text-neutral-600">{userData.joinedDate}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Kreator Budaya Serupa */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5">
+              <h2 className="text-sm sm:text-base font-bold text-neutral-900 mb-3">Kreator Budaya Serupa</h2>
+              <div className="space-y-3">
+                {[
+                  { name: 'Ki Anom Suroto', role: 'Dalang & Budayawan', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop' },
+                  { name: 'Dewi Sekar', role: 'Koreografer Tari Tradisi', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop' },
+                  { name: 'Bambang Sukses', role: 'Pengrajin Gamelan Perunggu', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <img src={item.avatar} alt={item.name} className="w-9 h-9 rounded-full object-cover shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-semibold text-neutral-900 truncate">{item.name}</p>
+                        <p className="text-[11px] text-neutral-500 truncate">{item.role}</p>
+                      </div>
+                    </div>
+                    <button className="px-3 py-1 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-full text-xs font-semibold shrink-0 transition">
+                      Ikuti
+                    </button>
                   </div>
                 ))}
               </div>
             </div>
-          )}
+
+            {/* Produk Terkait & Pasar Seni */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5">
+              <div className="flex items-center justify-between mb-3.5">
+                <div className="flex items-center gap-2">
+                  <ShoppingBag className="w-4 h-4 text-neutral-700" />
+                  <h2 className="text-sm sm:text-base font-bold text-neutral-900">Karya & Produk Budaya</h2>
+                </div>
+                <Link
+                  to="/pasar-seni"
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition"
+                >
+                  Lihat Semua
+                </Link>
+              </div>
+
+              <div className="space-y-3">
+                {relatedProducts.map((product) => (
+                  <Link
+                    key={product.id}
+                    to={`/pasar-seni`}
+                    className="group flex gap-3 p-2 rounded-xl hover:bg-neutral-50 transition border border-transparent hover:border-neutral-200/60"
+                  >
+                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-neutral-100 shrink-0 border border-neutral-200/50">
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1 flex flex-col justify-between py-0.5">
+                      <div>
+                        <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wider block truncate">
+                          {product.category}
+                        </span>
+                        <h3 className="text-xs font-semibold text-neutral-900 group-hover:text-blue-600 transition truncate leading-snug">
+                          {product.name}
+                        </h3>
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-xs font-bold text-neutral-900">
+                          Rp {product.price.toLocaleString('id-ID')}
+                        </span>
+                        <div className="flex items-center gap-1 text-[11px] text-amber-600 font-medium">
+                          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                          <span>{product.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </main>
     </div>

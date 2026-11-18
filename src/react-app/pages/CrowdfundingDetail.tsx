@@ -420,7 +420,7 @@ export default function CrowdfundingDetailPage() {
               {/* Donate Button */}
               <Link
                 to={`/crowdfunding/${campaign.id}/donate`}
-                className="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-center font-bold rounded-lg transition-colors mb-3"
+                className="block w-full py-3 bg-[#133384] hover:bg-[#1844A6] text-white text-center font-bold rounded-lg transition-colors mb-3"
               >
                 DONASI SEKARANG
               </Link>

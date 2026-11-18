@@ -228,7 +228,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
                 className={`px-4 py-1.5 rounded-lg text-xs font-medium text-white shadow-sm active:scale-[0.98] transition-all ${
                   confirmState.options.type === 'danger'
                     ? 'bg-rose-600 hover:bg-rose-700'
-                    : 'bg-primary-600 hover:bg-primary-700'
+                    : 'bg-[#133384] hover:bg-[#1844A6]'
                 }`}
               >
                 {confirmState.options.confirmText || 'Ya, Lanjutkan'}
@@ -265,7 +265,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
                 type="button"
                 autoFocus
                 onClick={() => alertState.resolve()}
-                className="w-full sm:w-auto px-5 py-1.5 rounded-lg text-xs font-medium text-white bg-primary-600 hover:bg-primary-700 active:scale-[0.98] transition-all shadow-sm"
+                className="w-full sm:w-auto px-5 py-1.5 rounded-lg text-xs font-medium text-white bg-[#133384] hover:bg-[#1844A6] active:scale-[0.98] transition-all shadow-sm"
               >
                 {alertState.options.buttonText || 'Mengerti'}
               </button>

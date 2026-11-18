@@ -273,7 +273,7 @@ export default function ProfilPage() {
                     />
                     <button 
                       onClick={openEditProfile}
-                      className="absolute bottom-1 right-1 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-md transition active:scale-95"
+                      className="absolute bottom-1 right-1 p-2 bg-[#133384] hover:bg-[#1844A6] text-white rounded-full shadow-md transition active:scale-95"
                       title="Ubah Foto Profil"
                     >
                       <Camera className="w-3.5 h-3.5" />

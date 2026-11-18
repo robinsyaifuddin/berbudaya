@@ -69,6 +69,7 @@ const activities = [
   {
     id: 1,
     user: {
+      id: '2',
       name: 'Deraa',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
       action: 'started following you',
@@ -77,7 +78,10 @@ const activities = [
   },
   {
     id: 2,
+    postId: 1,
+    postUrl: '/beranda#post-1',
     user: {
+      id: '1',
       name: 'Ediwp',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
       action: 'liked your photo',
@@ -87,7 +91,10 @@ const activities = [
   },
   {
     id: 3,
+    postId: 2,
+    postUrl: '/beranda#post-2',
     user: {
+      id: '3',
       name: 'Praho',
       avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
       action: 'liked your photo',
@@ -97,10 +104,13 @@ const activities = [
   },
   {
     id: 4,
+    postId: 1,
+    postUrl: '/beranda#post-1',
     user: {
+      id: '3',
       name: 'Praho',
       avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
-      action: 'liked your photo',
+      action: 'commented on your photo',
       time: '1h',
       image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=100&h=100&fit=crop'
     }
@@ -110,24 +120,28 @@ const activities = [
 const suggestedPeople = [
   {
     id: 1,
+    userId: '4',
     name: 'Najid',
     subtitle: 'Followed by Dms',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop'
   },
   {
     id: 2,
+    userId: '5',
     name: 'Sheila Dara',
     subtitle: 'Suggested for you',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop'
   },
   {
     id: 3,
+    userId: '6',
     name: 'Divaurey',
     subtitle: 'Suggested for you',
     avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop'
   },
   {
     id: 4,
+    userId: '7',
     name: 'Jhonson',
     subtitle: 'Followed by Andrea',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop'
@@ -269,6 +283,23 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
 
     return () => clearInterval(interval);
   }, [notificationId]);
+
+  // Listener untuk membuka chat dari halaman mana saja (misal dari tombol Kirim Pesan di UserProfile)
+  useEffect(() => {
+    const handleOpenChatEvent = (e: CustomEvent<ActiveChatContact>) => {
+      if (e.detail) {
+        setActiveChat(e.detail);
+        setShowMessagingPanel(true);
+        setShowDropdown(false);
+        setShowActivityDropdown(false);
+      }
+    };
+
+    window.addEventListener('open_direct_chat' as any, handleOpenChatEvent as EventListener);
+    return () => {
+      window.removeEventListener('open_direct_chat' as any, handleOpenChatEvent as EventListener);
+    };
+  }, []);
 
   const handleTestNotification = () => {
     const sampleMessages = [
@@ -548,24 +579,61 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                         <div className="p-4 space-y-3">
                           {activities.map((activity) => (
                             <div key={activity.id} className="flex items-center gap-2.5">
-                              <img
-                                src={activity.user.avatar}
-                                alt={activity.user.name}
-                                className="w-9 h-9 rounded-full object-cover flex-shrink-0"
-                              />
+                              <Link
+                                to={`/user/${activity.user.id}`}
+                                onClick={() => setShowActivityDropdown(false)}
+                                className="flex-shrink-0 group"
+                              >
+                                <img
+                                  src={activity.user.avatar}
+                                  alt={activity.user.name}
+                                  className="w-9 h-9 rounded-full object-cover group-hover:ring-2 group-hover:ring-blue-500 transition-all cursor-pointer"
+                                />
+                              </Link>
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs text-gray-900 leading-tight">
-                                  <span className="font-semibold">{activity.user.name}</span>{' '}
-                                  <span className="text-gray-500">{activity.user.action}</span>
+                                  <Link
+                                    to={`/user/${activity.user.id}`}
+                                    onClick={() => setShowActivityDropdown(false)}
+                                    className="font-semibold hover:underline hover:text-blue-600 cursor-pointer"
+                                  >
+                                    {activity.user.name}
+                                  </Link>{' '}
+                                  {activity.postUrl ? (
+                                    <Link
+                                      to={activity.postUrl}
+                                      onClick={() => setShowActivityDropdown(false)}
+                                      className="text-gray-500 hover:text-blue-600 transition-colors cursor-pointer"
+                                    >
+                                      {activity.user.action}
+                                    </Link>
+                                  ) : (
+                                    <span className="text-gray-500">{activity.user.action}</span>
+                                  )}
                                 </p>
                                 <p className="text-[10px] text-gray-400 mt-0.5">{activity.user.time}</p>
                               </div>
                               {activity.user.image && (
-                                <img
-                                  src={activity.user.image}
-                                  alt="Post"
-                                  className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
-                                />
+                                activity.postUrl ? (
+                                  <Link
+                                    to={activity.postUrl}
+                                    onClick={() => setShowActivityDropdown(false)}
+                                    className="flex-shrink-0 group cursor-pointer block rounded-lg overflow-hidden ring-1 ring-slate-200 hover:ring-2 hover:ring-blue-500 transition-all"
+                                    title="Lihat postingan"
+                                  >
+                                    <img
+                                      src={activity.user.image}
+                                      alt="Post"
+                                      className="w-10 h-10 object-cover group-hover:scale-105 transition-transform"
+                                    />
+                                  </Link>
+                                ) : (
+                                  <img
+                                    src={activity.user.image}
+                                    alt="Post"
+                                    className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
+                                  />
+                                )
                               )}
                               {activity.user.action === 'started following you' && (
                                 <button className="px-2.5 py-1 bg-blue-600 text-white text-[10px] font-medium rounded-md hover:bg-blue-700 transition-colors flex-shrink-0">
@@ -579,15 +647,25 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                         <div className="p-4 space-y-3">
                           {suggestedPeople.map((person) => (
                             <div key={person.id} className="flex items-center gap-2.5">
-                              <img
-                                src={person.avatar}
-                                alt={person.name}
-                                className="w-9 h-9 rounded-full object-cover flex-shrink-0"
-                              />
+                              <Link
+                                to={`/user/${person.userId}`}
+                                onClick={() => setShowActivityDropdown(false)}
+                                className="flex-shrink-0 group"
+                              >
+                                <img
+                                  src={person.avatar}
+                                  alt={person.name}
+                                  className="w-9 h-9 rounded-full object-cover group-hover:ring-2 group-hover:ring-blue-500 transition-all cursor-pointer"
+                                />
+                              </Link>
                               <div className="flex-1 min-w-0">
-                                <p className="text-xs font-semibold text-gray-900">
+                                <Link
+                                  to={`/user/${person.userId}`}
+                                  onClick={() => setShowActivityDropdown(false)}
+                                  className="text-xs font-semibold text-gray-900 hover:underline hover:text-blue-600 block cursor-pointer"
+                                >
                                   {person.name}
-                                </p>
+                                </Link>
                                 <p className="text-[10px] text-gray-500">{person.subtitle}</p>
                               </div>
                               <button className="px-2.5 py-1 bg-blue-600 text-white text-[10px] font-medium rounded-md hover:bg-blue-700 transition-colors flex-shrink-0">

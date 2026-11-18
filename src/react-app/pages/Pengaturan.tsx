@@ -116,7 +116,7 @@ export default function PengaturanPage() {
             
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm active:scale-[0.98]"
+              className="bg-[#133384] hover:bg-[#1844A6] text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm active:scale-[0.98]"
             >
               Simpan Perubahan Profil
             </button>

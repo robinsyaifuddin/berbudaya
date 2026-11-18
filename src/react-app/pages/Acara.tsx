@@ -269,7 +269,7 @@ export default function AcaraPage() {
                 <div className="flex gap-2.5">
                   <button
                     onClick={() => setSelectedEventModal(event)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-medium text-xs transition-all shadow-sm active:scale-[0.98]"
+                    className="flex-1 bg-[#133384] hover:bg-[#1844A6] text-white py-2.5 rounded-xl font-medium text-xs transition-all shadow-sm active:scale-[0.98]"
                   >
                     {event.price === 'Gratis' ? 'Daftar Hadir' : 'Beli Tiket'}
                   </button>
@@ -333,7 +333,7 @@ export default function AcaraPage() {
                   </button>
                   <button
                     onClick={() => handleConfirmTicket(selectedEventModal)}
-                    className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs rounded-xl shadow-sm"
+                    className="flex-1 py-2 bg-[#133384] hover:bg-[#1844A6] text-white font-medium text-xs rounded-xl shadow-sm"
                   >
                     Konfirmasi Kehadiran
                   </button>
@@ -416,7 +416,7 @@ export default function AcaraPage() {
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs rounded-xl shadow-sm"
+                    className="flex-1 py-2.5 bg-[#133384] hover:bg-[#1844A6] text-white font-medium text-xs rounded-xl shadow-sm"
                   >
                     Publikasikan Acara
                   </button>
@@ -429,7 +429,7 @@ export default function AcaraPage() {
         {/* Floating Action Button */}
         <button
           onClick={() => setShowCreateModal(true)}
-          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all font-medium text-sm flex items-center gap-2 z-40 active:scale-[0.98]"
+          className="fixed bottom-6 right-6 bg-[#133384] hover:bg-[#1844A6] text-white px-5 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all font-medium text-sm flex items-center gap-2 z-40 active:scale-[0.98]"
         >
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Ajukan Acara Baru</span>

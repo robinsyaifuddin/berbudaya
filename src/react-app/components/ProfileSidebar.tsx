@@ -16,7 +16,11 @@ const menuItems = [
   { name: 'Kegiatan Budaya', icon: Calendar, path: '/acara' },
 ];
 
-export default function ProfileSidebar() {
+interface ProfileSidebarProps {
+  hideNavAndCta?: boolean;
+}
+
+export default function ProfileSidebar({ hideNavAndCta = false }: ProfileSidebarProps) {
   const [user, setUser] = useState<DemoUser | null>(null);
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export default function ProfileSidebar() {
       {/* Profile Card - Modern Cultural Creator */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
         {/* Cover Image */}
-        <div className="h-14 bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-950 relative">
+        <div className="h-14 bg-gradient-to-r from-[#133384] to-[#0e245e] relative">
           <Link to="/profil">
             <img
               src={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop'}
@@ -87,38 +91,42 @@ export default function ProfileSidebar() {
         </Link>
       </div>
 
-      {/* Menu Items Card */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
-        <div className="divide-y divide-slate-100">
-          {menuItems.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={index}
-                to={item.path}
-                className="flex items-center gap-3 px-3.5 py-2.5 hover:bg-slate-50 transition-colors group"
-              >
-                <Icon className="w-4 h-4 text-slate-500 group-hover:text-blue-600 transition-colors" />
-                <span className="text-xs font-medium text-slate-700 group-hover:text-blue-600 transition-colors">{item.name}</span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      {!hideNavAndCta && (
+        <>
+          {/* Menu Items Card */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+            <div className="divide-y divide-slate-100">
+              {menuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={index}
+                    to={item.path}
+                    className="flex items-center gap-3 px-3.5 py-2.5 hover:bg-slate-50 transition-colors group"
+                  >
+                    <Icon className="w-4 h-4 text-slate-500 group-hover:text-blue-600 transition-colors" />
+                    <span className="text-xs font-medium text-slate-700 group-hover:text-blue-600 transition-colors">{item.name}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
 
-      {/* Community Call to Action */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4">
-        <h4 className="font-semibold text-slate-900 text-xs tracking-tight mb-1.5">Lestarikan Budaya Bersama</h4>
-        <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
-          Bergabunglah dalam jejaring dan aksi pelestarian karya budaya Nusantara.
-        </p>
-        <Link
-          to="/komunitas"
-          className="block w-full text-center px-4 py-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors shadow-xs active:scale-[0.98]"
-        >
-          Gabung Komunitas
-        </Link>
-      </div>
+          {/* Community Call to Action */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4">
+            <h4 className="font-semibold text-slate-900 text-xs tracking-tight mb-1.5">Lestarikan Budaya Bersama</h4>
+            <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
+              Bergabunglah dalam jejaring dan aksi pelestarian karya budaya Nusantara.
+            </p>
+            <Link
+              to="/komunitas"
+              className="block w-full text-center px-4 py-2 bg-[#133384] hover:bg-[#1844A6] text-white text-xs font-semibold rounded-xl transition-colors shadow-xs active:scale-[0.98]"
+            >
+              Gabung Komunitas
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 }

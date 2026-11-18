@@ -143,7 +143,7 @@ export default function ProyekPage() {
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-all shadow-sm active:scale-[0.98] w-fit"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#133384] hover:bg-[#1844A6] text-white font-medium text-sm transition-all shadow-sm active:scale-[0.98] w-fit"
             >
               <Plus className="w-4 h-4" />
               <span>Buat Proyek Baru</span>
@@ -273,7 +273,7 @@ export default function ProyekPage() {
                         <div className="flex gap-3">
                           <Link
                             to={`/crowdfunding/${project.id}/donate`}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm active:scale-[0.98]"
+                            className="flex-1 bg-[#133384] hover:bg-[#1844A6] text-white text-center py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm active:scale-[0.98]"
                           >
                             Dukung Sekarang
                           </Link>
@@ -393,7 +393,7 @@ export default function ProyekPage() {
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-xl shadow-sm"
+                    className="flex-1 py-2.5 bg-[#133384] hover:bg-[#1844A6] text-white font-medium text-sm rounded-xl shadow-sm"
                   >
                     Ajukan Proyek
                   </button>

@@ -107,9 +107,10 @@ export default function RightSidebar() {
         <div className="px-4 py-3">
           <div className="space-y-3">
             {newsItems.slice(0, showAllNews ? newsItems.length : 3).map((news) => (
-              <button
+              <Link
                 key={news.id}
-                className="w-full text-left group transition-all"
+                to="/berita"
+                className="w-full text-left group transition-all block"
               >
                 <div className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors mt-1.5 shrink-0"></span>
@@ -124,7 +125,7 @@ export default function RightSidebar() {
                     </div>
                   </div>
                 </div>
-              </button>
+              </Link>
             ))}
           </div>
           <button

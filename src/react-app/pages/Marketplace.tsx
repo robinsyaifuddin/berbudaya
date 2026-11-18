@@ -454,7 +454,7 @@ export default function MarketplacePage() {
                     </Link>
                     <button
                       onClick={(e) => handleBuy(e, product)}
-                      className="py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold rounded-md flex items-center justify-center gap-1.5 transition-colors active:scale-95 shadow-2xs"
+                      className="py-1.5 px-3 bg-[#133384] hover:bg-[#1844A6] text-white text-[11px] font-semibold rounded-md flex items-center justify-center gap-1.5 transition-colors active:scale-95 shadow-2xs"
                     >
                       <ShoppingCart className="w-3 h-3" />
                       <span>Beli</span>
@@ -590,7 +590,7 @@ export default function MarketplacePage() {
               </p>
               <a
                 href="#new-arrivals"
-                className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold px-4 py-2 rounded-lg transition-colors"
+                className="inline-flex items-center gap-1.5 bg-[#133384] hover:bg-[#1844A6] text-white text-[11px] font-semibold px-4 py-2 rounded-lg transition-colors"
               >
                 <span>Lihat Busana</span>
                 <ChevronRight className="w-3 h-3" />

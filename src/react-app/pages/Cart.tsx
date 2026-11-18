@@ -34,7 +34,7 @@ export default function CartPage() {
               <p className="text-gray-600 mb-6">Anda belum menambahkan produk apapun ke keranjang</p>
               <Link
                 to="/marketplace"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#133384] hover:bg-[#1844A6] text-white rounded-lg font-semibold transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Belanja Sekarang
@@ -180,7 +180,7 @@ export default function CartPage() {
 
                 <Link
                   to="/checkout"
-                  className="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-center rounded-lg font-semibold transition-colors mb-3"
+                  className="block w-full py-3 bg-[#133384] hover:bg-[#1844A6] text-white text-center rounded-lg font-semibold transition-colors mb-3"
                 >
                   Lanjut ke Pembayaran
                 </Link>

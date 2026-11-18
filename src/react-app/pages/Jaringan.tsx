@@ -1,4 +1,5 @@
 import ModernLayout from '@/react-app/components/ModernLayout';
+import ProfileSidebar from '@/react-app/components/ProfileSidebar';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { Search, X, UserPlus } from 'lucide-react';
@@ -95,160 +96,160 @@ export default function JaringanPage() {
     (person) => !dismissedUsers.includes(person.id) && !connectedUsers.includes(person.id)
   );
 
+  const leftSidebarNode = (
+    <div className="space-y-3">
+      {/* Profil User */}
+      <ProfileSidebar hideNavAndCta={true} />
+
+      {/* Gambaran Umum Jaringan diletakkan di sidebar kiri menggantikan menu/cta */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4">
+        <h3 className="font-semibold text-slate-900 text-xs tracking-tight mb-3">Gambaran umum jaringan</h3>
+        
+        <div className="space-y-1">
+          <button className="w-full text-left hover:bg-slate-50 p-2 rounded-xl transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-600">Undangan diterima</span>
+              <span className="text-xs font-semibold text-slate-900">0</span>
+            </div>
+          </button>
+
+          <button className="w-full text-left hover:bg-slate-50 p-2 rounded-xl transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-600">Koneksi</span>
+              <span className="text-xs font-semibold text-slate-900">0</span>
+            </div>
+          </button>
+
+          <button className="w-full text-left hover:bg-slate-50 p-2 rounded-xl transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-600">Mengikuti</span>
+              <span className="text-xs font-semibold text-slate-900">6</span>
+            </div>
+          </button>
+        </div>
+
+        <div className="border-t border-slate-100 mt-3 pt-3">
+          <button className="text-xs font-medium text-blue-600 hover:underline">
+            Lihat selengkapnya →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <ModernLayout showRightSidebar={false}>
+    <ModernLayout showRightSidebar={false} leftSidebarContent={leftSidebarNode}>
       <div className="space-y-3 pb-8">
-        {/* Left Sidebar - Network Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sticky top-[68px]">
-              <h3 className="font-semibold text-gray-900 text-sm mb-4">Gambaran umum jaringan</h3>
-              
-              <div className="space-y-3">
-                <button className="w-full text-left hover:bg-gray-50 p-2 rounded transition-colors">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600">Undangan diterima</span>
-                    <span className="text-sm font-semibold text-gray-900">0</span>
-                  </div>
-                </button>
-
-                <button className="w-full text-left hover:bg-gray-50 p-2 rounded transition-colors">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600">Koneksi</span>
-                    <span className="text-sm font-semibold text-gray-900">0</span>
-                  </div>
-                </button>
-
-                <button className="w-full text-left hover:bg-gray-50 p-2 rounded transition-colors">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600">Mengikuti</span>
-                    <span className="text-sm font-semibold text-gray-900">6</span>
-                  </div>
-                </button>
-              </div>
-
-              <div className="border-t border-gray-200 mt-4 pt-4">
-                <button className="text-xs text-blue-600 hover:underline">
-                  Lihat selengkapnya →
-                </button>
-              </div>
+        {/* Invite Section */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-900 text-base mb-2">
+                Undang 5 teman seangkatan Anda untuk terhubung sekarang
+              </h3>
+              <p className="text-xs text-gray-600 mb-3">
+                Temukan peluang baru dengan jaringan yang luas. Mulailah dengan teman, teman serumah, dan rekan sekerja.
+              </p>
+              <button className="flex items-center gap-2 px-3.5 py-1.5 bg-primary-600 text-white rounded-md text-xs font-medium hover:bg-primary-700 transition-colors">
+                <Search className="w-3.5 h-3.5" />
+                Cari orang yang Anda kenal
+              </button>
             </div>
           </div>
+        </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-9 space-y-3">
-            {/* Invite Section */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 text-base mb-2">
-                    Undang 5 teman seangkatan Anda untuk terhubung sekarang
-                  </h3>
-                  <p className="text-xs text-gray-600 mb-3">
-                    Temukan peluang baru dengan jaringan yang luas. Mulailah dengan teman, teman serumah, dan rekan sekerja.
-                  </p>
-                  <button className="flex items-center gap-2 px-3.5 py-1.5 bg-primary-600 text-white rounded-md text-xs font-medium hover:bg-primary-700 transition-colors">
-                    <Search className="w-3.5 h-3.5" />
-                    Cari orang yang Anda kenal
-                  </button>
-                </div>
-              </div>
+        {/* No Pending Invitations */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-gray-900">
+              Tidak ada undangan yang belum direspons
+            </h3>
+            <button className="text-xs text-gray-600 hover:text-blue-600 transition-colors">
+              Kelola
+            </button>
+          </div>
+        </div>
+
+        {/* People You May Know */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="p-4 border-b border-gray-200">
+            <h3 className="font-semibold text-gray-900 text-base">
+              Orang yang mungkin Anda kenal berdasarkan aktivitas terbaru Anda
+            </h3>
+          </div>
+
+          <div className="p-3">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs text-gray-500">
+                {filteredPeople.length} hasil
+              </span>
+              <button className="text-xs text-blue-600 hover:underline">
+                Tampilkan semua
+              </button>
             </div>
 
-            {/* No Pending Invitations */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-gray-900">
-                  Tidak ada undangan yang belum direspons
-                </h3>
-                <button className="text-xs text-gray-600 hover:text-blue-600 transition-colors">
-                  Kelola
-                </button>
-              </div>
-            </div>
-
-            {/* People You May Know */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="p-4 border-b border-gray-200">
-                <h3 className="font-semibold text-gray-900 text-base">
-                  Orang yang mungkin Anda kenal berdasarkan aktivitas terbaru Anda
-                </h3>
-              </div>
-
-              <div className="p-3">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs text-gray-500">
-                    {filteredPeople.length} hasil
-                  </span>
-                  <button className="text-xs text-blue-600 hover:underline">
-                    Tampilkan semua
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                  {filteredPeople.map((person) => (
-                    <div
-                      key={person.id}
-                      className="group bg-white border border-slate-200/90 rounded-lg overflow-hidden hover:shadow-sm hover:border-primary-300 transition-all flex flex-col justify-between"
-                    >
-                      <div>
-                        {/* Card Header with Dismiss Button */}
-                        <div className="relative">
-                          <div className="h-16 bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900"></div>
-                          <button
-                            onClick={() => handleDismiss(person.id)}
-                            className="absolute top-2 right-2 p-1.5 bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-colors z-10"
-                            title="Abaikan saran"
-                          >
-                            <X className="w-3.5 h-3.5" />
-                          </button>
-                          <Link
-                            to={`/user/${person.id}`}
-                            className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 block rounded-full focus:outline-none"
-                          >
-                            <img
-                              src={person.avatar}
-                              alt={person.name}
-                              className="w-14 h-14 rounded-full border-2 border-white object-cover shadow-xs hover:scale-105 transition-transform"
-                            />
-                          </Link>
-                        </div>
-
-                        {/* Card Body */}
-                        <div className="pt-8 pb-3 px-3 text-center">
-                          <p className="text-[10px] font-medium text-slate-400 mb-0.5">
-                            {person.category}
-                          </p>
-                          <h4 className="text-xs sm:text-sm font-semibold text-slate-900 mb-0.5 hover:text-primary-600 transition-colors line-clamp-1">
-                            <Link to={`/user/${person.id}`}>
-                              {person.name}
-                            </Link>
-                          </h4>
-                          <p className="text-[11px] text-slate-500 mb-1.5 line-clamp-2 min-h-[30px] leading-relaxed">
-                            {person.headline}
-                          </p>
-                          
-                          {person.location && (
-                            <p className="text-[10px] text-slate-400 mb-2">
-                              {person.location}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="px-3 pb-3">
-                        <button
-                          onClick={() => handleConnect(person.id)}
-                          className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 bg-primary-600 hover:bg-primary-700 text-white rounded-md text-xs font-medium shadow-xs transition-colors active:scale-[0.98]"
-                        >
-                          <UserPlus className="w-3.5 h-3.5" />
-                          Hubungkan
-                        </button>
-                      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              {filteredPeople.map((person) => (
+                <div
+                  key={person.id}
+                  className="group bg-white border border-slate-200/90 rounded-lg overflow-hidden hover:shadow-sm hover:border-primary-300 transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Card Header with Dismiss Button */}
+                    <div className="relative">
+                      <div className="h-16 bg-gradient-to-r from-[#133384] to-[#0e245e]"></div>
+                      <button
+                        onClick={() => handleDismiss(person.id)}
+                        className="absolute top-2 right-2 p-1.5 bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-colors z-10"
+                        title="Abaikan saran"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                      <Link
+                        to={`/user/${person.id}`}
+                        className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 block rounded-full focus:outline-none"
+                      >
+                        <img
+                          src={person.avatar}
+                          alt={person.name}
+                          className="w-14 h-14 rounded-full border-2 border-white object-cover shadow-xs hover:scale-105 transition-transform"
+                        />
+                      </Link>
                     </div>
-                  ))}
+
+                    {/* Card Body */}
+                    <div className="pt-8 pb-3 px-3 text-center">
+                      <p className="text-[10px] font-medium text-slate-400 mb-0.5">
+                        {person.category}
+                      </p>
+                      <h4 className="text-xs sm:text-sm font-semibold text-slate-900 mb-0.5 hover:text-primary-600 transition-colors line-clamp-1">
+                        <Link to={`/user/${person.id}`}>
+                          {person.name}
+                        </Link>
+                      </h4>
+                      <p className="text-[11px] text-slate-500 mb-1.5 line-clamp-2 min-h-[30px] leading-relaxed">
+                        {person.headline}
+                      </p>
+                      
+                      {person.location && (
+                        <p className="text-[10px] text-slate-400 mb-2">
+                          {person.location}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="px-3 pb-3">
+                    <button
+                      onClick={() => handleConnect(person.id)}
+                      className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#133384] hover:bg-[#1844A6] text-white rounded-md text-xs font-medium shadow-xs transition-colors active:scale-[0.98]"
+                    >
+                      <UserPlus className="w-3.5 h-3.5" />
+                      Hubungkan
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

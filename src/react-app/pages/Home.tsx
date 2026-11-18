@@ -76,6 +76,23 @@ export default function Home() {
   const [savedPostIds, setSavedPostIds] = useState<Set<number>>(new Set());
 
   useEffect(() => {
+    // Check if there is a hash to scroll to post
+    if (window.location.hash) {
+      const targetId = window.location.hash.replace('#', '');
+      const el = document.getElementById(targetId);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.classList.add('ring-2', 'ring-blue-500', 'ring-offset-2');
+          setTimeout(() => {
+            el.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-2');
+          }, 2500);
+        }, 150);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const demoUserStr = localStorage.getItem('demo_user');
     if (demoUserStr) {
       try {
@@ -262,7 +279,7 @@ export default function Home() {
 
         {/* Feed Posts */}
         {samplePosts.map((post) => (
-          <div key={post.id} className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
+          <div key={post.id} id={`post-${post.id}`} className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden transition-all duration-500">
             {/* Post Header */}
             <div className="p-3.5 sm:p-4">
               <div className="flex items-start justify-between mb-2.5">

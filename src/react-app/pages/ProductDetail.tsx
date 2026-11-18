@@ -3,7 +3,11 @@ import { useParams, Link, useNavigate } from 'react-router';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
-import { Heart, Star, Truck, Package, RotateCcw, Calendar, ShoppingCart } from 'lucide-react';
+import { 
+  Heart, Star, Truck, Package, RotateCcw, Calendar, ShoppingCart, 
+  ChevronRight, ShieldCheck, MapPin, Store, Check, Info, Award,
+  ArrowLeft, Share2, Clock
+} from 'lucide-react';
 
 const productData: Record<string, any> = {
   '1': {
@@ -403,7 +407,7 @@ export default function ProductDetailPage() {
   const customerReviews = getCustomerReviews(product.id);
   
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || '');
   const [selectedColor, setSelectedColor] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showAddedToCart, setShowAddedToCart] = useState(false);
@@ -442,12 +446,12 @@ export default function ProductDetailPage() {
 
   const renderStars = (rating: number) => {
     return (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5">
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
             key={star}
-            className={`w-4 h-4 ${
-              star <= rating ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-300 text-gray-300'
+            className={`w-3.5 h-3.5 ${
+              star <= Math.round(rating) ? 'fill-amber-400 text-amber-400' : 'fill-neutral-200 text-neutral-200'
             }`}
           />
         ))}
@@ -462,335 +466,285 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F0F2F5] text-slate-900 font-sans antialiased pb-20">
       <TopNavbar />
       
-      <div className="pt-16">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link to="/" className="hover:text-gray-900">Home</Link>
-            <span>›</span>
-            <Link to="/marketplace" className="hover:text-gray-900">Marketplace</Link>
-            <span>›</span>
-            <span className="text-gray-900">Product detail</span>
-          </div>
+      <div className="pt-16 sm:pt-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
+          {/* Breadcrumb Clean & Direct */}
+          <nav className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-6 sm:mb-8 font-medium">
+            <Link to="/marketplace" className="inline-flex items-center gap-1.5 hover:text-blue-600 transition-colors">
+              <ArrowLeft className="w-4 h-4 text-slate-500" />
+              <span>Beranda</span>
+            </Link>
+            <span className="text-slate-300">›</span>
+            <Link to="/marketplace" className="hover:text-blue-600 transition-colors">Katalog</Link>
+            <span className="text-slate-300">›</span>
+            <span className="text-slate-900 font-semibold truncate max-w-[220px] sm:max-w-md">{product.name}</span>
+          </nav>
 
-          {/* Product Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Left Column - Images */}
-            <div className="space-y-4">
-              {/* Main Image */}
-              <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[3/4]">
-                <img
-                  src={product.images[selectedImage]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Thumbnails */}
-              <div className="grid grid-cols-3 gap-4">
-                {product.images.map((image: string, index: number) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`bg-gray-100 rounded-lg overflow-hidden aspect-square ${
-                      selectedImage === index ? 'ring-2 ring-gray-900' : ''
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column - Product Info */}
-            <div className="space-y-6">
-              {/* Title & Seller */}
-              <div>
-                <p className="text-sm text-blue-600 mb-2 font-medium">{product.seller}</p>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-                <div className="flex items-center gap-3 mb-2">
-                  {renderStars(product.rating)}
-                  <span className="text-sm text-gray-600">
-                    {product.rating}/5 ({product.reviews} Ulasan)
+          {/* Top Hero Layout: 2 Columns with Aligned Heights */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch mb-12">
+            {/* Left Column: Product Image in Rounded Container (Matched Height) */}
+            <div className="lg:col-span-5 flex flex-col">
+              <div className="relative bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-sm flex flex-col flex-1 justify-between h-full">
+                {/* Badge Favorit di pojok kiri atas foto */}
+                <div className="absolute top-6 left-6 z-10">
+                  <span className="px-3 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#133384] text-white shadow-xs">
+                    FAVORIT
                   </span>
                 </div>
-                <p className="text-sm text-gray-500">
-                  {product.category} • {product.location}
-                </p>
-              </div>
 
-              {/* Price */}
-              <div>
-                <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-bold text-gray-900">
-                    {formatPrice(product.price)}
-                  </span>
-                  {product.oldPrice && (
-                    <span className="text-lg text-gray-400 line-through">
-                      {formatPrice(product.oldPrice)}
-                    </span>
-                  )}
+                {/* Main Product Image with controlled compact ratio */}
+                <div className="relative w-full flex-1 min-h-[300px] max-h-[460px] rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center">
+                  <img
+                    src={product.images[selectedImage]}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+                  />
                 </div>
-                {product.oldPrice && (
-                  <span className="inline-block mt-2 px-2 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded">
-                    Hemat {formatPrice(product.oldPrice - product.price)}
-                  </span>
-                )}
-              </div>
 
-              {/* Description */}
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2">Deskripsi Produk</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {product.description}
-                </p>
-              </div>
-
-              {/* Materials & Care */}
-              <div className="border-t border-gray-200 pt-4 space-y-2">
-                <div>
-                  <span className="text-sm font-medium text-gray-900">Bahan: </span>
-                  <span className="text-sm text-gray-600">{product.materials}</span>
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-gray-900">Perawatan: </span>
-                  <span className="text-sm text-gray-600">{product.care}</span>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-200 pt-6 space-y-4">
-                {/* Color Selection */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-3">
-                    Pilih Warna
-                  </label>
-                  <div className="flex gap-2">
-                    {product.colors.map((color: { name: string; class: string }, index: number) => (
+                {/* Optional Mini Thumbnails */}
+                {product.images.length > 1 && (
+                  <div className="flex gap-2 mt-3 justify-center">
+                    {product.images.map((image: string, index: number) => (
                       <button
                         key={index}
-                        onClick={() => setSelectedColor(index)}
-                        className={`w-10 h-10 rounded-full ${color.class} ${
-                          selectedColor === index ? 'ring-2 ring-offset-2 ring-blue-600' : 'ring-1 ring-gray-300'
-                        }`}
-                        title={color.name}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">{product.colors[selectedColor].name}</p>
-                </div>
-
-                {/* Size Selection */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-3">
-                    Pilih Ukuran {!selectedSize && <span className="text-red-600">*</span>}
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {product.sizes.map((size: string) => (
-                      <button
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`px-6 py-3 rounded-lg text-sm font-medium transition-colors ${
-                          selectedSize === size
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                        onClick={() => setSelectedImage(index)}
+                        className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
+                          selectedImage === index 
+                            ? 'border-[#133384] ring-2 ring-blue-500/20' 
+                            : 'border-transparent opacity-60 hover:opacity-100'
                         }`}
                       >
-                        {size}
+                        <img src={image} alt="" className="w-full h-full object-cover" />
                       </button>
                     ))}
                   </div>
-                </div>
+                )}
+              </div>
+            </div>
 
-                {/* Quantity & Add to Cart */}
-                <div className="flex gap-3">
-                  <div className="flex items-center bg-gray-100 rounded-lg">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-4 py-3 hover:bg-gray-200 rounded-l-lg transition-colors font-bold"
-                    >
-                      -
-                    </button>
-                    <span className="px-6 py-3 font-medium">{quantity}</span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="px-4 py-3 hover:bg-gray-200 rounded-r-lg transition-colors font-bold"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <button 
-                    onClick={handleAddToCart}
-                    className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-                  >
-                    <ShoppingCart className="w-5 h-5" />
-                    Tambah ke Keranjang
-                  </button>
-                  <button className="p-3 border-2 border-gray-300 rounded-lg hover:border-red-500 hover:bg-red-50 transition-colors group">
-                    <Heart className="w-6 h-6 text-gray-700 group-hover:text-red-500" />
-                  </button>
-                </div>
+            {/* Right Column: Title, Price, Form Options & CTAs */}
+            <div className="lg:col-span-7 flex flex-col justify-between space-y-4 py-0.5">
+              {/* Category Tag */}
+              <div>
+                <p className="text-xs font-bold tracking-wider uppercase text-[#133384] mb-1.5">
+                  {product.category} & SENI NUSANTARA
+                </p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+                  {product.name}
+                </h1>
+              </div>
 
-                {/* Added to Cart Notification */}
-                {showAddedToCart && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2 animate-fade-in">
-                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-green-900">Berhasil ditambahkan ke keranjang!</p>
-                      <p className="text-xs text-green-700">Produk telah ditambahkan ke keranjang belanja Anda</p>
-                    </div>
-                    <button 
-                      onClick={() => navigate('/cart')}
-                      className="text-xs font-semibold text-blue-600 hover:text-blue-700 underline"
-                    >
-                      Lihat Keranjang
-                    </button>
-                  </div>
+              {/* Price Row */}
+              <div className="flex items-baseline gap-3">
+                <span className="text-2xl sm:text-3xl font-bold text-slate-900">
+                  {formatPrice(product.price)}
+                </span>
+                {product.oldPrice && (
+                  <span className="text-base text-slate-400 line-through">
+                    {formatPrice(product.oldPrice)}
+                  </span>
                 )}
               </div>
 
-              {/* Shipping Info */}
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <Truck className="w-5 h-5" />
-                  Pengiriman & Garansi
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Package className="w-5 h-5 text-gray-600" />
-                    <div>
-                      <p className="text-sm font-medium">Estimasi Pengiriman</p>
-                      <p className="text-xs text-gray-500">{product.shipping.estimated}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Truck className="w-5 h-5 text-gray-600" />
-                    <div>
-                      <p className="text-sm font-medium">Kurir</p>
-                      <p className="text-xs text-gray-500">{product.shipping.type}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RotateCcw className="w-5 h-5 text-gray-600" />
-                    <div>
-                      <p className="text-sm font-medium">Garansi Pengembalian 7 Hari</p>
-                      <p className="text-xs text-gray-500">Jika produk tidak sesuai</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-gray-600" />
-                    <div>
-                      <p className="text-sm font-medium">Perkiraan Tiba</p>
-                      <p className="text-xs text-gray-500">{product.shipping.arrival}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+              {/* Short Intro Description */}
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {product.description}
+              </p>
 
-          {/* Rating & Reviews Section */}
-          <div className="bg-white rounded-lg p-8 mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Rating & Ulasan</h2>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-              {/* Overall Rating */}
-              <div className="text-center">
-                <div className="text-6xl font-bold text-gray-900 mb-2">{product.rating}</div>
-                <div className="flex justify-center mb-2">{renderStars(product.rating)}</div>
-                <p className="text-sm text-gray-600">dari {product.reviews} ulasan</p>
-              </div>
-
-              {/* Rating Bars */}
-              <div className="lg:col-span-2 space-y-3">
-                {[5, 4, 3, 2, 1].map((stars) => (
-                  <div key={stars} className="flex items-center gap-3">
-                    <div className="flex items-center gap-1 w-16">
-                      <span className="text-sm font-medium">{stars}</span>
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    </div>
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+              {/* Radio Option Variant: Dimensi & Kemewahan Rangkaian */}
+              <div className="space-y-2 pt-1">
+                <label className="block text-xs font-bold tracking-wider uppercase text-slate-800">
+                  DIMENSI & KEMEWAHAN KARYA
+                </label>
+                <div className="space-y-2">
+                  {product.sizes.map((size: string, idx: number) => {
+                    const isSelected = selectedSize === size;
+                    // Harga adaptif varian jika ada
+                    const extraPrice = idx === 1 ? 60000 : idx === 2 ? 120000 : 0;
+                    const displayPrice = product.price + extraPrice;
+                    
+                    return (
                       <div
-                        className="bg-yellow-400 h-2 rounded-full"
-                        style={{ width: `${calculateRatingPercentage(stars)}%` }}
-                      />
-                    </div>
-                    <span className="text-sm text-gray-600 w-12 text-right">
-                      {Math.round(calculateRatingPercentage(stars))}%
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Customer Reviews */}
-            <div className="space-y-6">
-              {customerReviews.map((review) => (
-                <div key={review.id} className="border-t border-gray-200 pt-6">
-                  <div className="flex items-start gap-4">
-                    <img
-                      src={review.avatar}
-                      alt={review.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900">{review.name}</h4>
-                        <span className="text-sm text-gray-500">{review.date}</span>
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`cursor-pointer w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl border transition-all ${
+                          isSelected
+                            ? 'border-[#133384] bg-white ring-1 ring-blue-900/10 shadow-xs'
+                            : 'border-slate-200 bg-white/70 hover:bg-white hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${
+                            isSelected ? 'border-[#133384]' : 'border-slate-300'
+                          }`}>
+                            {isSelected && <div className="w-2 h-2 rounded-full bg-[#133384]" />}
+                          </div>
+                          <span className="text-xs sm:text-sm text-slate-800 font-medium">
+                            {size} {extraPrice > 0 && <span className="text-slate-400 text-xs">(+{formatPrice(extraPrice)})</span>}
+                          </span>
+                        </div>
+                        <span className="text-xs sm:text-sm font-semibold text-slate-900">
+                          {formatPrice(displayPrice)}
+                        </span>
                       </div>
-                      <div className="mb-3">{renderStars(review.rating)}</div>
-                      <p className="text-gray-600 leading-relaxed">{review.comment}</p>
-                      {review.verified && (
-                        <p className="text-xs text-green-600 mt-2">✓ Pembelian Terverifikasi</p>
-                      )}
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
-              ))}
+              </div>
+
+              {/* Action Row: Stepper + Primary Button + Share */}
+              <div className="flex items-center gap-3 pt-2">
+                {/* Stepper Quantity */}
+                <div className="flex items-center justify-between border border-slate-200 bg-white rounded-xl h-12 px-2 shrink-0">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    disabled={quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-transparent font-medium text-base transition-colors"
+                    aria-label="Kurangi"
+                  >
+                    -
+                  </button>
+                  <span className="w-10 text-center text-sm font-semibold text-slate-900">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 font-medium text-base transition-colors"
+                    aria-label="Tambah"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Primary CTA Blue Button */}
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 h-12 px-6 rounded-xl bg-[#133384] hover:bg-[#0e2666] text-white text-sm font-semibold transition-all active:scale-[0.99] flex items-center justify-center shadow-xs"
+                >
+                  Pesan Sekarang
+                </button>
+
+                {/* Share Button */}
+                <button
+                  onClick={() => {
+                    navigator.clipboard?.writeText(window.location.href);
+                    success('Tautan produk berhasil disalin!');
+                  }}
+                  className="h-12 w-12 flex items-center justify-center border border-slate-200 bg-white rounded-xl text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors shrink-0"
+                  aria-label="Bagikan"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Feedback Notifikasi */}
+              {showAddedToCart && (
+                <div className="bg-emerald-50 border border-emerald-200/80 rounded-xl p-3 flex items-center gap-3">
+                  <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center shrink-0">
+                    <Check className="w-3 h-3 text-white stroke-[3]" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-semibold text-emerald-950">Berhasil ditambahkan ke pesanan</p>
+                    <p className="text-[11px] text-emerald-800 truncate">Produk siap di-checkout bersama karya lainnya.</p>
+                  </div>
+                  <button 
+                    onClick={() => navigate('/cart')}
+                    className="text-xs font-semibold text-emerald-900 hover:underline shrink-0"
+                  >
+                    Lihat Keranjang
+                  </button>
+                </div>
+              )}
+
+              {/* Garansi Ringkas di bawah tombol */}
+              <div className="flex flex-wrap items-center gap-6 pt-2 text-xs text-neutral-500">
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-neutral-400" />
+                  <span>Jaminan presisi katalog 100%</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-neutral-400" />
+                  <span>Layanan pengiriman terpercaya</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* You Might Also Like */}
-          <div>
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-              Produk Terkait Lainnya
+          {/* Section: Detail Mahakarya & Spesifikasi (Tabel Bersih Horizontal) */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-12 shadow-xs">
+            <h2 className="text-xs font-bold tracking-wider uppercase text-slate-800 mb-6 pb-4 border-b border-slate-100">
+              DETAIL MAHAKARYA & SPESIFIKASI
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+            <div className="space-y-4 text-xs sm:text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 py-2 border-b border-slate-100">
+                <span className="sm:col-span-4 text-slate-500 font-medium">Kategori & Material</span>
+                <span className="sm:col-span-8 text-slate-800 font-normal">{product.category} ({product.materials})</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 py-2 border-b border-slate-100">
+                <span className="sm:col-span-4 text-slate-500 font-medium">Gaya Rangkaian / Teknik</span>
+                <span className="sm:col-span-8 text-slate-800 font-normal">
+                  {product.culturalTag?.technique || 'Teknik pahatan & tenun otentik nusantara'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 py-2 border-b border-slate-100">
+                <span className="sm:col-span-4 text-slate-500 font-medium">Kemasan & Sentuhan Akhir</span>
+                <span className="sm:col-span-8 text-slate-800 font-normal">
+                  {product.care} Dilengkapi packing kayu aman & sertifikat keaslian.
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-1 sm:gap-4 py-2">
+                <span className="sm:col-span-4 text-slate-500 font-medium">Momen Paling Tepat</span>
+                <span className="sm:col-span-8 text-slate-800 font-normal">
+                  Peringatan Hari Budaya, Koleksi Pusaka, Dekorasi Interior Mewah, Apresiasi Seni & Cinderamata Kehormatan
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Section: Koleksi Pelengkap / Pilihan Mahakarya Sejenis */}
+          <div>
+            <div className="mb-6">
+              <p className="text-xs font-bold tracking-wider uppercase text-[#133384] mb-1">
+                KOLEKSI PELENGKAP
+              </p>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+                Pilihan Mahakarya Sejenis Dari Pengrajin
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
               {relatedProducts.map((relatedProduct) => (
                 <Link
                   key={relatedProduct.id}
                   to={`/marketplace/${relatedProduct.id}`}
-                  className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg transition-shadow group"
+                  className="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all duration-200 flex flex-col"
                 >
-                  <div className="aspect-[3/4] bg-gray-100 overflow-hidden">
+                  <div className="aspect-square bg-slate-100 overflow-hidden relative">
                     <img
                       src={relatedProduct.image}
                       alt={relatedProduct.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     />
                   </div>
-                  <div className="p-4">
-                    <p className="text-xs text-gray-500 mb-1">{relatedProduct.category}</p>
-                    <h3 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2 min-h-[40px]">
-                      {relatedProduct.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mb-2">
-                      {renderStars(relatedProduct.rating)}
-                      <span className="text-xs text-gray-600">
-                        ({relatedProduct.reviews})
-                      </span>
+                  <div className="p-4 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-semibold text-slate-900 text-xs sm:text-sm line-clamp-2 group-hover:text-blue-600 transition-colors leading-snug">
+                        {relatedProduct.name}
+                      </h3>
+                      <div className="flex items-center gap-1 mt-1.5 mb-2.5">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        <span className="text-xs font-semibold text-slate-900">{relatedProduct.rating}</span>
+                        <span className="text-[11px] text-slate-400">({relatedProduct.reviews})</span>
+                      </div>
                     </div>
-                    <p className="text-base font-bold text-gray-900">{formatPrice(relatedProduct.price)}</p>
+                    <p className="text-xs sm:text-sm font-bold text-slate-900">
+                      {formatPrice(relatedProduct.price)}
+                    </p>
                   </div>
                 </Link>
               ))}

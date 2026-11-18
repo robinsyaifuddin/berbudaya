@@ -34,7 +34,7 @@ export default function ShareDialog({ isOpen, onClose, post }: ShareDialogProps)
     {
       name: 'Facebook',
       icon: Facebook,
-      color: 'bg-blue-600 hover:bg-blue-700',
+      color: 'bg-[#133384] hover:bg-[#1844A6]',
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
     },
     {
