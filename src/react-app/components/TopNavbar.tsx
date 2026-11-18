@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { 
   Home, Search, Bell, MessageCircle, Users, 
@@ -246,6 +246,39 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
     }
   }, []);
 
+  // Listen to open-user-chat custom event
+  useEffect(() => {
+    const handleOpenChat = (event: Event) => {
+      const customEvent = event as CustomEvent<{
+        id?: number;
+        userId?: string;
+        name: string;
+        avatar: string;
+        role?: string;
+      }>;
+      if (customEvent.detail) {
+        const detail = customEvent.detail;
+        const chatId = detail.id || (detail.userId ? parseInt(detail.userId, 10) || Date.now() : Date.now());
+        setActiveChat({
+          id: chatId,
+          userId: detail.userId || String(chatId),
+          name: detail.name,
+          avatar: detail.avatar,
+          role: detail.role || 'Penggiat Budaya',
+          status: 'Aktif sekarang'
+        });
+        setShowMessagingPanel(true);
+        setShowDropdown(false);
+        setShowActivityDropdown(false);
+      }
+    };
+
+    window.addEventListener('open-user-chat', handleOpenChat);
+    return () => {
+      window.removeEventListener('open-user-chat', handleOpenChat);
+    };
+  }, []);
+
   // Simulate incoming messages
   useEffect(() => {
     const sampleMessages = [
@@ -283,23 +316,6 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
 
     return () => clearInterval(interval);
   }, [notificationId]);
-
-  // Listener untuk membuka chat dari halaman mana saja (misal dari tombol Kirim Pesan di UserProfile)
-  useEffect(() => {
-    const handleOpenChatEvent = (e: CustomEvent<ActiveChatContact>) => {
-      if (e.detail) {
-        setActiveChat(e.detail);
-        setShowMessagingPanel(true);
-        setShowDropdown(false);
-        setShowActivityDropdown(false);
-      }
-    };
-
-    window.addEventListener('open_direct_chat' as any, handleOpenChatEvent as EventListener);
-    return () => {
-      window.removeEventListener('open_direct_chat' as any, handleOpenChatEvent as EventListener);
-    };
-  }, []);
 
   const handleTestNotification = () => {
     const sampleMessages = [

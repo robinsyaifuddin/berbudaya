@@ -1,14 +1,13 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
 import {
   MapPin, Calendar, Link as LinkIcon, Mail, Briefcase,
   Image as ImageIcon, FileText, Heart, MessageCircle,
   UserPlus, Send, ArrowLeft, Check, Share2, ShieldCheck, ChevronRight,
-  Globe, User, GraduationCap, ShoppingBag, Star
+  Globe, User, GraduationCap
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { usersDatabase, UserProfileData } from '@/react-app/data/usersDatabase';
-import { CULTURAL_PRODUCTS } from '@/react-app/data/productsData';
 
 export default function UserProfile() {
   const { userId } = useParams<{ userId: string }>();
@@ -17,31 +16,6 @@ export default function UserProfile() {
   const [activeTab, setActiveTab] = useState<'posts' | 'about' | 'experience'>('posts');
   const [isConnected, setIsConnected] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-
-  // Rekomendasi produk yang relevan dengan profil ini
-  const relatedProducts = useMemo(() => {
-    if (!userData) return [];
-    
-    // Cari produk yang sesuai kategori atau seller terkait profil
-    const matching = CULTURAL_PRODUCTS.filter(p => {
-      const matchCat = userData.category && (
-        p.category.toLowerCase().includes(userData.category.toLowerCase()) ||
-        userData.category.toLowerCase().includes(p.category.toLowerCase())
-      );
-      const matchFocus = userData.culturalFocus?.some(f => 
-        p.name.toLowerCase().includes(f.toLowerCase()) || 
-        p.category.toLowerCase().includes(f.toLowerCase())
-      );
-      const matchName = p.seller.toLowerCase().includes(userData.name.toLowerCase());
-      return matchCat || matchFocus || matchName;
-    });
-
-    if (matching.length >= 2) {
-      return matching.slice(0, 3);
-    }
-    // Fallback ambil rekomendasi produk unggulan
-    return CULTURAL_PRODUCTS.slice(0, 3);
-  }, [userData]);
 
   useEffect(() => {
     if (userId) {
@@ -102,19 +76,6 @@ export default function UserProfile() {
     navigator.clipboard?.writeText(window.location.href);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
-  };
-
-  const handleOpenDirectChat = () => {
-    if (!userData) return;
-    const chatContact = {
-      id: Number(userData.id) || 1,
-      userId: userData.id,
-      name: userData.name,
-      avatar: userData.avatar,
-      role: userData.profession || 'Penggiat Budaya',
-      status: 'Aktif sekarang'
-    };
-    window.dispatchEvent(new CustomEvent('open_direct_chat', { detail: chatContact }));
   };
 
   if (!userData) {
@@ -223,7 +184,19 @@ export default function UserProfile() {
                     </button>
 
                     <button
-                      onClick={handleOpenDirectChat}
+                      onClick={() => {
+                        window.dispatchEvent(
+                          new CustomEvent('open-user-chat', {
+                            detail: {
+                              id: Number(userData.id) || Date.now(),
+                              userId: String(userData.id),
+                              name: userData.name,
+                              avatar: userData.avatar,
+                              role: userData.profession || 'Penggiat Budaya'
+                            }
+                          })
+                        );
+                      }}
                       className="p-2 sm:px-3.5 sm:py-1.5 border border-neutral-300 hover:bg-neutral-50 rounded-full text-neutral-700 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 active:scale-95"
                     >
                       <Send className="w-4 h-4 text-neutral-600" />
@@ -554,59 +527,6 @@ export default function UserProfile() {
                       Ikuti
                     </button>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Produk Terkait & Pasar Seni */}
-            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5">
-              <div className="flex items-center justify-between mb-3.5">
-                <div className="flex items-center gap-2">
-                  <ShoppingBag className="w-4 h-4 text-neutral-700" />
-                  <h2 className="text-sm sm:text-base font-bold text-neutral-900">Karya & Produk Budaya</h2>
-                </div>
-                <Link
-                  to="/pasar-seni"
-                  className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition"
-                >
-                  Lihat Semua
-                </Link>
-              </div>
-
-              <div className="space-y-3">
-                {relatedProducts.map((product) => (
-                  <Link
-                    key={product.id}
-                    to={`/pasar-seni`}
-                    className="group flex gap-3 p-2 rounded-xl hover:bg-neutral-50 transition border border-transparent hover:border-neutral-200/60"
-                  >
-                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-neutral-100 shrink-0 border border-neutral-200/50">
-                      <img
-                        src={product.images[0]}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1 flex flex-col justify-between py-0.5">
-                      <div>
-                        <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wider block truncate">
-                          {product.category}
-                        </span>
-                        <h3 className="text-xs font-semibold text-neutral-900 group-hover:text-blue-600 transition truncate leading-snug">
-                          {product.name}
-                        </h3>
-                      </div>
-                      <div className="flex items-center justify-between pt-1">
-                        <span className="text-xs font-bold text-neutral-900">
-                          Rp {product.price.toLocaleString('id-ID')}
-                        </span>
-                        <div className="flex items-center gap-1 text-[11px] text-amber-600 font-medium">
-                          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                          <span>{product.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
                 ))}
               </div>
             </div>

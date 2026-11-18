@@ -11,10 +11,10 @@ export default defineConfig(({ mode }) => {
       allowedHosts: true,
     },
     build: {
-      chunkSizeWarningLimit: 2000,
+      chunkSizeWarningLimit: 1000,
       outDir: 'dist',
-      sourcemap: !isProduction,
-      minify: isProduction ? 'esbuild' : false,
+      sourcemap: false,
+      minify: 'esbuild',
       cssCodeSplit: true,
       rollupOptions: {
         output: {
@@ -26,8 +26,8 @@ export default defineConfig(({ mode }) => {
               if (id.includes('lucide-react')) {
                 return 'vendor-lucide';
               }
-              if (id.includes('@supabase') || id.includes('hono')) {
-                return 'vendor-backend';
+              if (id.includes('@supabase')) {
+                return 'vendor-supabase';
               }
             }
           },

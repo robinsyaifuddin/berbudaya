@@ -139,7 +139,7 @@ const productData: Record<string, any> = {
       curationStandard: 'Standar Pementasan Wayang Lakon Mahabarata',
       preservationImpact: 'Mendukung regenerasi pembuat wayang kulit di pedesaan Banyumas.'
     },
-    description: 'Wayang kulit purwa tokoh Raden Gatotkaca kualitas pementasan (tancep mantap). Pewarnaan menggunakan cat prada emas berkualitas tinggi dengan teknik tatah sungging halus.',
+    description: '',
     materials: 'Kulit Kerbau Pilihan, Gapit Sungu Tanduk Kerbau Asli, Pewarna Prada Emas',
     care: 'Simpan di dalam kotak kayu/kain beludru kering dengan kapur barus halus untuk mencegah serangga.',
     shipping: {
@@ -422,11 +422,6 @@ export default function ProductDetailPage() {
   };
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      warning('Mohon pilih ukuran terlebih dahulu', 'Pilih Varian');
-      return;
-    }
-    
     addToCart({
       id: product.id,
       name: product.name,
@@ -434,8 +429,8 @@ export default function ProductDetailPage() {
       image: product.images[0],
       quantity: quantity,
       seller: product.seller,
-      selectedSize: selectedSize,
-      selectedColor: product.colors[selectedColor].name,
+      selectedSize: selectedSize || product.sizes?.[0] || 'Standard',
+      selectedColor: product.colors?.[selectedColor]?.name || '',
       category: product.category,
     });
     
@@ -483,56 +478,37 @@ export default function ProductDetailPage() {
             <span className="text-slate-900 font-semibold truncate max-w-[220px] sm:max-w-md">{product.name}</span>
           </nav>
 
-          {/* Top Hero Layout: 2 Columns with Aligned Heights */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch mb-12">
-            {/* Left Column: Product Image in Rounded Container (Matched Height) */}
-            <div className="lg:col-span-5 flex flex-col">
-              <div className="relative bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-sm flex flex-col flex-1 justify-between h-full">
+          {/* Top Hero Layout: 2 Columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start mb-10">
+            {/* Left Column: Product Image in Rounded Container (Compact & Hanya 1 Gambar) */}
+            <div className="lg:col-span-5">
+              <div className="relative bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm overflow-hidden">
                 {/* Badge Favorit di pojok kiri atas foto */}
-                <div className="absolute top-6 left-6 z-10">
-                  <span className="px-3 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#133384] text-white shadow-xs">
+                <div className="absolute top-5 left-5 z-10">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#133384] text-white shadow-xs">
                     FAVORIT
                   </span>
                 </div>
 
-                {/* Main Product Image with controlled compact ratio */}
-                <div className="relative w-full flex-1 min-h-[300px] max-h-[460px] rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center">
+                {/* Main Product Image (Hanya 1 Gambar & Ukuran Lebih Pas) */}
+                <div className="relative w-full aspect-square max-h-[290px] rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center">
                   <img
-                    src={product.images[selectedImage]}
+                    src={product.images[0]}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
                   />
                 </div>
-
-                {/* Optional Mini Thumbnails */}
-                {product.images.length > 1 && (
-                  <div className="flex gap-2 mt-3 justify-center">
-                    {product.images.map((image: string, index: number) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedImage(index)}
-                        className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all ${
-                          selectedImage === index 
-                            ? 'border-[#133384] ring-2 ring-blue-500/20' 
-                            : 'border-transparent opacity-60 hover:opacity-100'
-                        }`}
-                      >
-                        <img src={image} alt="" className="w-full h-full object-cover" />
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
 
             {/* Right Column: Title, Price, Form Options & CTAs */}
-            <div className="lg:col-span-7 flex flex-col justify-between space-y-4 py-0.5">
+            <div className="lg:col-span-7 flex flex-col justify-start space-y-4">
               {/* Category Tag */}
               <div>
-                <p className="text-xs font-bold tracking-wider uppercase text-[#133384] mb-1.5">
-                  {product.category} & SENI NUSANTARA
+                <p className="text-[11px] font-bold tracking-wider uppercase text-[#133384] mb-1">
+                  {product.category}
                 </p>
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-snug">
                   {product.name}
                 </h1>
               </div>
@@ -550,67 +526,28 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Short Intro Description */}
-              <p className="text-sm text-slate-600 leading-relaxed">
-                {product.description}
-              </p>
-
-              {/* Radio Option Variant: Dimensi & Kemewahan Rangkaian */}
-              <div className="space-y-2 pt-1">
-                <label className="block text-xs font-bold tracking-wider uppercase text-slate-800">
-                  DIMENSI & KEMEWAHAN KARYA
-                </label>
-                <div className="space-y-2">
-                  {product.sizes.map((size: string, idx: number) => {
-                    const isSelected = selectedSize === size;
-                    // Harga adaptif varian jika ada
-                    const extraPrice = idx === 1 ? 60000 : idx === 2 ? 120000 : 0;
-                    const displayPrice = product.price + extraPrice;
-                    
-                    return (
-                      <div
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`cursor-pointer w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl border transition-all ${
-                          isSelected
-                            ? 'border-[#133384] bg-white ring-1 ring-blue-900/10 shadow-xs'
-                            : 'border-slate-200 bg-white/70 hover:bg-white hover:border-slate-300'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${
-                            isSelected ? 'border-[#133384]' : 'border-slate-300'
-                          }`}>
-                            {isSelected && <div className="w-2 h-2 rounded-full bg-[#133384]" />}
-                          </div>
-                          <span className="text-xs sm:text-sm text-slate-800 font-medium">
-                            {size} {extraPrice > 0 && <span className="text-slate-400 text-xs">(+{formatPrice(extraPrice)})</span>}
-                          </span>
-                        </div>
-                        <span className="text-xs sm:text-sm font-semibold text-slate-900">
-                          {formatPrice(displayPrice)}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              {product.description && (
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {product.description}
+                </p>
+              )}
 
               {/* Action Row: Stepper + Primary Button + Share */}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-center gap-2.5 pt-1">
                 {/* Stepper Quantity */}
-                <div className="flex items-center justify-between border border-slate-200 bg-white rounded-xl h-12 px-2 shrink-0">
+                <div className="flex items-center justify-between border border-slate-200 bg-white rounded-xl h-11 px-1.5 shrink-0">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     disabled={quantity <= 1}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-transparent font-medium text-base transition-colors"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-transparent font-medium text-sm transition-colors"
                     aria-label="Kurangi"
                   >
                     -
                   </button>
-                  <span className="w-10 text-center text-sm font-semibold text-slate-900">{quantity}</span>
+                  <span className="w-8 text-center text-xs sm:text-sm font-semibold text-slate-900">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 font-medium text-base transition-colors"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 font-medium text-sm transition-colors"
                     aria-label="Tambah"
                   >
                     +
@@ -620,7 +557,7 @@ export default function ProductDetailPage() {
                 {/* Primary CTA Blue Button */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 h-12 px-6 rounded-xl bg-[#133384] hover:bg-[#0e2666] text-white text-sm font-semibold transition-all active:scale-[0.99] flex items-center justify-center shadow-xs"
+                  className="flex-1 h-11 px-5 rounded-xl bg-[#133384] hover:bg-[#0e2666] text-white text-xs sm:text-sm font-semibold transition-all active:scale-[0.99] flex items-center justify-center shadow-xs"
                 >
                   Pesan Sekarang
                 </button>
@@ -631,7 +568,7 @@ export default function ProductDetailPage() {
                     navigator.clipboard?.writeText(window.location.href);
                     success('Tautan produk berhasil disalin!');
                   }}
-                  className="h-12 w-12 flex items-center justify-center border border-slate-200 bg-white rounded-xl text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors shrink-0"
+                  className="h-11 w-11 flex items-center justify-center border border-slate-200 bg-white rounded-xl text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors shrink-0"
                   aria-label="Bagikan"
                 >
                   <Share2 className="w-4 h-4" />

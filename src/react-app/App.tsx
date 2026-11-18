@@ -7,21 +7,19 @@ import LandingPage from "@/react-app/pages/Landing";
 import ProtectedRoute from "@/react-app/components/ProtectedRoute";
 import ErrorBoundary from "@/react-app/components/ErrorBoundary";
 
-// Preload critical main pages for instant navigation without lag
-import HomePage from "@/react-app/pages/Home";
-import MarketplacePage from "@/react-app/pages/Marketplace";
-import JaringanPage from "@/react-app/pages/Jaringan";
-import CrowdfundingPage from "@/react-app/pages/Crowdfunding";
-import PermainanPage from "@/react-app/pages/Permainan";
-import BeritaPage from "@/react-app/pages/Berita";
-import KomunitasPage from "@/react-app/pages/Komunitas";
-import AcaraPage from "@/react-app/pages/Acara";
-import GalleryPage from "@/react-app/pages/Gallery";
-import CartPage from "@/react-app/pages/Cart";
-import ProfilPage from "@/react-app/pages/Profil";
-import ProfilMenuPage from "@/react-app/pages/ProfilMenu";
-
-// Lazy-loaded routes for secondary sub-pages
+// Lazy-loaded routes for code-splitting & ultra-fast initial load on Vercel
+const HomePage = lazy(() => import("@/react-app/pages/Home"));
+const MarketplacePage = lazy(() => import("@/react-app/pages/Marketplace"));
+const JaringanPage = lazy(() => import("@/react-app/pages/Jaringan"));
+const CrowdfundingPage = lazy(() => import("@/react-app/pages/Crowdfunding"));
+const PermainanPage = lazy(() => import("@/react-app/pages/Permainan"));
+const BeritaPage = lazy(() => import("@/react-app/pages/Berita"));
+const KomunitasPage = lazy(() => import("@/react-app/pages/Komunitas"));
+const AcaraPage = lazy(() => import("@/react-app/pages/Acara"));
+const GalleryPage = lazy(() => import("@/react-app/pages/Gallery"));
+const CartPage = lazy(() => import("@/react-app/pages/Cart"));
+const ProfilPage = lazy(() => import("@/react-app/pages/Profil"));
+const ProfilMenuPage = lazy(() => import("@/react-app/pages/ProfilMenu"));
 const ProductDetailPage = lazy(() => import("@/react-app/pages/ProductDetail"));
 const CheckoutPage = lazy(() => import("@/react-app/pages/CheckoutPage"));
 const ProyekPage = lazy(() => import("@/react-app/pages/Proyek"));

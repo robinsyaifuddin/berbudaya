@@ -148,7 +148,7 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
       curationStandard: 'Standar Pementasan Wayang Lakon Mahabarata',
       preservationImpact: 'Mendukung regenerasi pembuat wayang kulit di pedesaan Banyumas.'
     },
-    description: 'Wayang kulit purwa tokoh Raden Gatotkaca kualitas pementasan (tancep mantap). Pewarnaan menggunakan cat prada emas berkualitas tinggi dengan teknik tatah sungging halus.',
+    description: '',
     materials: 'Kulit Kerbau Pilihan, Gapit Sungu Tanduk Kerbau Asli, Pewarna Prada Emas',
     dimensions: 'Tinggi wayang 72 cm (Total dengan gapit 95 cm)',
     careInstructions: 'Simpan di dalam kotak kayu/kain beludru kering dengan kapur barus halus untuk mencegah serangga.'
