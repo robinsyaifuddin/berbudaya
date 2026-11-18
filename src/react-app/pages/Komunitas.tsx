@@ -6,122 +6,9 @@ import {
   UserPlus, Star
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
+import { communitiesData, Community } from '@/react-app/data/communitiesData';
 
-interface Community {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  members: number;
-  province: string;
-  category: string;
-  activities: number;
-  rating: number;
-  verified: boolean;
-  trending?: boolean;
-}
-
-const communities: Community[] = [
-  {
-    id: 1,
-    name: 'Pelestari Batik Indonesia',
-    description: 'Komunitas pengrajin dan pecinta batik yang berkomitmen melestarikan warisan budaya batik nusantara.',
-    image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=600&auto=format&fit=crop&q=80',
-    members: 2500,
-    province: 'Jawa Tengah',
-    category: 'Kriya',
-    activities: 45,
-    rating: 4.8,
-    verified: true,
-    trending: true
-  },
-  {
-    id: 2,
-    name: 'Komunitas Dalang Muda',
-    description: 'Wadah bagi generasi muda dalang wayang untuk berbagi ilmu dan melestarikan seni pedalangan.',
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80',
-    members: 1200,
-    province: 'Jawa Timur',
-    category: 'Seni Teater & Tari',
-    activities: 32,
-    rating: 4.6,
-    verified: true
-  },
-  {
-    id: 3,
-    name: 'Penari Tradisional Nusantara',
-    description: 'Komunitas penari dari berbagai daerah yang aktif mementaskan dan mengajarkan tari tradisional.',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=300&fit=crop',
-    members: 3800,
-    province: 'DI Yogyakarta',
-    category: 'Tari',
-    activities: 67,
-    rating: 4.9,
-    verified: true,
-    trending: true
-  },
-  {
-    id: 4,
-    name: 'Pengrajin Anyaman Indonesia',
-    description: 'Perkumpulan pengrajin anyaman rotan, bambu, dan pandan yang ingin mengembangkan pasar kerajinan.',
-    image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&h=300&fit=crop',
-    members: 1850,
-    province: 'Kalimantan Selatan',
-    category: 'Kriya',
-    activities: 28,
-    rating: 4.5,
-    verified: false
-  },
-  {
-    id: 5,
-    name: 'Musisi Gamelan Modern',
-    description: 'Komunitas musisi yang mengkolaborasikan gamelan tradisional dengan musik kontemporer.',
-    image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=400&h=300&fit=crop',
-    members: 950,
-    province: 'Bali',
-    category: 'Musik',
-    activities: 41,
-    rating: 4.7,
-    verified: true
-  },
-  {
-    id: 6,
-    name: 'Koki Kuliner Nusantara',
-    description: 'Perkumpulan koki dan food enthusiast yang melestarikan resep tradisional Indonesia.',
-    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop',
-    members: 4200,
-    province: 'Jawa Barat',
-    category: 'Kuliner',
-    activities: 89,
-    rating: 4.9,
-    verified: true,
-    trending: true
-  },
-  {
-    id: 7,
-    name: 'Arsitek Heritage Indonesia',
-    description: 'Komunitas arsitek dan pemerhati bangunan bersejarah yang fokus pada konservasi heritage.',
-    image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop',
-    members: 680,
-    province: 'DKI Jakarta',
-    category: 'Arsitektur',
-    activities: 23,
-    rating: 4.4,
-    verified: true
-  },
-  {
-    id: 8,
-    name: 'Pencinta Cerita Rakyat',
-    description: 'Komunitas pendongeng dan penulis yang mengumpulkan dan menyebarkan cerita rakyat nusantara.',
-    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop',
-    members: 1560,
-    province: 'Sumatera Barat',
-    category: 'Sastra',
-    activities: 34,
-    rating: 4.6,
-    verified: false
-  }
-];
+const communities: Community[] = communitiesData;
 
 const provinces = [
   'Semua Provinsi', 'Jawa Tengah', 'Jawa Timur', 'Jawa Barat', 'DI Yogyakarta', 
@@ -324,9 +211,12 @@ export default function KomunitasPage() {
                   {/* Content */}
                   <div className="p-4 flex-1 flex flex-col">
                     <div className="flex items-start justify-between mb-1.5">
-                      <h3 className="text-base font-bold text-gray-900 line-clamp-1 flex-1 group-hover:text-blue-600 transition-colors">
+                      <Link
+                        to={`/komunitas/${community.id}`}
+                        className="text-base font-bold text-gray-900 line-clamp-1 flex-1 hover:text-blue-600 transition-colors"
+                      >
                         {community.name}
-                      </h3>
+                      </Link>
                     </div>
 
                     <p className="text-xs text-gray-600 mb-4 line-clamp-2 leading-relaxed flex-1">
@@ -386,12 +276,12 @@ export default function KomunitasPage() {
                         </>
                       )}
                     </button>
-                    <button
-                      onClick={() => setSelectedPreviewCommunity(community)}
-                      className="px-3.5 py-2 rounded-xl border border-gray-300 text-gray-700 font-medium text-xs hover:bg-gray-50 hover:border-gray-400 transition-all"
+                    <Link
+                      to={`/komunitas/${community.id}`}
+                      className="px-3.5 py-2 rounded-xl border border-gray-300 text-gray-700 font-medium text-xs hover:bg-gray-50 hover:border-gray-400 transition-all inline-flex items-center justify-center"
                     >
                       Detail
-                    </button>
+                    </Link>
                     <button
                       onClick={() => handleShare(community)}
                       className="px-2.5 py-2 rounded-xl border border-gray-300 text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-all"
