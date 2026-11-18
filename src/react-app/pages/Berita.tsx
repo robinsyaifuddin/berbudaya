@@ -1,4 +1,5 @@
 ﻿import { useState } from 'react';
+import { Link } from 'react-router';
 import { 
   Newspaper, 
   ChevronRight, 
@@ -14,133 +15,7 @@ import {
   ChevronLeft
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
-
-interface NewsItem {
-  id: number;
-  title: string;
-  category: string;
-  subCategory?: string;
-  image: string;
-  excerpt: string;
-  author: string;
-  authorAvatar: string;
-  date: string;
-  readTime: string;
-  featured?: boolean;
-  trending?: boolean;
-}
-
-const newsArticles: NewsItem[] = [
-  {
-    id: 1,
-    title: 'Gubernur Resmikan Pusat Revitalisasi Tenun Ikat dan Kriya Tradisional Nusantara',
-    category: 'Kebijakan Budaya',
-    subCategory: 'Konservasi Daerah',
-    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=1000&auto=format&fit=crop&q=80',
-    excerpt: 'Langkah strategis pemerintah daerah dalam menjaga orisinalitas tenun tradisional sekaligus memperluas jangkauan pasar internasional para pengrajin lokal melalui standarisasi geografis.',
-    author: 'Redaksi Berbudaya',
-    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
-    date: '17 Nov 2026',
-    readTime: '4 min baca',
-    featured: true,
-  },
-  {
-    id: 2,
-    title: 'Inovasi Pewarnaan Alami Soga Jawa Raih Sertifikasi Ekspor Ramah Lingkungan',
-    category: 'Kriya & Tekstil',
-    subCategory: 'Ekonomi Hijau',
-    image: 'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Komunitas pembatik Surakarta membuktikan pewarna organik dari kulit kayu tingi dan daun mangga mampu lolos uji toksisitas ketat Uni Eropa.',
-    author: 'Dewi Lestari',
-    authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80',
-    date: '16 Nov 2026',
-    readTime: '5 min baca',
-  },
-  {
-    id: 3,
-    title: 'Digitalisasi Aksara Kuno: Mengamankan Manuskrip Daun Lontar dengan Visi AI',
-    category: 'Teknologi & Arsip',
-    subCategory: 'AI Preservation',
-    image: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Kolaborasi filolog dan insinyur komputasi mentranskripsi ribuan lontar rapuh Bali & Jawa kuno ke format teks digital berbasis OCR multimodal.',
-    author: 'Ahmad Fadli',
-    authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80',
-    date: '16 Nov 2026',
-    readTime: '6 min baca',
-  },
-  {
-    id: 4,
-    title: 'Festival Wayang Kulit Virtual Gaet Ratusan Ribu Penonton Generasi Z',
-    category: 'Seni Teater & Tari',
-    subCategory: 'Media Interaktif',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Perpaduan tata cahaya projection mapping dan narasi dwibahasa sukses mendekatkan pakem lakon Mahabarata ke generasi digital.',
-    author: 'Ki Danang Daniswara',
-    authorAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80',
-    date: '15 Nov 2026',
-    readTime: '3 min baca',
-  },
-  {
-    id: 5,
-    title: 'Semarak Harmoni Tari Saman Gayo Membuka Konferensi Diplomasi ASEAN',
-    category: 'Tari & Musik',
-    subCategory: 'Diplomasi Budaya',
-    image: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Keserempakan tepuk dada dan ritme vokal tanpa instrumen memukau menteri kebudayaan mancanegara di Gedung Kesenian Jakarta.',
-    author: 'Cut Mutia Syahrani',
-    authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&auto=format&fit=crop&q=80',
-    date: '14 Nov 2026',
-    readTime: '4 min baca',
-  },
-  {
-    id: 6,
-    title: 'Ekskavasi Candi Megalitikum Lahat Mengungkap Sistem Tata Air Purba',
-    category: 'Arkeologi',
-    subCategory: 'Riset Sejarah',
-    image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Penemuan saluran irigasi batu andesit bertingkat membuktikan peradaban agraris nusantara telah mengenal manajemen hidrologi maju sejak abad ke-7.',
-    author: 'Bambang Prasetyo',
-    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
-    date: '14 Nov 2026',
-    readTime: '7 min baca',
-  },
-  {
-    id: 7,
-    title: 'Modernisasi Arsitektur Tongkonan: Sinergi Bambu Laminasi dan Pasak Kayu',
-    category: 'Arsitektur Vernakular',
-    subCategory: 'Rancang Bangun',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Arsitek muda Toraja memadukan ketahanan gempa konstruksi tradisional dengan material engineered bamboo untuk hunian komunal ramah iklim.',
-    author: 'Indah Paramitha',
-    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80',
-    date: '13 Nov 2026',
-    readTime: '5 min baca',
-  },
-  {
-    id: 8,
-    title: 'Gamelan Pelog Masuk Kurikulum Musik Konservatori Musik Wina & London',
-    category: 'Tari & Musik',
-    subCategory: 'Pendidikan Global',
-    image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Studi poliritme dan microtonal tuning gamelan Jawa kini dipelajari formal oleh mahasiswa komposisi orkestra kelas dunia di Eropa.',
-    author: 'Arya Wicaksono',
-    authorAvatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=120&auto=format&fit=crop&q=80',
-    date: '12 Nov 2026',
-    readTime: '4 min baca',
-  },
-  {
-    id: 9,
-    title: 'Riset Gastronomi Nusantara: Menyingkap Manfaat Fermentasi Tempe Tradisional',
-    category: 'Kriya & Tekstil',
-    subCategory: 'Kuliner & Sains',
-    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop&q=80',
-    excerpt: 'Kultur kapang Rhizopus oligosporus lokal terbukti menghasilkan senyawa bioaktif pencegah inflamasi seluler berstandar pangan medis.',
-    author: 'Dr. Maria Ulfah',
-    authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&auto=format&fit=crop&q=80',
-    date: '11 Nov 2026',
-    readTime: '5 min baca',
-  },
-];
+import { newsArticles, popularSearches, latestIntelligence, type NewsItem } from '@/react-app/data/newsData';
 
 const categories = [
   'Semua Berita',
@@ -151,16 +26,6 @@ const categories = [
   'Tari & Musik',
   'Arkeologi',
   'Arsitektur Vernakular'
-];
-
-const popularSearches = ['Tenun Ikat', 'Wayang Digital', 'Aksara Kuno', 'Gamelan', 'Batik Soga', 'Megalitikum'];
-
-const latestIntelligence = [
-  { title: 'Kemendikbud terbitkan juknis fasilitasi dana abadi kebudayaan 2027', time: '2 jam lalu', tag: 'Regulasi' },
-  { title: 'Festival Keraton se-Nusantara ke-XIV resmi digelar di Cirebon', time: '5 jam lalu', tag: 'Agenda' },
-  { title: 'Pendaftaran kurator muda seni rupa kontemporer dibuka nasional', time: '8 jam lalu', tag: 'Peluang' },
-  { title: 'Inventarisasi 120 motif songket Palembang masuk WBTb UNESCO', time: '1 hari lalu', tag: 'Heritage' },
-  { title: 'Pameran kriya bambu nusantara di Osaka catat transaksi 14 Miliar', time: '2 hari lalu', tag: 'Ekonomi' },
 ];
 
 export default function BeritaPage() {
@@ -320,7 +185,7 @@ export default function BeritaPage() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
                   {/* Big Featured Card (7 cols) */}
                   <div className="md:col-span-7 bg-white border border-zinc-200/90 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col group">
-                    <div className="relative h-56 sm:h-64 overflow-hidden bg-zinc-100">
+                    <Link to={`/berita/${featuredArticle.id}`} className="block relative h-56 sm:h-64 overflow-hidden bg-zinc-100">
                       <img 
                         src={featuredArticle.image} 
                         alt={featuredArticle.title}
@@ -329,16 +194,16 @@ export default function BeritaPage() {
                       <span className="absolute top-3 left-3 px-2.5 py-1 bg-primary-600 text-white text-[10px] font-bold uppercase tracking-wider rounded-md shadow-xs">
                         Featured
                       </span>
-                      <button 
-                        onClick={() => toggleBookmark(featuredArticle.id)}
-                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-primary-600 transition-colors shadow-xs"
-                      >
-                        <Bookmark className={`w-3.5 h-3.5 ${bookmarkedIds.includes(featuredArticle.id) ? 'fill-primary-600 text-primary-600' : ''}`} />
-                      </button>
-                    </div>
+                    </Link>
+                    <button 
+                      onClick={() => toggleBookmark(featuredArticle.id)}
+                      className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-primary-600 transition-colors shadow-xs z-10"
+                    >
+                      <Bookmark className={`w-3.5 h-3.5 ${bookmarkedIds.includes(featuredArticle.id) ? 'fill-primary-600 text-primary-600' : ''}`} />
+                    </button>
 
                     <div className="p-5 flex-1 flex flex-col justify-between">
-                      <div>
+                      <Link to={`/berita/${featuredArticle.id}`} className="block">
                         <div className="flex items-center gap-2 text-[11px] font-semibold tracking-wide text-primary-600 uppercase mb-2">
                           <span>{featuredArticle.category}</span>
                           <span className="text-zinc-300">•</span>
@@ -350,7 +215,7 @@ export default function BeritaPage() {
                         <p className="mt-2 text-xs sm:text-sm text-zinc-600 line-clamp-3 leading-relaxed">
                           {featuredArticle.excerpt}
                         </p>
-                      </div>
+                      </Link>
 
                       <div className="pt-4 mt-4 border-t border-zinc-100 flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
@@ -364,9 +229,12 @@ export default function BeritaPage() {
                             <div className="text-[10px] text-zinc-400">{featuredArticle.date}</div>
                           </div>
                         </div>
-                        <div className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all">
+                        <Link 
+                          to={`/berita/${featuredArticle.id}`}
+                          className="w-7 h-7 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all"
+                        >
                           <ArrowUpRight className="w-3.5 h-3.5" />
-                        </div>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -376,9 +244,9 @@ export default function BeritaPage() {
                     {sideFeaturedArticles.map(article => (
                       <div 
                         key={article.id}
-                        className="bg-white border border-zinc-200/90 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group flex-1"
+                        className="bg-white border border-zinc-200/90 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group flex-1 relative"
                       >
-                        <div className="flex gap-3">
+                        <Link to={`/berita/${article.id}`} className="block flex gap-3">
                           <div className="w-24 h-24 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0">
                             <img 
                               src={article.image} 
@@ -396,7 +264,7 @@ export default function BeritaPage() {
                               {article.title}
                             </h4>
                           </div>
-                        </div>
+                        </Link>
 
                         <div className="flex items-center justify-between pt-3 mt-3 border-t border-zinc-100">
                           <div className="flex items-center gap-2">
@@ -407,7 +275,15 @@ export default function BeritaPage() {
                             />
                             <span className="text-[11px] font-medium text-zinc-700 truncate max-w-[120px]">{article.author}</span>
                           </div>
-                          <span className="text-[10px] text-zinc-400">{article.date}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] text-zinc-400">{article.date}</span>
+                            <Link 
+                              to={`/berita/${article.id}`}
+                              className="w-5 h-5 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors"
+                            >
+                              <ArrowUpRight className="w-3 h-3" />
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -438,24 +314,24 @@ export default function BeritaPage() {
                   return (
                     <article 
                       key={article.id}
-                      className="bg-white border border-zinc-200/90 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col group"
+                      className="bg-white border border-zinc-200/90 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col group relative"
                     >
-                      <div className="relative h-44 overflow-hidden bg-zinc-100">
+                      <Link to={`/berita/${article.id}`} className="block relative h-44 overflow-hidden bg-zinc-100">
                         <img 
                           src={article.image} 
                           alt={article.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        <button 
-                          onClick={() => toggleBookmark(article.id)}
-                          className="absolute top-2.5 right-2.5 p-1.5 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-primary-600 transition-colors shadow-2xs"
-                        >
-                          <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-primary-600 text-primary-600' : ''}`} />
-                        </button>
-                      </div>
+                      </Link>
+                      <button 
+                        onClick={() => toggleBookmark(article.id)}
+                        className="absolute top-2.5 right-2.5 p-1.5 bg-white/90 backdrop-blur-md rounded-full text-zinc-700 hover:text-primary-600 transition-colors shadow-2xs z-10"
+                      >
+                        <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-primary-600 text-primary-600' : ''}`} />
+                      </button>
 
                       <div className="p-4 flex-1 flex flex-col justify-between">
-                        <div>
+                        <Link to={`/berita/${article.id}`} className="block">
                           <div className="flex items-center justify-between text-[10px] text-zinc-500 mb-2">
                             <span className="font-semibold text-primary-600 uppercase tracking-wide">{article.category}</span>
                             <span>{article.readTime}</span>
@@ -466,7 +342,7 @@ export default function BeritaPage() {
                           <p className="text-zinc-600 text-xs line-clamp-2 leading-relaxed">
                             {article.excerpt}
                           </p>
-                        </div>
+                        </Link>
 
                         <div className="pt-3 mt-3 border-t border-zinc-100 flex items-center justify-between">
                           <div className="flex items-center gap-2">
@@ -480,9 +356,12 @@ export default function BeritaPage() {
                               <div className="text-[9px] text-zinc-400">{article.date}</div>
                             </div>
                           </div>
-                          <div className="w-6 h-6 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
+                          <Link 
+                            to={`/berita/${article.id}`}
+                            className="w-6 h-6 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors"
+                          >
                             <ArrowUpRight className="w-3 h-3" />
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </article>

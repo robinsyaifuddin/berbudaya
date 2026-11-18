@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { 
   Check, Heart, Share2, Facebook, Twitter, MessageCircle, ChevronRight,
-  MapPin, Users, Calendar, Clock
+  MapPin, Users, Calendar, Clock, FileText, Bell, Flag
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 
@@ -212,136 +212,143 @@ export default function CrowdfundingDetailPage() {
 
       {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-2 text-sm">
-            <Link to="/" className="text-gray-600 hover:text-blue-600">Beranda</Link>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
-            <Link to="/crowdfunding" className="text-gray-600 hover:text-blue-600">Crowdfunding</Link>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
-            <span className="text-gray-900 font-medium truncate">{campaign.title}</span>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 overflow-x-auto whitespace-nowrap py-0.5">
+            <Link to="/" className="hover:text-blue-600 transition-colors">Beranda</Link>
+            <ChevronRight className="w-3.5 h-3.5 flex-shrink-0 text-gray-400" />
+            <Link to="/crowdfunding" className="hover:text-blue-600 transition-colors">Crowdfunding</Link>
+            <ChevronRight className="w-3.5 h-3.5 flex-shrink-0 text-gray-400" />
+            <span className="text-gray-900 font-medium truncate max-w-[200px] sm:max-w-md">{campaign.title}</span>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Hero Image */}
-            <div className="relative rounded-xl overflow-hidden shadow-lg">
-              <img
-                src={campaign.gallery[selectedImage]}
-                alt={campaign.title}
-                className="w-full h-64 md:h-96 object-cover"
-              />
-              {campaign.badge && (
-                <div className="absolute top-4 left-4">
-                  <span className="px-4 py-2 bg-red-600 text-white text-sm font-bold rounded-lg shadow-lg">
-                    {campaign.badge}
-                  </span>
-                </div>
-              )}
+          <div className="lg:col-span-7 space-y-5">
+            {/* Hero Image & Gallery */}
+            <div className="space-y-2.5">
+              <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-100 aspect-[16/10] sm:aspect-[16/9] max-h-[360px]">
+                <img
+                  src={campaign.gallery[selectedImage]}
+                  alt={campaign.title}
+                  className="w-full h-full object-cover transition-all duration-300"
+                />
+                {campaign.badge && (
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                    <span className="px-3 py-1 bg-red-600/95 backdrop-blur-sm text-white text-xs font-semibold rounded-md shadow-sm">
+                      {campaign.badge}
+                    </span>
+                  </div>
+                )}
+              </div>
               
               {/* Gallery Thumbnails */}
               {campaign.gallery.length > 1 && (
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex gap-2">
-                    {campaign.gallery.map((img, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setSelectedImage(idx)}
-                        className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                          selectedImage === idx ? 'border-blue-600 scale-110' : 'border-white/50'
-                        }`}
-                      >
-                        <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover" />
-                      </button>
-                    ))}
-                  </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5">
+                  {campaign.gallery.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImage(idx)}
+                      className={`flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                        selectedImage === idx ? 'border-blue-600 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
 
             {/* Title & Meta */}
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-full border border-blue-200/60">
                   {campaign.category}
                 </span>
                 {campaign.verified && (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full flex items-center gap-1">
-                    <Check className="w-4 h-4" />
+                  <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200/60 flex items-center gap-1">
+                    <Check className="w-3.5 h-3.5" />
                     Terverifikasi
                   </span>
                 )}
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
                 {campaign.title}
               </h1>
-              <p className="text-gray-600 leading-relaxed mb-4">
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                 {campaign.description}
               </p>
               
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
+              <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs sm:text-sm text-gray-500 pt-1 border-t border-gray-100">
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
                   <span>{campaign.location}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-gray-400 flex-shrink-0" />
                   <span>{campaign.organizer}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
                   <span>{campaign.daysLeft} hari lagi</span>
                 </div>
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="border-b border-gray-200 overflow-x-auto">
-                <div className="flex min-w-max">
-                  {['detail', 'updates', 'milestones'].map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab as any)}
-                      className={`flex-1 px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
-                        activeTab === tab
-                          ? 'border-blue-600 text-blue-600 bg-blue-50'
-                          : 'border-transparent text-gray-600 hover:bg-gray-50'
-                      }`}
-                    >
-                      {tab === 'detail' ? 'Detail Program' : tab === 'updates' ? 'Kabar Terbaru' : 'Milestone'}
-                    </button>
-                  ))}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="border-b border-gray-200 overflow-x-auto bg-white">
+                <div className="flex min-w-max px-4">
+                  {[
+                    { key: 'detail', label: 'Detail Program', icon: FileText },
+                    { key: 'updates', label: 'Kabar Terbaru', icon: Bell },
+                    { key: 'milestones', label: 'Milestone', icon: Flag },
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = activeTab === tab.key;
+                    return (
+                      <button
+                        key={tab.key}
+                        onClick={() => setActiveTab(tab.key as any)}
+                        className={`flex items-center gap-2 py-3.5 px-4 text-sm font-semibold border-b-2 transition-all relative ${
+                          isActive
+                            ? 'border-[#133384] text-[#133384]'
+                            : 'border-transparent text-gray-500 hover:text-gray-800'
+                        }`}
+                      >
+                        <Icon className={`w-4 h-4 ${isActive ? 'text-[#133384]' : 'text-gray-500'}`} />
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Tab Content */}
-              <div className="p-6">
+              <div className="p-4 sm:p-5">
                 {activeTab === 'detail' && (
-                  <div className="prose max-w-none">
-                    <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                      {campaign.fullDescription}
-                    </div>
+                  <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-sm sm:text-base">
+                    {campaign.fullDescription}
                   </div>
                 )}
 
                 {activeTab === 'updates' && (
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     {campaign.updates.map((update, idx) => (
-                      <div key={idx} className="border-l-4 border-blue-600 pl-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Calendar className="w-4 h-4 text-gray-500" />
-                          <span className="text-sm text-gray-500">{update.date}</span>
+                      <div key={idx} className="border-l-2 border-blue-600 pl-3.5 py-0.5">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                          <span className="text-xs text-gray-500">{update.date}</span>
                         </div>
-                        <h3 className="font-bold text-lg text-gray-900 mb-2">{update.title}</h3>
-                        <p className="text-gray-700">{update.content}</p>
+                        <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">{update.title}</h3>
+                        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{update.content}</p>
                         {update.image && (
-                          <img src={update.image} alt={update.title} className="mt-3 rounded-lg w-full" />
+                          <img src={update.image} alt={update.title} className="mt-2.5 rounded-lg w-full max-h-60 object-cover" />
                         )}
                       </div>
                     ))}
@@ -349,27 +356,27 @@ export default function CrowdfundingDetailPage() {
                 )}
 
                 {activeTab === 'milestones' && (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {campaign.milestones.map((milestone, idx) => (
                       <div 
                         key={idx}
-                        className={`p-4 rounded-lg border-2 ${
-                          milestone.completed ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'
+                        className={`p-3.5 rounded-lg border transition-all ${
+                          milestone.completed ? 'bg-blue-50/60 border-blue-200' : 'bg-gray-50/80 border-gray-200'
                         }`}
                       >
                         <div className="flex items-start gap-3">
-                          <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                            milestone.completed ? 'bg-blue-600' : 'bg-gray-400'
+                          <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center ${
+                            milestone.completed ? 'bg-blue-600' : 'bg-gray-300'
                           }`}>
                             {milestone.completed ? (
-                              <Check className="w-5 h-5 text-white" />
+                              <Check className="w-4 h-4 text-white" />
                             ) : (
-                              <span className="text-white font-bold text-sm">{idx + 1}</span>
+                              <span className="text-white font-bold text-xs">{idx + 1}</span>
                             )}
                           </div>
                           <div>
-                            <h4 className="font-bold text-gray-900 mb-1">{milestone.title}</h4>
-                            <p className="text-sm text-gray-600">{milestone.description}</p>
+                            <h4 className="font-semibold text-sm text-gray-900">{milestone.title}</h4>
+                            <p className="text-xs text-gray-600 mt-0.5">{milestone.description}</p>
                           </div>
                         </div>
                       </div>
@@ -381,78 +388,72 @@ export default function CrowdfundingDetailPage() {
           </div>
 
           {/* Right Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-20 bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <div className="lg:col-span-5">
+            <div className="sticky top-20 bg-white rounded-2xl shadow-sm border border-gray-200/90 p-5 sm:p-6 space-y-5">
               {/* Progress */}
-              <div className="mb-6">
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
                   {formatCurrency(campaign.raised)}
                 </div>
-                <div className="text-sm text-gray-600 mb-3">
-                  terkumpul dari {formatCurrency(campaign.target)}
+                <div className="text-xs sm:text-sm text-gray-500 mt-0.5 mb-3">
+                  terkumpul dari <span className="font-medium text-gray-700">{formatCurrency(campaign.target)}</span>
                 </div>
                 
-                <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                <div className="w-full bg-gray-100 rounded-full h-2.5 mb-2 overflow-hidden">
                   <div
-                    className="bg-blue-600 h-3 rounded-full transition-all"
+                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-500"
                     style={{ width: `${calculateProgress(campaign.raised, campaign.target)}%` }}
                   />
                 </div>
-                <div className="text-sm font-semibold text-blue-600">
-                  {calculateProgress(campaign.raised, campaign.target).toFixed(1)}% tercapai
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-semibold text-blue-600">
+                    {calculateProgress(campaign.raised, campaign.target).toFixed(1)}% tercapai
+                  </span>
+                  <span className="text-gray-400">Target 100%</span>
                 </div>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-blue-50 rounded-lg p-3 text-center">
-                  <Users className="w-5 h-5 text-blue-600 mx-auto mb-1" />
-                  <div className="text-xl font-bold">{campaign.donors}</div>
-                  <div className="text-xs text-gray-600">Donatur</div>
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 text-center">
+                  <Users className="w-4 h-4 text-blue-600 mx-auto mb-1" />
+                  <div className="text-lg font-bold text-gray-900">{campaign.donors.toLocaleString('id-ID')}</div>
+                  <div className="text-xs text-gray-500">Donatur</div>
                 </div>
-                <div className="bg-red-50 rounded-lg p-3 text-center">
-                  <Clock className="w-5 h-5 text-red-600 mx-auto mb-1" />
-                  <div className="text-xl font-bold">{campaign.daysLeft}</div>
-                  <div className="text-xs text-gray-600">Hari Lagi</div>
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 text-center">
+                  <Clock className="w-4 h-4 text-amber-600 mx-auto mb-1" />
+                  <div className="text-lg font-bold text-gray-900">{campaign.daysLeft}</div>
+                  <div className="text-xs text-gray-500">Hari Lagi</div>
                 </div>
               </div>
 
               {/* Donate Button */}
               <Link
                 to={`/crowdfunding/${campaign.id}/donate`}
-                className="block w-full py-3 bg-[#133384] hover:bg-[#1844A6] text-white text-center font-bold rounded-lg transition-colors mb-3"
+                className="block w-full py-3 px-4 bg-[#133384] hover:bg-[#1844A6] active:scale-[0.99] text-white text-center font-bold text-sm tracking-wide rounded-xl shadow-sm hover:shadow transition-all"
               >
                 DONASI SEKARANG
               </Link>
 
               {/* Actions */}
-              <div className="flex gap-2 mb-4">
+              <div className="flex gap-2">
                 <button
                   onClick={() => setIsFavorite(!isFavorite)}
-                  className="flex-1 flex items-center justify-center gap-2 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-[0.99] transition-all"
                 >
-                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
-                  <span className="text-sm">Favorit</span>
+                  <Heart className={`w-4 h-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+                  <span className="text-xs sm:text-sm font-medium text-gray-700">Favorit</span>
                 </button>
-                <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                  <Share2 className="w-5 h-5 text-gray-600" />
+                <button 
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({ title: campaign.title, url: window.location.href }).catch(() => {});
+                    }
+                  }}
+                  className="p-2.5 px-3.5 border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-[0.99] transition-all"
+                >
+                  <Share2 className="w-4 h-4 text-gray-600" />
                 </button>
-              </div>
-
-              {/* Share */}
-              <div className="border-t pt-4">
-                <p className="text-sm font-medium mb-3">Bagikan</p>
-                <div className="flex gap-2">
-                  <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2">
-                    <Facebook className="w-4 h-4" />
-                  </button>
-                  <button className="flex-1 bg-sky-500 text-white py-2 rounded-lg hover:bg-sky-600 flex items-center justify-center gap-2">
-                    <Twitter className="w-4 h-4" />
-                  </button>
-                  <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2">
-                    <MessageCircle className="w-4 h-4" />
-                  </button>
-                </div>
               </div>
             </div>
           </div>

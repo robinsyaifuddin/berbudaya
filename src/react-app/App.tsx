@@ -14,6 +14,7 @@ const JaringanPage = lazy(() => import("@/react-app/pages/Jaringan"));
 const CrowdfundingPage = lazy(() => import("@/react-app/pages/Crowdfunding"));
 const PermainanPage = lazy(() => import("@/react-app/pages/Permainan"));
 const BeritaPage = lazy(() => import("@/react-app/pages/Berita"));
+const BeritaDetailPage = lazy(() => import("@/react-app/pages/BeritaDetail"));
 const KomunitasPage = lazy(() => import("@/react-app/pages/Komunitas"));
 const DetailKomunitasPage = lazy(() => import("@/react-app/pages/DetailKomunitas"));
 const AcaraPage = lazy(() => import("@/react-app/pages/Acara"));
@@ -196,6 +197,11 @@ export default function App() {
                 <Route path="/berita" element={
                   <ProtectedRoute>
                     <BeritaPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/berita/:id" element={
+                  <ProtectedRoute>
+                    <BeritaDetailPage />
                   </ProtectedRoute>
                 } />
                 <Route path="/permainan" element={
