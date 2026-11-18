@@ -2,6 +2,7 @@
 import { Link, useNavigate } from 'react-router';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 import { 
   ChevronRight, MapPin, User, Phone, Home, CreditCard, 
   Wallet, Building2, ChevronDown, Copy, QrCode, ShoppingBag, Check
@@ -9,6 +10,7 @@ import {
 
 export default function CheckoutPage() {
   const { cartItems, getTotalPrice } = useCart();
+  const { success, warning } = useNotification();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -83,12 +85,12 @@ export default function CheckoutPage() {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert('Nomor rekening berhasil disalin!');
+    success('Nomor rekening berhasil disalin!');
   };
 
   const handleCheckout = () => {
     if (!formData.name || !formData.phone || !formData.address || !selectedPayment) {
-      alert('Mohon lengkapi semua data!');
+      warning('Mohon lengkapi semua data formulir dan metode pembayaran!', 'Data Belum Lengkap');
       return;
     }
 

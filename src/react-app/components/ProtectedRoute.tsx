@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
-import { Globe } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -47,17 +46,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, []);
 
   if (isAuthenticated === null) {
-    // Loading state
+    // Loading state: hanya putaran spinner bersih dan minimalis
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="flex items-center justify-center mb-6">
-            <Globe className="h-12 w-12 text-blue-600 mr-3 animate-spin" />
-            <span className="text-3xl font-bold text-gray-900">Berbudaya.id</span>
-          </div>
-          <h2 className="text-xl text-gray-600 mb-4">Memuat...</h2>
-          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-        </div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-stone-200 border-t-[#C45A34] rounded-full animate-spin" />
       </div>
     );
   }

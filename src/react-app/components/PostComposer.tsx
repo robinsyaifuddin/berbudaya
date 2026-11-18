@@ -19,19 +19,22 @@ export default function PostComposer() {
       <div className="border-t border-slate-100 px-3 py-2 bg-slate-50/40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1 sm:gap-2">
-            <button className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700">
-              <Camera className="w-4 h-4 text-emerald-600" />
-              <span>Foto Galeri</span>
+            <button className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700 whitespace-nowrap">
+              <Camera className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <span className="sm:hidden">Foto</span>
+              <span className="hidden sm:inline">Foto Galeri</span>
             </button>
             
-            <button className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700">
-              <Video className="w-4 h-4 text-rose-500" />
-              <span>Rekaman Tari/Musik</span>
+            <button className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700 whitespace-nowrap">
+              <Video className="w-4 h-4 text-rose-500 flex-shrink-0" />
+              <span className="sm:hidden">Video</span>
+              <span className="hidden sm:inline">Rekaman Tari/Musik</span>
             </button>
             
-            <button className="hidden sm:flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              <span>Kisah Budaya</span>
+            <button className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700 whitespace-nowrap">
+              <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <span className="sm:hidden">Kisah</span>
+              <span className="hidden sm:inline">Kisah Budaya</span>
             </button>
           </div>
           

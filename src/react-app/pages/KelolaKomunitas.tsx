@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { Link } from 'react-router';
 import { Plus, Users, Settings, Eye, TrendingUp } from 'lucide-react';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 interface Community {
   id: number;
@@ -48,6 +49,7 @@ const userCommunities: Community[] = [
 ];
 
 export default function KelolaKomunitasPage() {
+  const { success } = useNotification();
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newCommunity, setNewCommunity] = useState({
     name: '',
@@ -57,7 +59,7 @@ export default function KelolaKomunitasPage() {
 
   const handleCreateCommunity = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Komunitas "${newCommunity.name}" berhasil dibuat!\n\nIni adalah mode demo. Dalam produksi, komunitas akan disimpan ke database.`);
+    success(`Komunitas "${newCommunity.name}" berhasil dibuat! (Mode Demo)`, 'Komunitas Dibuat');
     setNewCommunity({ name: '', description: '', category: 'Seni Teater & Tari' });
     setShowCreateForm(false);
   };

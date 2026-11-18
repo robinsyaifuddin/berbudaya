@@ -32,7 +32,7 @@ export default function ProfileSidebar() {
   }, []);
 
   return (
-    <div className="sticky top-[68px] space-y-2.5">
+    <div className="space-y-2.5">
       {/* Profile Card - Modern Cultural Creator */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
         {/* Cover Image */}
@@ -104,6 +104,20 @@ export default function ProfileSidebar() {
             );
           })}
         </div>
+      </div>
+
+      {/* Community Call to Action */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4">
+        <h4 className="font-semibold text-slate-900 text-xs tracking-tight mb-1.5">Lestarikan Budaya Bersama</h4>
+        <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
+          Bergabunglah dalam jejaring dan aksi pelestarian karya budaya Nusantara.
+        </p>
+        <Link
+          to="/komunitas"
+          className="block w-full text-center px-4 py-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors shadow-xs active:scale-[0.98]"
+        >
+          Gabung Komunitas
+        </Link>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { ChatNotificationData } from './ChatNotification';
 import { useCart } from '@/react-app/contexts/CartContext';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 import MobileBottomNav from './MobileBottomNav';
 
 interface DemoUser {
@@ -135,6 +136,7 @@ const suggestedPeople = [
 
 export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
   const { getTotalItems } = useCart();
+  const { confirm } = useNotification();
   const [user, setUser] = useState<DemoUser | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showActivityDropdown, setShowActivityDropdown] = useState(false);
@@ -294,8 +296,16 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
     setNotificationId((prev) => prev + 1);
   };
 
-  const handleLogout = () => {
-    if (confirm('Apakah Anda yakin ingin keluar?')) {
+  const handleLogout = async () => {
+    const isLogout = await confirm({
+      title: 'Keluar Akun',
+      message: 'Apakah Anda yakin ingin keluar dari akun ini?',
+      confirmText: 'Ya, Keluar',
+      cancelText: 'Batal',
+      type: 'danger'
+    });
+
+    if (isLogout) {
       localStorage.removeItem('demo_user');
       window.location.href = '/';
     }
@@ -303,40 +313,30 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
 
   return (
     <>
-    <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-slate-200/80 z-50 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left - Logo & Search */}
-          <div className="flex items-center gap-4 flex-1">
+        <div className="flex items-center justify-between h-14 sm:h-16 gap-3">
+          {/* Left - Mobile Menu Button & Search Bar */}
+          <div className="flex items-center gap-3 flex-1 max-w-md">
             {/* Mobile Menu Button */}
             <button
               onClick={onMenuClick}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+              aria-label="Buka Menu"
             >
-              <Menu className="w-6 h-6 text-gray-700" />
+              <Menu className="w-5 h-5" />
             </button>
 
-            {/* Logo */}
-            <Link to="/beranda" className="flex items-center">
-              <img 
-                src="/logo.png" 
-                alt="Berbudaya" 
-                className="h-8 sm:h-10 w-auto object-contain"
-              />
-            </Link>
-
             {/* Search Bar */}
-            <div className="hidden md:flex items-center flex-1 max-w-md">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Cari"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-gray-100 border-0 rounded-full focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
-                />
-              </div>
+            <div className="relative w-full">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Cari karya, seniman, budaya..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 border border-transparent focus:border-blue-500/40 rounded-full text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all outline-none"
+              />
             </div>
           </div>
 
@@ -455,12 +455,12 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
             </div>
           </div>
 
-          {/* Right - Profile & Cart & Search for Mobile */}
+          {/* Right - Profile & Cart & Notifications */}
           <div className="flex items-center gap-1 sm:gap-2">
-            {/* Mobile Search / Cart Icon */}
+            {/* Mobile Cart Icon */}
             <Link
               to="/cart"
-              className="relative p-2 hover:bg-gray-100 rounded-full transition-colors md:hidden text-gray-700"
+              className="relative p-2 hover:bg-slate-100 rounded-full transition-colors md:hidden text-slate-700"
               aria-label="Keranjang Belanja"
             >
               <ShoppingCart className="w-5 h-5" />
@@ -480,14 +480,12 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
               }}
               title="Obrolan Pesan"
               className={`relative p-2 rounded-full transition-colors hidden md:block ${
-                showMessagingPanel ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100 text-gray-700'
+                showMessagingPanel ? 'bg-blue-50 text-blue-600' : 'hover:bg-slate-100 text-slate-700'
               }`}
             >
-              <MessageCircle className="w-6 h-6" />
+              <MessageCircle className="w-5 h-5" />
               {chatNotifications.length > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-white text-[9px] flex items-center justify-center font-bold">
-                  {chatNotifications.length}
-                </span>
+                <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white"></span>
               )}
             </button>
 
@@ -498,11 +496,12 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                   setShowActivityDropdown(!showActivityDropdown);
                   setShowDropdown(false);
                 }}
-                className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="relative p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-700"
+                aria-label="Notifikasi"
               >
-                <Bell className="w-6 h-6 text-gray-700" />
+                <Bell className="w-5 h-5" />
                 {activities.length > 0 && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white"></span>
                 )}
               </button>
 

@@ -2,6 +2,7 @@
 import { useParams, Link } from 'react-router';
 import { Check, ChevronRight, ChevronDown, Wallet, CreditCard, Building2, ShieldCheck, Info, Copy, QrCode } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 // Campaign data untuk setiap ID
 const getCampaignInfo = (id: string) => {
@@ -27,6 +28,7 @@ const getCampaignInfo = (id: string) => {
 
 export default function CrowdfundingDonatePage() {
   const { id } = useParams();
+  const { success } = useNotification();
   const [customAmount, setCustomAmount] = useState('');
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [selectedPayment, setSelectedPayment] = useState('');
@@ -158,7 +160,7 @@ export default function CrowdfundingDonatePage() {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert('Nomor rekening berhasil disalin!');
+    success('Nomor rekening berhasil disalin!');
   };
 
   return (

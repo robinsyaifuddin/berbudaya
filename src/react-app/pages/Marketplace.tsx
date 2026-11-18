@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 interface ProductItem {
   id: number;
@@ -212,6 +213,7 @@ const brandLogos = [
 export default function MarketplacePage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { confirm, success } = useNotification();
   const [activeCategory, setActiveCategory] = useState<string>('Semua Kategori');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -225,7 +227,7 @@ export default function MarketplacePage() {
     }).format(price);
   };
 
-  const handleBuy = (e: React.MouseEvent, product: ProductItem) => {
+  const handleBuy = async (e: React.MouseEvent, product: ProductItem) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -241,7 +243,12 @@ export default function MarketplacePage() {
       selectedColor: 'Default',
     });
 
-    const confirmCart = window.confirm(`"${product.name}" berhasil ditambahkan ke keranjang. Lihat keranjang belanja sekarang?`);
+    const confirmCart = await confirm({
+      title: 'Ditambahkan ke Keranjang',
+      message: `"${product.name}" berhasil ditambahkan ke keranjang belanja. Lihat keranjang sekarang?`,
+      confirmText: 'Lihat Keranjang',
+      cancelText: 'Lanjut Belanja'
+    });
     if (confirmCart) {
       navigate('/cart');
     }
@@ -256,7 +263,7 @@ export default function MarketplacePage() {
       {/* JARAK KE BAWAH DARI NAVBAR */}
       <div className="pt-20">
         {/* SUB-HEADER / PROMO STRIP SESUAI TEMA BIRU UTAMA */}
-        <div className="bg-[#1e3a8a] text-white text-[11px] py-2 px-4 shadow-xs">
+        <div className="bg-[#133384] text-white text-[11px] py-2 px-4 shadow-xs">
           <div className="max-w-[1280px] mx-auto flex items-center justify-between">
             <div className="flex items-center gap-4 text-blue-100">
               <span className="flex items-center gap-1.5 font-medium">
@@ -343,7 +350,7 @@ export default function MarketplacePage() {
         {/* SECTION 1: HERO & PRODUK TERATAS (KIRI: BANNER KURASI RESMI, KANAN: 4 CARD DENGAN 2 BARIS) */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
           {/* KOLOM KIRI: BANNER */}
-          <div className="lg:col-span-5 rounded-2xl bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-950 text-white p-7 md:p-8 flex flex-col justify-between relative overflow-hidden shadow-sm border border-blue-800">
+          <div className="lg:col-span-5 rounded-2xl bg-gradient-to-br from-[#133384] via-[#102a6b] to-[#0a1b44] text-white p-7 md:p-8 flex flex-col justify-between relative overflow-hidden shadow-sm border border-[#133384]">
             {/* Subtle decorative background glow */}
             <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
             
@@ -358,7 +365,7 @@ export default function MarketplacePage() {
               <div className="pt-2">
                 <a
                   href="#new-arrivals"
-                  className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-blue-900 text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
+                  className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-[#133384] text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
                 >
                   <span>Belanja Sekarang</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -750,7 +757,7 @@ export default function MarketplacePage() {
         </section>
 
         {/* SECTION 7: NEWSLETTER BANNER (TEMA BIRU) */}
-        <section className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-xl p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-5 shadow-sm">
+        <section className="bg-gradient-to-r from-[#133384] to-[#0e245e] text-white rounded-xl p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-5 shadow-sm">
           <div className="flex items-center gap-3.5">
             <div className="w-10 h-10 rounded-full bg-blue-700/80 text-white flex items-center justify-center shrink-0 border border-blue-400/30">
               <Sparkles className="w-5 h-5 text-blue-200" />
@@ -772,7 +779,7 @@ export default function MarketplacePage() {
               className="w-full md:w-72 px-3.5 py-2 text-[12px] bg-white text-slate-800 border border-transparent rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button
-              onClick={() => alert('Terima kasih! Anda berhasil terdaftar.')}
+              onClick={() => success('Terima kasih! Anda berhasil terdaftar berlangganan buletin kami.')}
               className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 text-[12px] font-semibold rounded-lg whitespace-nowrap transition-colors shadow-xs"
             >
               Langganan

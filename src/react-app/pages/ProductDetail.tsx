@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 import { Heart, Star, Truck, Package, RotateCcw, Calendar, ShoppingCart } from 'lucide-react';
 
 const productData: Record<string, any> = {
@@ -396,6 +397,7 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { warning, success } = useNotification();
   const product = productData[id as keyof typeof productData] || productData['1'];
   const relatedProducts = getRelatedProducts(product.id);
   const customerReviews = getCustomerReviews(product.id);
@@ -417,7 +419,7 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Mohon pilih ukuran terlebih dahulu');
+      warning('Mohon pilih ukuran terlebih dahulu', 'Pilih Varian');
       return;
     }
     
@@ -433,6 +435,7 @@ export default function ProductDetailPage() {
       category: product.category,
     });
     
+    success(`"${product.name}" berhasil ditambahkan ke keranjang`);
     setShowAddedToCart(true);
     setTimeout(() => setShowAddedToCart(false), 3000);
   };

@@ -3,14 +3,14 @@ import TopNavbar from '@/react-app/components/TopNavbar';
 import { 
   Edit3, Mail, Globe, Plus, 
   Calendar, User, Briefcase, GraduationCap, MapPin,
-  Camera, X,
+  Camera, X, Image as ImageIcon, FileText,
   Link as LinkIcon, Share2, ShieldCheck
 } from 'lucide-react';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 interface CulturalInterest {
   name: string;
   region: string;
-  category: string;
   description: string;
 }
 
@@ -31,7 +31,8 @@ interface EducationItem {
 }
 
 export default function ProfilPage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'posts' | 'experience' | 'interests'>('overview');
+  const { success } = useNotification();
+  const [activeTab, setActiveTab] = useState<'posts' | 'about' | 'experience'>('posts');
   
   // State Profile
   const [name, setName] = useState('Emma Smith');
@@ -63,25 +64,21 @@ export default function ProfilPage() {
     { 
       name: 'Wayang Kulit', 
       region: 'Jawa Tengah & Jawa Timur',
-      category: 'Seni Teater & Tari',
       description: 'Seni teater & tari tradisi pedalangan dan cerita epos wayang purwa.'
     },
     { 
       name: 'Tari Saman', 
       region: 'Aceh',
-      category: 'Seni Tari',
       description: 'Tarian tepuk tangan dan ritme serempak berkecepatan tinggi.'
     },
     { 
       name: 'Batik Tulis Pewarna Alam', 
       region: 'Yogyakarta & Solo',
-      category: 'Kriya Tradisional',
       description: 'Kain mori dengan malam panas dan ekstraksi tanaman nusantara.'
     },
     { 
       name: 'Angklung', 
       region: 'Jawa Barat',
-      category: 'Musik Tradisional',
       description: 'Instrumen bambu multitonal yang telah diakui Warisan UNESCO.'
     }
   ]);
@@ -126,7 +123,7 @@ export default function ProfilPage() {
   const [tempProfile, setTempProfile] = useState({ name: '', headline: '', location: '', role: '', avatar: '' });
   const [tempSummary, setTempSummary] = useState('');
   const [newExp, setNewExp] = useState({ role: '', institution: '', period: '', description: '' });
-  const [newInterest, setNewInterest] = useState({ name: '', region: '', category: '', description: '' });
+  const [newInterest, setNewInterest] = useState({ name: '', region: '', description: '' });
   const [tempDetails, setTempDetails] = useState({ email: '', languages: '', pronouns: '', nickname: '', website: '' });
 
   // Load demo user if available
@@ -201,17 +198,16 @@ export default function ProfilPage() {
 
   const handleAddInterest = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newInterest.name && newInterest.category) {
+    if (newInterest.name) {
       setInterests([
         {
           name: newInterest.name,
           region: newInterest.region || 'Nusantara',
-          category: newInterest.category,
           description: newInterest.description || 'Minat budaya aktif.'
         },
         ...interests
       ]);
-      setNewInterest({ name: '', region: '', category: '', description: '' });
+      setNewInterest({ name: '', region: '', description: '' });
       setIsAddInterestOpen(false);
     }
   };
@@ -284,14 +280,29 @@ export default function ProfilPage() {
                     </button>
                   </div>
 
-                  {/* Edit Header Profile Button */}
-                  <button 
-                    onClick={openEditProfile}
-                    className="p-2 sm:px-3.5 sm:py-1.5 border border-neutral-300 hover:bg-neutral-50 rounded-full text-neutral-700 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 active:scale-95"
-                  >
-                    <Edit3 className="w-4 h-4 text-neutral-600" />
-                    <span className="hidden sm:inline">Edit Profil</span>
-                  </button>
+                  {/* Edit Header Profile Button & Bagikan */}
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={openEditProfile}
+                      className="p-2 sm:px-3.5 sm:py-1.5 border border-neutral-300 hover:bg-neutral-50 rounded-full text-neutral-700 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 active:scale-95"
+                    >
+                      <Edit3 className="w-4 h-4 text-neutral-600" />
+                      <span className="hidden sm:inline">Edit Profil</span>
+                    </button>
+                    <button 
+                      onClick={() => {
+                        if (navigator.clipboard) {
+                          navigator.clipboard.writeText(window.location.href);
+                          success('Tautan profil berhasil disalin ke clipboard!');
+                        }
+                      }}
+                      className="p-2 sm:px-3.5 sm:py-1.5 border border-neutral-300 hover:bg-neutral-50 rounded-full text-neutral-700 text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 active:scale-95"
+                      title="Bagikan Profil"
+                    >
+                      <Share2 className="w-4 h-4 text-neutral-600" />
+                      <span className="hidden sm:inline">Bagikan</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Name, Headline, Location */}
@@ -300,8 +311,8 @@ export default function ProfilPage() {
                     <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
                       {name}
                     </h1>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                      <ShieldCheck className="w-3 h-3" /> Terverifikasi
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
+                      <ShieldCheck className="w-4 h-4 text-blue-600" /> Terverifikasi
                     </span>
                   </div>
 
@@ -315,96 +326,84 @@ export default function ProfilPage() {
                       {location}
                     </span>
                     <span>•</span>
-                    <span className="text-blue-600 hover:underline cursor-pointer font-medium" onClick={openEditDetails}>
-                      Info Kontak
-                    </span>
-                    <span>•</span>
                     <span className="text-neutral-500">
                       <strong className="text-neutral-800 font-semibold">1.240</strong> pengikut
                     </span>
                   </div>
                 </div>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-3 border-t border-neutral-100">
-                  <button 
-                    onClick={openEditProfile}
-                    className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-xs sm:text-sm font-semibold transition shadow-sm active:scale-95"
-                  >
-                    Edit Profil Saya
-                  </button>
-                  <button 
-                    onClick={() => setIsAddExperienceOpen(true)}
-                    className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-full text-xs sm:text-sm font-semibold transition active:scale-95 flex items-center gap-1.5"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Tambah Pengalaman
-                  </button>
-                  <button 
-                    onClick={() => {
-                      if (navigator.clipboard) {
-                        navigator.clipboard.writeText(window.location.href);
-                        alert('Tautan profil berhasil disalin ke clipboard!');
-                      }
-                    }}
-                    className="p-2 sm:px-3 sm:py-2 border border-neutral-300 hover:bg-neutral-50 text-neutral-700 rounded-full text-xs sm:text-sm font-medium transition active:scale-95 flex items-center gap-1.5"
-                    title="Bagikan Profil"
-                  >
-                    <Share2 className="w-4 h-4 text-neutral-600" />
-                    <span className="hidden sm:inline">Bagikan</span>
-                  </button>
-                </div>
-
-                {/* Quick Cards Banner (LinkedIn-style Open To / Highlights) */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-5">
-                  <div className="p-3 bg-neutral-50 hover:bg-neutral-100/80 border border-neutral-200/70 rounded-xl transition cursor-pointer">
-                    <p className="text-xs font-semibold text-neutral-900">Siap Kolaborasi Kesenian</p>
-                    <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">Terbuka untuk kurasi, pementasan teater, dan riset kebudayaan.</p>
-                  </div>
-                  <div className="p-3 bg-neutral-50 hover:bg-neutral-100/80 border border-neutral-200/70 rounded-xl transition cursor-pointer">
-                    <p className="text-xs font-semibold text-neutral-900">Peran Komunitas</p>
-                    <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">{role} aktif di Berbudaya.</p>
-                  </div>
-                  <div className="p-3 bg-neutral-50 hover:bg-neutral-100/80 border border-neutral-200/70 rounded-xl transition cursor-pointer" onClick={openEditSummary}>
-                    <p className="text-xs font-semibold text-neutral-900">Lengkapi Sorotan Profil</p>
-                    <p className="text-[11px] text-blue-600 font-medium mt-0.5">Perbarui deskripsi tentang Anda →</p>
-                  </div>
-                </div>
-
               </div>
 
-              {/* Sub Navigation Bar Tabs */}
-              <div className="border-t border-neutral-200 flex px-4 sm:px-7 overflow-x-auto gap-4 sm:gap-8 scrollbar-hide text-xs sm:text-sm font-medium text-neutral-600">
-                <button 
-                  onClick={() => setActiveTab('overview')}
-                  className={`py-3 border-b-2 transition whitespace-nowrap ${
-                    activeTab === 'overview' ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent hover:text-neutral-900'
-                  }`}
-                >
-                  Ringkasan
-                </button>
-                <button 
-                  onClick={() => setActiveTab('experience')}
-                  className={`py-3 border-b-2 transition whitespace-nowrap ${
-                    activeTab === 'experience' ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent hover:text-neutral-900'
-                  }`}
-                >
-                  Pengalaman & Pendidikan
-                </button>
-                <button 
-                  onClick={() => setActiveTab('interests')}
-                  className={`py-3 border-b-2 transition whitespace-nowrap ${
-                    activeTab === 'interests' ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent hover:text-neutral-900'
-                  }`}
-                >
-                  Minat Budaya
-                </button>
+              {/* Navigation Tabs */}
+              <div className="border-t border-slate-100 px-5 sm:px-8 bg-slate-50/50">
+                <div className="flex gap-6 overflow-x-auto scrollbar-hide">
+                  <button 
+                    onClick={() => setActiveTab('posts')}
+                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      activeTab === 'posts' ? 'active font-bold' : ''
+                    }`}
+                  >
+                    <ImageIcon className="w-3.5 h-3.5" />
+                    Karya & Postingan (1)
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('about')}
+                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      activeTab === 'about' ? 'active font-bold' : ''
+                    }`}
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    Tentang & Keahlian
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('experience')}
+                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                      activeTab === 'experience' ? 'active font-bold' : ''
+                    }`}
+                  >
+                    <Briefcase className="w-3.5 h-3.5" />
+                    Dedikasi & Riwayat
+                  </button>
+                </div>
               </div>
 
             </div>
 
-            {/* TAB 1: OVERVIEW */}
-            {activeTab === 'overview' && (
+            {/* TAB 1: KARYA & POSTINGAN */}
+            {activeTab === 'posts' && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <article className="bg-white rounded-2xl border border-neutral-200/90 overflow-hidden hover:border-neutral-300 transition-all shadow-sm flex flex-col justify-between">
+                    <div>
+                      <div className="h-48 overflow-hidden bg-neutral-100">
+                        <img
+                          src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop"
+                          alt="Dokumentasi Budaya"
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-4">
+                        <div className="text-[11px] text-neutral-400 mb-1.5">2 hari yang lalu</div>
+                        <h3 className="font-semibold text-neutral-900 text-sm mb-1.5 leading-snug">
+                          Kajian Visual: Keberagaman Ragam Hias Batik Klasik Pesisir
+                        </h3>
+                        <p className="text-xs text-neutral-600 leading-relaxed line-clamp-3">
+                          Dokumentasi riset kuratorial mendalam mengenai filosofi motif lereng dan mega mendung dalam representasi kosmologi lokal nusantara.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="px-4 py-3 bg-neutral-50/60 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-500">
+                      <span className="text-[11px] font-medium text-blue-600">Pelestarian Budaya</span>
+                      <span className="text-[11px] text-neutral-400">Warisan Nusantara</span>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: ABOUT & SKILLS */}
+            {activeTab === 'about' && (
               <>
                 {/* About / Summary Section */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
@@ -432,10 +431,10 @@ export default function ProfilPage() {
                     </div>
                     <button 
                       onClick={() => setShowAddSkill(!showAddSkill)}
-                      className="p-1.5 hover:bg-neutral-100 rounded-full text-neutral-600 transition flex items-center gap-1 text-xs font-semibold text-blue-600"
+                      className="p-2 hover:bg-neutral-100 rounded-full text-blue-600 transition"
+                      title="Tambah Keahlian"
                     >
                       <Plus className="w-4 h-4" />
-                      <span className="hidden sm:inline">Tambah</span>
                     </button>
                   </div>
 
@@ -447,7 +446,7 @@ export default function ProfilPage() {
                         value={newSkillInput}
                         onChange={(e) => setNewSkillInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleAddSkill()}
-                        className="flex-1 px-3 py-1.5 bg-white border border-neutral-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-3 py-2 bg-white border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                       />
                       <button 
                         onClick={handleAddSkill}
@@ -483,31 +482,33 @@ export default function ProfilPage() {
                   </div>
                 </div>
 
-                {/* Experience Preview in Overview */}
+                {/* Minat Budaya Section inside About */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Riwayat Pengalaman Budaya</h2>
+                    <div>
+                      <h2 className="text-base sm:text-lg font-bold text-neutral-900">Minat Kebudayaan</h2>
+                      <p className="text-xs text-neutral-500">Budaya nusantara yang Anda ikuti dan dalami</p>
+                    </div>
                     <button 
-                      onClick={() => setIsAddExperienceOpen(true)}
-                      className="p-1.5 hover:bg-neutral-100 rounded-full text-blue-600 transition flex items-center gap-1 text-xs font-semibold"
+                      onClick={() => setIsAddInterestOpen(true)}
+                      className="p-2 hover:bg-neutral-100 rounded-full text-blue-600 transition"
+                      title="Tambah Minat"
                     >
-                      <Plus className="w-4 h-4" />
-                      <span className="hidden sm:inline">Tambah Pengalaman</span>
+                      <Plus className="w-5 h-5" />
                     </button>
                   </div>
 
-                  <div className="space-y-4">
-                    {experiences.map((exp) => (
-                      <div key={exp.id} className="flex gap-3 sm:gap-4 items-start border-b border-neutral-100 last:border-0 pb-4 last:pb-0">
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 text-blue-600">
-                          <Briefcase className="w-5 h-5" />
+                  <div className="divide-y divide-neutral-100">
+                    {interests.map((item, idx) => (
+                      <div key={idx} className="py-3.5 first:pt-0 last:pb-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">{item.name}</h3>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-sm sm:text-base font-bold text-neutral-900">{exp.role}</h3>
-                          <p className="text-xs sm:text-sm font-medium text-neutral-700">{exp.institution}</p>
-                          <p className="text-[11px] text-neutral-500 mb-1.5">{exp.period}</p>
-                          <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{exp.description}</p>
+                        <div className="flex items-center gap-1.5 text-xs text-neutral-500 mt-1">
+                          <MapPin className="w-3.5 h-3.5 shrink-0 text-neutral-400" />
+                          <span>{item.region}</span>
                         </div>
+                        <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed">{item.description}</p>
                       </div>
                     ))}
                   </div>
@@ -515,96 +516,81 @@ export default function ProfilPage() {
               </>
             )}
 
-            {/* TAB 2: EXPERIENCE & EDUCATION */}
+            {/* TAB 3: DEDIKASI & RIWAYAT (EXPERIENCE & EDUCATION) */}
             {activeTab === 'experience' && (
               <div className="space-y-5">
                 {/* Experiences */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-6">
                     <div>
                       <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pengalaman Profesional & Komunitas</h2>
-                      <p className="text-xs text-neutral-500">Peran dalam pelestarian dan industri seni kebudayaan</p>
+                      <p className="text-xs text-neutral-500 mt-0.5">Peran dalam pelestarian dan industri seni kebudayaan</p>
                     </div>
                     <button 
                       onClick={() => setIsAddExperienceOpen(true)}
-                      className="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center gap-1"
+                      className="p-2 hover:bg-neutral-100 rounded-full text-blue-600 transition"
+                      title="Tambah Pengalaman"
                     >
-                      <Plus className="w-3.5 h-3.5" />
-                      Tambah
+                      <Plus className="w-4 h-4" />
                     </button>
                   </div>
 
-                  <div className="space-y-5">
-                    {experiences.map((exp) => (
-                      <div key={exp.id} className="flex gap-3 sm:gap-4 items-start border-b border-neutral-100 last:border-0 pb-4 last:pb-0">
-                        <div className="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 text-blue-600">
-                          <Briefcase className="w-5 h-5" />
+                  <div className="relative">
+                    {experiences.map((exp, idx) => {
+                      const isLast = idx === experiences.length - 1;
+                      return (
+                        <div key={exp.id} className="relative flex gap-4 pb-7 last:pb-1">
+                          {/* Vertical Connector Line */}
+                          {!isLast && (
+                            <div className="absolute left-[17px] top-[34px] bottom-0 w-[1.5px] bg-neutral-200" />
+                          )}
+
+                          {/* Round Dark Icon */}
+                          <div className="relative z-10 w-[34px] h-[34px] rounded-full bg-neutral-900 flex items-center justify-center shrink-0 shadow-sm ring-4 ring-white">
+                            <Briefcase className="w-4 h-4 text-white" />
+                          </div>
+
+                          <div className="flex-1 min-w-0 pt-0.5">
+                            <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">{exp.role}</h3>
+                            <p className="text-xs sm:text-sm font-medium text-neutral-700 mt-0.5">{exp.institution}</p>
+                            <p className="text-xs text-neutral-400 font-medium mt-0.5 mb-2">{exp.period}</p>
+                            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{exp.description}</p>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="text-sm sm:text-base font-bold text-neutral-900">{exp.role}</h3>
-                          <p className="text-xs sm:text-sm font-medium text-neutral-700">{exp.institution}</p>
-                          <p className="text-xs text-neutral-500 mb-2">{exp.period}</p>
-                          <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">{exp.description}</p>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Educations */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pendidikan</h2>
-                  </div>
-
-                  <div className="space-y-4">
-                    {educations.map((edu) => (
-                      <div key={edu.id} className="flex gap-3 sm:gap-4 items-start">
-                        <div className="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center shrink-0 text-amber-600">
-                          <GraduationCap className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h3 className="text-sm sm:text-base font-bold text-neutral-900">{edu.school}</h3>
-                          <p className="text-xs sm:text-sm text-neutral-700">{edu.degree} · {edu.field}</p>
-                          <p className="text-xs text-neutral-500">{edu.year}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* TAB 3: INTERESTS */}
-            {activeTab === 'interests' && (
-              <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h2 className="text-base sm:text-lg font-bold text-neutral-900">Koleksi Minat Kebudayaan</h2>
-                    <p className="text-xs text-neutral-500">Kategori budaya nusantara yang Anda ikuti dan dalami</p>
-                  </div>
-                  <button 
-                    onClick={() => setIsAddInterestOpen(true)}
-                    className="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center gap-1"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    Tambah Minat
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {interests.map((item, idx) => (
-                    <div key={idx} className="p-4 rounded-xl border border-neutral-200/80 bg-neutral-50/50 hover:bg-blue-50/50 hover:border-blue-200 transition">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-semibold text-blue-600 px-2 py-0.5 bg-blue-100/60 rounded">
-                          {item.category}
-                        </span>
-                        <span className="text-[11px] text-neutral-400">{item.region}</span>
-                      </div>
-                      <h3 className="text-sm sm:text-base font-bold text-neutral-900 mt-1">{item.name}</h3>
-                      <p className="text-xs text-neutral-600 mt-1 leading-relaxed">{item.description}</p>
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pendidikan</h2>
+                      <p className="text-xs text-neutral-500 mt-0.5">Latar belakang pendidikan akademis</p>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="relative">
+                    {educations.map((edu, idx) => {
+                      const isLast = idx === educations.length - 1;
+                      return (
+                        <div key={edu.id} className="relative flex gap-4 pb-6 last:pb-1">
+                          {!isLast && (
+                            <div className="absolute left-[17px] top-[34px] bottom-0 w-[1.5px] bg-neutral-200" />
+                          )}
+                          <div className="relative z-10 w-[34px] h-[34px] rounded-full bg-neutral-900 flex items-center justify-center shrink-0 shadow-sm ring-4 ring-white">
+                            <GraduationCap className="w-4 h-4 text-white" />
+                          </div>
+                          <div className="flex-1 min-w-0 pt-0.5">
+                            <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">{edu.school}</h3>
+                            <p className="text-xs sm:text-sm text-neutral-700 mt-0.5">{edu.degree} · {edu.field}</p>
+                            <p className="text-xs text-neutral-400 font-medium mt-0.5">{edu.year}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
@@ -614,47 +600,6 @@ export default function ProfilPage() {
           {/* Right Column / Sidebar (4 Cols in Desktop, Stacks neatly on Mobile) */}
           <div className="lg:col-span-4 space-y-5">
             
-            {/* Minat Kebudayaan Widget */}
-            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5">
-              <div className="flex items-center justify-between mb-3.5">
-                <h2 className="text-sm sm:text-base font-bold text-neutral-900">Minat Kebudayaan</h2>
-                <button 
-                  onClick={() => setIsAddInterestOpen(true)}
-                  className="p-1 hover:bg-neutral-100 rounded-full text-blue-600 transition"
-                  title="Tambah Minat"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="space-y-2.5">
-                {interests.slice(0, 4).map((interest, idx) => (
-                  <div key={idx} className="p-2.5 rounded-xl border border-neutral-100 bg-neutral-50/70 hover:bg-neutral-100 transition">
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs sm:text-sm font-semibold text-neutral-900">{interest.name}</p>
-                      <span className="text-[10px] text-blue-600 font-medium px-1.5 py-0.5 bg-blue-50 rounded">
-                        {interest.category}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-neutral-500 mt-0.5 flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-neutral-400" />
-                      {interest.region}
-                    </p>
-                    <p className="text-xs text-neutral-600 mt-1 line-clamp-2 leading-relaxed">
-                      {interest.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <button 
-                onClick={() => setActiveTab('interests')}
-                className="w-full mt-3 py-2 text-xs font-semibold text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition text-center"
-              >
-                Lihat Semua ({interests.length})
-              </button>
-            </div>
-
             {/* Detail Kontak & Informasi (LinkedIn-style Details Card) */}
             <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5">
               <div className="flex items-center justify-between mb-3.5">
@@ -763,7 +708,7 @@ export default function ProfilPage() {
                   type="text"
                   value={tempProfile.name}
                   onChange={(e) => setTempProfile({ ...tempProfile, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -774,7 +719,7 @@ export default function ProfilPage() {
                   value={tempProfile.headline}
                   onChange={(e) => setTempProfile({ ...tempProfile, headline: e.target.value })}
                   placeholder="Contoh: Pegiat Tari Tradisional & Kurator Etnis..."
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -785,7 +730,7 @@ export default function ProfilPage() {
                     type="text"
                     value={tempProfile.role}
                     onChange={(e) => setTempProfile({ ...tempProfile, role: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                   />
                 </div>
                 <div>
@@ -794,7 +739,7 @@ export default function ProfilPage() {
                     type="text"
                     value={tempProfile.location}
                     onChange={(e) => setTempProfile({ ...tempProfile, location: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                   />
                 </div>
               </div>
@@ -805,7 +750,7 @@ export default function ProfilPage() {
                   type="text"
                   value={tempProfile.avatar}
                   onChange={(e) => setTempProfile({ ...tempProfile, avatar: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
             </div>
@@ -846,7 +791,7 @@ export default function ProfilPage() {
                 value={tempSummary}
                 onChange={(e) => setTempSummary(e.target.value)}
                 placeholder="Tuliskan latar belakang kebudayaan, dedikasi, visi misi, atau karya yang sedang Anda tekuni..."
-                className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-xs sm:text-sm"
+                className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
               />
             </div>
 
@@ -888,7 +833,7 @@ export default function ProfilPage() {
                   placeholder="Misal: Kurator Kain Tradisional, Instruktur Tari"
                   value={newExp.role}
                   onChange={(e) => setNewExp({ ...newExp, role: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -900,7 +845,7 @@ export default function ProfilPage() {
                   placeholder="Misal: Sanggar Tari Saraswati, Galeri Nasional"
                   value={newExp.institution}
                   onChange={(e) => setNewExp({ ...newExp, institution: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -911,7 +856,7 @@ export default function ProfilPage() {
                   placeholder="Misal: 2021 - Sekarang · 3 thn"
                   value={newExp.period}
                   onChange={(e) => setNewExp({ ...newExp, period: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -922,7 +867,7 @@ export default function ProfilPage() {
                   placeholder="Jelaskan peran, proyek budaya yang dikerjakan, atau pencapaian..."
                   value={newExp.description}
                   onChange={(e) => setNewExp({ ...newExp, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
             </div>
@@ -966,42 +911,29 @@ export default function ProfilPage() {
                   placeholder="Misal: Tari Kecak, Tenun Ikat Sumba"
                   value={newInterest.name}
                   onChange={(e) => setNewInterest({ ...newInterest, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-neutral-700 font-semibold mb-1">Kategori</label>
-                  <input 
-                    type="text"
-                    required
-                    placeholder="Misal: Seni Tari, Kriya, Musik"
-                    value={newInterest.category}
-                    onChange={(e) => setNewInterest({ ...newInterest, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-neutral-700 font-semibold mb-1">Asal Daerah / Wilayah</label>
-                  <input 
-                    type="text"
-                    placeholder="Misal: Bali, NTT, Jawa Timur"
-                    value={newInterest.region}
-                    onChange={(e) => setNewInterest({ ...newInterest, region: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
-                </div>
+              <div>
+                <label className="block text-neutral-700 font-semibold mb-1">Asal Daerah / Wilayah</label>
+                <input 
+                  type="text"
+                  placeholder="Misal: Jawa Tengah & Jawa Timur, Bali, Aceh"
+                  value={newInterest.region}
+                  onChange={(e) => setNewInterest({ ...newInterest, region: e.target.value })}
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
+                />
               </div>
 
               <div>
                 <label className="block text-neutral-700 font-semibold mb-1">Keterangan Singkat</label>
                 <textarea 
-                  rows={2}
+                  rows={3}
                   placeholder="Keterangan singkat mengenai minat atau ketertarikan Anda..."
                   value={newInterest.description}
                   onChange={(e) => setNewInterest({ ...newInterest, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
             </div>
@@ -1043,7 +975,7 @@ export default function ProfilPage() {
                   type="email"
                   value={tempDetails.email}
                   onChange={(e) => setTempDetails({ ...tempDetails, email: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -1054,7 +986,7 @@ export default function ProfilPage() {
                   placeholder="Misal: Indonesia, Inggris, Sunda"
                   value={tempDetails.languages}
                   onChange={(e) => setTempDetails({ ...tempDetails, languages: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
 
@@ -1065,7 +997,7 @@ export default function ProfilPage() {
                     type="text"
                     value={tempDetails.nickname}
                     onChange={(e) => setTempDetails({ ...tempDetails, nickname: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                   />
                 </div>
                 <div>
@@ -1075,7 +1007,7 @@ export default function ProfilPage() {
                     placeholder="Dia / Beliau"
                     value={tempDetails.pronouns}
                     onChange={(e) => setTempDetails({ ...tempDetails, pronouns: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                   />
                 </div>
               </div>
@@ -1086,7 +1018,7 @@ export default function ProfilPage() {
                   type="text"
                   value={tempDetails.website}
                   onChange={(e) => setTempDetails({ ...tempDetails, website: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
                 />
               </div>
             </div>

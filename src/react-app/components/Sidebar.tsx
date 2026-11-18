@@ -1,6 +1,7 @@
 ﻿import { Home, Users, Calendar, BookOpen, ShoppingBag, Briefcase, MessageSquare, User, Settings, HelpCircle, LogOut } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 interface MenuItem {
   icon: React.ElementType;
@@ -36,6 +37,7 @@ const menuItems: MenuItem[] = [
 export default function Sidebar({ onClose }: SidebarProps) {
   const location = useLocation();
   const [user, setUser] = useState<DemoUser | null>(null);
+  const { confirm } = useNotification();
 
   useEffect(() => {
     // Load user dari localStorage
@@ -50,8 +52,16 @@ export default function Sidebar({ onClose }: SidebarProps) {
     }
   }, []);
 
-  const handleLogout = () => {
-    if (confirm('Apakah Anda yakin ingin logout?')) {
+  const handleLogout = async () => {
+    const isLogout = await confirm({
+      title: 'Keluar Akun',
+      message: 'Apakah Anda yakin ingin keluar dari akun ini?',
+      confirmText: 'Ya, Keluar',
+      cancelText: 'Batal',
+      type: 'danger'
+    });
+
+    if (isLogout) {
       // Hapus data user dari localStorage
       localStorage.removeItem('demo_user');
       // Redirect ke landing page

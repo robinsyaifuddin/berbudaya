@@ -258,10 +258,8 @@ export default function UserProfile() {
               <div className="flex gap-6 overflow-x-auto">
                 <button
                   onClick={() => setActiveTab('posts')}
-                  className={`py-3.5 text-xs font-semibold flex items-center gap-1.5 border-b-2 transition-colors whitespace-nowrap ${
-                    activeTab === 'posts'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-500 hover:text-slate-800'
+                  className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                    activeTab === 'posts' ? 'active font-bold' : ''
                   }`}
                 >
                   <ImageIcon className="w-3.5 h-3.5" />
@@ -269,10 +267,8 @@ export default function UserProfile() {
                 </button>
                 <button
                   onClick={() => setActiveTab('about')}
-                  className={`py-3.5 text-xs font-semibold flex items-center gap-1.5 border-b-2 transition-colors whitespace-nowrap ${
-                    activeTab === 'about'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-500 hover:text-slate-800'
+                  className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                    activeTab === 'about' ? 'active font-bold' : ''
                   }`}
                 >
                   <FileText className="w-3.5 h-3.5" />
@@ -280,10 +276,8 @@ export default function UserProfile() {
                 </button>
                 <button
                   onClick={() => setActiveTab('experience')}
-                  className={`py-3.5 text-xs font-semibold flex items-center gap-1.5 border-b-2 transition-colors whitespace-nowrap ${
-                    activeTab === 'experience'
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-slate-500 hover:text-slate-800'
+                  className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                    activeTab === 'experience' ? 'active font-bold' : ''
                   }`}
                 >
                   <Briefcase className="w-3.5 h-3.5" />

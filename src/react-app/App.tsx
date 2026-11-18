@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { AuthProvider } from '@getmocha/users-service/react';
 import { CartProvider } from '@/react-app/contexts/CartContext';
+import { NotificationProvider } from '@/react-app/contexts/NotificationContext';
 import LandingPage from "@/react-app/pages/Landing";
 import ProtectedRoute from "@/react-app/components/ProtectedRoute";
 import ErrorBoundary from "@/react-app/components/ErrorBoundary";
@@ -39,11 +40,8 @@ const PermainanPage = lazy(() => import("@/react-app/pages/Permainan"));
 
 function PageLoading() {
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center p-4">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 border-2 border-[#C45A34]/20 border-t-[#C45A34] rounded-full animate-spin" />
-        <span className="text-xs font-medium text-stone-500 tracking-wide">Memuat halaman...</span>
-      </div>
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-stone-200 border-t-[#C45A34] rounded-full animate-spin" />
     </div>
   );
 }
@@ -52,9 +50,10 @@ export default function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <CartProvider>
-          <Router>
-            <Suspense fallback={<PageLoading />}>
+        <NotificationProvider>
+          <CartProvider>
+            <Router>
+              <Suspense fallback={<PageLoading />}>
               <Routes>
                 {/* Public Routes - No Authentication Required */}
                 <Route path="/" element={<LandingPage />} />
@@ -203,7 +202,8 @@ export default function App() {
             </Suspense>
           </Router>
         </CartProvider>
-      </AuthProvider>
-    </ErrorBoundary>
+      </NotificationProvider>
+    </AuthProvider>
+  </ErrorBoundary>
   );
 }

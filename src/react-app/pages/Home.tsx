@@ -2,9 +2,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe } from 'lucide-react';
-import CreatePostModal from '@/react-app/components/CreatePostModal';
-import ShareModal from '@/react-app/components/ShareModal';
-import CommentModal from '@/react-app/components/CommentModal';
+import CreatePostDialog from '@/react-app/components/CreatePostDialog';
+import ShareDialog from '@/react-app/components/ShareDialog';
+import CommentSection from '@/react-app/components/CommentSection';
 
 interface DemoUser {
   id: string;
@@ -149,55 +149,65 @@ export default function Home() {
 
   return (
     <ModernLayout>
-      <div className="space-y-2 pb-8">
+      <div className="space-y-3 pb-8">
 
         {/* Post Composer */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
           {/* Main Input */}
-          <div className="p-3.5 sm:p-4">
-            <div className="flex items-center gap-3">
+          <div className="p-3 sm:p-4">
+            <div className="flex items-center gap-2.5 sm:gap-3">
               <img
                 src={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
                 alt="Your avatar"
-                className="w-10 h-10 rounded-full object-cover border border-slate-100 shadow-xs flex-shrink-0"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-slate-200/80 flex-shrink-0"
               />
               <button 
                 onClick={() => setShowPostModal(true)}
-                className="flex-1 px-4 py-2.5 text-left text-slate-500 bg-slate-50 border border-slate-200 rounded-full hover:bg-slate-100/80 hover:border-slate-300 transition-all text-xs sm:text-sm font-medium"
+                className="flex-1 px-3.5 sm:px-4 py-2 sm:py-2.5 text-left text-slate-500 bg-slate-50 hover:bg-slate-100/80 border border-slate-200/90 rounded-full transition-all text-xs sm:text-sm font-medium tracking-tight truncate"
               >
-                Mulai buat posting atau bagikan karya budaya...
+                <span className="sm:hidden">Bagikan karya budaya...</span>
+                <span className="hidden sm:inline">Mulai buat posting atau bagikan karya budaya...</span>
               </button>
             </div>
           </div>
 
           {/* Post Options */}
-          <div className="flex items-center px-3 py-2 border-t border-slate-100 bg-slate-50/50">
+          <div className="flex items-center px-2 sm:px-3 py-1.5 sm:py-2 border-t border-slate-100 bg-slate-50/40 gap-1 sm:gap-1.5">
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group shadow-2xs"
+              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
             >
               <ImageIcon className="w-4 h-4 text-blue-600 flex-shrink-0" />
-              <span className="text-xs font-medium text-slate-700 group-hover:text-blue-600 transition-colors">Foto Galeri</span>
+              <span className="text-xs font-medium text-slate-600 group-hover:text-blue-600 transition-colors whitespace-nowrap">
+                <span className="sm:hidden">Foto</span>
+                <span className="hidden sm:inline">Foto Galeri</span>
+              </span>
             </button>
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group shadow-2xs"
+              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
             >
               <VideoIcon className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-              <span className="text-xs font-medium text-slate-700 group-hover:text-emerald-600 transition-colors">Rekaman Video</span>
+              <span className="text-xs font-medium text-slate-600 group-hover:text-emerald-600 transition-colors whitespace-nowrap">
+                <span className="sm:hidden">Video</span>
+                <span className="hidden sm:inline">Rekaman Video</span>
+              </span>
             </button>
             <button 
               onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group shadow-2xs"
+              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
             >
               <FileText className="w-4 h-4 text-amber-600 flex-shrink-0" />
-              <span className="text-xs font-medium text-slate-700 group-hover:text-amber-600 transition-colors">Artikel Narasi</span>
+              <span className="text-xs font-medium text-slate-600 group-hover:text-amber-600 transition-colors whitespace-nowrap">
+                <span className="sm:hidden">Artikel</span>
+                <span className="hidden sm:inline">Artikel Narasi</span>
+              </span>
             </button>
           </div>
         </div>
 
-        {/* Create Post Modal */}
-        <CreatePostModal
+        {/* Create Post Dialog */}
+        <CreatePostDialog
           isOpen={showPostModal}
           onClose={() => setShowPostModal(false)}
           userAvatar={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
@@ -205,112 +215,111 @@ export default function Home() {
         />
 
         {/* Sort Bar */}
-        <div className="border-b border-slate-200/80 my-2">
-          <div className="flex items-center justify-between px-2 py-1.5">
-            <span className="text-[11px] text-slate-400">Urutkan lini masa:</span>
-            <div className="relative">
-              <button
-                onClick={() => setShowSortDropdown(!showSortDropdown)}
-                className="flex items-center gap-1 text-xs font-semibold text-slate-800 hover:text-blue-600 px-2 py-1 rounded-lg transition-colors"
-              >
-                <span>{sortBy === 'recent' ? 'Terpopuler' : 'Terbaru'}</span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
-              </button>
-              {showSortDropdown && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setShowSortDropdown(false)}
-                  />
-                  <div className="absolute right-0 mt-1 w-36 bg-white rounded-xl shadow-xl border border-slate-200 py-1 z-20">
-                    <button
-                      onClick={() => {
-                        setSortBy('recent');
-                        setShowSortDropdown(false);
-                      }}
-                      className={`w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 transition-colors ${
-                        sortBy === 'recent' ? 'text-blue-600 font-semibold' : 'text-slate-700'
-                      }`}
-                    >
-                      Terpopuler
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSortBy('top');
-                        setShowSortDropdown(false);
-                      }}
-                      className={`w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 transition-colors ${
-                        sortBy === 'top' ? 'text-blue-600 font-semibold' : 'text-slate-700'
-                      }`}
-                    >
-                      Terbaru
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+        <div className="flex items-center justify-between px-2 py-1">
+          <span className="text-xs text-slate-500 font-medium">Urutkan lini masa:</span>
+          <div className="relative">
+            <button
+              onClick={() => setShowSortDropdown(!showSortDropdown)}
+              className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-blue-600 px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors"
+            >
+              <span>{sortBy === 'recent' ? 'Terpopuler' : 'Terbaru'}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            </button>
+            {showSortDropdown && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setShowSortDropdown(false)}
+                />
+                <div className="absolute right-0 mt-1.5 w-36 bg-white rounded-xl shadow-lg border border-slate-200/90 py-1 z-20">
+                  <button
+                    onClick={() => {
+                      setSortBy('recent');
+                      setShowSortDropdown(false);
+                    }}
+                    className={`w-full text-left px-3.5 py-2 text-xs transition-colors ${
+                      sortBy === 'recent' ? 'text-blue-600 font-semibold bg-blue-50/50' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    Terpopuler
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSortBy('top');
+                      setShowSortDropdown(false);
+                    }}
+                    className={`w-full text-left px-3.5 py-2 text-xs transition-colors ${
+                      sortBy === 'top' ? 'text-blue-600 font-semibold bg-blue-50/50' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    Terbaru
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         {/* Feed Posts */}
         {samplePosts.map((post) => (
-          <div key={post.id} className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
+          <div key={post.id} className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
             {/* Post Header */}
             <div className="p-3.5 sm:p-4">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-start gap-2.5">
+              <div className="flex items-start justify-between mb-2.5">
+                <div className="flex items-start gap-3">
                   <Link to={`/user/${post.id}`}>
                     <img
                       src={post.author.avatar}
                       alt={post.author.name}
-                      className="w-10 h-10 rounded-full object-cover border border-slate-100 shadow-xs flex-shrink-0 hover:ring-2 hover:ring-blue-500 transition-all"
+                      className="w-10 h-10 rounded-full object-cover border border-slate-200/80 flex-shrink-0 hover:ring-2 hover:ring-blue-500/20 transition-all"
                     />
                   </Link>
                   <div>
-                    <h3 className="font-semibold text-slate-900 text-sm hover:text-blue-600 transition-colors">
+                    <h3 className="font-semibold text-slate-900 text-sm hover:text-blue-600 transition-colors leading-tight">
                       <Link to={`/user/${post.id}`}>
                         {post.author.name}
                       </Link>
                     </h3>
-                    <p className="text-xs text-slate-500">{post.author.subtitle}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{post.author.subtitle}</p>
                     <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
                       {post.author.timestamp} • <Globe className="w-3 h-3 text-slate-400" />
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <button className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
+                <div className="flex items-center gap-0.5">
+                  <button className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors" aria-label="Opsi">
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
-                  <button className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
+                  <button className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors" aria-label="Tutup">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
               {/* Post Content */}
-              <p className="text-slate-800 text-sm leading-relaxed">{post.content}</p>
+              <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-line">{post.content}</p>
             </div>
 
             {/* Post Image */}
             {post.image && (
-              <img
-                src={post.image}
-                alt="Post content"
-                className="w-full object-cover max-h-96"
-              />
+              <div className="bg-slate-100 overflow-hidden">
+                <img
+                  src={post.image}
+                  alt={post.content.slice(0, 40)}
+                  className="w-full object-cover max-h-[460px] hover:scale-[1.01] transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
             )}
 
             {/* Post Stats */}
             <div className="px-4 py-2 border-b border-slate-100">
               <div className="flex items-center justify-between text-xs text-slate-500">
                 <button className="flex items-center gap-1.5 hover:text-blue-600 transition-colors">
-                  <div className="flex items-center -space-x-1">
-                    <div className="w-4 h-4 bg-rose-500 rounded-full flex items-center justify-center border border-white">
-                      <Heart className="w-2.5 h-2.5 fill-white text-white" />
-                    </div>
+                  <div className="w-4 h-4 bg-rose-500 rounded-full flex items-center justify-center">
+                    <Heart className="w-2.5 h-2.5 fill-white text-white" />
                   </div>
-                  <span className="text-[11px] text-slate-600 font-medium ml-1">
+                  <span className="text-[11px] text-slate-600 font-medium">
                     {postLikes[post.id]?.count >= 1000 ? `${(postLikes[post.id]?.count/1000).toFixed(1)}rb` : postLikes[post.id]?.count} apresiasi
                   </span>
                 </button>
@@ -327,35 +336,35 @@ export default function Home() {
             </div>
 
             {/* Post Actions */}
-            <div className="px-2 py-1 bg-slate-50/50">
-              <div className="flex items-center">
+            <div className="px-2 py-1.5 bg-slate-50/40">
+              <div className="flex items-center gap-1">
                 <button 
                   onClick={() => handleLike(post.id)}
-                  className={`flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group ${postLikes[post.id]?.liked ? 'text-rose-600' : 'text-slate-600'}`}
+                  className={`flex items-center gap-1.5 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center whitespace-nowrap group ${postLikes[post.id]?.liked ? 'text-rose-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
                 >
                   <Heart className={`w-4 h-4 transition-transform group-hover:scale-110 ${postLikes[post.id]?.liked ? 'fill-rose-500 text-rose-500' : 'group-hover:text-rose-600'}`} />
-                  <span className="text-xs font-semibold">Suka</span>
+                  <span className="text-xs">Suka</span>
                 </button>
                 <button 
                   onClick={() => handleComment(post)}
-                  className="flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group text-slate-600 hover:text-blue-600"
+                  className="flex items-center gap-1.5 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center whitespace-nowrap group text-slate-600 hover:text-blue-600"
                 >
                   <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span className="text-xs font-semibold">Tanggapi</span>
+                  <span className="text-xs font-medium">Tanggapi</span>
                 </button>
                 <button 
                   onClick={() => handleShare(post)}
-                  className="flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group text-slate-600 hover:text-emerald-600"
+                  className="flex items-center gap-1.5 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center whitespace-nowrap group text-slate-600 hover:text-emerald-600"
                 >
                   <Send className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span className="text-xs font-semibold">Bagikan</span>
+                  <span className="text-xs font-medium">Bagikan</span>
                 </button>
                 <button 
                   onClick={() => handleSave(post)}
-                  className={`flex items-center gap-1 sm:gap-1.5 px-2 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group ${savedPostIds.has(post.id) ? 'text-amber-600' : 'text-slate-600 hover:text-amber-600'}`}
+                  className={`flex items-center gap-1.5 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center whitespace-nowrap group ${savedPostIds.has(post.id) ? 'text-amber-600 font-semibold' : 'text-slate-600 hover:text-amber-600'}`}
                 >
                   <Bookmark className={`w-4 h-4 group-hover:scale-110 transition-transform ${savedPostIds.has(post.id) ? 'fill-amber-500 text-amber-500' : ''}`} />
-                  <span className="text-xs font-semibold">Simpan</span>
+                  <span className="text-xs font-medium">Simpan</span>
                 </button>
               </div>
             </div>
@@ -371,18 +380,18 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Share Modal */}
+        {/* Share Dialog */}
         {selectedPost && (
-          <ShareModal
+          <ShareDialog
             isOpen={showShareModal}
             onClose={() => setShowShareModal(false)}
             post={selectedPost}
           />
         )}
 
-        {/* Comment Modal */}
+        {/* Comment Section */}
         {selectedPost && (
-          <CommentModal
+          <CommentSection
             isOpen={showCommentModal}
             onClose={() => setShowCommentModal(false)}
             post={selectedPost}

@@ -7,6 +7,7 @@ import {
   ChevronRight, Plus, Users,
   Heart, MessageSquare, Share2, Eye
 } from 'lucide-react';
+import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 interface DemoUser {
   id: string;
@@ -96,6 +97,7 @@ const userCommunities: Community[] = [
 ];
 
 export default function ProfilMenuPage() {
+  const { success, confirm } = useNotification();
   const [user, setUser] = useState<DemoUser | null>(null);
   const [activeView, setActiveView] = useState<'menu' | 'posts' | 'communities' | 'create-community'>('menu');
   const [newCommunity, setNewCommunity] = useState({
@@ -115,14 +117,24 @@ export default function ProfilMenuPage() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('demo_user');
-    window.location.href = '/';
+  const handleLogout = async () => {
+    const isLogout = await confirm({
+      title: 'Keluar Akun',
+      message: 'Apakah Anda yakin ingin keluar dari akun Anda?',
+      confirmText: 'Ya, Keluar',
+      cancelText: 'Batal',
+      type: 'danger'
+    });
+
+    if (isLogout) {
+      localStorage.removeItem('demo_user');
+      window.location.href = '/';
+    }
   };
 
   const handleCreateCommunity = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Komunitas "${newCommunity.name}" berhasil dibuat!\n\nIni adalah mode demo. Dalam produksi, komunitas akan disimpan ke database.`);
+    success(`Komunitas "${newCommunity.name}" berhasil dibuat! (Mode Demo)`, 'Komunitas Dibuat');
     setNewCommunity({ name: '', description: '', category: 'Seni Teater & Tari' });
     setActiveView('communities');
   };

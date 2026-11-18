@@ -49,16 +49,16 @@ export default function ModernLayout({
       {/* Main Content */}
       <div className="pt-16 pb-16 md:pb-6">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             {/* Left Sidebar - Profile & Navigasi */}
             {showLeftSidebar && (
-              <div className="hidden lg:block lg:col-span-3">
+              <aside className="hidden lg:block lg:col-span-3 sticky top-[76px] self-start">
                 <ProfileSidebar />
-              </div>
+              </aside>
             )}
 
             {/* Main Content (Center Feed) */}
-            <div className={`${
+            <main className={`${
               showLeftSidebar && showRightSidebar
                 ? 'lg:col-span-6'
                 : showLeftSidebar || showRightSidebar
@@ -66,13 +66,13 @@ export default function ModernLayout({
                 : 'lg:col-span-12'
             }`}>
               {children}
-            </div>
+            </main>
 
             {/* Right Sidebar - News & Exploration */}
             {showRightSidebar && (
-              <div className="hidden lg:block lg:col-span-3">
+              <aside className="hidden lg:block lg:col-span-3 sticky top-[76px] self-start">
                 <RightSidebar />
-              </div>
+              </aside>
             )}
           </div>
         </div>
