@@ -77,8 +77,8 @@ export default function SavedPostsSidebar() {
           <div className="flex items-center gap-2">
             <Bookmark className="w-4 h-4 text-gray-600" />
             <h4 className="font-semibold text-gray-900 text-sm">Item tersimpan</h4>
-            <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full">
-              {savedPosts.length}
+            <span className="text-xs font-semibold text-blue-600">
+              ({savedPosts.length})
             </span>
           </div>
           {savedPosts.length > 2 && (

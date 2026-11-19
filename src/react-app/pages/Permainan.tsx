@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { 
   Puzzle, 
@@ -238,7 +238,7 @@ export default function PermainanPage() {
 
 
         {/* ========================================================= */}
-        {/* GAME MENU NAVIGATION CARDS */}
+        {/* LOWER SECTION: Menu Game Cards Style Minimalis */}
         {/* ========================================================= */}
         <section className="mb-14">
           <div className="grid grid-cols-1 sm:grid-cols-3 bg-white rounded-2xl border border-slate-200/90 shadow-xs divide-y sm:divide-y-0 sm:divide-x divide-slate-200/90 overflow-hidden">
@@ -248,7 +248,7 @@ export default function PermainanPage() {
                 <Link
                   key={game.id}
                   to={game.path}
-                  className="group flex flex-col items-center justify-center py-10 px-6 hover:bg-primary-50/40 transition-all text-center"
+                  className="group flex flex-col items-center justify-center py-10 px-6 hover:bg-blue-50/40 transition-all text-center"
                 >
                   <div className="text-primary-600 mb-4 group-hover:scale-110 transition-transform duration-200">
                     <Icon className="w-10 h-10" strokeWidth={2.2} />

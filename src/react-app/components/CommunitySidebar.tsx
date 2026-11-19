@@ -17,7 +17,7 @@ export default function CommunitySidebar() {
   return (
     <div className="sticky top-20 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="flex items-center justify-center mx-auto mb-3">
           <Users className="w-8 h-8 text-blue-600" />
         </div>
         <h3 className="font-bold text-lg text-gray-900 mb-2">
@@ -32,7 +32,7 @@ export default function CommunitySidebar() {
         <p className="text-sm text-gray-600 leading-relaxed">
           Dapatkan dukungan dari seluruh masyarakat, komunitas, organisasi, dan berbagai sektor lainnya untuk mewujudkan program pelestarian budaya Anda.
         </p>
-        <div className="bg-blue-50 border-l-4 border-blue-600 p-3 rounded">
+        <div className="border-l-2 border-blue-600 pl-3 py-1">
           <p className="text-xs text-gray-700">
             <strong className="text-blue-800">Buat Kampanye</strong> dan galang dana untuk kegiatan budaya, workshop, festival, atau proyek pelestarian warisan budaya lainnya.
           </p>

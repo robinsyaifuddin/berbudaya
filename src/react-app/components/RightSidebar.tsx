@@ -102,7 +102,7 @@ export default function RightSidebar() {
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 overflow-hidden">
         <div className="px-4 py-3.5 border-b border-slate-100 flex items-center justify-between">
           <h4 className="font-semibold text-slate-900 text-xs tracking-tight">Kabar Kebudayaan</h4>
-          <span className="text-[10px] text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded-full">Terkini</span>
+          <span className="text-[10px] text-blue-600 font-medium">Terkini</span>
         </div>
         <div className="px-4 py-3">
           <div className="space-y-3">

@@ -711,6 +711,7 @@ export default function ProductDetailPage() {
                           name: relatedProduct.name,
                           price: relatedProduct.price,
                           image: relatedProduct.image,
+                          category: relatedProduct.category || 'Kriya',
                           quantity: 1,
                           seller: relatedProduct.seller || 'Pengrajin Budaya'
                         });

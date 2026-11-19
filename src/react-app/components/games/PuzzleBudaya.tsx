@@ -1,7 +1,26 @@
 import { useState, useEffect } from 'react';
-import { Trophy, RefreshCw, Lightbulb, Clock, ArrowLeft, Zap, Flame, Shield, ChevronRight } from 'lucide-react';
+import { Trophy, RefreshCw, Lightbulb, Clock, ArrowLeft, ChevronRight, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router';
 import ModernLayout from '@/react-app/components/ModernLayout';
+import GameTutorialModal, { TutorialStep } from './GameTutorialModal';
+
+const PUZZLE_TUTORIAL_STEPS: TutorialStep[] = [
+  {
+    title: 'Pilih Matriks & Warisan Budaya',
+    description: 'Tentukan ukuran grid (3x3, 4x4, atau 5x5) dan pilih objek warisan nusantara yang ingin Anda susun dari daftar koleksi budaya.',
+    highlightText: 'Tingkat 3x3 cocok untuk pemula, sedangkan 5x5 memberikan tantangan rekonstruksi detail tertinggi.'
+  },
+  {
+    title: 'Geser Kepingan ke Celah Kosong',
+    description: 'Papan puzzle memiliki satu kotak kosong. Klik kepingan gambar yang berada tepat di sebelah atas, bawah, kiri, atau kanan celah untuk memindahkannya.',
+    highlightText: 'Hanya kepingan yang berdampingan langsung dengan celah kosong yang dapat digeser.'
+  },
+  {
+    title: 'Gunakan Bantuan Visual (Hint)',
+    description: 'Jika mengalami kesulitan mengenali posisi kepingan, klik tombol "Lihat Bantuan" untuk mengintip gambar asli utuh selama 3 detik.',
+    highlightText: 'Selesaikan susunan kepingan hingga seluruh gambar tersusun rapi untuk mencatatkan rekor waktu terbaik.'
+  }
+];
 
 interface PuzzleImage {
   id: number;
@@ -55,6 +74,9 @@ interface Props {
 
 export default function PuzzleBudaya({ onClose }: Props) {
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'completed'>('menu');
+  const [showTutorial, setShowTutorial] = useState(() => {
+    return localStorage.getItem('tutorial_puzzle_done') !== 'true';
+  });
   const [selectedPuzzle, setSelectedPuzzle] = useState<PuzzleImage | null>(null);
   const [gridSize, setGridSize] = useState(3);
   const [pieces, setPieces] = useState<number[]>([]);
@@ -139,6 +161,11 @@ export default function PuzzleBudaya({ onClose }: Props) {
     setShowHint(false);
   };
 
+  const closeTutorial = () => {
+    setShowTutorial(false);
+    localStorage.setItem('tutorial_puzzle_done', 'true');
+  };
+
   // MENU SCREEN
   if (gameState === 'menu') {
     return (
@@ -153,7 +180,16 @@ export default function PuzzleBudaya({ onClose }: Props) {
               <ArrowLeft className="w-4 h-4" />
               <span>Daftar Permainan</span>
             </Link>
-            <span className="text-xs font-semibold text-slate-500">Puzzle Budaya Nusantara</span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowTutorial(true)}
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-[#133384] bg-slate-50 hover:bg-blue-50 px-2.5 py-1 rounded-md border border-slate-200 transition-colors"
+              >
+                <HelpCircle className="w-3.5 h-3.5 text-[#133384]" />
+                <span>Tata Cara</span>
+              </button>
+              <span className="text-xs font-semibold text-slate-500">Puzzle Budaya</span>
+            </div>
           </div>
 
           {/* Level Grid Selector */}
@@ -166,47 +202,35 @@ export default function PuzzleBudaya({ onClose }: Props) {
             <div className="grid grid-cols-3 gap-3">
               <button
                 onClick={() => setGridSize(3)}
-                className={`p-3.5 rounded-lg border text-left transition-all ${
+                className={`py-3 px-4 rounded-xl border text-center font-semibold text-xs sm:text-sm transition-all duration-150 ${
                   gridSize === 3
-                    ? 'border-[#133384] bg-blue-50/60 text-[#133384]'
-                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700'
+                    ? 'border-[#133384] bg-blue-50/70 text-[#133384] shadow-2xs ring-1 ring-[#133384]'
+                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-bold">3 × 3 Grid</span>
-                  <Shield className="w-3.5 h-3.5 text-emerald-600" />
-                </div>
-                <p className="text-[11px] text-slate-500">9 Potongan • Santai</p>
+                3 × 3 Grid
               </button>
 
               <button
                 onClick={() => setGridSize(4)}
-                className={`p-3.5 rounded-lg border text-left transition-all ${
+                className={`py-3 px-4 rounded-xl border text-center font-semibold text-xs sm:text-sm transition-all duration-150 ${
                   gridSize === 4
-                    ? 'border-[#133384] bg-blue-50/60 text-[#133384]'
-                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700'
+                    ? 'border-[#133384] bg-blue-50/70 text-[#133384] shadow-2xs ring-1 ring-[#133384]'
+                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-bold">4 × 4 Grid</span>
-                  <Zap className="w-3.5 h-3.5 text-amber-600" />
-                </div>
-                <p className="text-[11px] text-slate-500">16 Potongan • Sedang</p>
+                4 × 4 Grid
               </button>
 
               <button
                 onClick={() => setGridSize(5)}
-                className={`p-3.5 rounded-lg border text-left transition-all ${
+                className={`py-3 px-4 rounded-xl border text-center font-semibold text-xs sm:text-sm transition-all duration-150 ${
                   gridSize === 5
-                    ? 'border-[#133384] bg-blue-50/60 text-[#133384]'
-                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700'
+                    ? 'border-[#133384] bg-blue-50/70 text-[#133384] shadow-2xs ring-1 ring-[#133384]'
+                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-bold">5 × 5 Grid</span>
-                  <Flame className="w-3.5 h-3.5 text-rose-600" />
-                </div>
-                <p className="text-[11px] text-slate-500">25 Potongan • Ahli</p>
+                5 × 5 Grid
               </button>
             </div>
           </div>
@@ -404,7 +428,7 @@ export default function PuzzleBudaya({ onClose }: Props) {
                   <button
                     key={index}
                     onClick={() => handlePieceClick(index)}
-                    className={`aspect-square rounded-md transition-all duration-150 relative overflow-hidden ${
+                    className={`aspect-square !rounded-sm puzzle-piece transition-all duration-150 relative overflow-hidden ${
                       isEmpty 
                         ? 'bg-slate-100/90 border border-dashed border-slate-300 cursor-default' 
                         : 'bg-white border border-black/10 hover:brightness-105 active:scale-[0.98] cursor-pointer shadow-2xs'
@@ -436,6 +460,16 @@ export default function PuzzleBudaya({ onClose }: Props) {
           )}
         </div>
       </div>
+
+      {/* Tutorial Modal */}
+      {showTutorial && (
+        <GameTutorialModal
+          gameTitle="Puzzle Budaya"
+          steps={PUZZLE_TUTORIAL_STEPS}
+          onComplete={closeTutorial}
+          onSkip={closeTutorial}
+        />
+      )}
     </ModernLayout>
   );
 }

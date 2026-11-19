@@ -2,6 +2,25 @@ import { useState, useEffect } from 'react';
 import { Brain, Check, X, Trophy, RefreshCw, ChevronRight, ArrowLeft, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router';
 import ModernLayout from '@/react-app/components/ModernLayout';
+import GameTutorialModal, { TutorialStep } from './GameTutorialModal';
+
+const KUIS_TUTORIAL_STEPS: TutorialStep[] = [
+  {
+    title: 'Pahami Pertanyaan Budaya',
+    description: 'Setiap butir soal mengangkat pengetahuan seni tradisi, kriya, arsitektur, dan filosofi luhur dari beragam suku bangsa di Indonesia.',
+    highlightText: 'Luangkan waktu untuk membaca narasi soal dengan cermat sebelum menentukan pilihan.'
+  },
+  {
+    title: 'Pilih Jawaban yang Tepat',
+    description: 'Klik salah satu opsi jawaban yang menurut Anda benar. Setiap jawaban tepat akan langsung menambahkan +20 poin ke skor Anda.',
+    highlightText: 'Pilihan tidak dapat diubah setelah Anda memilih opsi jawaban.'
+  },
+  {
+    title: 'Pelajari Ulasan Filosofi',
+    description: 'Setelah menjawab, sistem akan menampilkan ulasan latar belakang dan makna filosofis budaya nusantara. Klik "Lanjut" untuk melanjutkan soal berikutnya.',
+    highlightText: 'Di akhir kuis, Anda dapat meninjau kembali ringkasan jawaban yang kurang tepat.'
+  }
+];
 
 interface Question {
   id: number;
@@ -74,6 +93,9 @@ interface Props {
 }
 
 export default function KuisBudaya({ onClose }: Props) {
+  const [showTutorial, setShowTutorial] = useState(() => {
+    return localStorage.getItem('tutorial_kuis_done') !== 'true';
+  });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
@@ -266,7 +288,14 @@ export default function KuisBudaya({ onClose }: Props) {
           </Link>
           
           <div className="flex items-center gap-3">
-            <span className="text-[11px] text-slate-500 font-medium">
+            <button
+              onClick={() => setShowTutorial(true)}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-[#133384] bg-slate-50 hover:bg-blue-50 px-2.5 py-1 rounded-md border border-slate-200 transition-colors"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-[#133384]" />
+              <span>Tata Cara</span>
+            </button>
+            <span className="text-[11px] text-slate-500 font-medium hidden sm:inline">
               Soal {currentQuestion + 1} dari {selectedQuestions.length}
             </span>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-[#133384] text-xs font-bold">
@@ -371,6 +400,22 @@ export default function KuisBudaya({ onClose }: Props) {
           )}
         </div>
       </div>
+
+      {/* Tutorial Modal */}
+      {showTutorial && (
+        <GameTutorialModal
+          gameTitle="Kuis Budaya"
+          steps={KUIS_TUTORIAL_STEPS}
+          onComplete={() => {
+            setShowTutorial(false);
+            localStorage.setItem('tutorial_kuis_done', 'true');
+          }}
+          onSkip={() => {
+            setShowTutorial(false);
+            localStorage.setItem('tutorial_kuis_done', 'true');
+          }}
+        />
+      )}
     </ModernLayout>
   );
 }

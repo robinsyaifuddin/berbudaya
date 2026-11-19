@@ -1,8 +1,8 @@
-﻿import ModernLayout from '@/react-app/components/ModernLayout';
+import ModernLayout from '@/react-app/components/ModernLayout';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Image as ImageIcon, Video as VideoIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe } from 'lucide-react';
-import CreatePostDialog from '@/react-app/components/CreatePostDialog';
+import { Image as ImageIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe, Plus } from 'lucide-react';
+import CreatePostDialog, { PostDialogTab } from '@/react-app/components/CreatePostDialog';
 import ShareDialog from '@/react-app/components/ShareDialog';
 import CommentSection from '@/react-app/components/CommentSection';
 
@@ -64,6 +64,8 @@ export default function Home() {
   const [sortBy, setSortBy] = useState<'recent' | 'top'>('recent');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
+  const [postModalTab, setPostModalTab] = useState<PostDialogTab>('gallery');
+  const [posts, setPosts] = useState(samplePosts);
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -179,8 +181,11 @@ export default function Home() {
                 className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-slate-200/80 flex-shrink-0"
               />
               <button 
-                onClick={() => setShowPostModal(true)}
-                className="flex-1 px-3.5 sm:px-4 py-2 sm:py-2.5 text-left text-slate-500 bg-slate-50 hover:bg-slate-100/80 border border-slate-200/90 rounded-full transition-all text-xs sm:text-sm font-medium tracking-tight truncate"
+                onClick={() => {
+                  setPostModalTab('post');
+                  setShowPostModal(true);
+                }}
+                className="flex-1 px-3.5 sm:px-4 py-2 sm:py-2.5 text-left text-slate-500 bg-slate-50 hover:bg-slate-100/80 border border-slate-200/90 rounded-full transition-all text-xs sm:text-sm font-medium tracking-tight truncate cursor-pointer active:scale-[0.99]"
               >
                 <span className="sm:hidden">Bagikan karya budaya...</span>
                 <span className="hidden sm:inline">Mulai buat posting atau bagikan karya budaya...</span>
@@ -188,36 +193,33 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Post Options */}
-          <div className="flex items-center px-2 sm:px-3 py-1.5 sm:py-2 border-t border-slate-100 bg-slate-50/40 gap-1 sm:gap-1.5">
+          {/* Post Options: Hanya Tambah Galeri & Tambah Artikel */}
+          <div className="flex items-center px-2 sm:px-3 py-1.5 sm:py-2 border-t border-slate-100 bg-slate-50/40 gap-1.5 sm:gap-2">
             <button 
-              onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
+              onClick={() => {
+                setPostModalTab('gallery');
+                setShowPostModal(true);
+              }}
+              className="flex items-center gap-2 px-3 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
             >
               <ImageIcon className="w-4 h-4 text-blue-600 flex-shrink-0" />
-              <span className="text-xs font-medium text-slate-600 group-hover:text-blue-600 transition-colors whitespace-nowrap">
-                <span className="sm:hidden">Foto</span>
-                <span className="hidden sm:inline">Foto Galeri</span>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-blue-600 transition-colors whitespace-nowrap">
+                Tambah Galeri
               </span>
             </button>
+
+            <div className="w-px h-5 bg-slate-200" />
+
             <button 
-              onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
-            >
-              <VideoIcon className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-              <span className="text-xs font-medium text-slate-600 group-hover:text-emerald-600 transition-colors whitespace-nowrap">
-                <span className="sm:hidden">Video</span>
-                <span className="hidden sm:inline">Rekaman Video</span>
-              </span>
-            </button>
-            <button 
-              onClick={() => setShowPostModal(true)}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
+              onClick={() => {
+                setPostModalTab('article');
+                setShowPostModal(true);
+              }}
+              className="flex items-center gap-2 px-3 py-2 hover:bg-white rounded-xl transition-all flex-1 justify-center group"
             >
               <FileText className="w-4 h-4 text-amber-600 flex-shrink-0" />
-              <span className="text-xs font-medium text-slate-600 group-hover:text-amber-600 transition-colors whitespace-nowrap">
-                <span className="sm:hidden">Artikel</span>
-                <span className="hidden sm:inline">Artikel Narasi</span>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-amber-600 transition-colors whitespace-nowrap">
+                Tambah Artikel
               </span>
             </button>
           </div>
@@ -225,10 +227,19 @@ export default function Home() {
 
         {/* Create Post Dialog */}
         <CreatePostDialog
+          key={postModalTab + String(showPostModal)}
           isOpen={showPostModal}
+          initialTab={postModalTab}
           onClose={() => setShowPostModal(false)}
           userAvatar={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
           userName={user?.name || 'User'}
+          onPostCreated={(newPost) => {
+            setPosts((prev) => [newPost, ...prev]);
+            setPostLikes((prev) => ({
+              ...prev,
+              [newPost.id]: { liked: false, count: 0 }
+            }));
+          }}
         />
 
         {/* Sort Bar */}
@@ -278,7 +289,7 @@ export default function Home() {
         </div>
 
         {/* Feed Posts */}
-        {samplePosts.map((post) => (
+        {posts.map((post) => (
           <div key={post.id} id={`post-${post.id}`} className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden transition-all duration-500">
             {/* Post Header */}
             <div className="p-3.5 sm:p-4">
@@ -314,7 +325,14 @@ export default function Home() {
               </div>
 
               {/* Post Content */}
-              <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-line">{post.content}</p>
+              {post.content && post.content.includes('<') && post.content.includes('>') ? (
+                <div 
+                  className="text-slate-800 text-sm leading-relaxed prose prose-slate max-w-none"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
+              ) : (
+                <p className="text-slate-800 text-sm leading-relaxed whitespace-pre-line">{post.content}</p>
+              )}
             </div>
 
             {/* Post Image */}
