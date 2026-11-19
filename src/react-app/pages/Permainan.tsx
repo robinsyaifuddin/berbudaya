@@ -116,15 +116,7 @@ const miniShowcases = [
 ];
 
 export default function PermainanPage() {
-  const [activeTab, setActiveTab] = useState<'semua' | 'puzzle' | 'kuis' | 'tebak'>('semua');
   const featured = gamesList[0];
-
-  const filteredGames = gamesList.filter(game => {
-    if (activeTab === 'puzzle') return game.id === 'puzzle-budaya';
-    if (activeTab === 'kuis') return game.id === 'kuis-budaya';
-    if (activeTab === 'tebak') return game.id === 'tebak-daerah';
-    return true;
-  });
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-stone-900 selection:bg-amber-100 selection:text-amber-900">
@@ -246,176 +238,27 @@ export default function PermainanPage() {
 
 
         {/* ========================================================= */}
-        {/* LOWER SECTION: Header + Bento Grid Cards (Sesuai Referensi Gambar 2 Bawah) */}
+        {/* GAME MENU NAVIGATION CARDS */}
         {/* ========================================================= */}
         <section className="mb-14">
-          
-          {/* Section Header dengan Proporsi Jelas */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b border-stone-200">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-amber-800 block mb-1">
-                Koleksi Wahana Edukatif
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-stone-950 tracking-tight">
-                Jelajahi Berbagai Macam Permainan
-              </h2>
-            </div>
-
-            <p className="text-xs sm:text-sm text-stone-600 max-w-md md:text-right leading-relaxed">
-              Mulai dari tantangan visual puzzle, kuis pengetahuan nusantara, hingga tebak busana dan pusaka tradisional.
-            </p>
-          </div>
-
-          {/* Filter Pills */}
-          <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-none">
-            {[
-              { id: 'semua', label: 'Semua Arena' },
-              { id: 'puzzle', label: 'Puzzle Budaya' },
-              { id: 'kuis', label: 'Kuis Sejarah' },
-              { id: 'tebak', label: 'Tebak Daerah' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap cursor-pointer ${
-                  activeTab === tab.id
-                    ? 'bg-primary-600 text-white shadow-xs font-semibold'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Asymmetric Bento / Card Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredGames.map((game) => {
+          <div className="grid grid-cols-1 sm:grid-cols-3 bg-white rounded-2xl border border-slate-200/90 shadow-xs divide-y sm:divide-y-0 sm:divide-x divide-slate-200/90 overflow-hidden">
+            {gamesList.map((game) => {
               const Icon = game.icon;
               return (
-                <div
+                <Link
                   key={game.id}
-                  className="group bg-white rounded-lg border border-slate-200/90 hover:border-primary-300 shadow-xs hover:shadow-sm transition-all flex flex-col justify-between overflow-hidden"
+                  to={game.path}
+                  className="group flex flex-col items-center justify-center py-10 px-6 hover:bg-primary-50/40 transition-all text-center"
                 >
-                  {/* Top Image Preview Card */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                    <img
-                      src={game.image}
-                      alt={game.title}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
-                    
-                    {/* Floating Badges */}
-                    <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md border shadow-xs bg-white/95 text-slate-800`}>
-                        {game.badge}
-                      </span>
-                      <div className="w-7 h-7 rounded-md bg-white/95 flex items-center justify-center text-slate-700 shadow-xs">
-                        <Icon className="w-3.5 h-3.5 text-primary-600" />
-                      </div>
-                    </div>
-
-                    {/* Bottom Metadata inside Image */}
-                    <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between text-white text-xs">
-                      <span className="flex items-center gap-1 font-medium bg-black/40 px-2 py-0.5 rounded-full backdrop-blur-xs">
-                        <Clock className="w-3.5 h-3.5 text-stone-300" />
-                        {game.duration}
-                      </span>
-                      <span className="font-medium bg-black/40 px-2 py-0.5 rounded-full backdrop-blur-xs">
-                        {game.difficulty}
-                      </span>
-                    </div>
+                  <div className="text-primary-600 mb-4 group-hover:scale-110 transition-transform duration-200">
+                    <Icon className="w-10 h-10" strokeWidth={2.2} />
                   </div>
-
-                  {/* Card Content Body */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex flex-wrap gap-1.5 mb-2.5">
-                        {game.tags.map((tag, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 border border-stone-200/60"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <h3 className="font-serif font-bold text-stone-950 text-lg mb-1 group-hover:text-amber-800 transition-colors">
-                        {game.title}
-                      </h3>
-
-                      <p className="text-xs font-medium text-amber-800/90 mb-2">
-                        {game.tagline}
-                      </p>
-
-                      <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-4">
-                        {game.description}
-                      </p>
-                    </div>
-
-                    {/* Bottom Stats & Action Bar */}
-                    <div>
-                      <div className="pt-3 mb-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-                        <span className="flex items-center gap-1.5">
-                          <Users className="w-3.5 h-3.5 text-stone-400" />
-                          {game.players}
-                        </span>
-                        <span className="font-semibold text-stone-800">
-                          {game.stats.value}
-                        </span>
-                      </div>
-
-                      <Link
-                        to={game.path}
-                        className="w-full flex items-center justify-center gap-2 py-3 bg-stone-900 text-white hover:bg-stone-800 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 shadow-xs hover:shadow active:scale-[0.98]"
-                      >
-                        <Play className="w-3.5 h-3.5 fill-current" />
-                        Mainkan Sekarang
-                      </Link>
-                    </div>
-
-                  </div>
-                </div>
+                  <span className="text-base font-bold text-slate-800 tracking-tight group-hover:text-primary-600 transition-colors">
+                    {game.title}
+                  </span>
+                </Link>
               );
             })}
-          </div>
-        </section>
-
-
-        {/* ========================================================= */}
-        {/* BANNER PROMOSI KOMUNITAS & LEADERBOARD (Clean & Tactile) */}
-        {/* ========================================================= */}
-        <section className="bg-slate-900 text-white rounded-lg p-6 sm:p-8 border border-slate-800 relative overflow-hidden shadow-sm">
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="max-w-xl">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 rounded-md text-[11px] font-semibold text-primary-300 mb-3 border border-white/10">
-                <Award className="w-3.5 h-3.5" />
-                Sistem Papan Peringkat Budaya
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
-                Tantang Rekan Komunitas & Rebut Posisi Teratas
-              </h3>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                Setiap keberhasilan menyelesaikan puzzle dan kuis menambah poin reputasi adat Anda di komunitas Berbudaya. Buktikan wawasan kebudayaan nusantaramu sekarang!
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <Link
-                to="/komunitas"
-                className="px-5 py-2.5 bg-primary-600 hover:bg-primary-500 text-white font-medium rounded-md text-xs sm:text-sm transition-all shadow-xs active:scale-[0.98]"
-              >
-                Kunjungi Komunitas
-              </Link>
-              <Link
-                to="/jaringan"
-                className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-md text-xs sm:text-sm transition-all border border-slate-700 active:scale-[0.98]"
-              >
-                Lihat Peringkat
-              </Link>
-            </div>
           </div>
         </section>
 

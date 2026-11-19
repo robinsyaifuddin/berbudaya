@@ -7,7 +7,6 @@ import {
   Search, 
   TrendingUp, 
   ShieldCheck, 
-  Sparkles, 
   ArrowUpRight, 
   CheckCircle2, 
   Send,
@@ -93,8 +92,7 @@ export default function BeritaPage() {
             {/* Right Mini Card */}
             <div className="lg:col-span-4 flex lg:justify-end">
               <div className="w-full max-w-sm p-4 sm:p-5 rounded-lg bg-slate-50 border border-slate-200/80 shadow-xs relative overflow-hidden">
-                <div className="flex items-center gap-1.5 text-primary-600 text-[11px] font-semibold uppercase tracking-wider mb-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="text-primary-600 text-[11px] font-semibold uppercase tracking-wider mb-1.5">
                   Pusat Informasi Budaya
                 </div>
                 <h2 className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">

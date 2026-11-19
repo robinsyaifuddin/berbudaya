@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Brain, Check, X, Trophy, RefreshCw, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Brain, Check, X, Trophy, RefreshCw, ChevronRight, ArrowLeft, HelpCircle } from 'lucide-react';
+import { Link } from 'react-router';
+import ModernLayout from '@/react-app/components/ModernLayout';
 
 interface Question {
   id: number;
@@ -81,8 +83,7 @@ export default function KuisBudaya({ onClose }: Props) {
   const [isAnswered, setIsAnswered] = useState(false);
 
   useEffect(() => {
-    // Acak dan ambil 10 pertanyaan
-    const shuffled = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffled = [...questions].sort(() => Math.random() - 0.5);
     setSelectedQuestions(shuffled);
   }, []);
 
@@ -94,10 +95,10 @@ export default function KuisBudaya({ onClose }: Props) {
     
     const isCorrect = option === selectedQuestions[currentQuestion].answer;
     if (isCorrect) {
-      setScore(score + 10);
+      setScore(prev => prev + 20);
     }
     
-    setAnswers([...answers, {
+    setAnswers(prev => [...prev, {
       question: selectedQuestions[currentQuestion].question,
       selected: option,
       correct: selectedQuestions[currentQuestion].answer,
@@ -107,7 +108,7 @@ export default function KuisBudaya({ onClose }: Props) {
 
   const handleNext = () => {
     if (currentQuestion + 1 < selectedQuestions.length) {
-      setCurrentQuestion(currentQuestion + 1);
+      setCurrentQuestion(prev => prev + 1);
       setSelectedAnswer('');
       setIsAnswered(false);
     } else {
@@ -116,7 +117,7 @@ export default function KuisBudaya({ onClose }: Props) {
   };
 
   const handleRestart = () => {
-    const shuffled = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffled = [...questions].sort(() => Math.random() - 0.5);
     setSelectedQuestions(shuffled);
     setCurrentQuestion(0);
     setSelectedAnswer('');
@@ -128,104 +129,115 @@ export default function KuisBudaya({ onClose }: Props) {
 
   if (selectedQuestions.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
+      <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+        <div className="bg-white rounded-xl border border-slate-200/90 p-12 text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-slate-300 border-t-[#133384]" />
+          <p className="mt-3 text-xs text-slate-500">Menyiapkan butir kuis budaya...</p>
+        </div>
+      </ModernLayout>
     );
   }
 
   if (showResult) {
     const wrongAnswers = answers.filter(a => !a.isCorrect);
+    const correctCount = answers.filter(a => a.isCorrect).length;
     
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4 md:p-8">
-        <div className="max-w-3xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <button 
-              onClick={onClose}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+      <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+        <div className="space-y-4">
+          {/* Top Bar Navigation */}
+          <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
+            <Link 
+              to="/permainan"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-[#133384] transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Kembali</span>
-            </button>
+              <ArrowLeft className="w-4 h-4" />
+              <span>Daftar Permainan</span>
+            </Link>
+            <span className="text-xs font-semibold text-slate-500">Hasil Sesi Kuis</span>
           </div>
 
-          {/* Score Card */}
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden mb-6">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-center">
-              <Trophy className="w-20 h-20 mx-auto text-yellow-300 mb-4" />
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Selamat!</h1>
-              <p className="text-xl text-blue-100 mb-4">Anda telah menyelesaikan Kuis Budaya</p>
-              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-2xl px-8 py-4">
-                <p className="text-sm text-blue-100 mb-1">Skor Anda</p>
-                <p className="text-5xl font-bold text-white">{score}/100</p>
+          {/* Result Card */}
+          <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden">
+            <div className="p-6 text-center border-b border-slate-100">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 text-[#133384] mb-3 border border-blue-100">
+                <Trophy className="w-6 h-6" />
+              </div>
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">Kuis Selesai!</h1>
+              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                Evaluasi pemahaman seni kriya, filosofi tradisi, dan arsitektur nusantara Anda.
+              </p>
+              
+              <div className="inline-block mt-4 px-6 py-2.5 bg-slate-50 rounded-lg border border-slate-200/80">
+                <span className="text-[11px] uppercase tracking-wider font-semibold text-slate-500 block">Total Skor</span>
+                <span className="text-3xl font-extrabold text-[#133384]">{score}</span>
+                <span className="text-xs text-slate-400 font-medium"> / 100</span>
               </div>
             </div>
 
-            <div className="p-6">
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-4 bg-green-50 rounded-xl">
-                  <div className="flex items-center justify-center mb-2">
-                    <Check className="w-6 h-6 text-green-600" />
-                  </div>
-                  <p className="text-2xl font-bold text-green-600">{answers.filter(a => a.isCorrect).length}</p>
-                  <p className="text-xs text-gray-600">Benar</p>
-                </div>
-                <div className="text-center p-4 bg-red-50 rounded-xl">
-                  <div className="flex items-center justify-center mb-2">
-                    <X className="w-6 h-6 text-red-600" />
-                  </div>
-                  <p className="text-2xl font-bold text-red-600">{wrongAnswers.length}</p>
-                  <p className="text-xs text-gray-600">Salah</p>
-                </div>
-                <div className="text-center p-4 bg-blue-50 rounded-xl">
-                  <div className="flex items-center justify-center mb-2">
-                    <Trophy className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <p className="text-2xl font-bold text-blue-600">{score}%</p>
-                  <p className="text-xs text-gray-600">Akurasi</p>
-                </div>
+            {/* Score Stats */}
+            <div className="grid grid-cols-3 divide-x divide-slate-100 bg-slate-50/60 border-b border-slate-100">
+              <div className="p-3.5 text-center">
+                <p className="text-base font-bold text-emerald-600">{correctCount}</p>
+                <p className="text-[11px] text-slate-500 font-medium">Benar</p>
               </div>
+              <div className="p-3.5 text-center">
+                <p className="text-base font-bold text-rose-600">{wrongAnswers.length}</p>
+                <p className="text-[11px] text-slate-500 font-medium">Salah</p>
+              </div>
+              <div className="p-3.5 text-center">
+                <p className="text-base font-bold text-[#133384]">{score}%</p>
+                <p className="text-[11px] text-slate-500 font-medium">Akurasi</p>
+              </div>
+            </div>
 
+            {/* Action buttons */}
+            <div className="p-4 flex items-center justify-center gap-2">
               <button
                 onClick={handleRestart}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
+                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#133384] hover:bg-[#0e245e] text-white text-xs font-semibold rounded-lg transition-all active:scale-[0.98] shadow-2xs"
               >
-                <RefreshCw className="w-5 h-5" />
-                Main Lagi
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Ulangi Kuis</span>
               </button>
+              <Link
+                to="/permainan"
+                className="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition-all"
+              >
+                Pilih Game Lain
+              </Link>
             </div>
           </div>
 
-          {/* Wrong Answers Review */}
+          {/* Pembahasan Jawaban Salah */}
           {wrongAnswers.length > 0 && (
-            <div className="bg-white rounded-3xl shadow-xl p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <X className="w-6 h-6 text-red-600" />
-                Pembahasan Jawaban Salah
+            <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs p-5">
+              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-1.5">
+                <HelpCircle className="w-4 h-4 text-slate-500" />
+                Pembahasan Soal yang Perlu Ditinjau
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {wrongAnswers.map((answer, index) => {
-                  const questionData = selectedQuestions.find(q => q.question === answer.question);
+                  const qData = selectedQuestions.find(q => q.question === answer.question);
                   return (
-                    <div key={index} className="border border-red-200 rounded-xl p-4 bg-red-50/50">
-                      <p className="font-semibold text-gray-900 mb-3">{answer.question}</p>
-                      <div className="space-y-2 mb-3">
-                        <div className="flex items-center gap-2 text-sm">
-                          <X className="w-4 h-4 text-red-600" />
-                          <span className="text-red-700">Jawaban Anda: <strong>{answer.selected}</strong></span>
+                    <div key={index} className="p-3.5 rounded-lg border border-slate-200/80 bg-slate-50/50 space-y-2">
+                      <p className="text-xs font-semibold text-slate-900 leading-snug">{answer.question}</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div className="p-2 rounded bg-rose-50/70 border border-rose-100 text-rose-800">
+                          <span className="block text-[10px] font-semibold text-rose-500 uppercase">Pilihan Anda:</span>
+                          <span className="font-medium">{answer.selected}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
-                          <Check className="w-4 h-4 text-green-600" />
-                          <span className="text-green-700">Jawaban Benar: <strong>{answer.correct}</strong></span>
+                        <div className="p-2 rounded bg-emerald-50/70 border border-emerald-100 text-emerald-800">
+                          <span className="block text-[10px] font-semibold text-emerald-600 uppercase">Jawaban Benar:</span>
+                          <span className="font-medium">{answer.correct}</span>
                         </div>
                       </div>
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <p className="text-sm text-gray-700">
-                          <strong className="text-blue-700">Penjelasan:</strong> {questionData?.explanation}
+                      {qData?.explanation && (
+                        <p className="text-[11px] text-slate-600 bg-white p-2.5 rounded border border-slate-150 leading-relaxed">
+                          <strong className="text-slate-800 font-medium">Ulasan: </strong>
+                          {qData.explanation}
                         </p>
-                      </div>
+                      )}
                     </div>
                   );
                 })}
@@ -233,116 +245,132 @@ export default function KuisBudaya({ onClose }: Props) {
             </div>
           )}
         </div>
-      </div>
+      </ModernLayout>
     );
   }
 
   const question = selectedQuestions[currentQuestion];
-  const progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
+  const progressPercent = ((currentQuestion + 1) / selectedQuestions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4 md:p-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <button 
-            onClick={onClose}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+    <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+      <div className="space-y-4">
+        {/* Game Navigation Header */}
+        <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
+          <Link 
+            to="/permainan"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-[#133384] transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Kembali</span>
-          </button>
-          <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-lg">
-            <Brain className="w-5 h-5 text-purple-600" />
-            <span className="font-bold text-gray-900">{score} Poin</span>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Kembali ke Permainan</span>
+          </Link>
+          
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] text-slate-500 font-medium">
+              Soal {currentQuestion + 1} dari {selectedQuestions.length}
+            </span>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-[#133384] text-xs font-bold">
+              <Brain className="w-3.5 h-3.5" />
+              <span>{score} Poin</span>
+            </div>
           </div>
         </div>
 
-        {/* Progress */}
-        <div className="bg-white rounded-full h-3 mb-6 overflow-hidden shadow-inner">
+        {/* Progress Bar Hairline */}
+        <div className="w-full bg-slate-200/80 rounded-full h-1 overflow-hidden">
           <div 
-            className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-500 ease-out rounded-full"
-            style={{ width: `${progress}%` }}
+            className="bg-[#133384] h-full transition-all duration-300 ease-out"
+            style={{ width: `${progressPercent}%` }}
           />
         </div>
 
-        {/* Question Number */}
-        <div className="text-center mb-6">
-          <p className="text-sm font-medium text-gray-600 mb-1">Pertanyaan</p>
-          <p className="text-2xl font-bold text-gray-900">{currentQuestion + 1} / {selectedQuestions.length}</p>
-        </div>
-
         {/* Question Card */}
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden mb-6">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 md:p-8">
-            <h2 className="text-xl md:text-2xl font-bold text-white text-center leading-relaxed">
+        <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden">
+          {/* Question Text Surface */}
+          <div className="p-6 border-b border-slate-100 bg-slate-50/40">
+            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-semibold uppercase tracking-wider mb-2.5">
+              Pertanyaan {currentQuestion + 1}
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
               {question.question}
             </h2>
           </div>
 
-          <div className="p-6 md:p-8 space-y-3">
+          {/* Options */}
+          <div className="p-5 space-y-2.5">
             {question.options.map((option, index) => {
               const isSelected = selectedAnswer === option;
               const isCorrect = option === question.answer;
               const showCorrect = isAnswered && isCorrect;
               const showWrong = isAnswered && isSelected && !isCorrect;
 
+              let buttonStyle = 'bg-white border-slate-200/90 text-slate-800 hover:border-[#133384]/40 hover:bg-slate-50/80';
+              if (showCorrect) {
+                buttonStyle = 'bg-emerald-50 border-emerald-500 text-emerald-900 font-medium';
+              } else if (showWrong) {
+                buttonStyle = 'bg-rose-50 border-rose-500 text-rose-900 font-medium';
+              } else if (isSelected) {
+                buttonStyle = 'bg-blue-50 border-[#133384] text-[#133384] font-medium';
+              }
+
               return (
                 <button
                   key={index}
                   onClick={() => handleAnswer(option)}
                   disabled={isAnswered}
-                  className={`w-full p-4 md:p-5 rounded-2xl font-semibold text-left transition-all duration-300 flex items-center justify-between group ${
-                    showCorrect
-                      ? 'bg-green-100 border-2 border-green-500 text-green-900'
-                      : showWrong
-                      ? 'bg-red-100 border-2 border-red-500 text-red-900'
-                      : isSelected
-                      ? 'bg-blue-100 border-2 border-blue-500 text-blue-900'
-                      : 'bg-gray-50 border-2 border-gray-200 text-gray-900 hover:bg-blue-50 hover:border-blue-300 hover:shadow-lg'
-                  } ${isAnswered ? 'cursor-not-allowed' : 'cursor-pointer hover:scale-[1.02]'}`}
+                  className={`w-full p-3.5 rounded-lg border text-left text-xs sm:text-sm transition-all duration-150 flex items-center justify-between gap-3 group ${buttonStyle} ${
+                    isAnswered ? 'cursor-default' : 'cursor-pointer active:scale-[0.99]'
+                  }`}
                 >
-                  <span className="flex-1">{option}</span>
+                  <span className="flex-1 leading-relaxed">{option}</span>
+                  
                   {showCorrect && (
-                    <div className="bg-green-500 rounded-full p-1">
-                      <Check className="w-5 h-5 text-white" />
-                    </div>
+                    <span className="shrink-0 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center">
+                      <Check className="w-3 h-3 stroke-[2.5]" />
+                    </span>
                   )}
                   {showWrong && (
-                    <div className="bg-red-500 rounded-full p-1">
-                      <X className="w-5 h-5 text-white" />
-                    </div>
+                    <span className="shrink-0 w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center">
+                      <X className="w-3 h-3 stroke-[2.5]" />
+                    </span>
                   )}
                   {!isAnswered && !isSelected && (
-                    <ChevronRight className="w-5 h-5 text-gray-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <span className="text-slate-300 group-hover:text-slate-500 transition-colors">
+                      <ChevronRight className="w-4 h-4" />
+                    </span>
                   )}
                 </button>
               );
             })}
           </div>
 
+          {/* Feedback & Explanation Section */}
           {isAnswered && (
-            <div className="px-6 md:px-8 pb-6 md:pb-8">
-              <div className={`p-4 rounded-xl mb-4 ${
+            <div className="px-5 pb-5 pt-1 border-t border-slate-100 bg-slate-50/30">
+              <div className={`p-3.5 rounded-lg border mt-3 text-xs leading-relaxed ${
                 selectedAnswer === question.answer
-                  ? 'bg-green-50 border border-green-200'
-                  : 'bg-blue-50 border border-blue-200'
+                  ? 'bg-emerald-50/60 border-emerald-200 text-emerald-900'
+                  : 'bg-blue-50/60 border-blue-200 text-slate-800'
               }`}>
-                <p className="text-sm font-semibold text-gray-900 mb-2">💡 Penjelasan:</p>
-                <p className="text-sm text-gray-700">{question.explanation}</p>
+                <p className="font-semibold mb-1 text-[11px] uppercase tracking-wider text-slate-700">
+                  Ulasan Filosofi:
+                </p>
+                <p className="text-slate-600">{question.explanation}</p>
               </div>
 
-              <button
-                onClick={handleNext}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
-              >
-                {currentQuestion + 1 === selectedQuestions.length ? 'Lihat Hasil' : 'Lanjut'}
-                <ChevronRight className="w-5 h-5" />
-              </button>
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={handleNext}
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#133384] hover:bg-[#0e245e] text-white text-xs font-semibold rounded-lg transition-all active:scale-[0.98] shadow-2xs"
+                >
+                  <span>{currentQuestion + 1 === selectedQuestions.length ? 'Lihat Hasil Akhir' : 'Lanjut Soal Berikutnya'}</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </ModernLayout>
   );
 }

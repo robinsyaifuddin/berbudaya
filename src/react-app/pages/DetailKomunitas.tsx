@@ -4,7 +4,7 @@ import {
   Users, MapPin, Check, Share2, Award, Calendar, 
   MessageSquare, ThumbsUp, ShieldCheck, Info,
   ArrowLeft, Search, Image as ImageIcon, Send,
-  Globe, Sparkles, CheckCircle2, MoreHorizontal, Smile,
+  Globe, CheckCircle2, MoreHorizontal, Smile,
   Bookmark, UserPlus, ShieldAlert, Heart
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
@@ -386,7 +386,7 @@ export default function DetailKomunitasPage() {
                         <span>Foto/Video</span>
                       </button>
                       <button className="flex items-center gap-1.5 text-xs text-slate-600 font-semibold hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-colors">
-                        <Sparkles className="w-4 h-4 text-amber-500" />
+                        <Calendar className="w-4 h-4 text-amber-500" />
                         <span>Aktivitas</span>
                       </button>
                     </div>

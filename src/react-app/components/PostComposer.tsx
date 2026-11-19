@@ -1,4 +1,4 @@
-import { Camera, Smile, Video, Sparkles } from 'lucide-react';
+import { Camera, Smile, Video, BookOpen } from 'lucide-react';
 
 export default function PostComposer() {
   return (
@@ -32,7 +32,7 @@ export default function PostComposer() {
             </button>
             
             <button className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl hover:bg-white hover:shadow-xs transition-all text-xs font-medium text-slate-700 whitespace-nowrap">
-              <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <BookOpen className="w-4 h-4 text-amber-500 flex-shrink-0" />
               <span className="sm:hidden">Kisah</span>
               <span className="hidden sm:inline">Kisah Budaya</span>
             </button>

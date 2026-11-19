@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Map, Trophy, RefreshCw, Heart, ArrowLeft, Keyboard, CheckCircle2, AlertCircle, Sparkles, BookOpen } from 'lucide-react';
-import TopNavbar from '@/react-app/components/TopNavbar';
+import { Trophy, RefreshCw, Heart, ArrowLeft, Keyboard, CheckCircle2, AlertCircle, BookOpen, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router';
+import ModernLayout from '@/react-app/components/ModernLayout';
 
 interface GameQuestion {
   id: number;
@@ -27,56 +28,56 @@ const questions: GameQuestion[] = [
   },
   {
     id: 3,
-    hint: "Batik dan Kebaya identik dengan",
+    hint: "Batik dan Kebaya identik dengan tradisi suku",
     answer: "JAWA",
     image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=600&h=400&fit=crop",
     category: "Pakaian"
   },
   {
     id: 4,
-    hint: "Rumah Gadang adalah rumah adat dari",
+    hint: "Rumah Gadang dengan atap gonjong khas dari",
     answer: "MINANG",
     image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
     category: "Rumah Adat"
   },
   {
     id: 5,
-    hint: "Candi Borobudur terletak di",
+    hint: "Candi Borobudur mahakarya bersejarah di",
     answer: "JAWA TENGAH",
     image: "https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=600&h=400&fit=crop",
     category: "Bangunan"
   },
   {
     id: 6,
-    hint: "Rendang adalah makanan khas dari",
+    hint: "Rendang kuliner pusaka kaya rempah asal",
     answer: "PADANG",
     image: "https://images.unsplash.com/photo-1596040033229-a0b13b4e0d16?w=600&h=400&fit=crop",
     category: "Kuliner"
   },
   {
     id: 7,
-    hint: "Kain Tenun Ikat terkenal dari",
+    hint: "Kain Tenun Ikat bernilai mistis tinggi dari pulau",
     answer: "SUMBA",
     image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=600&h=400&fit=crop",
     category: "Kain"
   },
   {
     id: 8,
-    hint: "Tari Kecak adalah tarian dari",
+    hint: "Tari Kecak dengan lingkaran paduan suara sakral dari",
     answer: "BALI",
     image: "https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=600&h=400&fit=crop",
     category: "Tarian"
   },
   {
     id: 9,
-    hint: "Angklung adalah alat musik dari",
+    hint: "Alat musik bambu Angklung berakar kuat di",
     answer: "JAWA BARAT",
     image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=400&fit=crop",
     category: "Alat Musik"
   },
   {
     id: 10,
-    hint: "Pempek adalah makanan khas dari",
+    hint: "Pempek kuliner ikan dan kuah cuko autentik dari",
     answer: "PALEMBANG",
     image: "https://images.unsplash.com/photo-1596040033229-a0b13b4e0d16?w=600&h=400&fit=crop",
     category: "Kuliner"
@@ -88,6 +89,8 @@ const KEYBOARD = [
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
 ];
+
+const MAX_WRONG_GUESSES = 6;
 
 interface Props {
   onClose?: () => void;
@@ -102,51 +105,41 @@ export default function TebakDaerah({ onClose }: Props) {
   const [totalQuestionsAnswered, setTotalQuestionsAnswered] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
-  const MAX_WRONG_GUESSES = 6;
   const currentQuestion = questions[currentQuestionIndex];
-  
-  const displayWord = currentQuestion.answer.split('').map(char => {
-    if (char === ' ') return ' ';
-    return guessedLetters.has(char) ? char : '_';
-  }).join(' ');
 
-  const isWordComplete = currentQuestion.answer.split('').every(char => 
-    char === ' ' || guessedLetters.has(char)
-  );
-
+  // Cek kondisi menang / kalah
   useEffect(() => {
-    if (isWordComplete && gameState === 'playing') {
+    if (!currentQuestion) return;
+
+    const answerLetters = currentQuestion.answer.replace(/\s/g, '').split('');
+    const allLettersGuessed = answerLetters.every(letter => guessedLetters.has(letter));
+
+    if (allLettersGuessed && answerLetters.length > 0 && gameState === 'playing') {
       setGameState('won');
-      setScore(score + 10);
-      setTotalQuestionsAnswered(totalQuestionsAnswered + 1);
-    }
-  }, [isWordComplete]);
-
-  useEffect(() => {
-    if (wrongGuesses >= MAX_WRONG_GUESSES && gameState === 'playing') {
+      setScore(prev => prev + 10);
+      setTotalQuestionsAnswered(prev => prev + 1);
+    } else if (wrongGuesses >= MAX_WRONG_GUESSES && gameState === 'playing') {
       setGameState('lost');
-      setTotalQuestionsAnswered(totalQuestionsAnswered + 1);
+      setTotalQuestionsAnswered(prev => prev + 1);
     }
-  }, [wrongGuesses]);
+  }, [guessedLetters, wrongGuesses, currentQuestion, gameState]);
 
   const handleLetterGuess = (letter: string) => {
-    if (guessedLetters.has(letter) || gameState !== 'playing') return;
+    if (gameState !== 'playing' || guessedLetters.has(letter)) return;
 
     const newGuessedLetters = new Set(guessedLetters);
     newGuessedLetters.add(letter);
     setGuessedLetters(newGuessedLetters);
 
     if (!currentQuestion.answer.includes(letter)) {
-      setWrongGuesses(wrongGuesses + 1);
+      setWrongGuesses(prev => prev + 1);
     }
   };
 
   const handleInputChange = (value: string) => {
+    setInputValue(value);
     const upperValue = value.toUpperCase();
-    setInputValue(upperValue);
-    
-    // Auto-guess letters as user types
-    const lastChar = upperValue.slice(-1);
+    const lastChar = upperValue[upperValue.length - 1];
     if (lastChar && /[A-Z]/.test(lastChar)) {
       handleLetterGuess(lastChar);
     }
@@ -154,10 +147,11 @@ export default function TebakDaerah({ onClose }: Props) {
 
   const handleNext = () => {
     if (currentQuestionIndex + 1 < questions.length) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setCurrentQuestionIndex(prev => prev + 1);
       setGuessedLetters(new Set());
       setWrongGuesses(0);
       setGameState('playing');
+      setInputValue('');
     } else {
       setGameState('complete');
     }
@@ -173,308 +167,251 @@ export default function TebakDaerah({ onClose }: Props) {
     setInputValue('');
   };
 
-  const handleNextQuestion = () => {
-    setInputValue('');
-    handleNext();
-  };
+  const displayWord = currentQuestion.answer
+    .split('')
+    .map(letter => {
+      if (letter === ' ') return '  ';
+      return guessedLetters.has(letter) ? letter : '_';
+    })
+    .join(' ');
 
-  // Complete Screen
+  // COMPLETE SCREEN
   if (gameState === 'complete') {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <TopNavbar />
-        <div className="pt-16 p-4 md:p-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-center">
-              <Trophy className="w-20 h-20 mx-auto text-yellow-300 mb-4" />
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Permainan Selesai!</h1>
-              <p className="text-xl text-green-100">Kamu telah menyelesaikan semua pertanyaan</p>
+      <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
+            <Link 
+              to="/permainan"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-[#133384] transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Daftar Permainan</span>
+            </Link>
+            <span className="text-xs font-semibold text-slate-500">Tantangan Geografi Budaya Tuntas</span>
+          </div>
+
+          <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden">
+            <div className="p-6 text-center border-b border-slate-100">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 text-[#133384] mb-3 border border-blue-100">
+                <Trophy className="w-6 h-6" />
+              </div>
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">Eksplorasi Selesai!</h1>
+              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                Anda telah menyelesaikan seluruh 10 putaran tebak daerah asal pusaka nusantara.
+              </p>
+
+              <div className="inline-block mt-4 px-6 py-2 bg-slate-50 rounded-lg border border-slate-200/80">
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 block">Total Poin Diperoleh</span>
+                <span className="text-3xl font-extrabold text-[#133384]">{score}</span>
+                <span className="text-xs text-slate-400 font-medium"> Poin</span>
+              </div>
             </div>
 
-            <div className="p-8">
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="text-center p-6 bg-blue-50 rounded-2xl">
-                  <Trophy className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-3xl font-bold text-blue-600">{score}</p>
-                  <p className="text-sm text-gray-600">Total Skor</p>
-                </div>
-                <div className="text-center p-6 bg-blue-50 rounded-2xl">
-                  <Map className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-3xl font-bold text-blue-600">{totalQuestionsAnswered}</p>
-                  <p className="text-sm text-gray-600">Pertanyaan Dijawab</p>
-                </div>
+            <div className="grid grid-cols-2 divide-x divide-slate-100 bg-slate-50/60 border-b border-slate-100">
+              <div className="p-3.5 text-center">
+                <p className="text-base font-bold text-emerald-600">{score / 10} / {questions.length}</p>
+                <p className="text-[11px] text-slate-500 font-medium">Tebakan Tuntas</p>
               </div>
+              <div className="p-3.5 text-center">
+                <p className="text-base font-bold text-[#133384]">{Math.round((score / (questions.length * 10)) * 100)}%</p>
+                <p className="text-[11px] text-slate-500 font-medium">Akurasi Budaya</p>
+              </div>
+            </div>
 
-              <div className="flex gap-3">
-                <button
-                  onClick={handleRestart}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-bold hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
-                >
-                  <RefreshCw className="w-5 h-5" />
-                  Main Lagi
-                </button>
-                <button
-                  onClick={onClose}
-                  className="flex-1 bg-gray-100 text-gray-900 py-4 rounded-xl font-bold hover:bg-gray-200 transition-all hover:scale-[1.02]"
-                >
-                  Kembali
-                </button>
-              </div>
+            <div className="p-4 flex items-center justify-center gap-2">
+              <button
+                onClick={handleRestart}
+                className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#133384] hover:bg-[#0e245e] text-white text-xs font-semibold rounded-lg transition-all active:scale-[0.98] shadow-2xs"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Main Ulang</span>
+              </button>
+              <Link
+                to="/permainan"
+                className="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition-all"
+              >
+                Daftar Permainan
+              </Link>
             </div>
           </div>
         </div>
-        </div>
-      </div>
+      </ModernLayout>
     );
   }
 
+  // PLAYING SCREEN
   return (
-    <div className="min-h-screen bg-gray-50">
-      <TopNavbar />
-      <div className="pt-16 p-4 md:p-8">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <button 
-            onClick={onClose}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+    <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+      <div className="space-y-4">
+        {/* Top Header Bar */}
+        <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
+          <Link 
+            to="/permainan"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-[#133384] transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Kembali</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <div className="bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-blue-600" />
-              <span className="font-bold text-gray-900">{score} Poin</span>
+            <ArrowLeft className="w-4 h-4" />
+            <span>Kembali</span>
+          </Link>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Nyawa */}
+            <div className="flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200/80">
+              <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+              <span className="text-xs font-semibold text-slate-700">
+                {MAX_WRONG_GUESSES - wrongGuesses}
+              </span>
             </div>
-            <div className="bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-              <Heart className="w-5 h-5 text-red-500" />
-              <span className="font-bold text-gray-900">{MAX_WRONG_GUESSES - wrongGuesses}</span>
+
+            {/* Poin */}
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-[#133384] text-xs font-bold">
+              <span>{score} Pts</span>
             </div>
           </div>
         </div>
 
-        {/* Progress */}
-        <div className="text-center mb-6">
-          <p className="text-sm font-medium text-gray-600 mb-1">Pertanyaan</p>
-          <p className="text-2xl font-bold text-gray-900">{currentQuestionIndex + 1} / {questions.length}</p>
+        {/* Progress Bar Hairline */}
+        <div className="w-full bg-slate-200/80 rounded-full h-1 overflow-hidden">
+          <div 
+            className="bg-[#133384] h-full transition-all duration-300 ease-out"
+            style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+          />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Main Game Area */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Image and Hint */}
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-              <img
-                src={currentQuestion.image}
-                alt="Hint"
-                className="w-full h-64 object-cover"
-              />
-              <div className="p-6">
-                <div className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-3">
-                  {currentQuestion.category}
-                </div>
-                <p className="text-lg font-semibold text-gray-900 mb-4">💡 {currentQuestion.hint}</p>
-                
-                {/* Word Display */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-4">
-                  <p className="text-3xl md:text-4xl font-bold text-center text-gray-900 tracking-wider font-mono">
-                    {displayWord}
-                  </p>
-                </div>
+        {/* Question + Hint Card */}
+        <div className="bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden">
+          {/* Visual Banner */}
+          <div className="relative h-44 sm:h-52 w-full overflow-hidden bg-slate-100">
+            <img
+              src={currentQuestion.image}
+              alt={currentQuestion.category}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-3 left-3">
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-white/90 text-slate-800 backdrop-blur-xs border border-slate-200/60 uppercase tracking-wider">
+                Kategori: {currentQuestion.category}
+              </span>
+            </div>
+            <div className="absolute bottom-3 right-3">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-black/60 text-white backdrop-blur-xs">
+                Soal {currentQuestionIndex + 1} dari {questions.length}
+              </span>
+            </div>
+          </div>
 
-                {/* Input Field untuk ketik langsung */}
-                {gameState === 'playing' && (
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                      <Keyboard className="w-4 h-4" />
-                      Ketik jawabanmu (opsional)
-                    </label>
-                    <input
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => handleInputChange(e.target.value)}
-                      placeholder="Ketik huruf atau kata di sini..."
-                      className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:border-blue-600 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all text-lg font-semibold uppercase"
-                      disabled={gameState !== 'playing'}
-                    />
-                    <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                      <span>Setiap huruf yang kamu ketik akan otomatis ditebak</span>
-                    </p>
-                  </div>
-                )}
+          <div className="p-5">
+            {/* Hint Question */}
+            <p className="text-xs sm:text-sm font-semibold text-slate-800 mb-4 leading-relaxed">
+              {currentQuestion.hint}
+            </p>
 
-                {/* Result Message */}
-                {gameState === 'won' && (
-                  <div className="bg-emerald-50 border border-emerald-300 rounded-2xl p-6 mb-4">
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <CheckCircle2 className="w-7 h-7" />
-                      </div>
-                      <h3 className="text-xl font-bold text-emerald-900 mb-1">Tebakan Tepat!</h3>
-                      <p className="text-sm text-gray-700 mb-1">
-                        {currentQuestion.hint} <strong>{currentQuestion.answer}</strong>
-                      </p>
-                      <p className="text-xs font-semibold text-emerald-700 mt-1">+10 Poin Wawasan Budaya</p>
-                    </div>
-                    <button
-                      onClick={handleNextQuestion}
-                      className="w-full mt-4 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-all"
-                    >
-                      {currentQuestionIndex + 1 < questions.length ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil Akhir'}
-                    </button>
-                  </div>
-                )}
-
-                {gameState === 'lost' && (
-                  <div className="bg-rose-50 border border-rose-300 rounded-2xl p-6 mb-4">
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-rose-100 text-rose-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <AlertCircle className="w-7 h-7" />
-                      </div>
-                      <h3 className="text-xl font-bold text-rose-900 mb-1">Kesempatan Habis</h3>
-                      <p className="text-sm text-gray-700 mb-1">
-                        Jawaban yang tepat adalah: <strong>{currentQuestion.answer}</strong>
-                      </p>
-                      <p className="text-xs text-gray-600 mt-1">{currentQuestion.hint}</p>
-                    </div>
-                    <button
-                      onClick={handleNextQuestion}
-                      className="w-full mt-4 bg-gray-800 text-white py-3 rounded-xl font-bold hover:bg-gray-900 transition-all"
-                    >
-                      {currentQuestionIndex + 1 < questions.length ? 'Lanjut ke Soal Berikutnya' : 'Lihat Hasil Akhir'}
-                    </button>
-                  </div>
-                )}
-              </div>
+            {/* Guess Letter Display */}
+            <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 sm:p-5 mb-4 text-center">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Nama Daerah</span>
+              <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-[0.25em] font-mono select-none">
+                {displayWord}
+              </p>
             </div>
 
-            {/* Keyboard */}
-            {gameState === 'playing' && (
-              <div className="bg-white rounded-3xl shadow-2xl p-6">
-                <h3 className="font-bold text-gray-900 mb-4 text-center">Pilih Huruf</h3>
-                <div className="space-y-2">
-                  {KEYBOARD.map((row, rowIndex) => (
-                    <div key={rowIndex} className="flex justify-center gap-2">
-                      {row.map((letter) => {
-                        const isGuessed = guessedLetters.has(letter);
-                        const isCorrect = isGuessed && currentQuestion.answer.includes(letter);
-                        const isWrong = isGuessed && !currentQuestion.answer.includes(letter);
-
-                        return (
-                          <button
-                            key={letter}
-                            onClick={() => handleLetterGuess(letter)}
-                            disabled={isGuessed}
-                            className={`w-10 h-10 md:w-12 md:h-12 rounded-xl font-bold text-sm md:text-base transition-all ${
-                              isCorrect
-                                ? 'bg-blue-500 text-white'
-                                : isWrong
-                                ? 'bg-red-500 text-white'
-                                : isGuessed
-                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-br from-blue-100 to-indigo-100 text-gray-900 hover:from-blue-200 hover:to-indigo-200 hover:scale-110 hover:shadow-lg cursor-pointer'
-                            }`}
-                          >
-                            {letter}
-                          </button>
-                        );
-                      })}
+            {/* Status Feedback: Won */}
+            {gameState === 'won' && (
+              <div className="p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 mb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold">Tebakan Tepat!</p>
+                      <p className="text-[11px] text-emerald-700">Daerah asal: <strong>{currentQuestion.answer}</strong> (+10 Poin)</p>
                     </div>
-                  ))}
+                  </div>
+                  <button
+                    onClick={handleNext}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-md transition-all active:scale-[0.98]"
+                  >
+                    <span>Lanjut</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             )}
-          </div>
 
-          {/* Sidebar - Hangman Visual */}
-          <div className="space-y-6">
-            {/* Lives Display */}
-            <div className="bg-white rounded-3xl shadow-xl p-6">
-              <h3 className="font-bold text-gray-900 mb-4">Nyawa Tersisa</h3>
-              <div className="flex justify-center gap-2 mb-4">
-                {Array.from({ length: MAX_WRONG_GUESSES }).map((_, index) => (
-                  <Heart
-                    key={index}
-                    className={`w-8 h-8 ${
-                      index < MAX_WRONG_GUESSES - wrongGuesses
-                        ? 'text-red-500 fill-red-500'
-                        : 'text-gray-300'
-                    } transition-all`}
+            {/* Status Feedback: Lost */}
+            {gameState === 'lost' && (
+              <div className="p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-900 mb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold">Kesempatan Habis</p>
+                      <p className="text-[11px] text-rose-700">Jawaban yang tepat: <strong>{currentQuestion.answer}</strong></p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleNext}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-md transition-all active:scale-[0.98]"
+                  >
+                    <span>Lanjut</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Direct Input Field (Optional Keyboard Shortcut) */}
+            {gameState === 'playing' && (
+              <div className="mb-4">
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    placeholder="Ketik huruf via keyboard atau klik tombol di bawah..."
+                    className="w-full px-3.5 py-2 text-xs border border-slate-200 rounded-lg focus:border-[#133384] focus:ring-1 focus:ring-[#133384] focus:outline-none transition-all placeholder:text-slate-400"
                   />
+                  <Keyboard className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
+                </div>
+              </div>
+            )}
+
+            {/* Virtual Keyboard */}
+            {gameState === 'playing' && (
+              <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                {KEYBOARD.map((row, rIdx) => (
+                  <div key={rIdx} className="flex justify-center gap-1 sm:gap-1.5">
+                    {row.map((letter) => {
+                      const isGuessed = guessedLetters.has(letter);
+                      const isCorrect = isGuessed && currentQuestion.answer.includes(letter);
+                      const isWrong = isGuessed && !currentQuestion.answer.includes(letter);
+
+                      let keyStyle = 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300';
+                      if (isCorrect) {
+                        keyStyle = 'bg-emerald-600 border-emerald-600 text-white';
+                      } else if (isWrong) {
+                        keyStyle = 'bg-slate-100 border-slate-200 text-slate-300 cursor-not-allowed';
+                      } else if (isGuessed) {
+                        keyStyle = 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed';
+                      }
+
+                      return (
+                        <button
+                          key={letter}
+                          onClick={() => handleLetterGuess(letter)}
+                          disabled={isGuessed}
+                          className={`w-7 h-9 sm:w-9 sm:h-10 rounded text-xs font-semibold border transition-all flex items-center justify-center ${keyStyle} ${
+                            !isGuessed ? 'active:scale-95 cursor-pointer shadow-2xs' : ''
+                          }`}
+                        >
+                          {letter}
+                        </button>
+                      );
+                    })}
+                  </div>
                 ))}
               </div>
-              <div className="text-center">
-                <p className="text-sm text-gray-600">
-                  {wrongGuesses} kesalahan dari {MAX_WRONG_GUESSES}
-                </p>
-              </div>
-            </div>
-
-            {/* Hangman Visual */}
-            <div className="bg-white rounded-3xl shadow-xl p-6">
-              <h3 className="font-bold text-gray-900 mb-4 text-center">Status</h3>
-              <div className="relative h-64 flex items-center justify-center">
-                <svg viewBox="0 0 200 250" className="w-full h-full">
-                  {/* Base */}
-                  <line x1="20" y1="230" x2="180" y2="230" stroke="#374151" strokeWidth="4" />
-                  <line x1="50" y1="230" x2="50" y2="20" stroke="#374151" strokeWidth="4" />
-                  <line x1="50" y1="20" x2="130" y2="20" stroke="#374151" strokeWidth="4" />
-                  <line x1="130" y1="20" x2="130" y2="50" stroke="#374151" strokeWidth="4" />
-                  
-                  {/* Head */}
-                  {wrongGuesses >= 1 && (
-                    <circle cx="130" cy="70" r="20" stroke="#EF4444" strokeWidth="4" fill="none" />
-                  )}
-                  
-                  {/* Body */}
-                  {wrongGuesses >= 2 && (
-                    <line x1="130" y1="90" x2="130" y2="150" stroke="#EF4444" strokeWidth="4" />
-                  )}
-                  
-                  {/* Left Arm */}
-                  {wrongGuesses >= 3 && (
-                    <line x1="130" y1="110" x2="100" y2="130" stroke="#EF4444" strokeWidth="4" />
-                  )}
-                  
-                  {/* Right Arm */}
-                  {wrongGuesses >= 4 && (
-                    <line x1="130" y1="110" x2="160" y2="130" stroke="#EF4444" strokeWidth="4" />
-                  )}
-                  
-                  {/* Left Leg */}
-                  {wrongGuesses >= 5 && (
-                    <line x1="130" y1="150" x2="100" y2="190" stroke="#EF4444" strokeWidth="4" />
-                  )}
-                  
-                  {/* Right Leg */}
-                  {wrongGuesses >= 6 && (
-                    <line x1="130" y1="150" x2="160" y2="190" stroke="#EF4444" strokeWidth="4" />
-                  )}
-                </svg>
-              </div>
-            </div>
-
-            {/* Info */}
-            <div className="bg-gray-900 rounded-3xl shadow-xl p-6 text-white border border-gray-800">
-              <div className="flex items-center gap-2 mb-2 font-bold text-blue-400">
-                <BookOpen className="w-4 h-4" />
-                <span>Petunjuk Cara Bermain</span>
-              </div>
-              <ul className="text-xs space-y-1.5 text-gray-300 leading-relaxed">
-                <li>• Tebak huruf penyusun kata asal daerah satu per satu</li>
-                <li>• Atau ketik langsung jawaban lengkap pada kolom teks</li>
-                <li>• Maksimal toleransi 6 kesalahan tebakan</li>
-                <li>• Setiap tebakan benar menambah +10 poin wawasan</li>
-                <li>• Selesaikan seluruh 10 soal untuk membuka lencana budaya</li>
-              </ul>
-            </div>
+            )}
           </div>
         </div>
       </div>
-      </div>
-    </div>
+    </ModernLayout>
   );
 }

@@ -8,7 +8,6 @@ import {
   Clock, 
   ChevronRight, 
   Check, 
-  Sparkles,
   TrendingUp,
   ShieldCheck,
   CheckCircle2,
@@ -252,8 +251,7 @@ export default function BeritaDetailPage() {
             
             {/* Quick Context Card */}
             <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs">
-              <div className="flex items-center gap-1.5 text-primary-600 text-xs font-semibold uppercase tracking-wider mb-2">
-                <Sparkles className="w-4 h-4" />
+              <div className="text-primary-600 text-xs font-semibold uppercase tracking-wider mb-2">
                 Kurasi Arsip Budaya
               </div>
               <h3 className="text-sm font-bold text-slate-900 leading-snug">

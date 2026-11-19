@@ -11,17 +11,18 @@ import {
   ChevronDown,
   ChevronRight,
   ArrowRight,
-  Sparkles,
+  ShoppingBag,
   Shirt,
   Armchair,
-  Sparkle,
+  Leaf,
   Dumbbell,
   Gamepad2,
   Apple,
   Car,
   Briefcase,
   Award,
-  Check
+  Check,
+  Mail
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
@@ -164,9 +165,9 @@ const featuredProducts: ProductItem[] = [
 
 const categorySidebar = [
   { name: 'Kain & Tenun Adat', icon: Shirt },
-  { name: 'Busana Tradisional', icon: Sparkles },
+  { name: 'Busana Tradisional', icon: ShoppingBag },
   { name: 'Dekorasi & Interior Etnik', icon: Armchair },
-  { name: 'Perawatan Alami & Rempah', icon: Sparkle },
+  { name: 'Perawatan Alami & Rempah', icon: Leaf },
   { name: 'Pusaka & Senjata Tradisional', icon: Award },
   { name: 'Kerajinan Tangan & Anyaman', icon: Dumbbell },
   { name: 'Wayang, Topeng & Mainan Adat', icon: Gamepad2 },
@@ -384,10 +385,7 @@ export default function MarketplacePage() {
           {/* KOLOM KANAN: PRODUK TERATAS (4 CARD DALAM 2 BARIS X 2 KOLOM) */}
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-200">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                <h2 className="text-[14px] font-bold text-slate-900">Produk Teratas Banyak Peminat</h2>
-              </div>
+              <h2 className="text-[14px] font-bold text-slate-900">Produk Teratas Banyak Peminat</h2>
               <a href="#featured" className="text-[11px] font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 hover:underline">
                 <span>Lihat Selengkapnya</span>
                 <ChevronRight className="w-3 h-3" />
@@ -760,7 +758,7 @@ export default function MarketplacePage() {
         <section className="bg-gradient-to-r from-[#133384] to-[#0e245e] text-white rounded-xl p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-5 shadow-sm">
           <div className="flex items-center gap-3.5">
             <div className="w-10 h-10 rounded-full bg-blue-700/80 text-white flex items-center justify-center shrink-0 border border-blue-400/30">
-              <Sparkles className="w-5 h-5 text-blue-200" />
+              <Mail className="w-5 h-5 text-blue-200" />
             </div>
             <div>
               <h3 className="text-[14px] font-bold leading-tight">
