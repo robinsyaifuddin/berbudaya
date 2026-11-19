@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { TrendingUp, Users, Grid3x3, FileText, Calendar } from 'lucide-react';
 

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { AuthProvider } from '@getmocha/users-service/react';
 import { CartProvider } from '@/react-app/contexts/CartContext';
 import { NotificationProvider } from '@/react-app/contexts/NotificationContext';
+import { SellerProvider } from '@/react-app/contexts/SellerContext';
 import LandingPage from "@/react-app/pages/Landing";
 import ProtectedRoute from "@/react-app/components/ProtectedRoute";
 import ErrorBoundary from "@/react-app/components/ErrorBoundary";
@@ -15,8 +16,11 @@ const CrowdfundingPage = lazy(() => import("@/react-app/pages/Crowdfunding"));
 const PermainanPage = lazy(() => import("@/react-app/pages/Permainan"));
 const BeritaPage = lazy(() => import("@/react-app/pages/Berita"));
 const BeritaDetailPage = lazy(() => import("@/react-app/pages/BeritaDetail"));
-const KomunitasPage = lazy(() => import("@/react-app/pages/Komunitas"));
-const DetailKomunitasPage = lazy(() => import("@/react-app/pages/DetailKomunitas"));
+const KomunitasPage = lazy(() => import("@/react-app/pages/Lembaga"));
+const DetailKomunitasPage = lazy(() => import("@/react-app/pages/DetailLembaga"));
+const LembagaPage = lazy(() => import("@/react-app/pages/Lembaga"));
+const DetailLembagaPage = lazy(() => import("@/react-app/pages/DetailLembaga"));
+const KelolaLembagaPage = lazy(() => import("@/react-app/pages/KelolaLembaga"));
 const AcaraPage = lazy(() => import("@/react-app/pages/Acara"));
 const GalleryPage = lazy(() => import("@/react-app/pages/Gallery"));
 const CartPage = lazy(() => import("@/react-app/pages/Cart"));
@@ -39,6 +43,10 @@ const PuzzleBudayaPage = lazy(() => import("@/react-app/pages/games/PuzzleBudaya
 const TebakDaerahPage = lazy(() => import("@/react-app/pages/games/TebakDaerahPage"));
 const SavedPostsPage = lazy(() => import("@/react-app/pages/SavedPosts"));
 const UserProfilePage = lazy(() => import("@/react-app/pages/UserProfile"));
+const SellerCenterPage = lazy(() => import("@/react-app/pages/seller/SellerCenterPage"));
+const ShopProfilePage = lazy(() => import("@/react-app/pages/seller/ShopProfilePage"));
+const BukaTokoPage = lazy(() => import("@/react-app/pages/seller/BukaTokoPage"));
+const SearchPage = lazy(() => import("@/react-app/pages/SearchPage"));
 
 function PageLoading() {
   return (
@@ -53,8 +61,9 @@ export default function App() {
     <ErrorBoundary>
       <AuthProvider>
         <NotificationProvider>
-          <CartProvider>
-            <Router>
+          <SellerProvider>
+            <CartProvider>
+              <Router>
               <Suspense fallback={<PageLoading />}>
               <Routes>
                 {/* Public Routes - No Authentication Required */}
@@ -67,6 +76,11 @@ export default function App() {
                 <Route path="/beranda" element={
                   <ProtectedRoute>
                     <HomePage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/cari" element={
+                  <ProtectedRoute>
+                    <SearchPage />
                   </ProtectedRoute>
                 } />
                 <Route path="/marketplace" element={
@@ -101,12 +115,32 @@ export default function App() {
                 } />
                 <Route path="/komunitas" element={
                   <ProtectedRoute>
-                    <KomunitasPage />
+                    <LembagaPage />
                   </ProtectedRoute>
                 } />
                 <Route path="/komunitas/:id" element={
                   <ProtectedRoute>
-                    <DetailKomunitasPage />
+                    <DetailLembagaPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/kelola-komunitas" element={
+                  <ProtectedRoute>
+                    <KelolaLembagaPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/lembaga" element={
+                  <ProtectedRoute>
+                    <LembagaPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/lembaga/:id" element={
+                  <ProtectedRoute>
+                    <DetailLembagaPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/kelola-lembaga" element={
+                  <ProtectedRoute>
+                    <KelolaLembagaPage />
                   </ProtectedRoute>
                 } />
                 <Route path="/jaringan" element={
@@ -209,11 +243,32 @@ export default function App() {
                     <PermainanPage />
                   </ProtectedRoute>
                 } />
+                <Route path="/seller" element={
+                  <ProtectedRoute>
+                    <SellerCenterPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/toko" element={
+                  <ProtectedRoute>
+                    <ShopProfilePage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/toko/:username" element={
+                  <ProtectedRoute>
+                    <ShopProfilePage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/buka-toko" element={
+                  <ProtectedRoute>
+                    <BukaTokoPage />
+                  </ProtectedRoute>
+                } />
                 <Route path="*" element={<LandingPage />} />
               </Routes>
             </Suspense>
           </Router>
         </CartProvider>
+        </SellerProvider>
       </NotificationProvider>
     </AuthProvider>
   </ErrorBoundary>

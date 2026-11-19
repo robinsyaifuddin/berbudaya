@@ -20,6 +20,70 @@ export interface NewsItem {
 
 export const newsArticles: NewsItem[] = [
   {
+    id: 101,
+    slug: 'peluncuran-standardisasi-pewarna-alami-indigofera',
+    title: 'Siaran Pers: Peluncuran Standardisasi Pewarna Alami Indigofera untuk Pengrajin Muda',
+    category: 'Kriya & Tekstil',
+    subCategory: 'Rilis Resmi Lembaga',
+    image: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80',
+    excerpt: 'Menjawab tantangan limbah sintetis, Lembaga Pelestari Batik resmi menggandeng 12 sentra desa pembatik untuk kembali mengadopsi pasta tom/indigofera alami.',
+    author: 'Dewi Sekar Pembayun',
+    authorRole: 'Ketua Dewan Pengurus Lembaga Pelestari Batik',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    date: '18 Nov 2026',
+    readTime: '4 min baca',
+    featured: true,
+    trending: true,
+    tags: ['Batik Alami', 'Indigofera', 'Pelestari Batik Indonesia', 'Standarisasi Mutu'],
+    source: 'Lembaga Pelestari Batik Indonesia',
+    content: [
+      'Menjawab tantangan pencemaran limbah sintetis kimiawi di industri tekstil, Lembaga Pelestari Batik hari ini secara resmi meluncurkan inisiatif Standardisasi Pewarna Alami Indigofera untuk pengrajin muda di kawasan Surakarta dan sekitarnya.',
+      'Melalui kemitraan strategis dengan 12 sentra desa pembatik, program ini bertujuan mengembalikan pemanfaatan pasta tom (daun Indigofera tinctoria) sebagai bahan baku celup biru alami yang ramah lingkungan, berdaya tahan tinggi, serta memiliki nilai ekonomi premium di pasar global.',
+      'Standardisasi ini mencakup formulasi fermentasi ekstrak daun, panduan pengaturan pH berbasis air kelapa dan abu dapur, hingga panduan pencelupan berlapis yang konsisten. Inisiatif ini juga didukung fasilitas pendampingan intensif serta sertifikasi kurasi keaslian batik nusantara.'
+    ]
+  },
+  {
+    id: 102,
+    slug: 'dokumentasi-14-varian-motif-parang-kuna-tuban',
+    title: 'Hasil Riset Terbuka: Dokumentasi 14 Varian Motif Parang Kuna Asal Pesisir Tuban',
+    category: 'Kriya & Tekstil',
+    subCategory: 'Riset & Kurasi',
+    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80',
+    excerpt: 'Tim kuratorial menyelesaikan penelusuran manuskrip kain lawas abad ke-19 yang menyimpan filosofi doa keselamatan bagi para pelaut.',
+    author: 'Raden Bagus Wicaksono',
+    authorRole: 'Kepala Riset & Kuratorial Pelestari Batik',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    date: '12 Nov 2026',
+    readTime: '6 min baca',
+    tags: ['Motif Parang', 'Manuskrip Kuno', 'Tuban', 'Riset Wastra'],
+    source: 'Lembaga Pelestari Batik Indonesia',
+    content: [
+      'Tim kuratorial Lembaga Pelestari Batik mengumumkan rampungnya tahap awal riset lapangan penelusuran 14 varian motif Parang Kuna pesisiran yang terdokumentasi di kawasan Tuban dan sekitarnya.',
+      'Melalui verifikasi naskah kuno serta wawancara mendalam bersama para sesepuh pembatik, riset ini menyingkap bahwa variasi lereng parang khas pesisir dirancang dengan sudut kemiringan unik yang melambangkan ombak laut penuntun doa keselamatan para nelayan.',
+      'Hasil dokumentasi digital dan naskah riset ini akan segera diterbitkan dalam bentuk arsip terbuka yang dapat diakses oleh akademisi, mahasiswa, dan pemerhati seni tradisi nusantara.'
+    ]
+  },
+  {
+    id: 201,
+    slug: 'kolaborasi-dalang-milenial-festival-wayang-pesisiran',
+    title: 'Siaran Rilis: Kolaborasi 10 Dalang Milenial dalam Festival Wayang Pesisiran 2026',
+    category: 'Seni Teater & Tari',
+    subCategory: 'Rilis Pementasan',
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+    excerpt: 'Paguyuban sukses mengemas pertunjukan wayang kulit semalam suntuk dengan tata pencahayaan teater modern dan iringan gamelan dwilaras.',
+    author: 'Ki Danang Daniswara',
+    authorRole: 'Ketua Paguyuban Dalang Muda',
+    authorAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80',
+    date: '17 Nov 2026',
+    readTime: '3 min baca',
+    tags: ['Wayang Kulit', 'Dalang Milenial', 'Pentas Seni'],
+    source: 'Paguyuban Wayang Kulit Remaja Nusantara',
+    content: [
+      'Paguyuban sukses mengemas pertunjukan wayang kulit semalam suntuk dengan tata pencahayaan teater modern dan iringan gamelan dwilaras.',
+      'Pementasan ini menghadirkan kolaborasi lintas generasi dalang muda dari Solo, Yogyakarta, dan pesisir utara Jawa dengan aransemen musik yang dinamis dan visual pencahayaan terkini.'
+    ]
+  },
+  {
     id: 1,
     slug: 'gubernur-resmikan-pusat-revitalisasi-tenun-ikat',
     title: 'Gubernur Resmikan Pusat Revitalisasi Tenun Ikat dan Kriya Tradisional Nusantara',

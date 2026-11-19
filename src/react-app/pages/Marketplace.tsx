@@ -27,6 +27,7 @@ import {
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
+import { useSeller } from '@/react-app/contexts/SellerContext';
 
 interface ProductItem {
   id: number;
@@ -215,6 +216,7 @@ export default function MarketplacePage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { confirm, success } = useNotification();
+  const { products: sellerProducts, hasShop, shop } = useSeller();
   const [activeCategory, setActiveCategory] = useState<string>('Semua Kategori');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -415,9 +417,6 @@ export default function MarketplacePage() {
 
                     {/* Content Details */}
                     <div className="flex-1 min-w-0">
-                      <span className="text-[10px] text-blue-600 font-medium block truncate mb-0.5">
-                        {product.category}
-                      </span>
                       <h3 className="text-[12px] font-bold text-slate-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
                         {product.name}
                       </h3>
@@ -499,6 +498,8 @@ export default function MarketplacePage() {
           </div>
         </section>
 
+        {/* SECTION: PRODUK TERBARU PASAR SENI */}
+
         {/* SECTION 3: NEW ARRIVALS (5 KOLOM PERSIS GAMBAR 2) */}
         <section id="new-arrivals" className="space-y-3">
           <div className="flex items-center justify-between border-b border-slate-200 pb-2">
@@ -533,7 +534,6 @@ export default function MarketplacePage() {
                   <h3 className="font-semibold text-slate-900 text-[12px] line-clamp-2 leading-snug mb-1 min-h-[32px] group-hover:text-blue-600 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-[11px] text-slate-400 mb-1">{product.category}</p>
 
                   {/* Price */}
                   <div className="text-[13px] font-bold text-slate-900 mb-1.5">
@@ -665,7 +665,6 @@ export default function MarketplacePage() {
                   <h3 className="font-semibold text-slate-900 text-[12px] line-clamp-2 leading-snug mb-1 min-h-[32px] group-hover:text-blue-600 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-[11px] text-slate-400 mb-1">{product.category}</p>
 
                   {/* Price with strikethrough */}
                   <div className="flex items-baseline gap-1.5 mb-1.5">
@@ -711,172 +710,7 @@ export default function MarketplacePage() {
           </div>
         </section>
 
-        {/* SECTION 6: FROM OUR BLOG / ARTIKEL BUDAYA (3 KOLOM) */}
-        <section id="blog" className="space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-            <h2 className="text-[16px] font-bold text-slate-900">Kabar Dari Sanggar Budaya</h2>
-            <Link to="/academy" className="text-[12px] font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1">
-              <span>Lihat Semua Artikel</span>
-              <ArrowRight className="w-3 h-3" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {blogArticles.map((article) => (
-              <div
-                key={article.id}
-                className="border border-slate-200 rounded-xl bg-white overflow-hidden group hover:border-blue-300 hover:shadow-md transition-all"
-              >
-                <div className="h-44 overflow-hidden bg-slate-100">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-4">
-                  <div className="text-[11px] text-slate-400 mb-1">
-                    {article.category} • {article.date}
-                  </div>
-                  <h3 className="font-bold text-slate-900 text-[13px] leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors mb-2">
-                    {article.title}
-                  </h3>
-                  <Link
-                    to="/academy"
-                    className="text-[11px] font-semibold text-blue-600 inline-flex items-center gap-1"
-                  >
-                    <span>Baca Selengkapnya</span>
-                    <ChevronRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* SECTION 7: NEWSLETTER BANNER (TEMA BIRU) */}
-        <section className="bg-gradient-to-r from-[#133384] to-[#0e245e] text-white rounded-xl p-6 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-5 shadow-sm">
-          <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-full bg-blue-700/80 text-white flex items-center justify-center shrink-0 border border-blue-400/30">
-              <Mail className="w-5 h-5 text-blue-200" />
-            </div>
-            <div>
-              <h3 className="text-[14px] font-bold leading-tight">
-                Bergabung dalam Komunitas Pengrajin Berbudaya
-              </h3>
-              <p className="text-[11px] text-blue-200 mt-0.5">
-                Dapatkan info rilisan karya pusaka dan voucher promo budaya berkala langsung ke email Anda.
-              </p>
-            </div>
-          </div>
-
-          <div className="w-full md:w-auto flex items-center gap-2">
-            <input
-              type="email"
-              placeholder="Masukkan alamat email Anda"
-              className="w-full md:w-72 px-3.5 py-2 text-[12px] bg-white text-slate-800 border border-transparent rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <button
-              onClick={() => success('Terima kasih! Anda berhasil terdaftar berlangganan buletin kami.')}
-              className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 text-[12px] font-semibold rounded-lg whitespace-nowrap transition-colors shadow-xs"
-            >
-              Langganan
-            </button>
-          </div>
-        </section>
-
-        {/* SECTION 8: BRANDS LOGO STRIP */}
-        <section id="brands" className="space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-            <h2 className="text-[16px] font-bold text-slate-900">Sanggar & Brand Terpercaya</h2>
-            <a href="#brands" className="text-[12px] font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1">
-              <span>Lihat Semua</span>
-              <ArrowRight className="w-3 h-3" />
-            </a>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-            {brandLogos.map((brand, idx) => (
-              <div
-                key={idx}
-                className="border border-slate-200 rounded-xl bg-white p-3 text-center flex items-center justify-center hover:border-blue-400 hover:text-blue-600 transition-colors cursor-pointer"
-              >
-                <span className="text-[10px] font-extrabold text-slate-500 hover:text-blue-600 tracking-wider">
-                  {brand.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
       </main>
-
-      {/* FOOTER WARNA BIRU TUA (DEEP NAVY BLUE SESUAI TEMA WEB Berbudaya) */}
-      <footer className="bg-[#0f172a] text-slate-300 mt-14 pt-10 pb-6 border-t border-slate-800 text-[12px]">
-        <div className="max-w-[1280px] mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-8 border-b border-white/10">
-            {/* Col 1: Brand Info */}
-            <div className="md:col-span-2 space-y-2.5">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">
-                  R
-                </div>
-                <span className="text-lg font-black text-white tracking-tight">Ruang<span className="text-blue-400">Budaya</span></span>
-              </div>
-              <p className="text-slate-400 text-[11px] leading-relaxed max-w-sm">
-                Pasar Budaya Nusantara: Wadah digital resmi kurasi karya seni, kriya, tenun, pusaka, dan ornamen tradisional nusantara langsung dari sanggar daerah.
-              </p>
-              <div className="text-[11px] text-blue-400 font-medium">
-                Lestarikan Seni, Sejahterakan Pengrajin Lokal.
-              </div>
-            </div>
-
-            {/* Col 2: Kategori */}
-            <div>
-              <h5 className="font-bold text-white text-[12px] mb-2.5">Kategori Pasar</h5>
-              <ul className="space-y-1.5 text-slate-400 text-[11px]">
-                <li><a href="#new-arrivals" className="hover:text-blue-400 transition-colors">Semua Kategori</a></li>
-                <li><a href="#new-arrivals" className="hover:text-blue-400 transition-colors">Kain & Tenun Adat</a></li>
-                <li><a href="#featured" className="hover:text-blue-400 transition-colors">Pusaka & Keris Tradisional</a></li>
-                <li><a href="#featured" className="hover:text-blue-400 transition-colors">Dekorasi & Interior Etnik</a></li>
-              </ul>
-            </div>
-
-            {/* Col 3: Bantuan */}
-            <div>
-              <h5 className="font-bold text-white text-[12px] mb-2.5">Pusat Bantuan</h5>
-              <ul className="space-y-1.5 text-slate-400 text-[11px]">
-                <li><span className="hover:text-blue-400 transition-colors cursor-pointer">Lacak Pesanan</span></li>
-                <li><span className="hover:text-blue-400 transition-colors cursor-pointer">Pengembalian Barang</span></li>
-                <li><span className="hover:text-blue-400 transition-colors cursor-pointer">Kebijakan Pengiriman</span></li>
-                <li><span className="hover:text-blue-400 transition-colors cursor-pointer">FAQ & Bantuan Kurasi</span></li>
-              </ul>
-            </div>
-
-            {/* Col 4: Platform */}
-            <div>
-              <h5 className="font-bold text-white text-[12px] mb-2.5">Tentang Platform</h5>
-              <ul className="space-y-1.5 text-slate-400 text-[11px]">
-                <li><Link to="/" className="hover:text-blue-400 transition-colors">Beranda Utama</Link></li>
-                <li><Link to="/crowdfunding" className="hover:text-blue-400 transition-colors">Donasi Budaya</Link></li>
-                <li><Link to="/academy" className="hover:text-blue-400 transition-colors">Akademi Seni</Link></li>
-                <li><Link to="/games" className="hover:text-blue-400 transition-colors">Game Interaktif</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-            <p>© 2026 Berbudaya. Seluruh hak cipta dilindungi.</p>
-            <div className="flex gap-4">
-              <span className="hover:text-slate-400 cursor-pointer">Kebijakan Privasi</span>
-              <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">Syarat & Ketentuan</span>
-              <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">Peta Situs</span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

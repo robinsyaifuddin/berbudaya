@@ -1,4 +1,4 @@
-﻿import { Home, Users, Calendar, BookOpen, ShoppingBag, Briefcase, MessageSquare, User, Settings, HelpCircle, LogOut } from 'lucide-react';
+import { Home, Users, Calendar, BookOpen, ShoppingBag, Briefcase, MessageSquare, User, Settings, HelpCircle, LogOut } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 import { useNotification } from '@/react-app/contexts/NotificationContext';

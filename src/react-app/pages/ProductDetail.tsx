@@ -467,17 +467,16 @@ export default function ProductDetailPage() {
       
       <div className="pt-16 sm:pt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-          {/* Breadcrumb Clean & Direct */}
-          <nav className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-6 sm:mb-8 font-medium">
-            <Link to="/marketplace" className="inline-flex items-center gap-1.5 hover:text-blue-600 transition-colors">
-              <ArrowLeft className="w-4 h-4 text-slate-500" />
-              <span>Beranda</span>
-            </Link>
-            <span className="text-slate-300">›</span>
-            <Link to="/marketplace" className="hover:text-blue-600 transition-colors">Katalog</Link>
-            <span className="text-slate-300">›</span>
-            <span className="text-slate-900 font-semibold truncate max-w-[220px] sm:max-w-md">{product.name}</span>
-          </nav>
+          {/* Tombol Kembali Simple */}
+          <div className="mb-6">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 text-base font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer group"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+              <span>Kembali</span>
+            </button>
+          </div>
 
           {/* Top Hero Layout: 2 Columns */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start mb-10">
@@ -595,16 +594,30 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
-              {/* Garansi Ringkas di bawah tombol */}
-              <div className="flex flex-wrap items-center gap-6 pt-2 text-xs text-neutral-500">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-neutral-400" />
-                  <span>Jaminan presisi katalog 100%</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-neutral-400" />
-                  <span>Layanan pengiriman terpercaya</span>
-                </div>
+              {/* Informasi Toko Pengrajin */}
+              <div className="pt-2">
+                <Link
+                  to="/toko"
+                  className="group inline-flex items-center gap-3 p-2.5 -ml-1 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200"
+                >
+                  <div className="w-9 h-9 rounded-full bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-700 shrink-0 group-hover:bg-[#133384] group-hover:text-white transition-colors">
+                    <Store className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-semibold text-slate-900 group-hover:text-[#133384] transition-colors truncate">
+                        {product.seller || 'Pertenunan Harapan Ibu Pandai Sikek'}
+                      </span>
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#133384] group-hover:translate-x-0.5 transition-all" />
+                    </div>
+                    {product.location && (
+                      <p className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
+                        <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                        <span className="truncate">{product.location}</span>
+                      </p>
+                    )}
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

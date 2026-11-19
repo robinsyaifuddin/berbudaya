@@ -16,19 +16,7 @@ import {
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { newsArticles, popularSearches, latestIntelligence, type NewsItem } from '@/react-app/data/newsData';
 
-const categories = [
-  'Semua Berita',
-  'Kebijakan Budaya',
-  'Seni Teater & Tari',
-  'Kriya & Tekstil',
-  'Teknologi & Arsip',
-  'Tari & Musik',
-  'Arkeologi',
-  'Arsitektur Vernakular'
-];
-
 export default function BeritaPage() {
-  const [selectedCategory, setSelectedCategory] = useState('Semua Berita');
   const [searchQuery, setSearchQuery] = useState('');
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
   const [sortOption, setSortOption] = useState<'latest' | 'popular'>('latest');
@@ -40,11 +28,9 @@ export default function BeritaPage() {
   };
 
   const filteredNews = newsArticles.filter(item => {
-    const matchesCategory = selectedCategory === 'Semua Berita' || item.category === selectedCategory;
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+                          item.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
   });
 
   const featuredArticle = newsArticles[0];
@@ -58,7 +44,7 @@ export default function BeritaPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-20 pb-16">
         
         {/* Top Hero / Header Section */}
-        <section className="mb-6 bg-white border border-slate-200/90 rounded-lg p-6 sm:p-8 shadow-xs">
+        <section className="mb-6 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             <div className="lg:col-span-8">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
@@ -91,7 +77,7 @@ export default function BeritaPage() {
 
             {/* Right Mini Card */}
             <div className="lg:col-span-4 flex lg:justify-end">
-              <div className="w-full max-w-sm p-4 sm:p-5 rounded-lg bg-slate-50 border border-slate-200/80 shadow-xs relative overflow-hidden">
+              <div className="w-full max-w-sm p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs relative overflow-hidden">
                 <div className="text-primary-600 text-[11px] font-semibold uppercase tracking-wider mb-1.5">
                   Pusat Informasi Budaya
                 </div>
@@ -107,59 +93,33 @@ export default function BeritaPage() {
         </section>
 
         {/* Search & Intelligence Terminal Bar */}
-        <section className="mb-6 bg-white border border-slate-200/90 rounded-lg p-4 sm:p-5 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-100">
-            <div className="flex items-center gap-2">
-              <Search className="w-4 h-4 text-slate-700" />
-              <span className="font-semibold text-sm text-slate-900 tracking-tight">Direktori & Terminal Warta Kebudayaan</span>
+        <section className="mb-6 bg-white border border-slate-200/90 rounded-2xl p-5 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input 
+                type="text"
+                placeholder="Cari berita berdasarkan judul, topik kriya, komunitas, daerah, atau kata kunci..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
+              />
             </div>
-          </div>
 
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input 
-              type="text"
-              placeholder="Cari berita berdasarkan judul, topik kriya, komunitas, daerah, atau kata kunci..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
-            />
-          </div>
-        </section>
-
-        {/* Categories Pills & Control Row */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-all ${
-                  selectedCategory === cat 
-                    ? 'bg-primary-600 text-white shadow-xs font-semibold' 
-                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-950'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-3 self-end lg:self-auto">
-            <div className="flex items-center gap-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 px-3 py-1.5 rounded-xl shadow-2xs">
+            <div className="flex items-center gap-2 text-xs text-zinc-600 bg-slate-50 border border-slate-200 px-3.5 py-2.5 rounded-xl shrink-0">
               <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-400" />
-              <span>Urutan:</span>
+              <span className="text-slate-500">Urutan:</span>
               <select 
                 value={sortOption} 
                 onChange={(e) => setSortOption(e.target.value as 'latest' | 'popular')}
-                className="bg-transparent font-medium text-zinc-900 focus:outline-none cursor-pointer"
+                className="bg-transparent font-semibold text-slate-900 focus:outline-none cursor-pointer"
               >
                 <option value="latest">Terbaru</option>
                 <option value="popular">Terpopuler</option>
               </select>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Main Content Layout: 2 Columns (8 / 4) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -168,7 +128,7 @@ export default function BeritaPage() {
           <div className="lg:col-span-8 space-y-10">
             
             {/* Featured Section */}
-            {selectedCategory === 'Semua Berita' && !searchQuery && (
+            {!searchQuery && (
               <section>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -203,9 +163,9 @@ export default function BeritaPage() {
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <Link to={`/berita/${featuredArticle.id}`} className="block">
                         <div className="flex items-center gap-2 text-[11px] font-semibold tracking-wide text-primary-600 uppercase mb-2">
-                          <span>{featuredArticle.category}</span>
+                          <span>{featuredArticle.source || 'Warta Budaya'}</span>
                           <span className="text-zinc-300">•</span>
-                          <span className="text-zinc-500">{featuredArticle.subCategory}</span>
+                          <span className="text-zinc-500">{featuredArticle.readTime}</span>
                         </div>
                         <h3 className="text-base sm:text-lg font-bold text-zinc-900 leading-snug group-hover:text-primary-600 transition-colors">
                           {featuredArticle.title}
@@ -254,7 +214,7 @@ export default function BeritaPage() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1.5 text-[10px] font-semibold text-primary-600 uppercase mb-1">
-                              <span>{article.category}</span>
+                              <span>{article.source || 'Warta'}</span>
                               <span className="text-zinc-300">•</span>
                               <span className="text-zinc-400 font-normal">{article.readTime}</span>
                             </div>
@@ -331,7 +291,7 @@ export default function BeritaPage() {
                       <div className="p-4 flex-1 flex flex-col justify-between">
                         <Link to={`/berita/${article.id}`} className="block">
                           <div className="flex items-center justify-between text-[10px] text-zinc-500 mb-2">
-                            <span className="font-semibold text-primary-600 uppercase tracking-wide">{article.category}</span>
+                            <span className="font-semibold text-primary-600 uppercase tracking-wide">{article.source || 'Warta'}</span>
                             <span>{article.readTime}</span>
                           </div>
                           <h3 className="font-bold text-zinc-900 text-sm leading-snug group-hover:text-primary-600 transition-colors line-clamp-2 mb-1.5">
@@ -371,7 +331,7 @@ export default function BeritaPage() {
                 <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-zinc-300">
                   <Newspaper className="w-10 h-10 text-zinc-300 mx-auto mb-2" />
                   <h3 className="text-zinc-800 font-semibold text-sm">Tidak ada warta yang sesuai</h3>
-                  <p className="text-zinc-500 text-xs mt-1">Coba gunakan kata kunci pencarian lain atau pilih kategori Semua.</p>
+                  <p className="text-zinc-500 text-xs mt-1">Coba gunakan kata kunci pencarian lain.</p>
                 </div>
               )}
 
@@ -392,6 +352,7 @@ export default function BeritaPage() {
                 </button>
               </div>
             </section>
+
           </div>
 
           {/* Right Sidebar Column (4/12) */}

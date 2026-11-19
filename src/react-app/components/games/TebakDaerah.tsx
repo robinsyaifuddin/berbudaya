@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react';
-import { Trophy, RefreshCw, Heart, ArrowLeft, Keyboard, CheckCircle2, AlertCircle, BookOpen, ChevronRight, HelpCircle } from 'lucide-react';
+import { Trophy, RefreshCw, Heart, ArrowLeft, Keyboard, CheckCircle2, AlertCircle, BookOpen, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router';
 import ModernLayout from '@/react-app/components/ModernLayout';
 import GameTutorialModal, { TutorialStep } from './GameTutorialModal';
 
-const TEBAK_TUTORIAL_STEPS: TutorialStep[] = [
+const tebakTutorialSteps: TutorialStep[] = [
   {
-    title: 'Amati Gambar & Petunjuk Kebudayaan',
-    description: 'Setiap putaran menyajikan foto objek budaya (tarian, rumah adat, busana, kuliner, atau alat musik) disertai kalimat petunjuk penjelas.',
-    highlightText: 'Fokus pada ciri khas ornamen dan kategori budaya yang tertera pada bagian atas foto.'
+    title: 'Amati Gambar & Petunjuk Asal Daerah',
+    description: 'Setiap ronde menampilkan foto artefak, kuliner, tarian, atau arsitektur adat lengkap dengan petunjuk deskriptifnya.',
+    tip: 'Perhatikan jumlah garis bawah yang merepresentasikan banyaknya huruf nama daerah.',
+    badge: 'Orientasi Soal'
   },
   {
-    title: 'Tebak Nama Daerah Asal',
-    description: 'Tebak huruf penyusun nama daerah asal dengan mengklik keyboard virtual di bawah, atau langsung mengetik melalui keyboard perangkat Anda.',
-    highlightText: 'Setiap tebakan huruf yang benar akan membuka posisi huruf pada kolom nama daerah.'
+    title: 'Tebak Huruf demi Huruf atau Ketik Langsung',
+    description: 'Pilih huruf menggunakan keyboard virtual di layar atau ketik langsung melalui keyboard fisik Anda untuk menebak susunan kata.',
+    tip: 'Jika huruf ada dalam kata, huruf akan otomatis terbuka di tempatnya.',
+    badge: 'Metode Tebak'
   },
   {
-    title: 'Perhatikan Jumlah Nyawa',
-    description: 'Anda memiliki batas toleransi 6 kesalahan (indikator simbol hati). Setiap kesalahan tebak huruf akan mengurangi 1 nyawa.',
-    highlightText: 'Selesaikan tebakan sebelum 6 kesempatan habis untuk memperoleh +10 Poin wawasan budaya!'
+    title: 'Jaga 6 Nyawa & Kumpulkan Poin',
+    description: 'Anda memiliki batas toleransi maksimal 6 kali kesalahan tebak (disimbolkan ikon nyawa). Setiap daerah yang tertebak sempurna bernilai +10 Poin.',
+    tip: 'Tuntaskan seluruh 10 soal untuk mendapatkan akurasi pengetahuan budaya nusantara tertinggi!',
+    badge: 'Aturan & Nyawa'
   }
 ];
 
@@ -116,9 +119,7 @@ interface Props {
 }
 
 export default function TebakDaerah({ onClose }: Props) {
-  const [showTutorial, setShowTutorial] = useState(() => {
-    return localStorage.getItem('tutorial_tebak_done') !== 'true';
-  });
+  const [showTutorial, setShowTutorial] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
   const [wrongGuesses, setWrongGuesses] = useState(0);
@@ -265,6 +266,12 @@ export default function TebakDaerah({ onClose }: Props) {
   // PLAYING SCREEN
   return (
     <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+      <GameTutorialModal
+        gameTitle="Tebak Daerah"
+        steps={tebakTutorialSteps}
+        isOpen={showTutorial}
+        onComplete={() => setShowTutorial(false)}
+      />
       <div className="space-y-4">
         {/* Top Header Bar */}
         <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
@@ -277,14 +284,6 @@ export default function TebakDaerah({ onClose }: Props) {
           </Link>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              onClick={() => setShowTutorial(true)}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-[#133384] bg-slate-50 hover:bg-blue-50 px-2.5 py-1 rounded-md border border-slate-200 transition-colors"
-            >
-              <HelpCircle className="w-3.5 h-3.5 text-[#133384]" />
-              <span>Tata Cara</span>
-            </button>
-
             {/* Nyawa */}
             <div className="flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200/80">
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
@@ -442,22 +441,6 @@ export default function TebakDaerah({ onClose }: Props) {
           </div>
         </div>
       </div>
-
-      {/* Tutorial Modal */}
-      {showTutorial && (
-        <GameTutorialModal
-          gameTitle="Tebak Daerah"
-          steps={TEBAK_TUTORIAL_STEPS}
-          onComplete={() => {
-            setShowTutorial(false);
-            localStorage.setItem('tutorial_tebak_done', 'true');
-          }}
-          onSkip={() => {
-            setShowTutorial(false);
-            localStorage.setItem('tutorial_tebak_done', 'true');
-          }}
-        />
-      )}
     </ModernLayout>
   );
 }

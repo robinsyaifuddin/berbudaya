@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { 
   Home, Search, Bell, MessageCircle, Users, 
   Settings, LogOut, Menu, ShoppingBag, Heart, ShoppingCart,
   X, Send, ChevronDown, Puzzle, Newspaper, Calendar, Image as GalleryIcon,
-  ArrowLeft
+  ArrowLeft, Store, Sparkles
 } from 'lucide-react';
 import { ChatNotificationData } from './ChatNotification';
 import { useCart } from '@/react-app/contexts/CartContext';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
+import { useSeller } from '@/react-app/contexts/SellerContext';
+import OpenShopModal from '@/react-app/components/seller/OpenShopModal';
 import MobileBottomNav from './MobileBottomNav';
 
 interface DemoUser {
@@ -149,8 +151,11 @@ const suggestedPeople = [
 ];
 
 export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
+  const navigate = useNavigate();
   const { getTotalItems } = useCart();
   const { confirm } = useNotification();
+  const { hasShop, shop } = useSeller();
+  const [isOpenShopModalOpen, setIsOpenShopModalOpen] = useState(false);
   const [user, setUser] = useState<DemoUser | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showActivityDropdown, setShowActivityDropdown] = useState(false);
@@ -375,7 +380,15 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
             </button>
 
             {/* Search Bar */}
-            <div className="relative w-full">
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  navigate(`/cari?q=${encodeURIComponent(searchQuery.trim())}`);
+                }
+              }}
+              className="relative w-full"
+            >
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
@@ -384,7 +397,7 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 border border-transparent focus:border-blue-500/40 rounded-full text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all outline-none"
               />
-            </div>
+            </form>
           </div>
 
           {/* Center - Navigation Icons with Labels (Modern Professional Culture Hub) */}
@@ -471,12 +484,12 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                     </Link>
 
                     <Link
-                      to="/komunitas"
+                      to="/lembaga"
                       onClick={() => setShowLainnyaDropdown(false)}
                       className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
                     >
                       <Users className="w-5 h-5 text-slate-600 group-hover:text-blue-600 transition-colors" />
-                      <span className="text-sm font-medium tracking-tight">Komunitas</span>
+                      <span className="text-sm font-medium tracking-tight">Lembaga</span>
                     </Link>
 
                     <Link
@@ -821,6 +834,41 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
                         </svg>
                         <span className="text-sm text-gray-900">Kelola Komunitas Anda</span>
                       </Link>
+
+                      {/* Tombol Kelola Toko Anda tepat di bawah Kelola Komunitas Anda */}
+                      {hasShop ? (
+                        <Link
+                          to="/seller"
+                          onClick={() => setShowDropdown(false)}
+                          className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 transition-colors group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <Store className="w-5 h-5 text-slate-700 group-hover:text-[#133384]" />
+                            <span className="text-sm text-gray-900 group-hover:text-[#133384]">
+                              Kelola Toko Anda
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                            Seller
+                          </span>
+                        </Link>
+                      ) : (
+                        <Link
+                          to="/buka-toko"
+                          onClick={() => setShowDropdown(false)}
+                          className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 transition-colors group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <Store className="w-5 h-5 text-slate-700 group-hover:text-[#133384]" />
+                            <span className="text-sm text-gray-900 group-hover:text-[#133384]">
+                              Kelola Toko Anda
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">
+                            Buka Toko
+                          </span>
+                        </Link>
+                      )}
                     </div>
 
                     {/* Logout */}

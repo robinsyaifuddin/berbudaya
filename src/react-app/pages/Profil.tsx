@@ -4,9 +4,11 @@ import {
   Edit3, Mail, Globe, Plus, 
   Calendar, User, Briefcase, GraduationCap, MapPin,
   Camera, X, Image as ImageIcon, FileText,
-  Link as LinkIcon, Share2, ShieldCheck, Heart, MessageCircle, Send, Bookmark, MoreHorizontal
+  Link as LinkIcon, Share2, ShieldCheck, Heart, MessageCircle, Send, Bookmark, MoreHorizontal,
+  ArrowLeft, Check, Upload, Sparkles
 } from 'lucide-react';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
+import VerifiedBadge from '@/react-app/components/VerifiedBadge';
 
 interface CulturalInterest {
   name: string;
@@ -32,7 +34,7 @@ interface EducationItem {
 
 export default function ProfilPage() {
   const { success } = useNotification();
-  const [activeTab, setActiveTab] = useState<'posts' | 'about' | 'experience'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'about'>('posts');
   
   // State Profile
   const [name, setName] = useState('Emma Smith');
@@ -112,8 +114,10 @@ export default function ProfilPage() {
     }
   ]);
 
-  // Modals
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  // Full-page Edit Mode
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  // Modals for other sub-items
   const [isEditSummaryOpen, setIsEditSummaryOpen] = useState(false);
   const [isAddExperienceOpen, setIsAddExperienceOpen] = useState(false);
   const [isAddInterestOpen, setIsAddInterestOpen] = useState(false);
@@ -144,16 +148,39 @@ export default function ProfilPage() {
   // Handlers
   const openEditProfile = () => {
     setTempProfile({ name, headline, location, role, avatar });
-    setIsEditProfileOpen(true);
+    setIsEditMode(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const saveEditProfile = () => {
+  const cancelEditProfile = () => {
+    setIsEditMode(false);
+  };
+
+  const saveEditProfile = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setName(tempProfile.name);
     setHeadline(tempProfile.headline);
     setLocation(tempProfile.location);
     setRole(tempProfile.role);
     setAvatar(tempProfile.avatar);
-    setIsEditProfileOpen(false);
+    
+    // Simpan juga ke localStorage demo_user agar sinkron
+    const demoUserStr = localStorage.getItem('demo_user');
+    if (demoUserStr) {
+      try {
+        const u = JSON.parse(demoUserStr);
+        localStorage.setItem('demo_user', JSON.stringify({
+          ...u,
+          name: tempProfile.name,
+          avatar: tempProfile.avatar
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    setIsEditMode(false);
+    success('Profil berhasil diperbarui!');
   };
 
   const openEditSummary = () => {
@@ -230,6 +257,237 @@ export default function ProfilPage() {
     <div className="min-h-screen bg-neutral-100/70 text-neutral-900 pb-16">
       <TopNavbar />
 
+      {/* FULL-PAGE EDIT PROFIL VIEW */}
+      {isEditMode ? (
+        <div className="pt-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {/* Header Navigasi Kembali */}
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-neutral-200">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={cancelEditProfile}
+                className="p-2 -ml-2 rounded-xl text-neutral-600 hover:text-neutral-900 hover:bg-neutral-200/60 transition active:scale-95 flex items-center justify-center"
+                title="Kembali ke Profil"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
+                  Edit Profil Utama
+                </h1>
+                <p className="text-xs sm:text-sm text-neutral-500">
+                  Perbarui identitas publik, profesi kebudayaan, dan foto profil Anda
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={cancelEditProfile}
+                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-xl text-xs sm:text-sm font-semibold hover:bg-neutral-100 transition active:scale-95"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={saveEditProfile}
+                className="px-5 py-2 bg-[#133384] hover:bg-[#1844A6] text-white rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition active:scale-95 flex items-center gap-1.5"
+              >
+                <Check className="w-4 h-4" />
+                <span>Simpan Perubahan</span>
+              </button>
+            </div>
+          </div>
+
+          <form onSubmit={saveEditProfile} className="space-y-6">
+            {/* Bagian Visual: Banner & Avatar */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-xs overflow-hidden">
+              <div className="px-6 py-4 border-b border-neutral-100 bg-neutral-50/50 flex items-center justify-between">
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-neutral-900">Tampilan Visual & Foto</h2>
+                  <p className="text-xs text-neutral-500">Foto profil dan tema sampul identitas kreator</p>
+                </div>
+                <Sparkles className="w-4 h-4 text-amber-500" />
+              </div>
+
+              <div className="p-6">
+                {/* Banner Preview */}
+                <div className={`h-32 sm:h-44 w-full rounded-xl relative bg-gradient-to-r ${coverGradient} mb-8 flex items-center justify-center overflow-hidden shadow-inner`}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const palettes = [
+                        'from-blue-600 via-indigo-600 to-sky-700',
+                        'from-emerald-700 via-teal-700 to-cyan-800',
+                        'from-amber-700 via-orange-600 to-rose-700',
+                        'from-neutral-900 via-neutral-800 to-neutral-900'
+                      ];
+                      const next = palettes[(palettes.indexOf(coverGradient) + 1) % palettes.length];
+                      setCoverGradient(next);
+                    }}
+                    className="px-3.5 py-1.5 bg-white/90 hover:bg-white text-neutral-800 rounded-full text-xs font-semibold shadow-md backdrop-blur transition active:scale-95 flex items-center gap-1.5"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-neutral-600" />
+                    <span>Ganti Palet Sampul</span>
+                  </button>
+                </div>
+
+                {/* Avatar Section */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 pt-2">
+                  <div className="relative">
+                    <img
+                      src={tempProfile.avatar || avatar}
+                      alt={tempProfile.name || name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop';
+                      }}
+                      className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white shadow-md bg-neutral-100"
+                    />
+                  </div>
+
+                  <div className="flex-1 w-full space-y-2">
+                    <label className="block text-xs sm:text-sm font-semibold text-neutral-800">
+                      URL Avatar / Tautan Foto Profil
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={tempProfile.avatar}
+                        onChange={(e) => setTempProfile({ ...tempProfile, avatar: e.target.value })}
+                        placeholder="https://images.unsplash.com/..."
+                        className="flex-1 px-3.5 py-2.5 border border-neutral-300 rounded-xl text-xs sm:text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-[#133384] focus:ring-1 focus:ring-[#133384] transition"
+                      />
+                    </div>
+                    <p className="text-[11px] text-neutral-500">
+                      Gunakan tautan gambar HTTPS berkualitas tinggi (persegi atau portrait rasio 1:1 direkomendasikan).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bagian Informasi Utama */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-xs overflow-hidden">
+              <div className="px-6 py-4 border-b border-neutral-100 bg-neutral-50/50">
+                <h2 className="text-sm sm:text-base font-bold text-neutral-900">Informasi Dasar & Bio</h2>
+                <p className="text-xs text-neutral-500">Informasi utama yang tampil pada kartu profil depan</p>
+              </div>
+
+              <div className="p-6 space-y-5">
+                {/* Nama Lengkap */}
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold text-neutral-800 mb-1.5">
+                    Nama Lengkap <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={tempProfile.name}
+                    onChange={(e) => setTempProfile({ ...tempProfile, name: e.target.value })}
+                    placeholder="Contoh: official.rbnsyaf atau Robin Syaifuddin"
+                    className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-[#133384] focus:ring-1 focus:ring-[#133384] transition"
+                  />
+                </div>
+
+                {/* Headline Profil */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs sm:text-sm font-semibold text-neutral-800">
+                      Headline Profil <span className="text-rose-500">*</span>
+                    </label>
+                    <span className="text-[11px] text-neutral-400">
+                      {(tempProfile.headline || '').length}/120 karakter
+                    </span>
+                  </div>
+                  <textarea
+                    rows={2}
+                    maxLength={120}
+                    value={tempProfile.headline}
+                    onChange={(e) => setTempProfile({ ...tempProfile, headline: e.target.value })}
+                    placeholder="Contoh: Kreator Budaya & Kurator Seni Nusantara..."
+                    className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-[#133384] focus:ring-1 focus:ring-[#133384] transition resize-none"
+                  />
+                  <p className="text-[11px] text-neutral-400 mt-1">
+                    Ringkasan fokus Anda yang muncul tepat di bawah nama Anda.
+                  </p>
+                </div>
+
+                {/* Peran Utama & Lokasi (Grid 2 Kolom) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs sm:text-sm font-semibold text-neutral-800 mb-1.5">
+                      Peran Utama
+                    </label>
+                    <div className="relative">
+                      <Briefcase className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3" />
+                      <input
+                        type="text"
+                        value={tempProfile.role}
+                        onChange={(e) => setTempProfile({ ...tempProfile, role: e.target.value })}
+                        placeholder="Contoh: Kreator Budaya, Kurator Seni"
+                        className="w-full pl-10 pr-3.5 py-2.5 border border-neutral-300 rounded-xl text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-[#133384] focus:ring-1 focus:ring-[#133384] transition"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs sm:text-sm font-semibold text-neutral-800 mb-1.5">
+                      Lokasi / Domisili
+                    </label>
+                    <div className="relative">
+                      <MapPin className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3" />
+                      <input
+                        type="text"
+                        value={tempProfile.location}
+                        onChange={(e) => setTempProfile({ ...tempProfile, location: e.target.value })}
+                        placeholder="Contoh: Jakarta, Indonesia"
+                        className="w-full pl-10 pr-3.5 py-2.5 border border-neutral-300 rounded-xl text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-[#133384] focus:ring-1 focus:ring-[#133384] transition"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bagian Tentang & Dedikasi Singkat */}
+            <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-xs overflow-hidden">
+              <div className="px-6 py-4 border-b border-neutral-100 bg-neutral-50/50">
+                <h2 className="text-sm sm:text-base font-bold text-neutral-900">Tentang & Narasi Diri</h2>
+                <p className="text-xs text-neutral-500">Uraian mengenai karya, pengalaman kebudayaan, atau visi misi Anda</p>
+              </div>
+
+              <div className="p-6">
+                <textarea
+                  rows={4}
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  placeholder="Ceritakan latar belakang, dedikasi seni, tradisi nusantara yang ditekuni..."
+                  className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-[#133384] focus:ring-1 focus:ring-[#133384] transition"
+                />
+              </div>
+            </div>
+
+            {/* Tombol Simpan Bawah */}
+            <div className="flex items-center justify-end gap-3 pt-2 pb-8">
+              <button
+                type="button"
+                onClick={cancelEditProfile}
+                className="px-5 py-2.5 border border-neutral-300 text-neutral-700 rounded-xl text-xs sm:text-sm font-semibold hover:bg-neutral-100 transition active:scale-95"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="px-6 py-2.5 bg-[#133384] hover:bg-[#1844A6] text-white rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition active:scale-95 flex items-center gap-2"
+              >
+                <Check className="w-4 h-4" />
+                <span>Simpan Perubahan</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : (
       <div className="pt-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
           
@@ -307,13 +565,11 @@ export default function ProfilPage() {
 
                 {/* Name, Headline, Location */}
                 <div className="space-y-1 sm:space-y-1.5">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
                       {name}
                     </h1>
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
-                      <ShieldCheck className="w-4 h-4 text-blue-600" /> Terverifikasi
-                    </span>
+                    <VerifiedBadge className="w-5 h-5 text-[#1D9BF0] shrink-0" />
                   </div>
 
                   <p className="text-sm sm:text-base text-neutral-700 font-normal leading-snug max-w-2xl">
@@ -344,7 +600,7 @@ export default function ProfilPage() {
                     }`}
                   >
                     <ImageIcon className="w-3.5 h-3.5" />
-                    Karya & Postingan (1)
+                    Postingan (1)
                   </button>
                   <button 
                     onClick={() => setActiveTab('about')}
@@ -353,16 +609,7 @@ export default function ProfilPage() {
                     }`}
                   >
                     <FileText className="w-3.5 h-3.5" />
-                    Tentang & Keahlian
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('experience')}
-                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
-                      activeTab === 'experience' ? 'active font-bold' : ''
-                    }`}
-                  >
-                    <Briefcase className="w-3.5 h-3.5" />
-                    Dedikasi & Riwayat
+                    Tentang
                   </button>
                 </div>
               </div>
@@ -387,7 +634,7 @@ export default function ProfilPage() {
                             <h3 className="font-semibold text-slate-900 text-sm leading-tight hover:text-blue-600 transition-colors">
                               {name}
                             </h3>
-                            <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
+                            <VerifiedBadge className="w-4 h-4 text-[#1D9BF0] shrink-0" />
                           </div>
                           <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">{headline}</p>
                           <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
@@ -468,9 +715,9 @@ export default function ProfilPage() {
               </div>
             )}
 
-            {/* TAB 2: ABOUT & SKILLS */}
+            {/* TAB 2: ABOUT */}
             {activeTab === 'about' && (
-              <>
+              <div className="space-y-5">
                 {/* About / Summary Section */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="flex items-center justify-between mb-3">
@@ -579,13 +826,8 @@ export default function ProfilPage() {
                     ))}
                   </div>
                 </div>
-              </>
-            )}
 
-            {/* TAB 3: DEDIKASI & RIWAYAT (EXPERIENCE & EDUCATION) */}
-            {activeTab === 'experience' && (
-              <div className="space-y-5">
-                {/* Experiences */}
+                {/* Experiences (Dedikasi) */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="flex items-center justify-between mb-6">
                     <div>
@@ -628,7 +870,7 @@ export default function ProfilPage() {
                   </div>
                 </div>
 
-                {/* Educations */}
+                {/* Educations (Riwayat Pendidikan) */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="flex items-center justify-between mb-6">
                     <div>
@@ -755,88 +997,6 @@ export default function ProfilPage() {
 
         </div>
       </div>
-
-      {/* MODAL 1: EDIT PROFILE (HEADER) */}
-      {isEditProfileOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-neutral-200">
-            <div className="flex items-center justify-between p-4 sm:p-5 border-b border-neutral-100">
-              <h3 className="text-base sm:text-lg font-bold text-neutral-900">Edit Profil Utama</h3>
-              <button onClick={() => setIsEditProfileOpen(false)} className="p-1 rounded-full hover:bg-neutral-100 text-neutral-500">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-4 sm:p-5 space-y-4 text-xs sm:text-sm">
-              <div>
-                <label className="block text-neutral-700 font-semibold mb-1">Nama Lengkap</label>
-                <input 
-                  type="text"
-                  value={tempProfile.name}
-                  onChange={(e) => setTempProfile({ ...tempProfile, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-neutral-700 font-semibold mb-1">Headline Profil</label>
-                <textarea 
-                  rows={2}
-                  value={tempProfile.headline}
-                  onChange={(e) => setTempProfile({ ...tempProfile, headline: e.target.value })}
-                  placeholder="Contoh: Pegiat Tari Tradisional & Kurator Etnis..."
-                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-neutral-700 font-semibold mb-1">Peran Utama</label>
-                  <input 
-                    type="text"
-                    value={tempProfile.role}
-                    onChange={(e) => setTempProfile({ ...tempProfile, role: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-neutral-700 font-semibold mb-1">Lokasi</label>
-                  <input 
-                    type="text"
-                    value={tempProfile.location}
-                    onChange={(e) => setTempProfile({ ...tempProfile, location: e.target.value })}
-                    className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-neutral-700 font-semibold mb-1">URL Avatar / Foto Profil</label>
-                <input 
-                  type="text"
-                  value={tempProfile.avatar}
-                  onChange={(e) => setTempProfile({ ...tempProfile, avatar: e.target.value })}
-                  className="w-full px-3 py-2 border border-neutral-600 rounded-[4px] text-xs sm:text-sm text-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-colors"
-                />
-              </div>
-            </div>
-
-            <div className="p-4 sm:p-5 border-t border-neutral-100 flex justify-end gap-2">
-              <button 
-                onClick={() => setIsEditProfileOpen(false)}
-                className="px-4 py-2 border border-neutral-300 rounded-full text-xs sm:text-sm font-semibold hover:bg-neutral-50 transition"
-              >
-                Batal
-              </button>
-              <button 
-                onClick={saveEditProfile}
-                className="px-5 py-2 bg-blue-600 text-white rounded-full text-xs sm:text-sm font-semibold hover:bg-blue-700 transition"
-              >
-                Simpan Perubahan
-              </button>
-            </div>
-          </div>
-        </div>
       )}
 
       {/* MODAL 2: EDIT SUMMARY */}

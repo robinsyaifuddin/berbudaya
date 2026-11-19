@@ -1,9 +1,10 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft } from 'lucide-react';
 
 export default function CartPage() {
+  const navigate = useNavigate();
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
 
   const formatPrice = (price: number) => {
@@ -52,13 +53,15 @@ export default function CartPage() {
       
       <div className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-4">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link to="/" className="hover:text-gray-900">Home</Link>
-            <span>›</span>
-            <Link to="/marketplace" className="hover:text-gray-900">Marketplace</Link>
-            <span>›</span>
-            <span className="text-gray-900">Keranjang</span>
+          {/* Back Button Navigation */}
+          <div className="mb-6">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 text-base font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer group"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+              <span>Kembali</span>
+            </button>
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Keranjang Belanja</h1>

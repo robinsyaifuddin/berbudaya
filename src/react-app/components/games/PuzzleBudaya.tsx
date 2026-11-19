@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react';
-import { Trophy, RefreshCw, Lightbulb, Clock, ArrowLeft, ChevronRight, HelpCircle } from 'lucide-react';
+import { Trophy, RefreshCw, Lightbulb, Clock, ArrowLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router';
 import ModernLayout from '@/react-app/components/ModernLayout';
 import GameTutorialModal, { TutorialStep } from './GameTutorialModal';
 
-const PUZZLE_TUTORIAL_STEPS: TutorialStep[] = [
+const puzzleTutorialSteps: TutorialStep[] = [
   {
-    title: 'Pilih Matriks & Warisan Budaya',
-    description: 'Tentukan ukuran grid (3x3, 4x4, atau 5x5) dan pilih objek warisan nusantara yang ingin Anda susun dari daftar koleksi budaya.',
-    highlightText: 'Tingkat 3x3 cocok untuk pemula, sedangkan 5x5 memberikan tantangan rekonstruksi detail tertinggi.'
+    title: 'Pilih Tingkat Grid & Objek Budaya',
+    description: 'Tentukan ukuran grid (3x3 untuk pemula, 4x4 sedang, atau 5x5 ahli) lalu pilih warisan budaya nusantara yang ingin disusun.',
+    tip: 'Mulai dari grid 3x3 jika Anda baru pertama kali memainkan sliding puzzle.',
+    badge: 'Persiapan'
   },
   {
     title: 'Geser Kepingan ke Celah Kosong',
     description: 'Papan puzzle memiliki satu kotak kosong. Klik kepingan gambar yang berada tepat di sebelah atas, bawah, kiri, atau kanan celah untuk memindahkannya.',
-    highlightText: 'Hanya kepingan yang berdampingan langsung dengan celah kosong yang dapat digeser.'
+    tip: 'Hanya kepingan yang menempel langsung dengan celah kosong yang dapat digeser.',
+    badge: 'Mekanik Permainan'
   },
   {
-    title: 'Gunakan Bantuan Visual (Hint)',
-    description: 'Jika mengalami kesulitan mengenali posisi kepingan, klik tombol "Lihat Bantuan" untuk mengintip gambar asli utuh selama 3 detik.',
-    highlightText: 'Selesaikan susunan kepingan hingga seluruh gambar tersusun rapi untuk mencatatkan rekor waktu terbaik.'
+    title: 'Gunakan Bantuan Visual & Catat Waktu',
+    description: 'Jika mengalami kesulitan, klik tombol "Lihat Bantuan" untuk mengintip gambar asli utuh selama 3 detik. Selesaikan puzzle dengan gerakan paling efisien!',
+    tip: 'Timer dan jumlah langkah geser dihitung secara langsung di bagian atas papan permainan.',
+    badge: 'Fitur Bantuan'
   }
 ];
 
@@ -73,10 +76,8 @@ interface Props {
 }
 
 export default function PuzzleBudaya({ onClose }: Props) {
+  const [showTutorial, setShowTutorial] = useState(true);
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'completed'>('menu');
-  const [showTutorial, setShowTutorial] = useState(() => {
-    return localStorage.getItem('tutorial_puzzle_done') !== 'true';
-  });
   const [selectedPuzzle, setSelectedPuzzle] = useState<PuzzleImage | null>(null);
   const [gridSize, setGridSize] = useState(3);
   const [pieces, setPieces] = useState<number[]>([]);
@@ -161,15 +162,16 @@ export default function PuzzleBudaya({ onClose }: Props) {
     setShowHint(false);
   };
 
-  const closeTutorial = () => {
-    setShowTutorial(false);
-    localStorage.setItem('tutorial_puzzle_done', 'true');
-  };
-
   // MENU SCREEN
   if (gameState === 'menu') {
     return (
       <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+        <GameTutorialModal
+          gameTitle="Puzzle Budaya"
+          steps={puzzleTutorialSteps}
+          isOpen={showTutorial}
+          onComplete={() => setShowTutorial(false)}
+        />
         <div className="space-y-4">
           {/* Header Nav */}
           <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
@@ -180,16 +182,7 @@ export default function PuzzleBudaya({ onClose }: Props) {
               <ArrowLeft className="w-4 h-4" />
               <span>Daftar Permainan</span>
             </Link>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setShowTutorial(true)}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-[#133384] bg-slate-50 hover:bg-blue-50 px-2.5 py-1 rounded-md border border-slate-200 transition-colors"
-              >
-                <HelpCircle className="w-3.5 h-3.5 text-[#133384]" />
-                <span>Tata Cara</span>
-              </button>
-              <span className="text-xs font-semibold text-slate-500">Puzzle Budaya</span>
-            </div>
+            <span className="text-xs font-semibold text-slate-500">Puzzle Budaya Nusantara</span>
           </div>
 
           {/* Level Grid Selector */}
@@ -428,12 +421,13 @@ export default function PuzzleBudaya({ onClose }: Props) {
                   <button
                     key={index}
                     onClick={() => handlePieceClick(index)}
-                    className={`aspect-square !rounded-sm puzzle-piece transition-all duration-150 relative overflow-hidden ${
+                    className={`puzzle-piece aspect-square transition-all duration-150 relative overflow-hidden !rounded-sm ${
                       isEmpty 
-                        ? 'bg-slate-100/90 border border-dashed border-slate-300 cursor-default' 
-                        : 'bg-white border border-black/10 hover:brightness-105 active:scale-[0.98] cursor-pointer shadow-2xs'
+                        ? 'bg-slate-100/90 border border-dashed border-slate-300 cursor-default !rounded-sm' 
+                        : 'bg-white border border-slate-300/80 hover:brightness-105 active:scale-[0.98] cursor-pointer shadow-2xs !rounded-sm'
                     }`}
                     style={{
+                      borderRadius: '4px',
                       backgroundImage: isEmpty ? 'none' : `url(${selectedPuzzle.image})`,
                       backgroundSize: `${gridSize * 100}% ${gridSize * 100}%`,
                       backgroundPosition: `${(col * 100) / (gridSize - 1)}% ${(row * 100) / (gridSize - 1)}%`,
@@ -460,16 +454,6 @@ export default function PuzzleBudaya({ onClose }: Props) {
           )}
         </div>
       </div>
-
-      {/* Tutorial Modal */}
-      {showTutorial && (
-        <GameTutorialModal
-          gameTitle="Puzzle Budaya"
-          steps={PUZZLE_TUTORIAL_STEPS}
-          onComplete={closeTutorial}
-          onSkip={closeTutorial}
-        />
-      )}
     </ModernLayout>
   );
 }

@@ -239,7 +239,7 @@ Target kami ambisius tapi realistis. Dengan modal yang tepat, bimbingan bisnis, 
 Setiap Rp 100.000 yang Anda donasikan = 1 kain batik tulis bisa diproduksi = 1 hari kerja untuk pengrajin = 1 warisan budaya terselamatkan.
 
 Mari bersama selamatkan batik tulis Solo sebelum terlambat!`,
-    image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&h=600&fit=crop',
     gallery: [
       'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=800&h=600&fit=crop',

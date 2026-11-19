@@ -4,21 +4,24 @@ import { Link } from 'react-router';
 import ModernLayout from '@/react-app/components/ModernLayout';
 import GameTutorialModal, { TutorialStep } from './GameTutorialModal';
 
-const KUIS_TUTORIAL_STEPS: TutorialStep[] = [
+const kuisTutorialSteps: TutorialStep[] = [
   {
-    title: 'Pahami Pertanyaan Budaya',
-    description: 'Setiap butir soal mengangkat pengetahuan seni tradisi, kriya, arsitektur, dan filosofi luhur dari beragam suku bangsa di Indonesia.',
-    highlightText: 'Luangkan waktu untuk membaca narasi soal dengan cermat sebelum menentukan pilihan.'
+    title: 'Pahami Setiap Pertanyaan Budaya',
+    description: 'Anda akan menjawab pertanyaan terkurasi seputar seni kriya, filosofi pusaka, busana adat, dan arsitektur tradisional Indonesia.',
+    tip: 'Baca perlahan setiap butir soal untuk memahami konteks sejarah dan filosofi di baliknya.',
+    badge: 'Aturan Dasar'
   },
   {
-    title: 'Pilih Jawaban yang Tepat',
-    description: 'Klik salah satu opsi jawaban yang menurut Anda benar. Setiap jawaban tepat akan langsung menambahkan +20 poin ke skor Anda.',
-    highlightText: 'Pilihan tidak dapat diubah setelah Anda memilih opsi jawaban.'
+    title: 'Pilih Satu Opsi Jawaban yang Tepat',
+    description: 'Klik salah satu opsi pilihan ganda yang tersedia. Jawaban Anda akan langsung diverifikasi dengan warna hijau (benar) atau merah (salah).',
+    tip: 'Setiap jawaban benar memberikan +20 poin wawasan budaya menuju skor sempurna 100.',
+    badge: 'Penilaian'
   },
   {
-    title: 'Pelajari Ulasan Filosofi',
-    description: 'Setelah menjawab, sistem akan menampilkan ulasan latar belakang dan makna filosofis budaya nusantara. Klik "Lanjut" untuk melanjutkan soal berikutnya.',
-    highlightText: 'Di akhir kuis, Anda dapat meninjau kembali ringkasan jawaban yang kurang tepat.'
+    title: 'Pelajari Ulasan Filosofi & Hasil Akhir',
+    description: 'Setelah menjawab, telaah ulasan filosofi di bawah opsi. Di akhir sesi, Anda dapat meninjau kembali seluruh soal yang belum tepat.',
+    tip: 'Gunakan tombol Lanjut untuk beralih ke butir berikutnya hingga ringkasan akhir muncul.',
+    badge: 'Evaluasi'
   }
 ];
 
@@ -93,9 +96,7 @@ interface Props {
 }
 
 export default function KuisBudaya({ onClose }: Props) {
-  const [showTutorial, setShowTutorial] = useState(() => {
-    return localStorage.getItem('tutorial_kuis_done') !== 'true';
-  });
+  const [showTutorial, setShowTutorial] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
@@ -276,6 +277,12 @@ export default function KuisBudaya({ onClose }: Props) {
 
   return (
     <ModernLayout showLeftSidebar={true} showRightSidebar={true}>
+      <GameTutorialModal
+        gameTitle="Kuis Budaya"
+        steps={kuisTutorialSteps}
+        isOpen={showTutorial}
+        onComplete={() => setShowTutorial(false)}
+      />
       <div className="space-y-4">
         {/* Game Navigation Header */}
         <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-200/90 shadow-2xs">
@@ -288,14 +295,7 @@ export default function KuisBudaya({ onClose }: Props) {
           </Link>
           
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowTutorial(true)}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-[#133384] bg-slate-50 hover:bg-blue-50 px-2.5 py-1 rounded-md border border-slate-200 transition-colors"
-            >
-              <HelpCircle className="w-3.5 h-3.5 text-[#133384]" />
-              <span>Tata Cara</span>
-            </button>
-            <span className="text-[11px] text-slate-500 font-medium hidden sm:inline">
+            <span className="text-[11px] text-slate-500 font-medium">
               Soal {currentQuestion + 1} dari {selectedQuestions.length}
             </span>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 text-[#133384] text-xs font-bold">
@@ -400,22 +400,6 @@ export default function KuisBudaya({ onClose }: Props) {
           )}
         </div>
       </div>
-
-      {/* Tutorial Modal */}
-      {showTutorial && (
-        <GameTutorialModal
-          gameTitle="Kuis Budaya"
-          steps={KUIS_TUTORIAL_STEPS}
-          onComplete={() => {
-            setShowTutorial(false);
-            localStorage.setItem('tutorial_kuis_done', 'true');
-          }}
-          onSkip={() => {
-            setShowTutorial(false);
-            localStorage.setItem('tutorial_kuis_done', 'true');
-          }}
-        />
-      )}
     </ModernLayout>
   );
 }

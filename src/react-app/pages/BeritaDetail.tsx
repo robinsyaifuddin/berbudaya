@@ -8,13 +8,14 @@ import {
   Clock, 
   ChevronRight, 
   Check, 
-  TrendingUp,
-  ShieldCheck,
-  CheckCircle2,
-  Send
+  TrendingUp, 
+  ShieldCheck, 
+  CheckCircle2, 
+  Send 
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
-import { newsArticles, popularSearches, latestIntelligence } from '@/react-app/data/newsData';
+import { newsArticles, popularSearches, latestIntelligence, type NewsItem } from '@/react-app/data/newsData';
+import { communitiesData } from '@/react-app/data/communitiesData';
 
 export default function BeritaDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,35 @@ export default function BeritaDetailPage() {
   const [copied, setCopied] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
-  const article = newsArticles.find(item => item.id === Number(id));
+  // Cari berita di newsArticles utama terlebih dahulu
+  let article: NewsItem | undefined = newsArticles.find(item => item.id === Number(id));
+
+  // Jika tidak ditemukan di data berita utama, cari otomatis di rilis lembaga (communitiesData)
+  if (!article) {
+    for (const comm of communitiesData) {
+      const foundInLembaga = (comm.newsList || []).find(n => n.id === Number(id));
+      if (foundInLembaga) {
+        article = {
+          id: foundInLembaga.id,
+          slug: `rilis-${foundInLembaga.id}`,
+          title: foundInLembaga.title,
+          category: foundInLembaga.category || comm.category || 'Warta Lembaga',
+          subCategory: 'Rilis Resmi Lembaga',
+          image: foundInLembaga.image,
+          excerpt: foundInLembaga.excerpt,
+          content: foundInLembaga.content || [foundInLembaga.excerpt],
+          author: foundInLembaga.author || comm.staffList?.[0]?.name || comm.name,
+          authorRole: foundInLembaga.authorRole || comm.name,
+          authorAvatar: comm.staffList?.[0]?.avatar || comm.avatarImage || comm.image,
+          date: foundInLembaga.date,
+          readTime: foundInLembaga.readTime,
+          tags: ['Rilis Lembaga', comm.name, comm.category],
+          source: comm.name
+        };
+        break;
+      }
+    }
+  }
 
   // Related articles from same or similar category
   const relatedArticles = newsArticles
@@ -60,22 +89,15 @@ export default function BeritaDetailPage() {
       <TopNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-20 pb-16">
-        {/* Navigation Breadcrumb Bar */}
+        {/* Back Button Navigation Bar */}
         <div className="flex items-center justify-between gap-4 mb-6">
           <button 
-            onClick={() => navigate('/berita')} 
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-primary-600 bg-white border border-slate-200/90 px-3.5 py-2 rounded-lg shadow-2xs transition-all active:scale-[0.98]"
+            onClick={() => navigate(-1)} 
+            className="inline-flex items-center gap-2 text-base font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer group"
           >
-            <ArrowLeft className="w-4 h-4" /> Kembali ke Indeks Berita
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Kembali</span>
           </button>
-
-          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400">
-            <Link to="/beranda" className="hover:text-slate-600 transition-colors">Beranda</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <Link to="/berita" className="hover:text-slate-600 transition-colors">Warta & Riset</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-slate-700 font-medium truncate max-w-[200px]">{article.category}</span>
-          </div>
 
           <div className="flex items-center gap-2">
             <button 
@@ -100,16 +122,11 @@ export default function BeritaDetailPage() {
           
           {/* Main Article Content (8 Cols) */}
           <article className="lg:col-span-8 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-9 shadow-xs">
-            {/* Category & Metadata */}
+            {/* Publisher & Metadata */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="px-2.5 py-1 bg-primary-50 text-primary-700 border border-primary-200/60 rounded-md text-[11px] font-bold uppercase tracking-wider">
-                {article.category}
+                {article.source || 'Warta Kebudayaan'}
               </span>
-              {article.subCategory && (
-                <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-[11px] font-medium">
-                  {article.subCategory}
-                </span>
-              )}
             </div>
 
             {/* Article Headline */}
@@ -231,7 +248,7 @@ export default function BeritaDetailPage() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <span className="text-[10px] font-bold text-primary-600 uppercase tracking-wider">{rel.category}</span>
+                      <span className="text-[10px] font-bold text-primary-600 uppercase tracking-wider">{rel.source || 'Warta'}</span>
                       <h4 className="text-xs font-bold text-slate-900 line-clamp-2 mt-1 group-hover:text-primary-600 transition-colors leading-snug">
                         {rel.title}
                       </h4>

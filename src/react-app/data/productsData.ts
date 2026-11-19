@@ -45,7 +45,7 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Pilihan Maestro',
     images: [
-      'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&fit=crop',
+      'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&fit=crop',
       'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&fit=crop',
       'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=800&fit=crop'
     ],

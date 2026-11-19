@@ -14,7 +14,7 @@ export default function MobileBottomNav({ connectionCount = 0 }: MobileBottomNav
   const currentPath = location.pathname;
   const [showMoreSheet, setShowMoreSheet] = useState(false);
 
-  const isMoreActive = ['/permainan', '/berita', '/komunitas', '/acara', '/gallery'].some(p => currentPath.startsWith(p));
+  const isMoreActive = ['/permainan', '/berita', '/komunitas', '/lembaga', '/acara', '/gallery'].some(p => currentPath.startsWith(p));
 
   const navItems = [
     { name: 'Beranda', path: '/beranda', icon: Home },
@@ -63,12 +63,12 @@ export default function MobileBottomNav({ connectionCount = 0 }: MobileBottomNav
               </Link>
 
               <Link
-                to="/komunitas"
+                to="/lembaga"
                 onClick={() => setShowMoreSheet(false)}
                 className="flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors"
               >
                 <Users className="w-5 h-5 text-slate-600" />
-                <span className="text-xs font-medium text-slate-800">Komunitas</span>
+                <span className="text-xs font-medium text-slate-800">Lembaga</span>
               </Link>
 
               <Link

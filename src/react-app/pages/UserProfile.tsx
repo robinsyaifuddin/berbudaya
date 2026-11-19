@@ -7,13 +7,14 @@ import {
   Globe, User, GraduationCap, MoreHorizontal, Bookmark
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
+import VerifiedBadge from '@/react-app/components/VerifiedBadge';
 import { usersDatabase, UserProfileData } from '@/react-app/data/usersDatabase';
 
 export default function UserProfile() {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserProfileData | null>(null);
-  const [activeTab, setActiveTab] = useState<'posts' | 'about' | 'experience'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'about'>('posts');
   const [isConnected, setIsConnected] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -105,19 +106,14 @@ export default function UserProfile() {
 
       <main className="pt-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Back Navigation Bar */}
-        <div className="py-2.5 mb-2 flex items-center justify-between text-xs text-neutral-500">
+        <div className="py-2.5 mb-2 flex items-center justify-between text-neutral-500">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-1.5 font-medium text-neutral-700 hover:text-blue-600 transition-colors"
+            className="inline-flex items-center gap-2 text-base font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer group"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Kembali
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Kembali</span>
           </button>
-          <div className="flex items-center gap-1 text-[11px] text-neutral-400">
-            <Link to="/jaringan" className="hover:text-neutral-600">Jaringan</Link>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-neutral-700 font-medium truncate max-w-[140px]">{userData.name}</span>
-          </div>
         </div>
 
         {/* 2-Column Grid matching Profil.tsx */}
@@ -154,14 +150,6 @@ export default function UserProfile() {
                       alt={userData.name}
                       className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white shadow-md object-cover bg-neutral-100"
                     />
-                    {userData.verified && (
-                      <div
-                        title="Pelestari Budaya Terverifikasi"
-                        className="absolute bottom-1 right-1 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm"
-                      >
-                        <ShieldCheck className="w-4 h-4" />
-                      </div>
-                    )}
                   </div>
 
                   {/* Primary Action Buttons */}
@@ -207,14 +195,12 @@ export default function UserProfile() {
 
                 {/* Bio & Details */}
                 <div className="space-y-1 sm:space-y-1.5">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-neutral-900">
                       {userData.name}
                     </h1>
                     {userData.verified && (
-                      <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600">
-                        <ShieldCheck className="w-4 h-4 text-blue-600" /> Terverifikasi
-                      </span>
+                      <VerifiedBadge className="w-5 h-5 text-[#1D9BF0] shrink-0" />
                     )}
                   </div>
 
@@ -254,7 +240,7 @@ export default function UserProfile() {
                     }`}
                   >
                     <ImageIcon className="w-3.5 h-3.5" />
-                    Karya & Postingan ({userData.posts_list.length})
+                    Postingan ({userData.posts_list.length})
                   </button>
                   <button
                     onClick={() => setActiveTab('about')}
@@ -263,16 +249,7 @@ export default function UserProfile() {
                     }`}
                   >
                     <FileText className="w-3.5 h-3.5" />
-                    Tentang & Keahlian
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('experience')}
-                    className={`tab-item py-3.5 text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap ${
-                      activeTab === 'experience' ? 'active font-bold' : ''
-                    }`}
-                  >
-                    <Briefcase className="w-3.5 h-3.5" />
-                    Dedikasi & Riwayat
+                    Tentang
                   </button>
                 </div>
               </div>
@@ -301,7 +278,7 @@ export default function UserProfile() {
                                 {userData.name}
                               </h3>
                               {userData.verified && (
-                                <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
+                                <VerifiedBadge className="w-4 h-4 text-[#1D9BF0] shrink-0" />
                               )}
                             </div>
                             <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">{userData.headline}</p>
@@ -388,9 +365,9 @@ export default function UserProfile() {
               </div>
             )}
 
-            {/* TAB 2: ABOUT & SKILLS */}
+            {/* TAB 2: ABOUT */}
             {activeTab === 'about' && (
-              <>
+              <div className="space-y-5">
                 {/* About / Summary Section */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="mb-3">
@@ -441,13 +418,8 @@ export default function UserProfile() {
                     ))}
                   </div>
                 </div>
-              </>
-            )}
 
-            {/* TAB 3: DEDIKASI & RIWAYAT (EXPERIENCE & EDUCATION) */}
-            {activeTab === 'experience' && (
-              <div className="space-y-5">
-                {/* Experiences */}
+                {/* Experiences (Dedikasi) */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="mb-6">
                     <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pengalaman Profesional & Komunitas</h2>
@@ -481,7 +453,7 @@ export default function UserProfile() {
                   </div>
                 </div>
 
-                {/* Educations */}
+                {/* Educations (Riwayat Pendidikan) */}
                 <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-sm p-5 sm:p-6">
                   <div className="mb-6">
                     <h2 className="text-base sm:text-lg font-bold text-neutral-900">Pendidikan</h2>

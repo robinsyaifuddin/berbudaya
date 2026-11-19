@@ -5,7 +5,7 @@ import { useCart } from '@/react-app/contexts/CartContext';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
 import { 
   ChevronRight, MapPin, User, Phone, Home, CreditCard, 
-  Wallet, Building2, ChevronDown, Copy, QrCode, ShoppingBag, Check
+  Wallet, Building2, ChevronDown, Copy, QrCode, ShoppingBag, Check, ArrowLeft
 } from 'lucide-react';
 
 export default function CheckoutPage() {
@@ -133,15 +133,15 @@ export default function CheckoutPage() {
       
       <div className="pt-20 pb-12">
         <div className="max-w-6xl mx-auto px-4">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link to="/" className="hover:text-gray-900">Home</Link>
-            <ChevronRight className="w-4 h-4" />
-            <Link to="/marketplace" className="hover:text-gray-900">Marketplace</Link>
-            <ChevronRight className="w-4 h-4" />
-            <Link to="/cart" className="hover:text-gray-900">Keranjang</Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Checkout</span>
+          {/* Back Button Navigation */}
+          <div className="mb-6">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 text-base font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer group"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+              <span>Kembali</span>
+            </button>
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>

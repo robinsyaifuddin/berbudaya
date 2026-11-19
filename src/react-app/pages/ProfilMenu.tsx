@@ -1,13 +1,16 @@
 ﻿import { useState, useEffect } from 'react';
 import TopNavbar from '@/react-app/components/TopNavbar';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { 
   Settings, HelpCircle, Globe, 
   FileText, Briefcase, LogOut, 
   ChevronRight, Plus, Users,
-  Heart, MessageSquare, Share2, Eye
+  Heart, MessageSquare, Share2, Eye,
+  Store, Sparkles
 } from 'lucide-react';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
+import { useSeller } from '@/react-app/contexts/SellerContext';
+import OpenShopModal from '@/react-app/components/seller/OpenShopModal';
 
 interface DemoUser {
   id: string;
@@ -97,7 +100,10 @@ const userCommunities: Community[] = [
 ];
 
 export default function ProfilMenuPage() {
+  const navigate = useNavigate();
   const { success, confirm } = useNotification();
+  const { hasShop, shop } = useSeller();
+  const [isOpenShopModalOpen, setIsOpenShopModalOpen] = useState(false);
   const [user, setUser] = useState<DemoUser | null>(null);
   const [activeView, setActiveView] = useState<'menu' | 'posts' | 'communities' | 'create-community'>('menu');
   const [newCommunity, setNewCommunity] = useState({
@@ -218,6 +224,33 @@ export default function ProfilMenuPage() {
                 <span className="flex-1 text-left text-gray-900">Kelola Komunitas Anda</span>
                 <ChevronRight className="w-5 h-5 text-gray-400" />
               </button>
+
+              {/* Menu Toko / Seller Centre - Tepat di bawah Kelola Komunitas Anda */}
+              {hasShop ? (
+                <button 
+                  onClick={() => navigate('/seller')}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors group"
+                >
+                  <Store className="w-5 h-5 text-gray-600 group-hover:text-[#133384]" />
+                  <span className="flex-1 text-left text-gray-900 group-hover:text-[#133384]">Kelola Toko Anda</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                    Seller
+                  </span>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </button>
+              ) : (
+                <button 
+                  onClick={() => navigate('/buka-toko')}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors group"
+                >
+                  <Store className="w-5 h-5 text-gray-600 group-hover:text-[#133384]" />
+                  <span className="flex-1 text-left text-gray-900 group-hover:text-[#133384]">Kelola Toko Anda</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">
+                    Buka Toko
+                  </span>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </button>
+              )}
             </div>
           </div>
 

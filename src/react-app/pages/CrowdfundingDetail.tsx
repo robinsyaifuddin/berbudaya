@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useParams, useNavigate } from 'react-router';
 import { 
   Check, Heart, Share2, Facebook, Twitter, MessageCircle, ChevronRight,
-  MapPin, Users, Calendar, Clock, FileText, Bell, Flag
+  MapPin, Users, Calendar, Clock, FileText, Bell, Flag, ArrowLeft
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 
@@ -186,6 +186,7 @@ DAMPAK:
 
 export default function CrowdfundingDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'detail' | 'updates' | 'milestones'>('detail');
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -210,27 +211,27 @@ export default function CrowdfundingDetailPage() {
     <div className="min-h-screen bg-gray-50">
       <TopNavbar />
 
-      {/* Breadcrumb */}
+      {/* Back Button Navigation */}
       <div className="bg-white border-b border-gray-200 mt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5">
-          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 overflow-x-auto whitespace-nowrap py-0.5">
-            <Link to="/" className="hover:text-blue-600 transition-colors">Beranda</Link>
-            <ChevronRight className="w-3.5 h-3.5 flex-shrink-0 text-gray-400" />
-            <Link to="/crowdfunding" className="hover:text-blue-600 transition-colors">Crowdfunding</Link>
-            <ChevronRight className="w-3.5 h-3.5 flex-shrink-0 text-gray-400" />
-            <span className="text-gray-900 font-medium truncate max-w-[200px] sm:max-w-md">{campaign.title}</span>
-          </div>
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 text-base font-medium text-blue-700 hover:text-blue-800 transition-colors cursor-pointer group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Kembali</span>
+          </button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6 pb-24 lg:pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Content */}
           <div className="lg:col-span-7 space-y-5">
             {/* Hero Image & Gallery */}
             <div className="space-y-2.5">
-              <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-100 aspect-[16/10] sm:aspect-[16/9] max-h-[360px]">
+              <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-100 aspect-[16/10] sm:aspect-[16/9]">
                 <img
                   src={campaign.gallery[selectedImage]}
                   alt={campaign.title}
@@ -261,21 +262,23 @@ export default function CrowdfundingDetailPage() {
                   ))}
                 </div>
               )}
-            </div>
 
-            {/* Title & Meta */}
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-full border border-blue-200/60">
+              {/* Badges / Tags Category & Verification - diletakkan rapi di bawah foto seperti screenshot */}
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg border border-blue-200/60">
                   {campaign.category}
                 </span>
                 {campaign.verified && (
-                  <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200/60 flex items-center gap-1">
-                    <Check className="w-3.5 h-3.5" />
+                  <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-lg border border-emerald-200/60 flex items-center gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
                     Terverifikasi
                   </span>
                 )}
               </div>
+            </div>
+
+            {/* Title & Meta Info */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200/90 p-5 sm:p-6 space-y-4">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
                 {campaign.title}
               </h1>
@@ -284,18 +287,18 @@ export default function CrowdfundingDetailPage() {
               </p>
               
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs sm:text-sm text-gray-500 pt-1 border-t border-gray-100">
+              <div className="flex flex-wrap items-center gap-y-2.5 gap-x-6 text-xs sm:text-sm text-gray-500 pt-3 border-t border-gray-100">
                 <div className="flex items-center gap-1.5">
                   <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  <span>{campaign.location}</span>
+                  <span className="font-medium text-gray-700">{campaign.location}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Users className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  <span>{campaign.organizer}</span>
+                  <span>Penyelenggara: <strong className="font-semibold text-gray-800">{campaign.organizer}</strong></span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                  <span>{campaign.daysLeft} hari lagi</span>
+                  <span>Sisa Waktu: <strong className="font-semibold text-gray-800">{campaign.daysLeft} hari lagi</strong></span>
                 </div>
               </div>
             </div>
@@ -315,10 +318,10 @@ export default function CrowdfundingDetailPage() {
                       <button
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key as any)}
-                        className={`flex items-center gap-2 py-3.5 px-4 text-sm font-semibold border-b-2 transition-all relative ${
+                        className={`tab-item flex items-center gap-2 py-3.5 px-4 text-sm font-semibold transition-all relative ${
                           isActive
-                            ? 'border-[#133384] text-[#133384]'
-                            : 'border-transparent text-gray-500 hover:text-gray-800'
+                            ? 'active font-bold text-[#133384]'
+                            : 'text-gray-500 hover:text-gray-800'
                         }`}
                       >
                         <Icon className={`w-4 h-4 ${isActive ? 'text-[#133384]' : 'text-gray-500'}`} />
@@ -388,8 +391,8 @@ export default function CrowdfundingDetailPage() {
           </div>
 
           {/* Right Sidebar */}
-          <div className="lg:col-span-5">
-            <div className="sticky top-20 bg-white rounded-2xl shadow-sm border border-gray-200/90 p-5 sm:p-6 space-y-5">
+          <div className="lg:col-span-5 h-full">
+            <div className="sticky top-20 z-10 bg-white rounded-2xl shadow-sm border border-gray-200/90 p-5 sm:p-6 space-y-5">
               {/* Progress */}
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
@@ -430,7 +433,7 @@ export default function CrowdfundingDetailPage() {
               {/* Donate Button */}
               <Link
                 to={`/crowdfunding/${campaign.id}/donate`}
-                className="block w-full py-3 px-4 bg-[#133384] hover:bg-[#1844A6] active:scale-[0.99] text-white text-center font-bold text-sm tracking-wide rounded-xl shadow-sm hover:shadow transition-all"
+                className="block w-full py-3.5 px-4 bg-[#133384] hover:bg-[#1844A6] active:scale-[0.99] text-white text-center font-bold text-sm tracking-wide rounded-xl shadow-sm hover:shadow transition-all"
               >
                 DONASI SEKARANG
               </Link>
@@ -457,6 +460,36 @@ export default function CrowdfundingDetailPage() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Floating Bottom Sticky Action for Mobile Screens */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 shadow-lg">
+        <div className="max-w-lg mx-auto flex items-center gap-2.5">
+          <button
+            onClick={() => setIsFavorite(!isFavorite)}
+            className="p-3 border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all flex-shrink-0"
+            aria-label="Simpan Favorit"
+          >
+            <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+          </button>
+          <Link
+            to={`/crowdfunding/${campaign.id}/donate`}
+            className="flex-1 py-3 px-4 bg-[#133384] active:scale-[0.98] text-white text-center font-bold text-sm rounded-xl shadow-md transition-all tracking-wide"
+          >
+            DONASI SEKARANG
+          </Link>
+          <button
+            onClick={() => {
+              if (navigator.share) {
+                navigator.share({ title: campaign.title, url: window.location.href }).catch(() => {});
+              }
+            }}
+            className="p-3 border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all flex-shrink-0"
+            aria-label="Bagikan"
+          >
+            <Share2 className="w-5 h-5 text-gray-600" />
+          </button>
         </div>
       </div>
     </div>
