@@ -69,6 +69,7 @@ export default function DetailLembagaPage() {
             verified: match.verified ?? true,
             skLegalitas: match.skLegalitas || 'AHU Terdaftar',
             rating: 5.0,
+            activities: 12,
             newsList: [],
             eventsList: [],
             donationsList: [],

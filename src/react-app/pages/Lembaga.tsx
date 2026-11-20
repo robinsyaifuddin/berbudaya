@@ -62,6 +62,8 @@ export default function LembagaPage() {
           avatarImage: item.image || 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80',
           verified: item.verified ?? true,
           skLegalitas: item.skLegalitas || 'SK Terakreditasi',
+          rating: item.rating || 5.0,
+          activities: typeof item.activities === 'number' ? item.activities : 12
         }));
 
         // Filter out duplicate IDs

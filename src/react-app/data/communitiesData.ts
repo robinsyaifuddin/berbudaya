@@ -257,9 +257,9 @@ export const communitiesData: Community[] = [
     tagline: 'Wadah Kolaborasi Generasi Penerus Seni Pedalangan Wayang Kulit',
     description: 'Wadah bagi generasi muda dalang wayang untuk berbagi ilmu dan melestarikan seni pedalangan.',
     about: 'Komunitas Dalang Muda menghimpun dalang milenial dan Gen-Z di Jawa Timur & Nusantara. Berfokus pada regenerasi seni sastra pedalangan, suluk, sabetan wayang kulit purwa, serta tata gending iringan gamelan.',
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&auto=format&fit=crop&q=80',
-    avatarImage: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&auto=format&fit=crop&q=80',
     members: 1200,
     province: 'Jawa Timur',
     city: 'Mojokerto & Surabaya',
@@ -286,7 +286,7 @@ export const communitiesData: Community[] = [
         date: '17 Nov 2026',
         category: 'Rilis Pementasan',
         readTime: '3 menit baca',
-        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop&q=80'
       },
       {
         id: 202,
@@ -295,7 +295,7 @@ export const communitiesData: Community[] = [
         date: '10 Nov 2026',
         category: 'Edukasi & Diklat',
         readTime: '5 menit baca',
-        image: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -370,9 +370,9 @@ export const communitiesData: Community[] = [
     tagline: 'Perhimpunan Penari, Koreografer & Sanggar Tari Nusantara',
     description: 'Komunitas penari dari berbagai daerah yang aktif mementaskan dan mengajarkan tari tradisional.',
     about: 'Komunitas terbuka bagi penari tari klasik keraton hingga tari rakyat seluruh kepulauan Indonesia. Aktif memfasilitasi workshop gerak, olah tubuh, tata rias busana tari, dan pertunjukan kolosal lintas etnis.',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1469488865564-c2de10f69f96?w=1600&auto=format&fit=crop&q=80',
-    avatarImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300&auto=format&fit=crop&q=80',
     members: 3800,
     province: 'DI Yogyakarta',
     city: 'Yogyakarta',
@@ -400,7 +400,7 @@ export const communitiesData: Community[] = [
         date: '16 Nov 2026',
         category: 'Kurikulum & Diklat',
         readTime: '4 menit baca',
-        image: 'https://images.unsplash.com/photo-1469488865564-c2de10f69f96?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -414,7 +414,7 @@ export const communitiesData: Community[] = [
         price: 50000,
         quota: 500,
         registered: 380,
-        image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&auto=format&fit=crop&q=80'
       }
     ],
     donationsList: [
@@ -426,7 +426,7 @@ export const communitiesData: Community[] = [
         collectedAmount: 22400000,
         donorsCount: 78,
         daysLeft: 16,
-        image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&auto=format&fit=crop&q=80'
       }
     ],
     rules: [
@@ -461,9 +461,9 @@ export const communitiesData: Community[] = [
     tagline: 'Jejaring Pengrajin Bambu, Rotan & Serat Alam Nusantara',
     description: 'Perkumpulan pengrajin anyaman rotan, bambu, dan pandan yang ingin mengembangkan pasar kerajinan.',
     about: 'Menghubungkan perajin anyaman tradisional dari desa ke pasar modern dan ekspor melalui inovasi desain ramah lingkungan.',
-    image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1600&auto=format&fit=crop&q=80',
-    avatarImage: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=300&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=300&auto=format&fit=crop&q=80',
     members: 1850,
     province: 'Kalimantan Selatan',
     city: 'Banjarmasin',
@@ -488,7 +488,7 @@ export const communitiesData: Community[] = [
         date: '14 Nov 2026',
         category: 'Ekonomi Budaya',
         readTime: '3 menit baca',
-        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -502,7 +502,7 @@ export const communitiesData: Community[] = [
         price: 0,
         quota: 40,
         registered: 29,
-        image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80'
       }
     ],
     donationsList: [
@@ -514,7 +514,7 @@ export const communitiesData: Community[] = [
         collectedAmount: 11200000,
         donorsCount: 39,
         daysLeft: 25,
-        image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80'
       }
     ],
     rules: [
@@ -530,7 +530,7 @@ export const communitiesData: Community[] = [
     description: 'Komunitas musisi yang mengkolaborasikan gamelan tradisional dengan musik kontemporer.',
     about: 'Wadah kolaborasi komponis, pengrawit, dan produser musik etnis untuk membawa resonansi gong, bonang, dan saron ke panggung dunia.',
     image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1600&auto=format&fit=crop&q=80',
     avatarImage: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=300&auto=format&fit=crop&q=80',
     members: 950,
     province: 'Bali',
@@ -556,7 +556,7 @@ export const communitiesData: Community[] = [
         date: '15 Nov 2026',
         category: 'Rilis Karya',
         readTime: '3 menit baca',
-        image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -582,7 +582,7 @@ export const communitiesData: Community[] = [
         collectedAmount: 19800000,
         donorsCount: 61,
         daysLeft: 11,
-        image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&auto=format&fit=crop&q=80'
       }
     ],
     rules: [
@@ -597,9 +597,9 @@ export const communitiesData: Community[] = [
     tagline: 'Melestarikan Rempah, Dapur Leluhur & Cita Rasa Otentik',
     description: 'Perkumpulan koki dan food enthusiast yang melestarikan resep tradisional Indonesia.',
     about: 'Dari rendang Minang hingga papeda Papua, kami mendokumentasikan resep warisan nenek moyang agar tidak lekang oleh zaman.',
-    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&auto=format&fit=crop&q=80',
-    avatarImage: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&auto=format&fit=crop&q=80',
     members: 4200,
     province: 'Jawa Barat',
     city: 'Bandung',
@@ -625,7 +625,7 @@ export const communitiesData: Community[] = [
         date: '19 Nov 2026',
         category: 'Riset Gastronomi',
         readTime: '5 menit baca',
-        image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -639,7 +639,7 @@ export const communitiesData: Community[] = [
         price: 45000,
         quota: 250,
         registered: 180,
-        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop&q=80'
       }
     ],
     donationsList: [
@@ -651,7 +651,7 @@ export const communitiesData: Community[] = [
         collectedAmount: 23100000,
         donorsCount: 94,
         daysLeft: 18,
-        image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop&q=80'
       }
     ],
     rules: [
@@ -666,9 +666,9 @@ export const communitiesData: Community[] = [
     tagline: 'Konservasi Bangunan Bersejarah & Arsitektur Vernakular',
     description: 'Komunitas arsitek dan pemerhati bangunan bersejarah yang fokus pada konservasi heritage.',
     about: 'Mengkaji arsitektur rumah adat tongkonan, joglo, gadang, serta konservasi bangunan cagar budaya tropis nusantara.',
-    image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&auto=format&fit=crop&q=80',
-    avatarImage: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=300&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=300&auto=format&fit=crop&q=80',
     members: 680,
     province: 'DKI Jakarta',
     city: 'Jakarta Pusat',
@@ -692,7 +692,7 @@ export const communitiesData: Community[] = [
         date: '13 Nov 2026',
         category: 'Kajian Arsitektur',
         readTime: '6 menit baca',
-        image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -706,7 +706,7 @@ export const communitiesData: Community[] = [
         price: 25000,
         quota: 60,
         registered: 45,
-        image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&auto=format&fit=crop&q=80'
       }
     ],
     donationsList: [
@@ -718,7 +718,7 @@ export const communitiesData: Community[] = [
         collectedAmount: 38200000,
         donorsCount: 112,
         daysLeft: 15,
-        image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=80',
+        image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&auto=format&fit=crop&q=80',
         isUrgent: true
       }
     ],
@@ -734,9 +734,9 @@ export const communitiesData: Community[] = [
     tagline: 'Merawat Tutur Lisan & Mitologi Nusantara',
     description: 'Komunitas pendongeng dan penulis yang mengumpulkan dan menyebarkan cerita rakyat nusantara.',
     about: 'Menyajikan hikayat, fabel tradisional, dan legenda daerah dalam bentuk buku cerita ilustrasi anak dan dongeng audio.',
-    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&auto=format&fit=crop&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1600&auto=format&fit=crop&q=80',
-    avatarImage: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=300&auto=format&fit=crop&q=80',
     members: 1560,
     province: 'Sumatera Barat',
     city: 'Padang & Bukittinggi',
@@ -760,7 +760,7 @@ export const communitiesData: Community[] = [
         date: '11 Nov 2026',
         category: 'Literasi Budaya',
         readTime: '4 menit baca',
-        image: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=800&auto=format&fit=crop&q=80'
       }
     ],
     eventsList: [
@@ -774,7 +774,7 @@ export const communitiesData: Community[] = [
         price: 0,
         quota: 120,
         registered: 95,
-        image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=800&auto=format&fit=crop&q=80'
       }
     ],
     donationsList: [
@@ -786,7 +786,7 @@ export const communitiesData: Community[] = [
         collectedAmount: 12800000,
         donorsCount: 47,
         daysLeft: 20,
-        image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=800&auto=format&fit=crop&q=80'
       }
     ],
     rules: [
@@ -794,5 +794,51 @@ export const communitiesData: Community[] = [
       'Membina ruang dongeng yang ceria dan ramah untuk seluruh anak Indonesia.'
     ],
     foundedYear: '2021'
+  },
+  {
+    id: 9,
+    name: 'Biro Hubungan Masyarakat & Kebudayaan Daerah',
+    slug: 'biro-humas-kebudayaan-daerah',
+    tagline: 'Lembaga Pengampu Regulasi, Revitalisasi Kriya, & Standardisasi Warisan Budaya Daerah',
+    description: 'Badan otoritas kebudayaan daerah yang bertugas memfasilitasi riset kriya tenun, perlindungan indikasi geografis, serta advokasi maestro tradisi.',
+    about: 'Biro Hubungan Masyarakat & Kebudayaan Daerah merupakan instansi resmi yang menaungi sentra pengrajin tenun ikat, kriya tradisional, dan pelestarian manuskrip daerah. Kami menginisiasi program inkubasi maestro muda, perlindungan hak cipta motif adat, serta jembatan kurasi ekspor ekonomi kreatif nusantara.',
+    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&auto=format&fit=crop&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=1600&auto=format&fit=crop&q=80',
+    avatarImage: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=300&auto=format&fit=crop&q=80',
+    members: 3420,
+    province: 'Nusa Tenggara Timur & Jawa',
+    city: 'Kupang & Surakarta',
+    category: 'Kebijakan Budaya',
+    activities: 58,
+    rating: 4.9,
+    verified: true,
+    trending: true,
+    foundedYear: '2018',
+    institutionType: 'Badan / Biro Otoritas Kebudayaan Daerah',
+    skLegalitas: 'SK-GUB/0481/DISBUD/2021',
+    addressDetail: 'Gedung Kesenian Daerah Lt. 3, Jl. Kebudayaan No. 12',
+    contactEmail: 'humas@kebudayaandaerah.go.id',
+    contactPhone: '+62 811-9876-5432',
+    staffList: [
+      { name: 'Dr. Iwan Suhanda, M.Hum', role: 'Kepala Biro Kebudayaan', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80' },
+      { name: 'Siti Nurhaliza M.', role: 'Pranata Humas & Peliputan Media', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80' }
+    ],
+    newsList: [
+      {
+        id: 1,
+        title: 'Gubernur Resmikan Pusat Revitalisasi Tenun Ikat dan Kriya Tradisional Nusantara',
+        excerpt: 'Langkah strategis pemerintah daerah dalam menjaga orisinalitas tenun tradisional sekaligus memperluas jangkauan pasar internasional para pengrajin lokal melalui standarisasi geografis.',
+        date: '17 Nov 2026',
+        category: 'Kebijakan Budaya',
+        readTime: '4 min baca',
+        image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=1200&auto=format&fit=crop&q=80',
+        author: 'Biro Hubungan Masyarakat & Kebudayaan Daerah',
+        authorRole: 'Lembaga Resmi Kebudayaan'
+      }
+    ],
+    rules: [
+      'Menjaga netralitas, transparansi, dan komitmen pelestarian warisan budaya nusantara.',
+      'Mendukung perlindungan hak cipta dan royalti adil bagi para pengrajin tenun adat.'
+    ]
   }
 ];

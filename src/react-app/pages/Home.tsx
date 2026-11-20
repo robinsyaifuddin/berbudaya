@@ -66,15 +66,18 @@ export default function Home() {
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
   const [postModalTab, setPostModalTab] = useState<PostDialogTab>('gallery');
-  const [posts, setPosts] = useState(samplePosts);
+  const [posts, setPosts] = useState<PostItem[]>(() => mockStorage.getPosts());
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
-  const [postLikes, setPostLikes] = useState<{[key: number]: {liked: boolean, count: number}}>({
-    1: { liked: false, count: 1234 },
-    2: { liked: false, count: 2567 },
-    3: { liked: false, count: 3421 },
-    4: { liked: false, count: 5678 }
+  const [postLikes, setPostLikes] = useState<{[key: number]: {liked: boolean, count: number}}>(() => {
+    const saved = mockStorage.getLikes();
+    const initialList = mockStorage.getPosts();
+    const map: Record<number, { liked: boolean; count: number }> = {};
+    initialList.forEach(p => {
+      map[p.id] = saved[p.id] || { liked: false, count: p.likes || 0 };
+    });
+    return map;
   });
   const [savedPostIds, setSavedPostIds] = useState<Set<number>>(new Set());
 
@@ -120,12 +123,11 @@ export default function Home() {
   }, []);
 
   const handleLike = (postId: number) => {
+    const defaultCount = posts.find(p => p.id === postId)?.likes || 0;
+    const next = mockStorage.toggleLike(postId, defaultCount);
     setPostLikes(prev => ({
       ...prev,
-      [postId]: {
-        liked: !prev[postId].liked,
-        count: prev[postId].liked ? prev[postId].count - 1 : prev[postId].count + 1
-      }
+      [postId]: next
     }));
   };
 
@@ -235,10 +237,11 @@ export default function Home() {
           userAvatar={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
           userName={user?.name || 'User'}
           onPostCreated={(newPost) => {
-            setPosts((prev) => [newPost, ...prev]);
+            const savedItem = mockStorage.addPost(newPost);
+            setPosts((prev) => [savedItem, ...prev.filter(p => p.id !== savedItem.id)]);
             setPostLikes((prev) => ({
               ...prev,
-              [newPost.id]: { liked: false, count: 0 }
+              [savedItem.id]: { liked: false, count: 0 }
             }));
           }}
         />

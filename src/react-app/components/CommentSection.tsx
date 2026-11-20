@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Send, Smile, Image as ImageIcon } from 'lucide-react';
+import { mockStorage } from '@/react-app/lib/mockStorage';
 
 interface Comment {
   id: number;
@@ -29,43 +30,25 @@ interface CommentSectionProps {
 
 export default function CommentSection({ isOpen, onClose, post, userAvatar, userName }: CommentSectionProps) {
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState<Comment[]>([
-    {
-      id: 1,
-      author: {
-        name: 'Dewi Lestari',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop'
-      },
-      content: 'Wah keren sekali! Semangat terus berkarya 🎨',
-      timestamp: '2 jam yang lalu'
-    },
-    {
-      id: 2,
-      author: {
-        name: 'Budi Santoso',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
-      },
-      content: 'Inspiratif! Terima kasih sudah berbagi 🙏',
-      timestamp: '1 jam yang lalu'
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    if (post?.id) {
+      setComments(mockStorage.getComments(post.id));
     }
-  ]);
+  }, [post?.id, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSubmitComment = () => {
     if (!comment.trim()) return;
 
-    const newComment: Comment = {
-      id: comments.length + 1,
-      author: {
-        name: userName,
-        avatar: userAvatar
-      },
-      content: comment,
-      timestamp: 'Baru saja'
-    };
+    const added = mockStorage.addComment(post.id, comment.trim(), {
+      name: userName,
+      avatar: userAvatar
+    });
 
-    setComments([newComment, ...comments]);
+    setComments(prev => [added, ...prev]);
     setComment('');
   };
 

@@ -7,6 +7,7 @@ import { SellerProvider } from '@/react-app/contexts/SellerContext';
 import LandingPage from "@/react-app/pages/Landing";
 import ProtectedRoute from "@/react-app/components/ProtectedRoute";
 import ErrorBoundary from "@/react-app/components/ErrorBoundary";
+import ScrollToTop from "@/react-app/components/ScrollToTop";
 
 // Lazy-loaded routes for code-splitting & ultra-fast initial load on Vercel
 const HomePage = lazy(() => import("@/react-app/pages/Home"));
@@ -64,8 +65,9 @@ export default function App() {
           <SellerProvider>
             <CartProvider>
               <Router>
-              <Suspense fallback={<PageLoading />}>
-              <Routes>
+                <ScrollToTop />
+                <Suspense fallback={<PageLoading />}>
+                <Routes>
                 {/* Public Routes - No Authentication Required */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/landing" element={<LandingPage />} />

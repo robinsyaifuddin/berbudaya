@@ -213,5 +213,67 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     materials: 'Kayu Mahoni Solid Kering Udara 5 Tahun, Kawat Baja Jerman, Peninggi Kayu Sonokeling',
     dimensions: 'Panjang 98 cm x Lebar 22 cm x Tinggi 14 cm',
     careInstructions: 'Kendurkan dawai sedikit jika tidak digunakan dalam jangka lama, simpan dalam suhu ruangan stabil.'
+  },
+  {
+    id: 7,
+    name: 'Batik Tulis Parang Rusak Barong Keraton Solo',
+    origin: 'Surakarta, Jawa Tengah',
+    category: 'Kriya & Tekstil',
+    seller: 'Batik Alusan Ndalem Danukusuman',
+    sellerBadge: 'Sanggar Batik Keraton',
+    location: 'Jawa Tengah',
+    price: 2450000,
+    oldPrice: 2800000,
+    rating: 4.96,
+    reviews: 52,
+    stock: 3,
+    verified: true,
+    badge: 'Pilihan Maestro',
+    images: [
+      'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
+    ],
+    culturalTag: {
+      ethnicGroup: 'Jawa (Surakarta)',
+      philosophy: 'Parang Rusak Barong adalah motif sakral lambang keteguhan ksatria dalam menundukkan hawa nafsu dan pantang menyerah seperti deburan ombak karang.',
+      technique: 'Canting tembaga alusan dengan pewarnaan alami soga Jawa (kulit kayu tingi, tegeran, jambal) fermentasi 3 bulan.',
+      curationStandard: 'Sertifikasi Asal Geografis & Kurasi Yayasan Batik Indonesia',
+      preservationImpact: 'Mendukung keberlanjutan pembatik sepuh alusan di sentra kampung batik Laweyan.'
+    },
+    description: 'Kain batik tulis canting alusan motif Parang Rusak Barong ukuran ageng. Dikerjakan dengan kehalusan rasa di atas mori primissima sutra.',
+    materials: 'Kain Katun Mori Primissima Sutra, Malam Tawon Alami, Ekstrak Pewarna Soga Jawa',
+    dimensions: 'Panjang 250 cm x Lebar 105 cm',
+    careInstructions: 'Cuci tangan hanya menggunakan lerak atau air hangat tanpa detergen sintetis. Jemur di tempat teduh.'
+  },
+  {
+    id: 8,
+    name: 'Pahat Ukir Relief Kayu Jati Motif Lung-Lungan',
+    origin: 'Jepara, Jawa Tengah',
+    category: 'Kriya Anyaman & Kayu',
+    seller: 'Padepokan Ukir Ukir Kayu Jepara',
+    sellerBadge: 'Empu Seni Ukir',
+    location: 'Jawa Tengah',
+    price: 2150000,
+    oldPrice: 2500000,
+    rating: 4.91,
+    reviews: 31,
+    stock: 2,
+    verified: true,
+    badge: 'Karya Terverifikasi',
+    images: [
+      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80'
+    ],
+    culturalTag: {
+      ethnicGroup: 'Jawa (Pesisir Jepara)',
+      philosophy: 'Motif sulur flora (Lung-lungan) menggambarkan kelenturan budi pekerti, kesinambungan generasi, dan jalinan persaudaraan tanpa putus.',
+      technique: 'Pahat manual tiga dimensi (3D relief carving) dari papan jati perhutani utuh tanpa sambungan lem.',
+      curationStandard: 'Standar Mutu Ekspor Asosiasi Industri Permebelan & Kerajinan Indonesia',
+      preservationImpact: 'Regenerasi pemahat muda penerus tradisi ukir klasik Jepara.'
+    },
+    description: 'Plakat hiasan dinding relief ukir kayu jati solid berkualitas tinggi. Menampilkan kedalaman kontur daun dan bunga sulur khas seni ukir klasik pesisiran.',
+    materials: 'Kayu Jati Solid TPK Perhutani Kering Oven, Finishing Natural Wax Ramah Lingkungan',
+    dimensions: 'Panjang 60 cm x Lebar 40 cm x Tebal 3.5 cm',
+    careInstructions: 'Bersihkan debu dengan kuas halus kering atau lap mikrofiber. Olesi beeswax tipis setahun sekali.'
   }
 ];

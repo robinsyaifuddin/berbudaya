@@ -11,7 +11,8 @@ import {
   TrendingUp, 
   ShieldCheck, 
   CheckCircle2, 
-  Send 
+  Send,
+  Building2
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { newsArticles, popularSearches, latestIntelligence, type NewsItem } from '@/react-app/data/newsData';
@@ -26,11 +27,20 @@ export default function BeritaDetailPage() {
   // Cari berita di newsArticles utama terlebih dahulu
   let article: NewsItem | undefined = newsArticles.find(item => item.id === Number(id));
 
+  // Simpan ref lembaga jika berita berasal dari lembaga
+  let matchedLembaga = communitiesData.find(c => 
+    c.name.toLowerCase() === (article?.source || '').toLowerCase() ||
+    c.name.toLowerCase() === (article?.author || '').toLowerCase() ||
+    (article?.source && c.name.toLowerCase().includes(article.source.toLowerCase())) ||
+    (article?.source && article.source.toLowerCase().includes(c.name.toLowerCase()))
+  );
+
   // Jika tidak ditemukan di data berita utama, cari otomatis di rilis lembaga (communitiesData)
   if (!article) {
     for (const comm of communitiesData) {
       const foundInLembaga = (comm.newsList || []).find(n => n.id === Number(id));
       if (foundInLembaga) {
+        matchedLembaga = comm;
         article = {
           id: foundInLembaga.id,
           slug: `rilis-${foundInLembaga.id}`,
@@ -40,9 +50,9 @@ export default function BeritaDetailPage() {
           image: foundInLembaga.image,
           excerpt: foundInLembaga.excerpt,
           content: foundInLembaga.content || [foundInLembaga.excerpt],
-          author: foundInLembaga.author || comm.staffList?.[0]?.name || comm.name,
-          authorRole: foundInLembaga.authorRole || comm.name,
-          authorAvatar: comm.staffList?.[0]?.avatar || comm.avatarImage || comm.image,
+          author: comm.name,
+          authorRole: 'Lembaga Resmi Kebudayaan',
+          authorAvatar: comm.avatarImage || comm.image,
           date: foundInLembaga.date,
           readTime: foundInLembaga.readTime,
           tags: ['Rilis Lembaga', comm.name, comm.category],
@@ -51,6 +61,16 @@ export default function BeritaDetailPage() {
         break;
       }
     }
+  }
+
+  // Jika matchedLembaga belum terisi (misal artikel dari newsArticles), pastikan matchedLembaga dicari ulang
+  if (!matchedLembaga && article) {
+    matchedLembaga = communitiesData.find(c => 
+      c.name.toLowerCase() === (article?.source || '').toLowerCase() ||
+      c.name.toLowerCase() === (article?.author || '').toLowerCase() ||
+      (article?.source && c.name.toLowerCase().includes(article.source.toLowerCase())) ||
+      (article?.source && article.source.toLowerCase().includes(c.name.toLowerCase()))
+    );
   }
 
   // Related articles from same or similar category
@@ -139,19 +159,43 @@ export default function BeritaDetailPage() {
               {article.excerpt}
             </p>
 
-            {/* Author Byline & Timestamps */}
+            {/* Author / Institution Bio & Timestamps */}
             <div className="flex flex-wrap items-center justify-between gap-4 py-4 my-6 border-y border-slate-100">
-              <div className="flex items-center gap-3">
-                <img 
-                  src={article.authorAvatar} 
-                  alt={article.author}
-                  className="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200"
-                />
-                <div>
-                  <div className="text-xs sm:text-sm font-bold text-slate-900">{article.author}</div>
-                  <div className="text-[11px] text-slate-500">{article.authorRole || 'Kurator Kebudayaan'}</div>
+              {matchedLembaga ? (
+                <Link 
+                  to={`/lembaga/${matchedLembaga.id}`}
+                  className="flex items-center gap-3 group/author hover:opacity-90 transition-opacity"
+                  title={`Lihat Profil Lembaga ${matchedLembaga.name}`}
+                >
+                  <img 
+                    src={matchedLembaga.avatarImage || matchedLembaga.image || article.authorAvatar} 
+                    alt={matchedLembaga.name}
+                    className="w-10 h-10 rounded-full object-cover ring-2 ring-primary-500/20 group-hover/author:ring-primary-600 transition-all"
+                  />
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/author:text-primary-600 transition-colors flex items-center gap-1.5">
+                      <span>{matchedLembaga.name}</span>
+                      <Building2 className="w-3.5 h-3.5 text-primary-600 shrink-0" />
+                    </div>
+                    <div className="text-[11px] text-slate-500 flex items-center gap-1">
+                      <span>{matchedLembaga.institutionType || 'Lembaga Resmi Kebudayaan'}</span>
+                      <span className="text-primary-600 font-medium">· Lihat Profil Lembaga &rarr;</span>
+                    </div>
+                  </div>
+                </Link>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={article.authorAvatar} 
+                    alt={article.author}
+                    className="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200"
+                  />
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold text-slate-900">{article.author}</div>
+                    <div className="text-[11px] text-slate-500">{article.authorRole || 'Lembaga Kebudayaan'}</div>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="flex items-center gap-4 text-xs text-slate-400">
                 <span className="flex items-center gap-1.5">
@@ -209,20 +253,6 @@ export default function BeritaDetailPage() {
               </div>
             )}
 
-            {/* Author Bio Box */}
-            <div className="mt-8 p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-start gap-4">
-              <img 
-                src={article.authorAvatar} 
-                alt={article.author}
-                className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-2xs shrink-0" 
-              />
-              <div>
-                <div className="text-xs font-bold text-slate-900 uppercase tracking-wider">Ditulis Oleh {article.author}</div>
-                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                  Berkolaborasi dalam dewan redaksi Berbudaya.id untuk mendokumentasikan khazanah kriya nusantara, perlindungan hak kekayaan intelektual masyarakat adat, dan penguatan ekonomi kreatif tradisional.
-                </p>
-              </div>
-            </div>
 
             {/* Bottom Related Articles Section */}
             <div className="mt-10 pt-8 border-t border-slate-200">
