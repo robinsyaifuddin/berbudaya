@@ -42,32 +42,8 @@ export default function DetailLembagaPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const lembagaId = Number(id);
   
-  // Cek apakah lembaga ini adalah milik user yang sedang login/dibuat oleh user
-  const isMyInstitution = (() => {
-    try {
-      const stored = localStorage.getItem('user_registered_institutions');
-      if (stored) {
-        const parsed: any[] = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.some(item => Number(item.id) === lembagaId)) {
-          return true;
-        }
-      }
-      const myInstStr = localStorage.getItem('user_my_institution');
-      if (myInstStr) {
-        const myInst = JSON.parse(myInstStr);
-        if (Number(myInst?.id) === lembagaId) {
-          return true;
-        }
-      }
-    } catch {
-      // ignore
-    }
-    return false;
-  })();
-
-  // Deteksi mode kelola (hanya aktif jika user adalah pemilik lembaga tersebut)
+  // Deteksi mode kelola (dari query string ?manage=true atau default)
   const [isManageMode, setIsManageMode] = useState<boolean>(() => {
-    if (!isMyInstitution) return false;
     return searchParams.get('manage') === 'true' || searchParams.get('mode') === 'edit';
   });
 
@@ -120,18 +96,15 @@ export default function DetailLembagaPage() {
     return communitiesData[0];
   });
 
-  // Update URL param saat isManageMode berubah (hanya jika memang milik user)
+  // Update URL param saat isManageMode berubah
   useEffect(() => {
-    if (isManageMode && isMyInstitution) {
+    if (isManageMode) {
       searchParams.set('manage', 'true');
     } else {
       searchParams.delete('manage');
-      if (!isMyInstitution && isManageMode) {
-        setIsManageMode(false);
-      }
     }
     setSearchParams(searchParams, { replace: true });
-  }, [isManageMode, isMyInstitution]);
+  }, [isManageMode]);
 
   // Modal / Form States
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -740,16 +713,14 @@ export default function DetailLembagaPage() {
                       <span>Dukung Lembaga</span>
                     </button>
 
-                    {isMyInstitution && (
-                      <button
-                        onClick={() => setIsManageMode(true)}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold transition-all shadow-xs"
-                        title="Beralih ke Mode Kelola Lembaga"
-                      >
-                        <Settings className="w-4 h-4" />
-                        <span>Kelola</span>
-                      </button>
-                    )}
+                    <button
+                      onClick={() => setIsManageMode(true)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold transition-all shadow-xs"
+                      title="Beralih ke Mode Kelola Lembaga"
+                    >
+                      <Settings className="w-4 h-4" />
+                      <span>Kelola</span>
+                    </button>
                   </>
                 )}
 
