@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import {
   Search,
@@ -22,7 +22,9 @@ import {
   Briefcase,
   Award,
   Check,
-  Mail
+  Mail,
+  Store,
+  LayoutDashboard
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { useCart } from '@/react-app/contexts/CartContext';
@@ -352,35 +354,83 @@ export default function MarketplacePage() {
 
         {/* SECTION 1: HERO & PRODUK TERATAS (KIRI: BANNER KURASI RESMI, KANAN: 4 CARD DENGAN 2 BARIS) */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-          {/* KOLOM KIRI: BANNER */}
+          {/* KOLOM KIRI: KELOLA TOKO / HERO BANNER */}
           <div className="lg:col-span-5 rounded-2xl bg-gradient-to-br from-[#133384] via-[#102a6b] to-[#0a1b44] text-white p-7 md:p-8 flex flex-col justify-between relative overflow-hidden shadow-sm border border-[#133384]">
             {/* Subtle decorative background glow */}
             <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
             
             <div className="relative z-10 space-y-4">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.15]">
-                Hadirkan Budaya <br />Di Ruang Hunian Anda
-              </h1>
-              <p className="text-blue-100/90 text-[12.5px] leading-relaxed">
-                Karya kriya otentik, keris pusaka, dan tenun sutra dari tangan maestro nusantara untuk memperindah setiap sudut rumah Anda.
-              </p>
-              
-              <div className="pt-2">
-                <a
-                  href="#new-arrivals"
-                  className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-[#133384] text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
-                >
-                  <span>Belanja Sekarang</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs text-[11px] font-semibold text-blue-200 border border-white/15 w-fit">
+                <Store className="w-3.5 h-3.5 text-blue-300" />
+                <span>{hasShop ? 'Dashboard Mitra Penjual' : 'Kemitraan Maestro & UMKM'}</span>
               </div>
+
+              {hasShop ? (
+                <>
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-[1.2]">
+                    Kelola Toko &amp; Penjualan Anda
+                  </h1>
+                  <p className="text-blue-100/90 text-[12.5px] leading-relaxed">
+                    Toko aktif: <span className="font-semibold text-white">{shop?.name || 'Toko Budaya Anda'}</span>. Pantau pesanan masuk, tambahkan karya kriya baru, dan atur katalog produk langsung dari dashboard.
+                  </p>
+                  
+                  <div className="pt-2 flex flex-wrap items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => navigate('/seller')}
+                      className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-[#133384] text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
+                    >
+                      <LayoutDashboard className="w-3.5 h-3.5" />
+                      <span>Masuk Dashboard Toko</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate('/toko')}
+                      className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[12px] font-semibold px-4 py-2.5 rounded-lg transition-all active:scale-[0.98]"
+                    >
+                      <span>Lihat Toko Publik</span>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-[1.2]">
+                    Buka Toko Kriya &amp; Warisan Budaya
+                  </h1>
+                  <p className="text-blue-100/90 text-[12.5px] leading-relaxed">
+                    Mulai pasarkan kerajinan otentik, tenun, kriya, atau cagar budaya Anda kepada ribuan pelestari budaya di seluruh nusantara.
+                  </p>
+                  
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={() => navigate('/buka-toko')}
+                      className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-[#133384] text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
+                    >
+                      <Store className="w-3.5 h-3.5" />
+                      <span>Buat Toko Sekarang</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
 
-            {/* Pagination Dots at Bottom */}
-            <div className="relative z-10 flex items-center gap-1.5 pt-8">
-              <span className="w-6 h-1.5 rounded-full bg-white" />
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
+            {/* Status info at Bottom */}
+            <div className="relative z-10 flex items-center justify-between pt-6 border-t border-white/10 mt-6 text-[11px] text-blue-200/80">
+              <span className="flex items-center gap-1.5">
+                <span className={`w-2 h-2 rounded-full ${hasShop ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+                {hasShop ? 'Status: Toko Terbuka' : 'Status: Belum Memiliki Toko'}
+              </span>
+              <button
+                type="button"
+                onClick={() => navigate(hasShop ? '/seller' : '/buka-toko')}
+                className="text-white hover:underline flex items-center gap-1 font-medium"
+              >
+                <span>{hasShop ? 'Buka Pengelolaan' : 'Daftar Sekarang'}</span>
+                <ChevronRight className="w-3 h-3" />
+              </button>
             </div>
           </div>
 
@@ -464,33 +514,33 @@ export default function MarketplacePage() {
         </section>
 
         {/* SECTION 2: 4 VALUE PROPOSITIONS BAR (TEMA BIRU) */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 border border-slate-200 rounded-xl bg-white p-4 shadow-xs">
-          <div className="flex items-center gap-3.5 px-2">
-            <Truck className="w-6 h-6 text-blue-600 shrink-0" />
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 border border-slate-200 rounded-xl bg-white p-3.5 sm:p-4 shadow-xs">
+          <div className="flex items-center gap-3 px-1 sm:px-2">
+            <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
             <div>
               <h4 className="text-[12px] font-bold text-slate-900 leading-tight">Gratis Ongkir</h4>
               <p className="text-[11px] text-slate-500">Min. transaksi Rp 200rb</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 px-2 border-l border-slate-100">
-            <RotateCcw className="w-6 h-6 text-blue-600 shrink-0" />
+          <div className="flex items-center gap-3 px-1 sm:px-2 border-t sm:border-t-0 sm:border-l border-slate-100 pt-2.5 sm:pt-0">
+            <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
             <div>
               <h4 className="text-[12px] font-bold text-slate-900 leading-tight">30 Hari Garansi</h4>
               <p className="text-[11px] text-slate-500">Pengembalian tanpa repot</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 px-2 border-l border-slate-100">
-            <Headphones className="w-6 h-6 text-blue-600 shrink-0" />
+          <div className="flex items-center gap-3 px-1 sm:px-2 border-t lg:border-t-0 lg:border-l border-slate-100 pt-2.5 sm:pt-0">
+            <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
             <div>
               <h4 className="text-[12px] font-bold text-slate-900 leading-tight">Layanan Kurator 24/7</h4>
               <p className="text-[11px] text-slate-500">Konsultasi keaslian karya</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 px-2 border-l border-slate-100">
-            <ShieldCheck className="w-6 h-6 text-blue-600 shrink-0" />
+          <div className="flex items-center gap-3 px-1 sm:px-2 border-t sm:border-t-0 sm:border-l border-slate-100 pt-2.5 sm:pt-0">
+            <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
             <div>
               <h4 className="text-[12px] font-bold text-slate-900 leading-tight">Pembayaran Aman</h4>
               <p className="text-[11px] text-slate-500">Sertifikat garansi resmi</p>
@@ -511,57 +561,57 @@ export default function MarketplacePage() {
           </div>
 
           {/* 5-Column Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3.5">
             {newArrivals.map((product) => (
               <div
                 key={product.id}
-                className="group border border-slate-200 rounded-xl bg-white p-3 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between"
+                className="group border border-slate-200 rounded-xl bg-white p-2.5 sm:p-3 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
                   {/* Image Container with Blue "New" Pill */}
-                  <div className="relative aspect-square w-full rounded-lg bg-slate-50 overflow-hidden mb-2.5 flex items-center justify-center">
+                  <div className="relative aspect-square w-full rounded-lg bg-slate-50 overflow-hidden mb-2 sm:mb-2.5 flex items-center justify-center">
                     <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <span className="absolute top-2 left-2 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+                    <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
                       New
                     </span>
                   </div>
 
                   {/* Title & Specs */}
-                  <h3 className="font-semibold text-slate-900 text-[12px] line-clamp-2 leading-snug mb-1 min-h-[32px] group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-semibold text-slate-900 text-[11px] sm:text-[12px] line-clamp-2 leading-snug mb-1 min-h-[30px] sm:min-h-[32px] group-hover:text-blue-600 transition-colors">
                     {product.name}
                   </h3>
 
                   {/* Price */}
-                  <div className="text-[13px] font-bold text-slate-900 mb-1.5">
+                  <div className="text-[12px] sm:text-[13px] font-bold text-slate-900 mb-1 sm:mb-1.5 truncate">
                     {formatPrice(product.price)}
                   </div>
 
                   {/* Stars Rating */}
-                  <div className="flex items-center gap-1 text-[11px] text-slate-500 mb-2">
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-slate-500 mb-1.5 sm:mb-2">
                     <div className="flex items-center text-amber-400">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
-                    <span className="text-[10px] text-slate-400">({product.reviews})</span>
+                    <span className="text-[9px] sm:text-[10px] text-slate-400">({product.reviews})</span>
                   </div>
                 </div>
 
                 {/* Bottom Action: Tombol Lihat + Icon Keranjang */}
-                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                <div className="flex items-center gap-1.5 sm:gap-2 pt-2 border-t border-slate-100">
                   <Link
                     to={`/marketplace/${product.id}`}
-                    className="flex-1 py-1.5 px-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-[11px] font-semibold rounded-lg text-center transition-colors"
+                    className="flex-1 py-1.5 px-2 sm:px-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-[10px] sm:text-[11px] font-semibold rounded-lg text-center transition-colors min-h-[32px] flex items-center justify-center"
                   >
                     Lihat
                   </Link>
                   <button
                     onClick={(e) => handleBuy(e, product)}
-                    className="p-1.5 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 rounded-lg transition-colors flex items-center justify-center shrink-0 active:scale-95"
+                    className="p-1.5 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 rounded-lg transition-colors flex items-center justify-center shrink-0 active:scale-95 min-w-[32px] min-h-[32px]"
                     title="Tambah ke Keranjang"
                   >
                     <ShoppingCart className="w-3.5 h-3.5" />
@@ -640,66 +690,66 @@ export default function MarketplacePage() {
           </div>
 
           {/* 5-Column Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3.5">
             {featuredProducts.map((product) => (
               <div
                 key={product.id}
-                className="group border border-slate-200 rounded-xl bg-white p-3 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between"
+                className="group border border-slate-200 rounded-xl bg-white p-2.5 sm:p-3 hover:border-blue-300 hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
                   {/* Image Container with Red Discount Pill */}
-                  <div className="relative aspect-square w-full rounded-lg bg-slate-50 overflow-hidden mb-2.5 flex items-center justify-center">
+                  <div className="relative aspect-square w-full rounded-lg bg-slate-50 overflow-hidden mb-2 sm:mb-2.5 flex items-center justify-center">
                     <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {product.discountBadge && (
-                      <span className="absolute top-2 left-2 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
+                      <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">
                         {product.discountBadge}
                       </span>
                     )}
                   </div>
 
                   {/* Title & Specs */}
-                  <h3 className="font-semibold text-slate-900 text-[12px] line-clamp-2 leading-snug mb-1 min-h-[32px] group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-semibold text-slate-900 text-[11px] sm:text-[12px] line-clamp-2 leading-snug mb-1 min-h-[30px] sm:min-h-[32px] group-hover:text-blue-600 transition-colors">
                     {product.name}
                   </h3>
 
                   {/* Price with strikethrough */}
-                  <div className="flex items-baseline gap-1.5 mb-1.5">
-                    <span className="text-[13px] font-bold text-slate-900">
+                  <div className="flex flex-wrap items-baseline gap-1 sm:gap-1.5 mb-1 sm:mb-1.5">
+                    <span className="text-[12px] sm:text-[13px] font-bold text-slate-900 truncate">
                       {formatPrice(product.price)}
                     </span>
                     {product.oldPrice && (
-                      <span className="text-[10px] text-slate-400 line-through">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 line-through">
                         {formatPrice(product.oldPrice)}
                       </span>
                     )}
                   </div>
 
                   {/* Stars Rating */}
-                  <div className="flex items-center gap-1 text-[11px] text-slate-500 mb-2">
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-slate-500 mb-1.5 sm:mb-2">
                     <div className="flex items-center text-amber-400">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
-                    <span className="text-[10px] text-slate-400">({product.reviews})</span>
+                    <span className="text-[9px] sm:text-[10px] text-slate-400">({product.reviews})</span>
                   </div>
                 </div>
 
                 {/* Bottom Action: Tombol Lihat + Icon Keranjang */}
-                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                <div className="flex items-center gap-1.5 sm:gap-2 pt-2 border-t border-slate-100">
                   <Link
                     to={`/marketplace/${product.id}`}
-                    className="flex-1 py-1.5 px-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-[11px] font-semibold rounded-lg text-center transition-colors"
+                    className="flex-1 py-1.5 px-2 sm:px-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-[10px] sm:text-[11px] font-semibold rounded-lg text-center transition-colors min-h-[32px] flex items-center justify-center"
                   >
                     Lihat
                   </Link>
                   <button
                     onClick={(e) => handleBuy(e, product)}
-                    className="p-1.5 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 rounded-lg transition-colors flex items-center justify-center shrink-0 active:scale-95"
+                    className="p-1.5 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 rounded-lg transition-colors flex items-center justify-center shrink-0 active:scale-95 min-w-[32px] min-h-[32px]"
                     title="Tambah ke Keranjang"
                   >
                     <ShoppingCart className="w-3.5 h-3.5" />

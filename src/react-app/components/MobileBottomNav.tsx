@@ -83,10 +83,19 @@ export default function MobileBottomNav({ connectionCount = 0 }: MobileBottomNav
               <Link
                 to="/gallery"
                 onClick={() => setShowMoreSheet(false)}
-                className="flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors col-span-2"
+                className="flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors"
               >
                 <GalleryIcon className="w-5 h-5 text-slate-600" />
                 <span className="text-xs font-medium text-slate-800">Galeri</span>
+              </Link>
+
+              <Link
+                to="/pesan"
+                onClick={() => setShowMoreSheet(false)}
+                className="flex items-center gap-2.5 p-2.5 rounded-xl text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors"
+              >
+                <MoreHorizontal className="w-5 h-5 text-slate-600" />
+                <span className="text-xs font-medium text-slate-800">Obrolan Pesan</span>
               </Link>
             </div>
           </div>

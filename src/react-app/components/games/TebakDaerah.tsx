@@ -38,70 +38,70 @@ const questions: GameQuestion[] = [
     id: 1,
     hint: "Tari Saman berasal dari daerah ini",
     answer: "ACEH",
-    image: "https://images.unsplash.com/photo-1604467794349-0b74285de7e7?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Tarian"
   },
   {
     id: 2,
     hint: "Rumah Adat Tongkonan adalah rumah adat dari",
     answer: "TORAJA",
-    image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Rumah Adat"
   },
   {
     id: 3,
     hint: "Batik dan Kebaya identik dengan tradisi suku",
     answer: "JAWA",
-    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Pakaian"
   },
   {
     id: 4,
     hint: "Rumah Gadang dengan atap gonjong khas dari",
     answer: "MINANG",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Rumah Adat"
   },
   {
     id: 5,
     hint: "Candi Borobudur mahakarya bersejarah di",
     answer: "JAWA TENGAH",
-    image: "https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Bangunan"
   },
   {
     id: 6,
     hint: "Rendang kuliner pusaka kaya rempah asal",
     answer: "PADANG",
-    image: "https://images.unsplash.com/photo-1596040033229-a0b13b4e0d16?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Kuliner"
   },
   {
     id: 7,
     hint: "Kain Tenun Ikat bernilai mistis tinggi dari pulau",
     answer: "SUMBA",
-    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Kain"
   },
   {
     id: 8,
     hint: "Tari Kecak dengan lingkaran paduan suara sakral dari",
     answer: "BALI",
-    image: "https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Tarian"
   },
   {
     id: 9,
     hint: "Alat musik bambu Angklung berakar kuat di",
     answer: "JAWA BARAT",
-    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Alat Musik"
   },
   {
     id: 10,
     hint: "Pempek kuliner ikan dan kuah cuko autentik dari",
     answer: "PALEMBANG",
-    image: "https://images.unsplash.com/photo-1596040033229-a0b13b4e0d16?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&h=400&auto=format&fit=crop&q=80",
     category: "Kuliner"
   }
 ];

@@ -37,35 +37,35 @@ const puzzleImages: PuzzleImage[] = [
   { 
     id: 1, 
     title: "Rumah Adat Tongkonan", 
-    image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=600&h=600&fit=crop", 
+    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=600&h=600&auto=format&fit=crop&q=80", 
     difficulty: "medium",
     description: "Arsitektur perahu khas Toraja dengan filosofi hubungan leluhur dan alam."
   },
   { 
     id: 2, 
     title: "Candi Borobudur", 
-    image: "https://images.unsplash.com/photo-1555400080-85a5debc4a23?w=600&h=600&fit=crop", 
+    image: "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&h=600&auto=format&fit=crop&q=80", 
     difficulty: "hard",
     description: "Mahakarya stupa batu andesit abad ke-8 warisan Dinasti Syailendra."
   },
   { 
     id: 3, 
     title: "Batik Indonesia", 
-    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=600&h=600&fit=crop", 
+    image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&h=600&auto=format&fit=crop&q=80", 
     difficulty: "easy",
     description: "Pola canting malam klasik bernilai filosofis dan diakui warisan dunia UNESCO."
   },
   { 
     id: 4, 
     title: "Wayang Kulit", 
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop", 
+    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&auto=format&fit=crop&q=80", 
     difficulty: "medium",
     description: "Kesenian seni tatah dan bayangan kulit kerbau yang sarat hikmah kehidupan."
   },
   { 
     id: 5, 
     title: "Tari Tradisional", 
-    image: "https://images.unsplash.com/photo-1604467794349-0b74285de7e7?w=600&h=600&fit=crop", 
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=600&auto=format&fit=crop&q=80", 
     difficulty: "easy",
     description: "Gerak harmonis penari nusantara yang mengekspresikan keluhuran budi pekerti."
   }

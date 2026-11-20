@@ -189,7 +189,6 @@ export default function CrowdfundingDetailPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'detail' | 'updates' | 'milestones'>('detail');
   const [isFavorite, setIsFavorite] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(0);
 
   const campaignData = getCampaignData();
   const campaign = campaignData[id || '1'] || campaignData['1'];
@@ -229,13 +228,13 @@ export default function CrowdfundingDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Content */}
           <div className="lg:col-span-7 space-y-5">
-            {/* Hero Image & Gallery */}
+            {/* Hero Image */}
             <div className="space-y-2.5">
               <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-100 aspect-[16/10] sm:aspect-[16/9]">
                 <img
-                  src={campaign.gallery[selectedImage]}
+                  src={campaign.image || (campaign.gallery && campaign.gallery[0])}
                   alt={campaign.title}
-                  className="w-full h-full object-cover transition-all duration-300"
+                  className="w-full h-full object-cover"
                 />
                 {campaign.badge && (
                   <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
@@ -245,23 +244,6 @@ export default function CrowdfundingDetailPage() {
                   </div>
                 )}
               </div>
-              
-              {/* Gallery Thumbnails */}
-              {campaign.gallery.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5">
-                  {campaign.gallery.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedImage(idx)}
-                      className={`flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                        selectedImage === idx ? 'border-blue-600 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'
-                      }`}
-                    >
-                      <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover" />
-                    </button>
-                  ))}
-                </div>
-              )}
 
               {/* Badges / Tags Category & Verification - diletakkan rapi di bawah foto seperti screenshot */}
               <div className="flex flex-wrap items-center gap-2 pt-1">

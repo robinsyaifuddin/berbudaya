@@ -68,6 +68,20 @@ p, span, h1, h2, h3, h4, h5, h6, a {
   overflow-wrap: break-word;
 }
 
+/* Standar Responsif Mobile Global: Komponen, Frame, Teks & Button */
+@media (max-width: 639px) {
+  /* Tombol mobile memenuhi ergonomi jari & tidak kaku */
+  button, [role="button"] {
+    min-height: 38px;
+  }
+
+  /* Padding horizontal kontainer aman di layar kecil 360px-400px */
+  .container-mobile-safe {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
 body {
   background-color: var(--bg-gray);
   font-family: 'Inter', system-ui, sans-serif;

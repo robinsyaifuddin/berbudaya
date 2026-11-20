@@ -1,14 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { 
   Search, Filter, ChevronDown, Check, 
-  Share2, UserPlus, Landmark, Eye, ArrowRight
+  Share2, UserPlus, Landmark, Eye, ArrowRight, Building2
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import VerifiedBadge from '@/react-app/components/VerifiedBadge';
 import { communitiesData, Community } from '@/react-app/data/communitiesData';
-
-const lembagaList: Community[] = communitiesData;
 
 const provinces = [
   'Semua Provinsi', 'Jawa Tengah', 'Jawa Timur', 'Jawa Barat', 'DI Yogyakarta', 
@@ -26,6 +24,68 @@ export default function LembagaPage() {
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [followedInstitutions, setFollowedInstitutions] = useState<number[]>([1]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [myInstitution, setMyInstitution] = useState<any>(null);
+  const [allInstitutions, setAllInstitutions] = useState<Community[]>(communitiesData);
+
+  const loadInstitutions = () => {
+    try {
+      const stored = localStorage.getItem('user_registered_institutions');
+      let registeredList: any[] = [];
+      if (stored) {
+        registeredList = JSON.parse(stored);
+      }
+
+      // Cari lembaga milik user yang baru didaftarkan
+      const myInstStr = localStorage.getItem('user_my_institution');
+      if (myInstStr) {
+        setMyInstitution(JSON.parse(myInstStr));
+      } else if (localStorage.getItem('user_has_registered_institution') === 'true' && registeredList.length > 0) {
+        setMyInstitution(registeredList[0]);
+      } else {
+        setMyInstitution(null);
+      }
+
+      // Gabungkan data jika ada lembaga baru yang didaftarkan ke daftar utama direktori
+      if (registeredList && registeredList.length > 0) {
+        const customItems: Community[] = registeredList.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          slug: item.slug,
+          tagline: item.tagline,
+          description: item.description,
+          institutionType: item.institutionType,
+          category: item.category,
+          province: item.province || 'Jawa Tengah',
+          city: item.city || 'Surakarta',
+          members: item.members || 1,
+          image: item.image || 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80',
+          avatarImage: item.image || 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80',
+          verified: item.verified ?? true,
+          skLegalitas: item.skLegalitas || 'SK Terakreditasi',
+        }));
+
+        // Filter out duplicate IDs
+        const existingIds = new Set(customItems.map((c) => c.id));
+        const merged = [...customItems, ...communitiesData.filter((c) => !existingIds.has(c.id))];
+        setAllInstitutions(merged);
+      } else {
+        setAllInstitutions(communitiesData);
+      }
+    } catch {
+      setAllInstitutions(communitiesData);
+    }
+  };
+
+  useEffect(() => {
+    loadInstitutions();
+    const handleUpdate = () => loadInstitutions();
+    window.addEventListener('institution_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('institution_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
@@ -49,7 +109,7 @@ export default function LembagaPage() {
     triggerToast(`Tautan profil lembaga ${lembaga.name} berhasil disalin!`);
   };
 
-  const filteredInstitutions = lembagaList.filter((lembaga) => {
+  const filteredInstitutions = allInstitutions.filter((lembaga) => {
     const matchSearch = lembaga.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         lembaga.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         (lembaga.institutionType && lembaga.institutionType.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -88,13 +148,23 @@ export default function LembagaPage() {
             </p>
           </div>
 
-          <Link
-            to="/kelola-lembaga"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start md:self-auto shrink-0 active:scale-[0.98]"
-          >
-            <Landmark className="w-4 h-4" />
-            <span>Daftarkan Lembaga Baru</span>
-          </Link>
+          {myInstitution ? (
+            <Link
+              to={`/lembaga/${myInstitution.id}`}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start md:self-auto shrink-0 active:scale-[0.98]"
+            >
+              <Building2 className="w-4 h-4" />
+              <span>Lembaga Saya</span>
+            </Link>
+          ) : (
+            <Link
+              to="/kelola-lembaga"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start md:self-auto shrink-0 active:scale-[0.98]"
+            >
+              <Landmark className="w-4 h-4" />
+              <span>Daftarkan Lembaga Baru</span>
+            </Link>
+          )}
         </div>
 
         {/* Search & Filter Bar */}
@@ -290,13 +360,23 @@ export default function LembagaPage() {
       </div>
 
       {/* Floating Action Button */}
-      <Link
-        to="/kelola-lembaga"
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all font-bold text-xs sm:text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
-      >
-        <Landmark className="w-4 h-4" />
-        <span>Daftarkan Lembaga</span>
-      </Link>
+      {myInstitution ? (
+        <Link
+          to={`/lembaga/${myInstitution.id}`}
+          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all font-bold text-xs sm:text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
+        >
+          <Building2 className="w-4 h-4" />
+          <span>Lembaga Saya</span>
+        </Link>
+      ) : (
+        <Link
+          to="/kelola-lembaga"
+          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all font-bold text-xs sm:text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
+        >
+          <Landmark className="w-4 h-4" />
+          <span>Daftarkan Lembaga</span>
+        </Link>
+      )}
     </div>
   );
 }

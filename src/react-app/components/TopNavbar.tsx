@@ -531,6 +531,19 @@ export default function TopNavbar({ onMenuClick }: TopNavbarProps) {
               )}
             </Link>
 
+            {/* Mobile Profile Link */}
+            <Link
+              to="/profil-menu"
+              className="p-1 md:hidden rounded-full hover:ring-2 hover:ring-blue-500 transition-all"
+              aria-label="Menu Profil"
+            >
+              <img
+                src={user?.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'}
+                alt="Profile"
+                className="w-7 h-7 rounded-full object-cover border border-slate-200"
+              />
+            </Link>
+
             {/* Pesan Icon - Compact */}
             <button
               onClick={() => {

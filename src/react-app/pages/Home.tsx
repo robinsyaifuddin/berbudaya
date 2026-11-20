@@ -1,10 +1,11 @@
 import ModernLayout from '@/react-app/components/ModernLayout';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Image as ImageIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe, Plus } from 'lucide-react';
+import { Image as ImageIcon, MoreHorizontal, Heart, MessageCircle, Bookmark, Send, ChevronDown, FileText, X, Globe, Plus, RotateCcw } from 'lucide-react';
 import CreatePostDialog, { PostDialogTab } from '@/react-app/components/CreatePostDialog';
 import ShareDialog from '@/react-app/components/ShareDialog';
 import CommentSection from '@/react-app/components/CommentSection';
+import { mockStorage, PostItem } from '@/react-app/lib/mockStorage';
 
 interface DemoUser {
   id: string;
@@ -24,7 +25,7 @@ const samplePosts = [
       timestamp: '25 menit yang lalu'
     },
     content: 'Pagi ini selesai proses nglorot sehelai kain batik tulis motif Kawung Nitik. Warna soganya diracik murni dari rebusan kulit kayu tingi dan jambal tanpa pewarna sintetis. Senang sekali modul pembelajarannya kini sudah bisa diakses teman-teman generasi muda di pilar Edukasi Berbudaya! 🌿✨ #BatikTulisSoga #PucuakRabuang #KriyaNusantara',
-    image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&h=600&auto=format&fit=crop&q=80',
     likes: 1245,
     comments: 88,
     bookmarks: 194
@@ -38,7 +39,7 @@ const samplePosts = [
       timestamp: '1 jam yang lalu'
     },
     content: 'Menatah wayang tokoh Raden Gatotkaca memerlukan ketenangan nafas dan ketelitian memegang tatah baja. Setiap ornamen prada emas melambangkan watak ksatria yang kokoh berotot kawat bertulang besi. Karya terkurasi ini sudah resmi tersedia di Marketplace Budaya. 🎭🛡️ #WayangKulit #Gatotkaca #SeniTatahBanyumas',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&auto=format&fit=crop&q=80',
     likes: 2580,
     comments: 142,
     bookmarks: 310
@@ -52,7 +53,7 @@ const samplePosts = [
       timestamp: '3 jam yang lalu'
     },
     content: 'Kabar Baik Crowdfunding: Berkat gotong royong 500+ donatur di Berbudaya, 85 cakep naskah lontar usada pengobatan kuno abad ke-17 di Puri Karangasem telah selesai dibersihkan dari parasit jamur menggunakan minyak kemiri organik. Siap memasuki fase alih media digital! 📜🌿 #PusakaLontar #UsadaBali #BudayaGo2026',
-    image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1507842229451-7f01be8610ce?w=800&h=600&auto=format&fit=crop&q=80',
     likes: 3410,
     comments: 215,
     bookmarks: 520

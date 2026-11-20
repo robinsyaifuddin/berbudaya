@@ -1,4 +1,4 @@
-﻿export interface CulturalProduct {
+export interface CulturalProduct {
   id: number;
   name: string;
   origin: string;
@@ -45,9 +45,9 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Pilihan Maestro',
     images: [
-      'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=800&fit=crop'
+      'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
     ],
     culturalTag: {
       ethnicGroup: 'Minangkabau',
@@ -77,8 +77,8 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Warisan Langka',
     images: [
-      'https://images.unsplash.com/photo-1595434091143-b375ced5fe5c?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&fit=crop'
+      'https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80'
     ],
     culturalTag: {
       ethnicGroup: 'Jawa (Mataraman)',
@@ -107,8 +107,8 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Karya Terverifikasi',
     images: [
-      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&fit=crop'
+      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80'
     ],
     culturalTag: {
       ethnicGroup: 'Sumba (Marapu)',
@@ -138,8 +138,8 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Best Seller',
     images: [
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&fit=crop'
+      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&auto=format&fit=crop&q=80'
     ],
     culturalTag: {
       ethnicGroup: 'Jawa Banyumasan',
@@ -168,8 +168,8 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Pilihan Maestro',
     images: [
-      'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&fit=crop'
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
     ],
     culturalTag: {
       ethnicGroup: 'Dani / Hubula',
@@ -199,8 +199,8 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Karya Terverifikasi',
     images: [
-      'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&fit=crop',
-      'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&fit=crop'
+      'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&auto=format&fit=crop&q=80'
     ],
     culturalTag: {
       ethnicGroup: 'Sunda',

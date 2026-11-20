@@ -94,12 +94,12 @@ Tim ahli kami terdiri dari:
 • Konsultan internasional dari Jepang dan Prancis
 
 Waktu adalah segalanya. Setiap hari yang berlalu, kerusakan semakin parah. Mari bersama-sama menyelamatkan Candi Borobudur untuk anak cucu kita!`,
-    image: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&h=600&auto=format&fit=crop&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1591825729269-caeb344f6df2?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&h=600&fit=crop'
+      'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&h=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&h=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&h=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&h=600&auto=format&fit=crop&q=80'
     ],
     raised: 45250000,
     target: 100000000,
@@ -141,13 +141,13 @@ Waktu adalah segalanya. Setiap hari yang berlalu, kerusakan semakin parah. Mari 
         date: '3 November 2024',
         title: 'Pencapaian 45% dari Target!',
         content: 'Alhamdulillah, berkat dukungan 1.245 donatur, kami telah mencapai 45% dari target! Pekerjaan restorasi panel relief fase pertama telah dimulai dengan tim 15 ahli konservasi.',
-        image: 'https://images.unsplash.com/photo-1591825729269-caeb344f6df2?w=800&h=400&fit=crop'
+        image: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=800&h=400&auto=format&fit=crop&q=80'
       },
       {
         date: '28 Oktober 2024',
         title: 'Tim Ahli UNESCO Telah Tiba',
         content: '5 konsultan konservasi dari UNESCO World Heritage Centre telah bergabung dengan tim kami. Mereka akan memberikan supervisi untuk memastikan restorasi sesuai standar internasional.',
-        image: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=800&h=400&fit=crop'
+        image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&h=400&auto=format&fit=crop&q=80'
       },
       {
         date: '20 Oktober 2024',
@@ -239,12 +239,12 @@ Target kami ambisius tapi realistis. Dengan modal yang tepat, bimbingan bisnis, 
 Setiap Rp 100.000 yang Anda donasikan = 1 kain batik tulis bisa diproduksi = 1 hari kerja untuk pengrajin = 1 warisan budaya terselamatkan.
 
 Mari bersama selamatkan batik tulis Solo sebelum terlambat!`,
-    image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&h=600&fit=crop',
+    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&h=600&auto=format&fit=crop&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1609619385002-f40f5e5bae7f?w=800&h=600&fit=crop'
+      'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&h=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&h=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&h=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&h=600&auto=format&fit=crop&q=80'
     ],
     raised: 18750000,
     target: 35000000,
@@ -286,7 +286,7 @@ Mari bersama selamatkan batik tulis Solo sebelum terlambat!`,
         date: '5 November 2024',
         title: 'Modal Usaha Tahap 1 Telah Disalurkan!',
         content: '25 pengrajin batik telah menerima modal usaha Rp 5 juta masing-masing. Mereka sangat bersyukur dan termotivasi untuk meningkatkan produksi!',
-        image: 'https://images.unsplash.com/photo-1609709295948-17d77cb2a69b?w=800&h=400&fit=crop'
+        image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&h=400&auto=format&fit=crop&q=80'
       },
       {
         date: '30 Oktober 2024',

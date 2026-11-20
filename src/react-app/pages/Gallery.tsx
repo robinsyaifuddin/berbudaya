@@ -8,7 +8,7 @@ const galleryItems = [
   {
     id: 1,
     title: 'Batik Tulis Mega Mendung Cirebon',
-    image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=1000&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&h=1000&auto=format&fit=crop&q=90',
     author: { name: 'Dewi Lestari', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop' },
     likes: 1234,
     comments: 87,
@@ -18,7 +18,7 @@ const galleryItems = [
   {
     id: 2,
     title: 'Tari Tradisional Bali - Pementasan Sakral',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=900&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=900&auto=format&fit=crop&q=90',
     author: { name: 'Made Suarta', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop' },
     likes: 2456,
     comments: 143,
@@ -28,7 +28,7 @@ const galleryItems = [
   {
     id: 3,
     title: 'Wayang Kulit Purwa - Lakon Mahabarata',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=1100&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=1100&auto=format&fit=crop&q=90',
     author: { name: 'Budi Santoso', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop' },
     likes: 1889,
     comments: 92,
@@ -38,7 +38,7 @@ const galleryItems = [
   {
     id: 4,
     title: 'Tenun Ikat Tradisional Nusantara',
-    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&h=800&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&h=800&auto=format&fit=crop&q=90',
     author: { name: 'Maria Flores', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop' },
     likes: 1512,
     comments: 76,
@@ -48,7 +48,7 @@ const galleryItems = [
   {
     id: 5,
     title: 'Ukiran & Kriya Seni Kayu Nusantara',
-    image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&h=1200&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=1200&auto=format&fit=crop&q=90',
     author: { name: 'Ahmad Yani', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop' },
     likes: 3523,
     comments: 201,
@@ -58,7 +58,7 @@ const galleryItems = [
   {
     id: 6,
     title: 'Kain Songket & Tenun Pewarna Alami',
-    image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=950&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&h=950&auto=format&fit=crop&q=90',
     author: { name: 'Siti Aminah', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop' },
     likes: 2178,
     comments: 134,
@@ -68,7 +68,7 @@ const galleryItems = [
   {
     id: 7,
     title: 'Arsitektur Rumah Tradisional Nusantara',
-    image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&h=850&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&h=850&auto=format&fit=crop&q=90',
     author: { name: 'Reza Fahlevi', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop' },
     likes: 2445,
     comments: 156,
@@ -78,7 +78,7 @@ const galleryItems = [
   {
     id: 8,
     title: 'Gamelan & Alat Musik Tradisional Bambu',
-    image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&h=1000&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&h=1000&auto=format&fit=crop&q=90',
     author: { name: 'Dedi Mulyadi', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop' },
     likes: 1867,
     comments: 98,
@@ -88,7 +88,7 @@ const galleryItems = [
   {
     id: 9,
     title: 'Kerajinan Anyaman & Kriya Tradisional',
-    image: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=800&h=1050&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&h=1050&auto=format&fit=crop&q=90',
     author: { name: 'Sugeng Wibowo', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop' },
     likes: 1598,
     comments: 89,
@@ -98,7 +98,7 @@ const galleryItems = [
   {
     id: 10,
     title: 'Pementasan Seni Teater Tari Daerah',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=850&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=850&auto=format&fit=crop&q=90',
     author: { name: 'Farhan Hakim', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop' },
     likes: 3612,
     comments: 234,
@@ -108,7 +108,7 @@ const galleryItems = [
   {
     id: 11,
     title: 'Koleksi Wayang Kulit Klasik Surakarta',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=900&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&h=900&auto=format&fit=crop&q=90',
     author: { name: 'Lina Wijaya', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop' },
     likes: 1289,
     comments: 67,
@@ -118,7 +118,7 @@ const galleryItems = [
   {
     id: 12,
     title: 'Harmoni Tabuhan Gamelan Gong Jawa',
-    image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&h=950&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&h=950&auto=format&fit=crop&q=90',
     author: { name: 'Pak Karno', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop' },
     likes: 2423,
     comments: 178,
@@ -128,7 +128,7 @@ const galleryItems = [
   {
     id: 13,
     title: 'Batik Cap & Pewarnaan Alami Pesisir',
-    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&h=850&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&h=850&auto=format&fit=crop&q=90',
     author: { name: 'Ibu Sari', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop' },
     likes: 1756,
     comments: 94,
@@ -138,7 +138,7 @@ const galleryItems = [
   {
     id: 14,
     title: 'Rumah Adat Warisan Leluhur Minangkabau',
-    image: 'https://images.unsplash.com/photo-1582735689851-574f29054c5f?w=800&h=1000&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=800&h=1000&auto=format&fit=crop&q=90',
     author: { name: 'Daniel Rante', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop' },
     likes: 2890,
     comments: 167,
@@ -148,7 +148,7 @@ const galleryItems = [
   {
     id: 15,
     title: 'Keanggunan Gerak Tari Sakral Nusantara',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=900&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=900&auto=format&fit=crop&q=90',
     author: { name: 'Ketut Sari', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop' },
     likes: 2234,
     comments: 145,
@@ -158,7 +158,7 @@ const galleryItems = [
   {
     id: 16,
     title: 'Kain Tenun Lurik Tradisional Yogyakarta',
-    image: 'https://images.unsplash.com/photo-1610464882336-5ffb76ce9b18?w=800&h=1000&fit=crop&q=90',
+    image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&h=1000&auto=format&fit=crop&q=90',
     author: { name: 'Novi Handayani', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop' },
     likes: 1980,
     comments: 112,

@@ -66,10 +66,25 @@ const initialInstitutions: AdminInstitution[] = [
   }
 ];
 
+export const getStoredInstitutions = (): AdminInstitution[] => {
+  const saved = localStorage.getItem('user_registered_institutions');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return initialInstitutions;
+};
+
 export default function KelolaLembagaPage() {
   const { success } = useNotification();
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [institutions, setInstitutions] = useState<AdminInstitution[]>(initialInstitutions);
+  const [institutions, setInstitutions] = useState<AdminInstitution[]>(() => getStoredInstitutions());
 
   // Form State Lengkap
   const [formData, setFormData] = useState({
@@ -113,7 +128,17 @@ export default function KelolaLembagaPage() {
       growth: '+1 pengikut baru'
     };
 
-    setInstitutions([newInst, ...institutions]);
+    const updated = [newInst, ...institutions];
+    setInstitutions(updated);
+    try {
+      localStorage.setItem('user_registered_institutions', JSON.stringify(updated));
+      localStorage.setItem('user_has_registered_institution', 'true');
+      localStorage.setItem('user_my_institution', JSON.stringify(newInst));
+      window.dispatchEvent(new Event('institution_updated'));
+    } catch {
+      // ignore
+    }
+
     success(`Profil Lembaga "${formData.name}" berhasil diterbitkan dan siap beroperasi!`, 'Pendaftaran Lembaga Sukses');
     setShowCreateForm(false);
   };

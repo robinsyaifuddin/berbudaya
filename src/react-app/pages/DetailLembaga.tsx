@@ -39,8 +39,53 @@ export default function DetailLembagaPage() {
   const { id } = useParams<{ id: string }>();
   const lembagaId = Number(id);
   
-  // Find lembaga or fallback
-  const lembaga: Community = communitiesData.find((c) => c.id === lembagaId) || communitiesData[0];
+  // Find lembaga from communitiesData or from registered institutions in localStorage
+  const [lembaga] = useState<Community>(() => {
+    const found = communitiesData.find((c) => c.id === lembagaId);
+    if (found) return found;
+
+    try {
+      const stored = localStorage.getItem('user_registered_institutions');
+      if (stored) {
+        const parsed: any[] = JSON.parse(stored);
+        const match = parsed.find((item) => item.id === lembagaId);
+        if (match) {
+          return {
+            id: match.id,
+            name: match.name,
+            slug: match.slug,
+            tagline: match.tagline,
+            description: match.description,
+            about: match.description,
+            institutionType: match.institutionType,
+            category: match.category,
+            province: match.province || 'Jawa Tengah',
+            city: match.city || 'Surakarta',
+            location: `${match.city || 'Surakarta'}, ${match.province || 'Jawa Tengah'}`,
+            members: match.members || 1,
+            image: match.image || 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80',
+            coverImage: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=1600&auto=format&fit=crop&q=80',
+            avatarImage: match.image || 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80',
+            verified: match.verified ?? true,
+            skLegalitas: match.skLegalitas || 'AHU Terdaftar',
+            rating: 5.0,
+            newsList: [],
+            eventsList: [],
+            donationsList: [],
+            rules: [
+              'Berkomitmen menjaga kelestarian warisan budaya nusantara.',
+              'Menjunjung tinggi transparansi kegiatan, publikasi, dan galang donasi budaya.'
+            ],
+            foundedYear: match.foundedYear || '2024'
+          };
+        }
+      }
+    } catch {
+      // ignore
+    }
+
+    return communitiesData[0];
+  });
 
   const [activeTab, setActiveTab] = useState<'rilis' | 'agenda' | 'donasi' | 'tentang'>('rilis');
   const [selectedRilis, setSelectedRilis] = useState<CommunityNews | null>(null);
