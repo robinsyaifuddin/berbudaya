@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@getmocha/users-service/react';
-import { ArrowUpRight, Star, Users, Palette, BookOpen, Camera, Search, AlertCircle, Info, Zap } from 'lucide-react';
+import { ArrowUpRight, Star, Users, Palette, BookOpen, Camera, Search, AlertCircle, Info, Zap, Eye, EyeOff } from 'lucide-react';
 import { useNotification } from '@/react-app/contexts/NotificationContext';
 
 export default function Landing() {
   const [authMode, setAuthMode] = useState<'login' | 'register' | 'forgot'>('login');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [forgotPasswordStep, setForgotPasswordStep] = useState(1);
   const [recoveryMethod, setRecoveryMethod] = useState<'email' | 'phone'>('email');
   const [recoveryContact, setRecoveryContact] = useState('');
@@ -410,14 +414,22 @@ export default function Landing() {
                         </div>
 
                         {/* Password Input */}
-                        <div className="mb-3">
+                        <div className="mb-3 relative">
                           <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="••••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
+                            className="w-full px-3.5 py-2.5 pr-10 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                           />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                            aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                          >
+                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </button>
                         </div>
 
                         {/* Remember Me & Forgot Password */}
@@ -522,15 +534,23 @@ export default function Landing() {
                         </div>
 
                         {/* Password Input */}
-                        <div className="mb-3">
+                        <div className="mb-3 relative">
                           <input
-                            type="password"
+                            type={showRegisterPassword ? "text" : "password"}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
+                            className="w-full px-3.5 py-2.5 pr-10 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
                             required
                           />
+                          <button
+                            type="button"
+                            onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                            aria-label={showRegisterPassword ? "Sembunyikan password" : "Tampilkan password"}
+                          >
+                            {showRegisterPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </button>
                         </div>
 
                         {/* Register Button */}
@@ -672,28 +692,44 @@ export default function Landing() {
                       {/* Step 3: Input New Password */}
                       {forgotPasswordStep === 3 && (
                         <form onSubmit={handleResetPassword} className="space-y-2.5">
-                          <div>
+                          <div className="relative">
                             <input
-                              type="password"
+                              type={showNewPassword ? "text" : "password"}
                               value={newPassword}
                               onChange={(e) => setNewPassword(e.target.value)}
                               placeholder="Kata sandi baru (min. 6)"
-                              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-gray-400"
+                              className="w-full px-3.5 py-2.5 pr-10 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-gray-400"
                               minLength={6}
                               required
                             />
+                            <button
+                              type="button"
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                              aria-label={showNewPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                            >
+                              {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
                           </div>
 
-                          <div>
+                          <div className="relative">
                             <input
-                              type="password"
+                              type={showConfirmPassword ? "text" : "password"}
                               value={confirmPassword}
                               onChange={(e) => setConfirmPassword(e.target.value)}
                               placeholder="Konfirmasi kata sandi"
-                              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-gray-400"
+                              className="w-full px-3.5 py-2.5 pr-10 border border-gray-200 rounded-xl text-xs sm:text-sm lg:text-[14px] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-gray-400"
                               minLength={6}
                               required
                             />
+                            <button
+                              type="button"
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                              aria-label={showConfirmPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                            >
+                              {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
                           </div>
 
                           {newPassword && confirmPassword && newPassword !== confirmPassword && (

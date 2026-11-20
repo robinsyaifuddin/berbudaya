@@ -1,33 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Halaman Utama / Landing Page (Pilar Utama Brand & Jejaring) -->
   <url>
     <loc>https://berbudaya.web.id/</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://berbudaya.web.id/logo.png</image:loc>
+      <image:title>Berbudaya - Platform Jejaring Sosial Kebudayaan dan Social Commerce Indonesia</image:title>
+      <image:caption>Logo resmi Berbudaya.web.id pelopor jejaring kebudayaan Indonesia</image:caption>
+    </image:image>
   </url>
+
+  <!-- Marketplace Kebudayaan & Kerajinan Nusantara (Social Commerce) -->
   <url>
     <loc>https://berbudaya.web.id/marketplace</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://berbudaya.web.id/logo.png</image:loc>
+      <image:title>Marketplace Produk Budaya dan Kerajinan Lokal Nusantara</image:title>
+    </image:image>
   </url>
+
+  <!-- Jaringan & Komunitas Kebudayaan (Jejaring Sosial Budaya) -->
   <url>
-    <loc>https://berbudaya.web.id/feed</loc>
+    <loc>https://berbudaya.web.id/jaringan</loc>
     <lastmod>2026-11-21</lastmod>
-    <changefreq>hourly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
+
+  <!-- Komunitas & Sanggar Seni Budaya -->
+  <url>
+    <loc>https://berbudaya.web.id/komunitas</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Crowdfunding & Pendanaan Pelestarian Budaya -->
   <url>
     <loc>https://berbudaya.web.id/crowdfunding</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Berita & Wawasan Kebudayaan -->
+  <url>
+    <loc>https://berbudaya.web.id/berita</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Edukasi Budaya Indonesia -->
+  <url>
+    <loc>https://berbudaya.web.id/edukasi</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Galeri Karya & Seni Budaya -->
   <url>
-    <loc>https://berbudaya.web.id/games</loc>
+    <loc>https://berbudaya.web.id/gallery</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Permainan & Kuis Interaktif Budaya -->
+  <url>
+    <loc>https://berbudaya.web.id/permainan</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Agenda & Acara Kebudayaan -->
+  <url>
+    <loc>https://berbudaya.web.id/acara</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Buka Toko Pengrajin & Seller Center Budaya -->
+  <url>
+    <loc>https://berbudaya.web.id/buka-toko</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
 </urlset>
