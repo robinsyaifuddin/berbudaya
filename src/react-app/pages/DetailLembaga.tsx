@@ -449,9 +449,14 @@ export default function DetailLembagaPage() {
                           </p>
                         </div>
                         <div className="pt-4 flex items-center justify-between border-t border-slate-100 mt-4">
-                          <span className="text-xs font-semibold text-slate-500">
-                            Penerbit: Redaksi Lembaga
-                          </span>
+                          <Link 
+                            to={`/lembaga/${lembaga.id}`}
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-600 transition-colors group/pub"
+                            title={`Lihat Profil ${lembaga.name}`}
+                          >
+                            <span className="text-slate-400">Penerbit:</span>
+                            <span className="font-bold underline decoration-slate-300 group-hover/pub:decoration-blue-500">{lembaga.name}</span>
+                          </Link>
                           <Link 
                             to={`/berita/${news.id}`}
                             className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:underline cursor-pointer"

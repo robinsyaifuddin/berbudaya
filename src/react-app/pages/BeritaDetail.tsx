@@ -219,7 +219,20 @@ export default function BeritaDetailPage() {
               />
               {article.source && (
                 <div className="px-4 py-2 bg-slate-50 border-t border-slate-100 text-[11px] text-slate-500 flex items-center justify-between">
-                  <span>Sumber / Dokumentasi Resmi: {article.source}</span>
+                  <span>
+                    Sumber / Dokumentasi Resmi:{' '}
+                    {matchedLembaga ? (
+                      <Link 
+                        to={`/lembaga/${matchedLembaga.id}`}
+                        className="font-semibold text-primary-700 hover:text-primary-800 hover:underline"
+                        title={`Kunjungi Lembaga ${matchedLembaga.name}`}
+                      >
+                        {article.source}
+                      </Link>
+                    ) : (
+                      <span className="font-semibold text-slate-700">{article.source}</span>
+                    )}
+                  </span>
                   <span className="text-[10px] text-emerald-600 font-medium">Terverifikasi Digital</span>
                 </div>
               )}

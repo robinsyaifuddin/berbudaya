@@ -31,12 +31,12 @@ export interface CulturalProduct {
 export const CULTURAL_PRODUCTS: CulturalProduct[] = [
   {
     id: 1,
-    name: 'Songket Pandai Sikek Motif Pucuak Rabuang Emas',
-    origin: 'Tanah Datar, Sumatera Barat',
+    name: 'Batik Tulis Canting Alusan Sutra Solo',
+    origin: 'Surakarta, Jawa Tengah',
     category: 'Kriya & Tekstil',
-    seller: 'Pertenunan Harapan Ibu Pandai Sikek',
+    seller: 'Paguyuban Batik Canting Surakarta',
     sellerBadge: 'Sanggar Tenun Warisan',
-    location: 'Sumatera Barat',
+    location: 'Jawa Tengah',
     price: 3850000,
     oldPrice: 4200000,
     rating: 4.95,
@@ -45,25 +45,23 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Pilihan Maestro',
     images: [
-      'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/batik-tulis-canting.jpg'
     ],
     culturalTag: {
-      ethnicGroup: 'Minangkabau',
-      philosophy: 'Motif Pucuak Rabuang melambangkan kearifan adat Minang: kecil berguna menjadi rebung, besar bermanfaat menjadi bambu, penopang kaum dan masyarakat.',
-      technique: 'Tenun Balapak menggunakan alat tenun panta tradisional selama 45 hari pengerjaan dengan benang emas makao murni.',
+      ethnicGroup: 'Jawa (Surakarta)',
+      philosophy: 'Goresan canting malam panas di atas katun mori sutra menyimbolkan ketelitian batin, kesabaran jiwa, dan keharmonisan hidup masyarakat Jawa.',
+      technique: 'Batik tulis manual menggunakan canting tembaga alusan dengan pewarnaan alami kulit soga Jawa fermentasi bertahap.',
       curationStandard: 'Terkurasi Dewan Kesenian Daerah & Bersertifikat Asal Geografis',
-      preservationImpact: 'Mendukung keberlanjutan 12 perajin tenun perempuan sepuh di Nagari Pandai Sikek.'
+      preservationImpact: 'Mendukung keberlanjutan para ibu pembatik sepuh di sentra Laweyan.'
     },
-    description: 'Kain Songket tenun tangan otentik khas Nagari Pandai Sikek. Memadukan warna merah marun klasik dengan sulaman benang emas pakan makao. Sering digunakan pada upacara batagak gala penghulu maupun pesta perkawinan adat luhak nan tigo.',
-    materials: 'Benang Katun Sutra Halus, Benang Emas Makao Asli, Pewarna Alami',
-    dimensions: 'Panjang 200 cm x Lebar 105 cm (Set Kain + Selendang)',
-    careInstructions: 'Jangan dicuci mesin. Simpan dengan cara digulung rapi dan dilapisi kertas roti atau kain mori putih.'
+    description: 'Kain Batik Tulis asli karya maestro pembatik Surakarta. Dibuat dengan ketelitian canting tembaga malam panas di atas kain mori primissima alusan.',
+    materials: 'Kain Mori Sutra Primissima, Malam Tawon Alami, Pewarna Alami Soga Jawa',
+    dimensions: 'Panjang 250 cm x Lebar 105 cm',
+    careInstructions: 'Cuci manual hanya menggunakan buah lerak atau air hangat tanpa deterjen kimiawi. Jemur di tempat teduh.'
   },
   {
     id: 2,
-    name: 'Keris Gayaman Surakarta Luk 7 Pamor Wos Wutah',
+    name: 'Keris Gayaman Pamor Tosan Aji Surakarta',
     origin: 'Surakarta, Jawa Tengah',
     category: 'Senjata Tradisional',
     seller: 'Besalen Empu Subandi Joyo',
@@ -77,29 +75,28 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Warisan Langka',
     images: [
-      'https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/keris-pusaka.jpg'
     ],
     culturalTag: {
       ethnicGroup: 'Jawa (Mataraman)',
-      philosophy: 'Pamor Beras Wutah (Wos Wutah) menyimbolkan doa kemakmuran, kelimpahan rezeki, dan ketentraman keluarga pemiliknya.',
-      technique: 'Ditempa manual ratusan lipatan bilah besi, baja, dan batu meteorit titanium asli dengan metode tempa lipat tradisi Abad ke-17.',
+      philosophy: 'Pamor beras wutah dan bilah tempa lipat menyimbolkan doa kemakmuran, kepemimpinan bijaksana, dan keteguhan iman ksatria.',
+      technique: 'Ditempa manual ratusan lipatan bilah besi, baja, dan meteorit titanium dengan teknik tempa lipat leluhur.',
       curationStandard: 'Sertifikasi Keaslian Logam & Kurasi Paguyuban Tosan Aji Solo',
       preservationImpact: 'Melestarikan tradisi empu muda penerus besalen tosan aji Jawa Tengah.'
     },
-    description: 'Keris mahakarya tradisi Surakarta Hadiningrat model Gayaman. Bilah berlekuk 7 (luk pitu) yang seimbang dan anggun, dilengkapi warangka kayu Timoho pelet pilihan serta pendok tembaga tatahan halus.',
-    materials: 'Besi Tempa Antik, Meteorit Nikel, Kayu Timoho Pelet, Kuningan Tatah Solo',
+    description: 'Keris mahakarya tradisi Surakarta Hadiningrat model Gayaman. Bilah berlekuk seimbang dan anggun, dilengkapi warangka kayu pelet dan pendok tatahan kuningan halus.',
+    materials: 'Besi Tempa Antik, Meteorit Nikel, Kayu Pelet Alami, Kuningan Tatah Solo',
     dimensions: 'Panjang bilah 36 cm, Total panjang dengan warangka 49 cm',
     careInstructions: 'Olesi tipis dengan minyak cendana atau melati setiap malam Anggara Kasih / 3 bulan sekali agar terhindar dari oksidasi.'
   },
   {
     id: 3,
-    name: 'Kain Tenun Ikat Sumba Timur Motif Patola Ratu',
-    origin: 'Waingapu, Nusa Tenggara Timur',
+    name: 'Kain Songket Palembang Benang Emas Tradisional',
+    origin: 'Palembang, Sumatera Selatan',
     category: 'Kriya & Tekstil',
-    seller: 'Sanggar Tenun Oriang Prailiu',
-    sellerBadge: 'Kolektif Ibu Tenun NTT',
-    location: 'Nusa Tenggara Timur',
+    seller: 'Sanggar Tenun Warisan Sriwijaya',
+    sellerBadge: 'Kolektif Ibu Tenun Songket',
+    location: 'Sumatera Selatan',
     price: 2950000,
     rating: 4.9,
     reviews: 56,
@@ -107,24 +104,23 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Karya Terverifikasi',
     images: [
-      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/songket-palembang.jpg'
     ],
     culturalTag: {
-      ethnicGroup: 'Sumba (Marapu)',
-      philosophy: 'Figur kuda (Andung) dan rusa melambangkan keberanian bangsawan, kepemimpinan bijaksana, serta penghormatan pada leluhur.',
-      technique: 'Ikat lungsi celup 4 tingkatan warna alami ekstrak akar mengkudu (kombu) dan daun nila (wora) memakan waktu 4-6 bulan.',
-      curationStandard: 'Indikasi Geografis Tenun Ikat Sumba Timur',
-      preservationImpact: '100% laba dibagikan langsung ke kelompok penenun perempuan di desa adat Prailiu.'
+      ethnicGroup: 'Melayu Palembang',
+      philosophy: 'Kilauan benang emas melambangkan kejayaan Sriwijaya, kemuliaan budi pekerti, dan penghormatan pada leluhur.',
+      technique: 'Tenun sungkit manual dengan pakan benang emas murni di atas alat tenun tradisional gedogan selama 3-5 bulan.',
+      curationStandard: 'Warisan Budaya Takbenda UNESCO & Sertifikasi Tenun Palembang',
+      preservationImpact: '100% laba dibagikan langsung ke kelompok penenun perempuan di sentra tenun Palembang.'
     },
-    description: 'Hinggi Kombu Tenun Ikat Sumba Timur karya maestro perempuan Sumba. Tekstur tebal dengan kekuatan benang kapas pintal tangan asli. Pewarnaan alami bebas bahan kimia sintetik.',
-    materials: 'Kapas Lokal Pintal Tangan, Ekstrak Daun Nila, Akar Pohon Mengkudu',
-    dimensions: 'Panjang 240 cm x Lebar 115 cm',
-    careInstructions: 'Hindari pencucian dengan detergen kimiawi keras; cukup diangin-anginkan di tempat teduh berangin.'
+    description: 'Kain Songket asli tenun tangan Palembang dengan kilau benang emas motif cantik dan anggun. Tekstur rapi dan padat karya tangan penenun berpengalaman.',
+    materials: 'Benang Emas Berkualitas, Sutra Katun Pilihan, Pewarna Alami',
+    dimensions: 'Panjang 210 cm x Lebar 105 cm',
+    careInstructions: 'Simpan digulung dengan tabung karton atau kain bersih di tempat sejuk; jangan diperas atau disetrika langsung.'
   },
   {
     id: 4,
-    name: 'Wayang Kulit Purwa Tokoh Gatotkaca Gagrag Banyumasan',
+    name: 'Wayang Kulit Purwa Tokoh Gatotkaca Gagrag Jawa',
     origin: 'Banyumas, Jawa Tengah',
     category: 'Wayang & Seni Rupa',
     seller: 'Paguyuban Wayang Gendon Giri',
@@ -138,8 +134,7 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Best Seller',
     images: [
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/wayang-kulit.jpg'
     ],
     culturalTag: {
       ethnicGroup: 'Jawa Banyumasan',
@@ -155,7 +150,7 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
   },
   {
     id: 5,
-    name: 'Noken Rajut Serat Kulit Kayu Mahkota Kasuari Papua',
+    name: 'Noken Rajut Serat Kulit Kayu Tradisional Papua',
     origin: 'Wamena, Lembah Baliem, Papua Pegunungan',
     category: 'Kriya Anyaman & Kayu',
     seller: 'Mama-Mama Noken Wamena Mandiri',
@@ -168,8 +163,7 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Pilihan Maestro',
     images: [
-      'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/noken-papua.jpg'
     ],
     culturalTag: {
       ethnicGroup: 'Dani / Hubula',
@@ -185,12 +179,12 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
   },
   {
     id: 6,
-    name: 'Kecapi Sunda Rincik Perahu Kayu Mahoni Ukir Kujang',
-    origin: 'Sumedang, Jawa Barat',
+    name: 'Gamelan Pelog Gong Perunggu Klasik Jawa',
+    origin: 'Surakarta, Jawa Tengah',
     category: 'Alat Musik Tradisional',
-    seller: 'Bengkel Nada Parahyangan',
+    seller: 'Bengkel Nada Parahyangan & Karawitan Solo',
     sellerBadge: 'Pembuat Instrumen Tradisi',
-    location: 'Jawa Barat',
+    location: 'Jawa Tengah',
     price: 1450000,
     oldPrice: 1650000,
     rating: 4.92,
@@ -199,51 +193,49 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Karya Terverifikasi',
     images: [
-      'https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&auto=format&fit=crop&q=80'
-    ],
-    culturalTag: {
-      ethnicGroup: 'Sunda',
-      philosophy: 'Alunan dawai kecapi rincik memvisualisasikan gemercik air pegunungan Priangan yang menenangkan batin dan menjunjung keselarasan alam.',
-      technique: 'Kotak resonansi dibuat dari kayu mahoni solid berpola perahu koral, distem presisi tangga nada laras Salendro/Madenda.',
-      curationStandard: 'Standar Konser Gamelan Tembang Sunda Cianjuran',
-      preservationImpact: 'Menyediakan instrumen berkualitas bagi sanggar tari dan musik anak muda tanah Pasundan.'
-    },
-    description: 'Kecapi Sunda model Parahu dengan 15 dawai kawat baja baja anti karat. Dilengkapi ukiran ornamen kujang khas Sunda di bagian buritan dan kepala perahu.',
-    materials: 'Kayu Mahoni Solid Kering Udara 5 Tahun, Kawat Baja Jerman, Peninggi Kayu Sonokeling',
-    dimensions: 'Panjang 98 cm x Lebar 22 cm x Tinggi 14 cm',
-    careInstructions: 'Kendurkan dawai sedikit jika tidak digunakan dalam jangka lama, simpan dalam suhu ruangan stabil.'
-  },
-  {
-    id: 7,
-    name: 'Batik Tulis Parang Rusak Barong Keraton Solo',
-    origin: 'Surakarta, Jawa Tengah',
-    category: 'Kriya & Tekstil',
-    seller: 'Batik Alusan Ndalem Danukusuman',
-    sellerBadge: 'Sanggar Batik Keraton',
-    location: 'Jawa Tengah',
-    price: 2450000,
-    oldPrice: 2800000,
-    rating: 4.96,
-    reviews: 52,
-    stock: 3,
-    verified: true,
-    badge: 'Pilihan Maestro',
-    images: [
-      'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/gamelan-jawa.jpg'
     ],
     culturalTag: {
       ethnicGroup: 'Jawa (Surakarta)',
-      philosophy: 'Parang Rusak Barong adalah motif sakral lambang keteguhan ksatria dalam menundukkan hawa nafsu dan pantang menyerah seperti deburan ombak karang.',
-      technique: 'Canting tembaga alusan dengan pewarnaan alami soga Jawa (kulit kayu tingi, tegeran, jambal) fermentasi 3 bulan.',
-      curationStandard: 'Sertifikasi Asal Geografis & Kurasi Yayasan Batik Indonesia',
-      preservationImpact: 'Mendukung keberlanjutan pembatik sepuh alusan di sentra kampung batik Laweyan.'
+      philosophy: 'Harmoni tabuhan gamelan memvisualisasikan ketentraman batin, tata krama luhur, dan keselarasan antar sesama manusia.',
+      technique: 'Pengecoran manual logam perunggu alusan dengan penalaan laras pelog dan slendro oleh empu gong berpengalaman.',
+      curationStandard: 'Standar Konser Karawitan Keraton Surakarta Hadiningrat',
+      preservationImpact: 'Menyediakan instrumen berkualitas bagi sanggar karawitan anak muda nusantara.'
     },
-    description: 'Kain batik tulis canting alusan motif Parang Rusak Barong ukuran ageng. Dikerjakan dengan kehalusan rasa di atas mori primissima sutra.',
-    materials: 'Kain Katun Mori Primissima Sutra, Malam Tawon Alami, Ekstrak Pewarna Soga Jawa',
-    dimensions: 'Panjang 250 cm x Lebar 105 cm',
-    careInstructions: 'Cuci tangan hanya menggunakan lerak atau air hangat tanpa detergen sintetis. Jemur di tempat teduh.'
+    description: 'Set instrumen gamelan tradisional perunggu berukir naga dan ornamen lung-lungan Jawa. Distem presisi tangga nada laras Pelog.',
+    materials: 'Perunggu Cor Berkualitas Tinggi, Kayu Jati Solid Ukir',
+    dimensions: 'Standar pementasan karawitan tradisional',
+    careInstructions: 'Bersihkan bilah dengan kain katun halus kering, simpan dalam suhu ruangan stabil.'
+  },
+  {
+    id: 7,
+    name: 'Alat Musik Tradisional Angklung Bambu Sunda',
+    origin: 'Bandung, Jawa Barat',
+    category: 'Alat Musik Tradisional',
+    seller: 'Saung Angklung Paguyuban Pasundan',
+    sellerBadge: 'Sanggar Musik Bambu Tradisi',
+    location: 'Jawa Barat',
+    price: 850000,
+    oldPrice: 1100000,
+    rating: 4.96,
+    reviews: 52,
+    stock: 7,
+    verified: true,
+    badge: 'Pilihan Maestro',
+    images: [
+      '/images/budaya/angklung-bambu.jpg'
+    ],
+    culturalTag: {
+      ethnicGroup: 'Sunda',
+      philosophy: 'Angklung melambangkan gotong royong dan keharmonisan hidup, di mana nada indah tercipta dari kebersamaan banyak instrumen bambu.',
+      technique: 'Dibuat dari bambu wulung pilihan yang telah dikeringkan dan ditala laras diatonik serta pentatonik oleh pengrajin bambu Sunda.',
+      curationStandard: 'Warisan Budaya Takbenda UNESCO (Inscribed 2010)',
+      preservationImpact: 'Mendukung keberlanjutan bengkel kerajinan bambu di Jawa Barat.'
+    },
+    description: 'Set instrumen musik tradisional Angklung bambu bernada merdu dan bersih. Dikerjakan dengan kehalusan tatah bambu tradisional.',
+    materials: 'Bambu Hitam Wulung Pilihan, Tali Rotan Alami',
+    dimensions: 'Tinggi 65 cm x Lebar 45 cm',
+    careInstructions: 'Simpan di ruangan berventilasi baik dan hindari tempat lembab berlebih agar bambu tetap awet.'
   },
   {
     id: 8,
@@ -261,8 +253,7 @@ export const CULTURAL_PRODUCTS: CulturalProduct[] = [
     verified: true,
     badge: 'Karya Terverifikasi',
     images: [
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&auto=format&fit=crop&q=80'
+      '/images/budaya/ukiran-kayu-jepara.jpg'
     ],
     culturalTag: {
       ethnicGroup: 'Jawa (Pesisir Jepara)',

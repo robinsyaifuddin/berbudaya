@@ -150,23 +150,13 @@ export default function LembagaPage() {
             </p>
           </div>
 
-          {myInstitution ? (
-            <Link
-              to={`/lembaga/${myInstitution.id}`}
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start md:self-auto shrink-0 active:scale-[0.98]"
-            >
-              <Building2 className="w-4 h-4" />
-              <span>Lembaga Saya</span>
-            </Link>
-          ) : (
-            <Link
-              to="/kelola-lembaga"
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start md:self-auto shrink-0 active:scale-[0.98]"
-            >
-              <Landmark className="w-4 h-4" />
-              <span>Daftarkan Lembaga Baru</span>
-            </Link>
-          )}
+          <Link
+            to="/kelola-lembaga"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start md:self-auto shrink-0 active:scale-[0.98]"
+          >
+            <Landmark className="w-4 h-4" />
+            <span>Kelola Lembaga</span>
+          </Link>
         </div>
 
         {/* Search & Filter Bar */}
@@ -361,24 +351,7 @@ export default function LembagaPage() {
         </div>
       </div>
 
-      {/* Floating Action Button */}
-      {myInstitution ? (
-        <Link
-          to={`/lembaga/${myInstitution.id}`}
-          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all font-bold text-xs sm:text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
-        >
-          <Building2 className="w-4 h-4" />
-          <span>Lembaga Saya</span>
-        </Link>
-      ) : (
-        <Link
-          to="/kelola-lembaga"
-          className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl transition-all font-bold text-xs sm:text-sm flex items-center gap-2 hover:scale-105 z-40 active:scale-[0.98]"
-        >
-          <Landmark className="w-4 h-4" />
-          <span>Daftarkan Lembaga</span>
-        </Link>
-      )}
+
     </div>
   );
 }

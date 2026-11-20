@@ -512,58 +512,6 @@ export default function BukaTokoPage() {
         ) : (
           /* TAMPILAN UTAMA: PERSIS SEPERTI DI KELOLA LEMBAGA */
           <div className="space-y-6">
-            {/* Header Dasbor Toko */}
-            <div className="bg-white rounded-2xl shadow-xs border border-slate-200/90 p-5 md:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <Store className="w-5 h-5 text-blue-600" />
-                    <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                      Dasbor Tata Kelola Toko Budaya & Pengrajin
-                    </h1>
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                    Pusat pendaftaran entitas toko budaya, manajemen katalog kriya nusantara, dan kurasi pasar seni
-                  </p>
-                </div>
-
-                {/* Tombol Buat Toko Anda jika belum buat, atau Tambah Toko jika sudah */}
-                <button
-                  onClick={() => setShowCreateForm(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-xs self-start sm:self-auto shrink-0 active:scale-[0.98]"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>{hasShop ? 'Daftarkan Toko Baru' : 'Buat Toko Anda Sekarang'}</span>
-                </button>
-              </div>
-
-              {/* Quick Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-100">
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Toko Anda</span>
-                  <span className="text-xl font-extrabold text-slate-900">
-                    {hasShop && shop ? '1 Toko Aktif' : 'Belum Ada'}
-                  </span>
-                </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Toko Budaya Mitra</span>
-                  <span className="text-xl font-extrabold text-blue-600">{otherShopsData.length} Sanggar</span>
-                </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Karya Terkatalogkan</span>
-                  <span className="text-xl font-extrabold text-blue-600">
-                    {(products.length + otherShopsData.reduce((acc, s) => acc + s.productsCount, 0))} Produk
-                  </span>
-                </div>
-                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Transaksi Selesai</span>
-                  <span className="text-xl font-extrabold text-emerald-600">
-                    {(orders.length + otherShopsData.reduce((acc, s) => acc + s.soldCount, 0))} Terjual
-                  </span>
-                </div>
-              </div>
-            </div>
-
             {/* SEKSI 1: TABEL / KARTU TOKO YANG SUDAH DIBUAT (JIKA SUDAH ADA TOKO) */}
             {hasShop && shop ? (
               <div className="space-y-3">

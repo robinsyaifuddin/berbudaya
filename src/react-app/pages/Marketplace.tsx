@@ -360,10 +360,12 @@ export default function MarketplacePage() {
             <div className="absolute -right-16 -bottom-16 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
             
             <div className="relative z-10 space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs text-[11px] font-semibold text-blue-200 border border-white/15 w-fit">
-                <Store className="w-3.5 h-3.5 text-blue-300" />
-                <span>{hasShop ? 'Dashboard Mitra Penjual' : 'Kemitraan Maestro & UMKM'}</span>
-              </div>
+              {!hasShop && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-xs text-[11px] font-semibold text-blue-200 border border-white/15 w-fit">
+                  <Store className="w-3.5 h-3.5 text-blue-300" />
+                  <span>Kemitraan Maestro &amp; UMKM</span>
+                </div>
+              )}
 
               {hasShop ? (
                 <>
@@ -375,15 +377,6 @@ export default function MarketplacePage() {
                   </p>
                   
                   <div className="pt-2 flex flex-wrap items-center gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => navigate('/seller')}
-                      className="inline-flex items-center gap-2 bg-white hover:bg-blue-50 text-[#133384] text-[12px] font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all hover:gap-3 active:scale-[0.98]"
-                    >
-                      <LayoutDashboard className="w-3.5 h-3.5" />
-                      <span>Masuk Dashboard Toko</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
                     <button
                       type="button"
                       onClick={() => navigate('/toko')}
