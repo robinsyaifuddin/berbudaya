@@ -15,4 +15,5 @@ worker-configuration.d.ts
 *.py
 *.pyc
 __pycache__/
+*.ps1
 
