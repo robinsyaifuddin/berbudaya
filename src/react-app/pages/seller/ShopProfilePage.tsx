@@ -340,7 +340,8 @@ export default function ShopProfilePage() {
                             price: product.price,
                             image: product.image,
                             category: product.category,
-                            seller: shop.name
+                            seller: shop.name,
+                            quantity: 1
                           });
                           success(`"${product.name}" dimasukkan ke keranjang!`, 'Berhasil');
                         }}
