@@ -150,6 +150,14 @@ export default function UserProfile() {
                       alt={userData.name}
                       className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white shadow-md object-cover bg-neutral-100"
                     />
+                    {userData.verified && (
+                      <div
+                        title="Pelestari Budaya Terverifikasi"
+                        className="absolute bottom-1 right-1 w-7 h-7 bg-[#133384] text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm"
+                      >
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Primary Action Buttons */}

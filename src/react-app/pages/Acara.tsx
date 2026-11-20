@@ -1,6 +1,6 @@
 import TopNavbar from '@/react-app/components/TopNavbar';
 import { Calendar as CalendarIcon, MapPin, Clock, Users, Search, CheckCircle2, X, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const events = [
   {
@@ -95,6 +95,39 @@ export default function AcaraPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  const [allEvents, setAllEvents] = useState<any[]>(() => {
+    try {
+      const stored = localStorage.getItem('user_published_events');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return [...parsed, ...events];
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return events;
+  });
+
+  useEffect(() => {
+    const handleEventsUpdate = () => {
+      try {
+        const stored = localStorage.getItem('user_published_events');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setAllEvents([...parsed, ...events]);
+          }
+        }
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener('events_updated', handleEventsUpdate);
+    return () => window.removeEventListener('events_updated', handleEventsUpdate);
+  }, []);
+
   // Form acara baru
   const [eventTitle, setEventTitle] = useState('');
   const [eventVenue, setEventVenue] = useState('');
@@ -122,7 +155,7 @@ export default function AcaraPage() {
     triggerToast(`Pendaftaran untuk "${ev.title}" berhasil! E-tiket telah dikirimkan ke profil Anda.`);
   };
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = allEvents.filter(event => {
     const matchCategory = selectedCategory === 'Semua Acara' || event.category === selectedCategory;
     const matchSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         event.location.toLowerCase().includes(searchQuery.toLowerCase());

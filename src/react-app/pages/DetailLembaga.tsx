@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams, Link } from 'react-router';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useSearchParams, Link } from 'react-router';
 import { 
   Users, MapPin, Check, Share2, Award, Calendar, 
   MessageSquare, ThumbsUp, ShieldCheck, Info,
@@ -7,7 +7,9 @@ import {
   Globe, CheckCircle2, MoreHorizontal,
   Bookmark, UserPlus, ShieldAlert, Heart,
   Newspaper, Landmark, Ticket, HandHeart, Clock,
-  ExternalLink, ChevronRight, FileText, CheckCircle, X
+  ExternalLink, ChevronRight, FileText, CheckCircle, X,
+  Plus, Edit3, Settings, Eye, SlidersHorizontal, Bold, Italic, Link2,
+  Heading1, Heading2, Quote, List
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 import VerifiedBadge from '@/react-app/components/VerifiedBadge';
@@ -37,10 +39,40 @@ interface PostItem {
 
 export default function DetailLembagaPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const lembagaId = Number(id);
   
+  // Cek apakah lembaga ini adalah milik user yang sedang login/dibuat oleh user
+  const isMyInstitution = (() => {
+    try {
+      const stored = localStorage.getItem('user_registered_institutions');
+      if (stored) {
+        const parsed: any[] = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.some(item => Number(item.id) === lembagaId)) {
+          return true;
+        }
+      }
+      const myInstStr = localStorage.getItem('user_my_institution');
+      if (myInstStr) {
+        const myInst = JSON.parse(myInstStr);
+        if (Number(myInst?.id) === lembagaId) {
+          return true;
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return false;
+  })();
+
+  // Deteksi mode kelola (hanya aktif jika user adalah pemilik lembaga tersebut)
+  const [isManageMode, setIsManageMode] = useState<boolean>(() => {
+    if (!isMyInstitution) return false;
+    return searchParams.get('manage') === 'true' || searchParams.get('mode') === 'edit';
+  });
+
   // Find lembaga from communitiesData or from registered institutions in localStorage
-  const [lembaga] = useState<Community>(() => {
+  const [lembaga, setLembaga] = useState<Community>(() => {
     const found = communitiesData.find((c) => c.id === lembagaId);
     if (found) return found;
 
@@ -86,6 +118,112 @@ export default function DetailLembagaPage() {
     }
 
     return communitiesData[0];
+  });
+
+  // Update URL param saat isManageMode berubah (hanya jika memang milik user)
+  useEffect(() => {
+    if (isManageMode && isMyInstitution) {
+      searchParams.set('manage', 'true');
+    } else {
+      searchParams.delete('manage');
+      if (!isMyInstitution && isManageMode) {
+        setIsManageMode(false);
+      }
+    }
+    setSearchParams(searchParams, { replace: true });
+  }, [isManageMode, isMyInstitution]);
+
+  // Modal / Form States
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showAddNewsModal, setShowAddNewsModal] = useState(false);
+  const [showAddEventModal, setShowAddEventModal] = useState(false);
+  const [showAddDonationModal, setShowAddDonationModal] = useState(false);
+
+  // Edit Profil Lembaga Form State
+  const [profileForm, setProfileForm] = useState({
+    name: lembaga.name,
+    tagline: lembaga.tagline || '',
+    description: lembaga.description || '',
+    about: lembaga.about || lembaga.description || '',
+    image: lembaga.avatarImage || lembaga.image,
+    institutionType: lembaga.institutionType || 'Yayasan Kebudayaan Terakreditasi',
+    category: lembaga.category,
+    province: lembaga.province,
+    city: lembaga.city || '',
+    addressDetail: lembaga.addressDetail || '',
+    skLegalitas: lembaga.skLegalitas || ''
+  });
+
+  // Add News Form State (Menyesuaikan Format WordPress Gutenberg / Tambah Artikel)
+  const [newsTitle, setNewsTitle] = useState('');
+  const [newsExcerpt, setNewsExcerpt] = useState('');
+  const [newsContent, setNewsContent] = useState('');
+  const [newsCover, setNewsCover] = useState<string | null>(null);
+  const [newsCategory, setNewsCategory] = useState(lembaga.category || 'Tradisi & Upacara Adat');
+  const [isNewsSidebarOpen, setIsNewsSidebarOpen] = useState(true);
+  const newsContentEditableRef = useRef<HTMLDivElement>(null);
+  const newsCoverInputRef = useRef<HTMLInputElement>(null);
+  const newsInlineImageInputRef = useRef<HTMLInputElement>(null);
+
+  // Formatting helpers untuk Editor Rilis
+  const applyNewsFormatting = (command: string, value: string | undefined = undefined) => {
+    if (command === 'h1' || command === 'h2') {
+      document.execCommand('formatBlock', false, command);
+    } else if (command === 'link') {
+      const url = prompt('Masukkan URL tautan:');
+      if (url) document.execCommand('createLink', false, url);
+    } else if (command === 'quote') {
+      document.execCommand('formatBlock', false, 'blockquote');
+    } else if (command === 'list') {
+      document.execCommand('insertUnorderedList', false);
+    } else {
+      document.execCommand(command, false, value);
+    }
+  };
+
+  const handleNewsInlineImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const url = reader.result as string;
+        document.execCommand('insertImage', false, url);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleNewsCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setNewsCover(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Add Event Form State
+  const [eventForm, setEventForm] = useState({
+    title: '',
+    date: '12 Des 2026',
+    time: '19:30 - 22:00 WIB',
+    location: `${lembaga.city || 'Solo'}, ${lembaga.province}`,
+    type: 'offline' as 'offline' | 'online',
+    price: 0,
+    quota: 100,
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop&q=80'
+  });
+
+  // Add Donation Form State
+  const [donationForm, setDonationForm] = useState({
+    title: '',
+    description: '',
+    targetAmount: 25000000,
+    daysLeft: 30,
+    image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80',
+    isUrgent: false
   });
 
   const [activeTab, setActiveTab] = useState<'rilis' | 'agenda' | 'donasi' | 'tentang'>('rilis');
@@ -228,6 +366,229 @@ export default function DetailLembagaPage() {
     setCommentInputs({ ...commentInputs, [postId]: '' });
   };
 
+  // Handlers Pengelolaan Lembaga (Edit Profil, Tambah Rilis Berita, Acara, Donasi)
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    const updated = {
+      ...lembaga,
+      name: profileForm.name,
+      tagline: profileForm.tagline,
+      description: profileForm.description,
+      about: profileForm.about,
+      avatarImage: profileForm.image,
+      image: profileForm.image,
+      institutionType: profileForm.institutionType,
+      category: profileForm.category,
+      province: profileForm.province,
+      city: profileForm.city,
+      addressDetail: profileForm.addressDetail,
+      skLegalitas: profileForm.skLegalitas
+    };
+    setLembaga(updated);
+
+    // Sinkronisasi ke localStorage
+    try {
+      const stored = localStorage.getItem('user_registered_institutions');
+      let list = stored ? JSON.parse(stored) : [];
+      if (Array.isArray(list)) {
+        const idx = list.findIndex(item => item.id === lembaga.id);
+        if (idx !== -1) {
+          list[idx] = { ...list[idx], ...updated };
+        } else {
+          list.push(updated);
+        }
+        localStorage.setItem('user_registered_institutions', JSON.stringify(list));
+      }
+      localStorage.setItem('user_my_institution', JSON.stringify(updated));
+      window.dispatchEvent(new Event('institution_updated'));
+    } catch {
+      // ignore
+    }
+
+    setShowEditProfileModal(false);
+    showToast('Profil lembaga berhasil diperbarui!');
+  };
+
+  const handleAddNews = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!newsTitle.trim()) return;
+
+    const wordCount = (newsContent.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean).length) || 10;
+    const calcReadTime = `${Math.max(1, Math.ceil(wordCount / 180))} min baca`;
+    const finalImage = newsCover || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80';
+
+    const newNewsItem: CommunityNews = {
+      id: Date.now(),
+      title: newsTitle,
+      excerpt: newsExcerpt || newsTitle,
+      date: 'Hari ini',
+      category: newsCategory,
+      readTime: calcReadTime,
+      image: finalImage,
+      content: newsContent ? [newsContent] : [newsExcerpt || newsTitle],
+      author: lembaga.name,
+      authorRole: 'Lembaga Resmi Kebudayaan'
+    };
+
+    const updatedNewsList = [newNewsItem, ...(lembaga.newsList || [])];
+    const updatedLembaga = { ...lembaga, newsList: updatedNewsList };
+    setLembaga(updatedLembaga);
+
+    // Simpan ke localStorage user_published_news agar langsung muncul di halaman /berita dan /berita/:id
+    try {
+      const storedNews = localStorage.getItem('user_published_news');
+      let newsArr = storedNews ? JSON.parse(storedNews) : [];
+      const globalNewsItem = {
+        id: newNewsItem.id,
+        slug: `rilis-${newNewsItem.id}`,
+        title: newNewsItem.title,
+        category: newNewsItem.category || 'Tradisi & Upacara Adat',
+        subCategory: 'Rilis Resmi Lembaga',
+        image: newNewsItem.image,
+        excerpt: newNewsItem.excerpt,
+        content: newNewsItem.content,
+        author: lembaga.name,
+        authorRole: 'Lembaga Resmi Kebudayaan',
+        authorAvatar: lembaga.avatarImage || lembaga.image,
+        date: newNewsItem.date,
+        readTime: newNewsItem.readTime,
+        tags: ['Rilis Lembaga', lembaga.name, lembaga.category],
+        source: lembaga.name
+      };
+      newsArr = [globalNewsItem, ...newsArr];
+      localStorage.setItem('user_published_news', JSON.stringify(newsArr));
+      window.dispatchEvent(new Event('news_updated'));
+    } catch {
+      // ignore
+    }
+
+    setNewsTitle('');
+    setNewsExcerpt('');
+    setNewsContent('');
+    setNewsCover(null);
+    if (newsContentEditableRef.current) {
+      newsContentEditableRef.current.innerHTML = '';
+    }
+    setShowAddNewsModal(false);
+    showToast('Rilis siaran pers baru berhasil diterbitkan dan masuk ke Halaman Berita!');
+  };
+
+  const handleAddEvent = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!eventForm.title.trim()) return;
+
+    const newEventItem: CommunityEvent = {
+      id: Date.now(),
+      title: eventForm.title,
+      date: eventForm.date,
+      time: eventForm.time,
+      location: eventForm.location,
+      type: eventForm.type,
+      price: Number(eventForm.price) || 0,
+      quota: Number(eventForm.quota) || 100,
+      registered: 0,
+      image: eventForm.image
+    };
+
+    const updatedEventsList = [newEventItem, ...(lembaga.eventsList || [])];
+    setLembaga({ ...lembaga, eventsList: updatedEventsList });
+
+    // Simpan ke localStorage user_published_events agar langsung sinkron ke halaman /acara
+    try {
+      const storedEvt = localStorage.getItem('user_published_events');
+      let evtArr = storedEvt ? JSON.parse(storedEvt) : [];
+      const globalEventItem = {
+        id: newEventItem.id,
+        title: newEventItem.title,
+        description: `Diselenggarakan resmi oleh ${lembaga.name}. Bergaransi tiket QR Code dan sertifikat kehadiran.`,
+        image: newEventItem.image,
+        date: newEventItem.date,
+        time: newEventItem.time,
+        location: newEventItem.location,
+        venue: newEventItem.location,
+        attendees: 0,
+        price: newEventItem.price === 0 ? 'Gratis' : `Rp ${newEventItem.price.toLocaleString()}`,
+        category: 'Pertunjukan'
+      };
+      evtArr = [globalEventItem, ...evtArr];
+      localStorage.setItem('user_published_events', JSON.stringify(evtArr));
+      window.dispatchEvent(new Event('events_updated'));
+    } catch {
+      // ignore
+    }
+
+    setEventForm({
+      title: '',
+      date: '12 Des 2026',
+      time: '19:30 - 22:00 WIB',
+      location: `${lembaga.city || 'Solo'}, ${lembaga.province}`,
+      type: 'offline',
+      price: 0,
+      quota: 100,
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop&q=80'
+    });
+    setShowAddEventModal(false);
+    showToast('Agenda acara baru berhasil ditambahkan dan masuk ke Halaman Acara!');
+  };
+
+  const handleAddDonation = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!donationForm.title.trim()) return;
+
+    const newDonationItem: CommunityDonation = {
+      id: Date.now(),
+      title: donationForm.title,
+      description: donationForm.description,
+      targetAmount: Number(donationForm.targetAmount) || 20000000,
+      collectedAmount: 0,
+      donorsCount: 0,
+      daysLeft: Number(donationForm.daysLeft) || 30,
+      image: donationForm.image,
+      isUrgent: donationForm.isUrgent
+    };
+
+    const updatedDonationsList = [newDonationItem, ...(lembaga.donationsList || [])];
+    setLembaga({ ...lembaga, donationsList: updatedDonationsList });
+
+    // Simpan ke localStorage user_published_donations agar langsung sinkron ke halaman /crowdfunding
+    try {
+      const storedDon = localStorage.getItem('user_published_donations');
+      let donArr = storedDon ? JSON.parse(storedDon) : [];
+      const globalCampaignItem = {
+        id: newDonationItem.id,
+        title: newDonationItem.title,
+        description: newDonationItem.description,
+        image: newDonationItem.image,
+        raised: 0,
+        target: newDonationItem.targetAmount,
+        daysLeft: newDonationItem.daysLeft,
+        donors: 0,
+        category: 'Pelestarian',
+        location: `${lembaga.city || 'Solo'}, ${lembaga.province}`,
+        urgent: newDonationItem.isUrgent,
+        badge: newDonationItem.isUrgent ? 'Mendesak & Terverifikasi' : 'Program Terverifikasi Lembaga',
+        organizer: lembaga.name,
+        verified: true
+      };
+      donArr = [globalCampaignItem, ...donArr];
+      localStorage.setItem('user_published_donations', JSON.stringify(donArr));
+      window.dispatchEvent(new Event('donations_updated'));
+    } catch {
+      // ignore
+    }
+
+    setDonationForm({
+      title: '',
+      description: '',
+      targetAmount: 25000000,
+      daysLeft: 30,
+      image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=800&auto=format&fit=crop&q=80',
+      isUrgent: false
+    });
+    setShowAddDonationModal(false);
+    showToast('Program donasi baru berhasil dibuka dan masuk ke Halaman Donasi!');
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 pb-24">
       <TopNavbar />
@@ -330,34 +691,67 @@ export default function DetailLembagaPage() {
 
               {/* Action Buttons */}
               <div className="flex items-center justify-center sm:justify-start md:justify-end gap-2.5 flex-wrap pt-2 md:pt-1">
-                <button
-                  onClick={handleToggleFollow}
-                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs active:scale-[0.98] ${
-                    isFollowing
-                      ? 'bg-blue-50 text-blue-700 border border-blue-300 hover:bg-blue-100'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
-                  }`}
-                >
-                  {isFollowing ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>Mengikuti</span>
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus className="w-4 h-4" />
-                      <span>+ Ikuti Lembaga</span>
-                    </>
-                  )}
-                </button>
+                {isManageMode ? (
+                  <>
+                    <button
+                      onClick={() => setShowEditProfileModal(true)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-bold transition-all shadow-xs"
+                    >
+                      <Edit3 className="w-4 h-4 text-slate-500" />
+                      <span>Edit Profil</span>
+                    </button>
 
-                <button
-                  onClick={() => setActiveTab('donasi')}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-blue-200 bg-blue-50/70 hover:bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold transition-all"
-                >
-                  <HandHeart className="w-4 h-4 text-blue-600" />
-                  <span>Dukung Lembaga</span>
-                </button>
+                    <button
+                      onClick={() => setIsManageMode(false)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-blue-200 bg-blue-50/70 hover:bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold transition-all"
+                    >
+                      <Eye className="w-4 h-4 text-blue-600" />
+                      <span>Lihat Mode Publik</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={handleToggleFollow}
+                      className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs active:scale-[0.98] ${
+                        isFollowing
+                          ? 'bg-blue-50 text-blue-700 border border-blue-300 hover:bg-blue-100'
+                          : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      }`}
+                    >
+                      {isFollowing ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span>Mengikuti</span>
+                        </>
+                      ) : (
+                        <>
+                          <UserPlus className="w-4 h-4" />
+                          <span>+ Ikuti Lembaga</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => setActiveTab('donasi')}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-blue-200 bg-blue-50/70 hover:bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold transition-all"
+                    >
+                      <HandHeart className="w-4 h-4 text-blue-600" />
+                      <span>Dukung Lembaga</span>
+                    </button>
+
+                    {isMyInstitution && (
+                      <button
+                        onClick={() => setIsManageMode(true)}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold transition-all shadow-xs"
+                        title="Beralih ke Mode Kelola Lembaga"
+                      >
+                        <Settings className="w-4 h-4" />
+                        <span>Kelola</span>
+                      </button>
+                    )}
+                  </>
+                )}
 
                 <button
                   onClick={handleShare}
@@ -412,7 +806,7 @@ export default function DetailLembagaPage() {
             {/* TAB: RILIS (Berita & Catatan Lembaga) */}
             {activeTab === 'rilis' && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-3">
                   <div>
                     <h3 className="text-base font-bold text-slate-900">
                       Rilis, Siaran Pers, & Catatan Riset Lembaga
@@ -421,9 +815,20 @@ export default function DetailLembagaPage() {
                       Publikasi resmi berkala yang diterbitkan oleh dewan kuratorial lembaga
                     </p>
                   </div>
-                  <span className="text-xs bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-semibold border border-slate-200">
-                    {lembaga.newsList?.length || 0} Terbitan
-                  </span>
+                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                    <span className="text-xs bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-semibold border border-slate-200">
+                      {lembaga.newsList?.length || 0} Terbitan
+                    </span>
+                    {isManageMode && (
+                      <button
+                        onClick={() => setShowAddNewsModal(true)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-xs"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Tambah Rilis</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
@@ -475,7 +880,7 @@ export default function DetailLembagaPage() {
             {/* TAB: AGENDA (Acara & Pagelaran) */}
             {activeTab === 'agenda' && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-3">
                   <div>
                     <h3 className="text-base font-bold text-slate-900">
                       Agenda Acara, Workshop, & Pertunjukan Lembaga
@@ -484,6 +889,15 @@ export default function DetailLembagaPage() {
                       Pendaftaran resmi bergaransi tiket QR Code yang dapat diverifikasi di lokasi
                     </p>
                   </div>
+                  {isManageMode && (
+                    <button
+                      onClick={() => setShowAddEventModal(true)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-xs self-start sm:self-auto shrink-0"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Tambah Agenda Acara</span>
+                    </button>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
@@ -544,7 +958,7 @@ export default function DetailLembagaPage() {
             {/* TAB: GALANG DANA & RESTORASI */}
             {activeTab === 'donasi' && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-3">
                   <div>
                     <h3 className="text-base font-bold text-slate-900">
                       Penggalangan Dana & Restorasi Budaya
@@ -553,6 +967,15 @@ export default function DetailLembagaPage() {
                       Penyaluran resmi terverifikasi dengan Laporan Pertanggungjawaban (LPJ) berkala
                     </p>
                   </div>
+                  {isManageMode && (
+                    <button
+                      onClick={() => setShowAddDonationModal(true)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-xs self-start sm:self-auto shrink-0"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Buat Program Donasi</span>
+                    </button>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 gap-5">
@@ -622,15 +1045,24 @@ export default function DetailLembagaPage() {
             {/* TAB: TENTANG & LEGALITAS (Termasuk Dewan Pengurus) */}
             {activeTab === 'tentang' && (
               <div className="bg-white rounded-2xl shadow-xs border border-slate-200/90 p-6 space-y-6">
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
+                  <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                     <Landmark className="w-4 h-4 text-blue-600" />
                     <span>Profil Resmi Lembaga</span>
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed mt-3 whitespace-pre-line">
-                    {lembaga.about || lembaga.description}
-                  </p>
+                  {isManageMode && (
+                    <button
+                      onClick={() => setShowEditProfileModal(true)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl transition-all self-start sm:self-auto shrink-0"
+                    >
+                      <Edit3 className="w-3.5 h-3.5 text-blue-600" />
+                      <span>Edit Tentang & Data Lembaga</span>
+                    </button>
+                  )}
                 </div>
+                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                  {lembaga.about || lembaga.description}
+                </p>
 
                 {/* Dewan Pengurus Lembaga (Dipindah ke dalam Tentang) */}
                 <div className="pt-2">
@@ -903,6 +1335,719 @@ export default function DetailLembagaPage() {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* MODAL 1: EDIT PROFIL & TENTANG LEMBAGA */}
+        {showEditProfileModal && (
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
+            <div 
+              className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200/90 overflow-hidden my-8 max-h-[90vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50/80">
+                <div className="flex items-center gap-2">
+                  <Edit3 className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-base font-bold text-slate-900">Edit Profil & Data Lembaga</h3>
+                </div>
+                <button 
+                  onClick={() => setShowEditProfileModal(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveProfile} className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Nama Lembaga / Sanggar / Yayasan <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={profileForm.name}
+                    onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Slogan / Tagline Singkat
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.tagline}
+                    onChange={(e) => setProfileForm({ ...profileForm, tagline: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Bentuk Entitas
+                    </label>
+                    <select
+                      value={profileForm.institutionType}
+                      onChange={(e) => setProfileForm({ ...profileForm, institutionType: e.target.value })}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    >
+                      <option value="Yayasan Kebudayaan Terakreditasi">Yayasan Kebudayaan</option>
+                      <option value="Sanggar Terdaftar Dinas Kebudayaan">Sanggar Terdaftar Disbud</option>
+                      <option value="Paguyuban Berbadan Hukum">Paguyuban Berbadan Hukum</option>
+                      <option value="Lembaga Adat / Dewan Cagar Budaya">Lembaga Adat / Cagar Budaya</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Kategori Kebudayaan
+                    </label>
+                    <select
+                      value={profileForm.category}
+                      onChange={(e) => setProfileForm({ ...profileForm, category: e.target.value })}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    >
+                      <option value="Kriya">Kriya & Wastra</option>
+                      <option value="Seni Teater & Tari">Teater, Tari & Pedalangan</option>
+                      <option value="Musik Tradisional">Musik Tradisional & Karawitan</option>
+                      <option value="Arsitektur & Cagar Budaya">Arsitektur & Cagar Budaya</option>
+                      <option value="Sastra & Aksara">Sastra & Aksara Kuna</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Kota / Kabupaten
+                    </label>
+                    <input
+                      type="text"
+                      value={profileForm.city}
+                      onChange={(e) => setProfileForm({ ...profileForm, city: e.target.value })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Provinsi
+                    </label>
+                    <input
+                      type="text"
+                      value={profileForm.province}
+                      onChange={(e) => setProfileForm({ ...profileForm, province: e.target.value })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    URL Foto Profil / Logo Lembaga (Rasio 1:1)
+                  </label>
+                  <input
+                    type="url"
+                    value={profileForm.image}
+                    onChange={(e) => setProfileForm({ ...profileForm, image: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Nomor SK Legalitas / Akreditasi
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.skLegalitas}
+                    onChange={(e) => setProfileForm({ ...profileForm, skLegalitas: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Tentang & Visi Misi Lembaga (Bisa Diedit) <span className="text-rose-500">*</span>
+                  </label>
+                  <textarea
+                    rows={5}
+                    required
+                    value={profileForm.about}
+                    onChange={(e) => setProfileForm({ ...profileForm, about: e.target.value, description: e.target.value.slice(0, 150) })}
+                    placeholder="Tuliskan latar belakang, visi, misi, dan aktivitas dewan kuratorial lembaga..."
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm resize-none"
+                  />
+                </div>
+
+                <div className="pt-4 border-t border-slate-200 flex justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowEditProfileModal(false)}
+                    className="px-4 py-2 border border-slate-300 text-slate-700 font-bold rounded-xl text-xs hover:bg-slate-50 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-all shadow-xs"
+                  >
+                    Simpan Perubahan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* MODAL 2: TAMBAH RILIS SIARAN PERS (FULL SCREEN GUTENBERG/WORDPRESS PERSIS GAMBAR 2) */}
+        {showAddNewsModal && (
+          <div className="fixed inset-0 z-50 overflow-hidden bg-white flex flex-col animate-in fade-in duration-200">
+            {/* Hidden Input for inserting images inside article body */}
+            <input
+              type="file"
+              ref={newsInlineImageInputRef}
+              onChange={handleNewsInlineImage}
+              accept="image/*"
+              className="hidden"
+            />
+
+            {/* Hidden Input for Featured Cover Image */}
+            <input
+              type="file"
+              ref={newsCoverInputRef}
+              onChange={handleNewsCoverChange}
+              accept="image/*"
+              className="hidden"
+            />
+
+            {/* Top Bar Header (Persis Header Gambar 2) */}
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-slate-100 bg-white sticky top-0 z-20 flex-shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="text-amber-600">
+                  <FileText className="w-5 h-5 text-amber-600" />
+                </div>
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">
+                    Tambah Artikel Narasi
+                  </h2>
+                  <p className="text-[11px] text-slate-400 hidden sm:block">
+                    Tulis narasi dan artikel budaya lengkap
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAddNewsModal(false)}
+                  className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
+                  aria-label="Tutup"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* WordPress Gutenberg Secondary Toolbar (Persis Toolbar Gambar 2) */}
+            <div className="px-3 sm:px-6 py-2 border-b border-slate-200/80 bg-slate-50/90 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 text-xs flex-shrink-0">
+              <div className="flex items-center gap-1 text-slate-600 overflow-x-auto scrollbar-none py-1 max-w-full">
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('h1'); }}
+                  className="px-2 py-1 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 font-bold transition-colors"
+                  title="Heading 1"
+                >
+                  <Heading1 className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('h2'); }}
+                  className="px-2 py-1 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 font-bold transition-colors"
+                  title="Heading 2"
+                >
+                  <Heading2 className="w-4 h-4" />
+                </button>
+                <div className="w-px h-4 bg-slate-300 mx-1 flex-shrink-0" />
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('bold'); }}
+                  className="p-1.5 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 transition-colors"
+                  title="Tebal (Ctrl+B)"
+                >
+                  <Bold className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('italic'); }}
+                  className="p-1.5 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 transition-colors"
+                  title="Miring (Ctrl+I)"
+                >
+                  <Italic className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('quote'); }}
+                  className="p-1.5 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 transition-colors"
+                  title="Kutipan (Quote)"
+                >
+                  <Quote className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('list'); }}
+                  className="p-1.5 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 transition-colors"
+                  title="Daftar List"
+                >
+                  <List className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); applyNewsFormatting('link'); }}
+                  className="p-1.5 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 transition-colors"
+                  title="Sisipkan Tautan"
+                >
+                  <Link2 className="w-4 h-4" />
+                </button>
+                <div className="w-px h-4 bg-slate-300 mx-1 flex-shrink-0" />
+                <button
+                  type="button"
+                  onClick={() => newsInlineImageInputRef.current?.click()}
+                  className="p-1.5 hover:bg-slate-200 active:bg-blue-100 rounded text-slate-700 transition-colors"
+                  title="Sisipkan Gambar"
+                >
+                  <ImageIcon className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Toggle Sidebar & Action Terbitkan Artikel */}
+              <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
+                <button
+                  type="button"
+                  onClick={() => setIsNewsSidebarOpen(!isNewsSidebarOpen)}
+                  className={`p-1.5 rounded-lg border transition-all ${
+                    isNewsSidebarOpen 
+                      ? 'bg-blue-50 text-blue-700 border-blue-200' 
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                  title={isNewsSidebarOpen ? 'Sembunyikan Pengaturan Post' : 'Buka Pengaturan Post'}
+                  aria-label="Pengaturan Post"
+                >
+                  <SlidersHorizontal className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAddNews()}
+                  disabled={!newsTitle.trim()}
+                  className="px-4 sm:px-5 py-1.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-all shadow-xs text-xs"
+                >
+                  Terbitkan Artikel
+                </button>
+              </div>
+            </div>
+
+            {/* Split Screen: Left Writing Canvas, Right Document Inspector (Persis Gambar 2) */}
+            <div className="flex-1 overflow-hidden flex flex-col md:flex-row">
+              {/* Left Canvas: Title & Narration Gutenberg Canvas */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 flex flex-col items-center">
+                <div className="max-w-3xl w-full space-y-6">
+                  {/* Judul Artikel (Headline Gutenberg) */}
+                  <div>
+                    <textarea
+                      value={newsTitle}
+                      onChange={(e) => setNewsTitle(e.target.value)}
+                      placeholder="Tambahkan judul artikel..."
+                      rows={2}
+                      className="w-full text-2xl sm:text-4xl font-extrabold text-slate-900 placeholder-slate-300 resize-none focus:outline-none border-b border-transparent focus:border-blue-500 pb-2 transition-colors leading-tight"
+                      autoFocus
+                    />
+                  </div>
+
+                  {/* Narasi / Isi Artikel Gutenberg Block (Rich Text WYSIWYG) */}
+                  <div className="relative w-full">
+                    <div
+                      ref={newsContentEditableRef}
+                      contentEditable
+                      suppressContentEditableWarning
+                      onInput={(e) => {
+                        const html = e.currentTarget.innerHTML;
+                        const text = e.currentTarget.innerText;
+                        setNewsContent(text.trim() ? html : '');
+                      }}
+                      data-placeholder="Mulai menulis narasi budaya di sini... Gunakan Ctrl+B untuk tebal, Ctrl+I untuk miring, atau tombol toolbar di atas."
+                      className="w-full text-slate-800 text-base sm:text-lg leading-relaxed focus:outline-none min-h-[380px] font-sans article-rich-editor empty:before:content-[attr(data-placeholder)] empty:before:text-slate-300 empty:before:cursor-text"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Sidebar: WordPress Document Settings (Persis Gambar 2) */}
+              {isNewsSidebarOpen && (
+                <div className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200/80 bg-slate-50/60 p-4 sm:p-5 overflow-y-auto space-y-5 flex-shrink-0 animate-in fade-in duration-150">
+                  {/* Gambar Sampul (Featured Image) */}
+                  <div>
+                    <span className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                      GAMBAR SAMPUL ARTIKEL
+                    </span>
+                    {newsCover ? (
+                      <div className="relative group rounded-xl overflow-hidden border border-slate-200 max-h-[180px] w-full bg-slate-100">
+                        <img
+                          src={newsCover}
+                          alt="Sampul Artikel"
+                          className="w-full h-36 object-cover"
+                        />
+                        <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => newsCoverInputRef.current?.click()}
+                            className="px-2.5 py-1 bg-white text-slate-900 text-xs font-semibold rounded-lg shadow-md hover:bg-slate-100 transition-colors"
+                          >
+                            Ganti Sampul
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setNewsCover(null)}
+                            className="p-1 bg-rose-600 text-white rounded-lg shadow-md hover:bg-rose-700 transition-colors"
+                            title="Hapus"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => newsCoverInputRef.current?.click()}
+                        className="w-full py-4 px-3 rounded-xl border-2 border-dashed border-slate-300 hover:border-blue-500 bg-white hover:bg-blue-50/30 flex flex-col items-center justify-center gap-1.5 text-xs font-medium text-slate-600 transition-colors group cursor-pointer"
+                      >
+                        <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+                        <span className="font-semibold text-slate-700">Unggah Gambar Sampul</span>
+                        <span className="text-[10px] text-slate-400">Pilih foto rasio landscape</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600">DOKUMEN POST</span>
+                    <span className="text-[11px] font-semibold text-blue-600">Draft Siap</span>
+                  </div>
+
+                  {/* Status & Visibilitas */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs text-slate-600">
+                      <span>Visibilitas</span>
+                      <span className="font-semibold text-slate-800">Publik</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-slate-600">
+                      <span>Estimasi</span>
+                      <span className="font-semibold text-slate-800">3 min baca</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-slate-600">
+                      <span>Penulis</span>
+                      <span className="font-semibold text-slate-800 truncate max-w-[120px]">{lembaga.name}</span>
+                    </div>
+                  </div>
+
+                  <hr className="border-slate-200" />
+
+                  {/* Kategori Artikel */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Kategori Artikel
+                    </label>
+                    <select
+                      value={newsCategory}
+                      onChange={(e) => setNewsCategory(e.target.value)}
+                      className="w-full text-xs font-medium text-slate-800 border border-slate-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="Tradisi & Upacara Adat">Tradisi & Upacara Adat</option>
+                      <option value="Kajian & Naskah Kuno">Kajian & Naskah Kuno</option>
+                      <option value="Profil Maestro Budaya">Profil Maestro Budaya</option>
+                      <option value="Kisah Legenda & Mitologi">Kisah Legenda & Mitologi</option>
+                      <option value="Eksplorasi Wastra & Motif">Eksplorasi Wastra & Motif</option>
+                    </select>
+                  </div>
+
+                  {/* Ringkasan / Kutipan (WordPress Excerpt) */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                      Kutipan Ringkas (Excerpt)
+                    </label>
+                    <textarea
+                      value={newsExcerpt}
+                      onChange={(e) => setNewsExcerpt(e.target.value)}
+                      placeholder="Tulis ringkasan 1-2 kalimat untuk kartu pratinjau artikel..."
+                      rows={3}
+                      className="w-full text-xs text-slate-800 placeholder-slate-400 border border-slate-200 rounded-lg p-2.5 bg-white focus:outline-none focus:border-blue-500 resize-none"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* MODAL 3: TAMBAH AGENDA ACARA (MASUK KE HALAMAN ACARA) */}
+        {showAddEventModal && (
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
+            <div 
+              className="bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200/90 overflow-hidden my-8 max-h-[90vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50/80">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900">Tambah Agenda Acara & Workshop</h3>
+                    <p className="text-[11px] text-slate-500">Otomatis masuk ke kalender agenda di Halaman Acara</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowAddEventModal(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddEvent} className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Judul Acara / Pementasan <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Contoh: Lokakarya Intensif Canting Tulis Klasik"
+                    value={eventForm.title}
+                    onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Tanggal Pelaksanaan
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="18 Des 2026"
+                      value={eventForm.date}
+                      onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Waktu / Jam
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="09:00 - 15:00 WIB"
+                      value={eventForm.time}
+                      onChange={(e) => setEventForm({ ...eventForm, time: e.target.value })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Format Pelaksanaan
+                    </label>
+                    <select
+                      value={eventForm.type}
+                      onChange={(e) => setEventForm({ ...eventForm, type: e.target.value as any })}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    >
+                      <option value="offline">Luring (Di Lokasi Fisik)</option>
+                      <option value="online">Daring (Virtual / Zoom)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Biaya Tiket (0 = Gratis)
+                    </label>
+                    <input
+                      type="number"
+                      value={eventForm.price}
+                      onChange={(e) => setEventForm({ ...eventForm, price: Number(e.target.value) })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Lokasi / Venue Pementasan
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Nama Pendopo / Balai Budaya / Tautan Meeting"
+                    value={eventForm.location}
+                    onChange={(e) => setEventForm({ ...eventForm, location: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    URL Banner Gambar Acara
+                  </label>
+                  <input
+                    type="url"
+                    value={eventForm.image}
+                    onChange={(e) => setEventForm({ ...eventForm, image: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="pt-4 border-t border-slate-200 flex justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddEventModal(false)}
+                    className="px-4 py-2 border border-slate-300 text-slate-700 font-bold rounded-xl text-xs hover:bg-slate-50 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-all shadow-xs"
+                  >
+                    Terbitkan ke Acara
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* MODAL 4: BUAT PROGRAM DONASI (MASUK KE HALAMAN DONASI / CROWDFUNDING) */}
+        {showAddDonationModal && (
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
+            <div 
+              className="bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200/90 overflow-hidden my-8 max-h-[90vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50/80">
+                <div className="flex items-center gap-2">
+                  <HandHeart className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900">Buka Galang Dana & Donasi Lembaga</h3>
+                    <p className="text-[11px] text-slate-500">Otomatis masuk dan aktif di Halaman Donasi (Crowdfunding)</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowAddDonationModal(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddDonation} className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Judul Kampanye Donasi <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Contoh: Restorasi Serat Pusaka & Modul Pelatihan Sanggar"
+                    value={donationForm.title}
+                    onChange={(e) => setDonationForm({ ...donationForm, title: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    Deskripsi Program & Rencana Penyaluran
+                  </label>
+                  <textarea
+                    rows={4}
+                    required
+                    placeholder="Jelaskan kebutuhan dana, urgensi perbaikan, dan komitmen LPJ berkala..."
+                    value={donationForm.description}
+                    onChange={(e) => setDonationForm({ ...donationForm, description: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm resize-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Target Dana (Rp) <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      value={donationForm.targetAmount}
+                      onChange={(e) => setDonationForm({ ...donationForm, targetAmount: Number(e.target.value) })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      Durasi Hari Aktif
+                    </label>
+                    <input
+                      type="number"
+                      value={donationForm.daysLeft}
+                      onChange={(e) => setDonationForm({ ...donationForm, daysLeft: Number(e.target.value) })}
+                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    URL Foto Sampul Program
+                  </label>
+                  <input
+                    type="url"
+                    value={donationForm.image}
+                    onChange={(e) => setDonationForm({ ...donationForm, image: e.target.value })}
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 pt-1">
+                  <input
+                    type="checkbox"
+                    id="urgentCheck"
+                    checked={donationForm.isUrgent}
+                    onChange={(e) => setDonationForm({ ...donationForm, isUrgent: e.target.checked })}
+                    className="w-4 h-4 text-blue-600 rounded border-slate-300"
+                  />
+                  <label htmlFor="urgentCheck" className="text-xs text-slate-700 font-medium cursor-pointer">
+                    Tandai sebagai Program Mendesak (Urgent Badge)
+                  </label>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200 flex justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddDonationModal(false)}
+                    className="px-4 py-2 border border-slate-300 text-slate-700 font-bold rounded-xl text-xs hover:bg-slate-50 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-all shadow-xs"
+                  >
+                    Buka Kampanye ke Donasi
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

@@ -24,6 +24,20 @@ export interface CommunityEvent {
   image: string;
 }
 
+export interface CommunityDonationMilestone {
+  title: string;
+  description: string;
+  target: number;
+  completed: boolean;
+}
+
+export interface CommunityDonationUpdate {
+  date: string;
+  title: string;
+  content: string;
+  image?: string;
+}
+
 export interface CommunityDonation {
   id: number;
   title: string;
@@ -34,6 +48,12 @@ export interface CommunityDonation {
   daysLeft: number;
   image: string;
   isUrgent?: boolean;
+  category?: string;
+  location?: string;
+  fullDescription?: string;
+  waContact?: string;
+  milestones?: CommunityDonationMilestone[];
+  updates?: CommunityDonationUpdate[];
 }
 
 export interface CommunityStaff {
@@ -194,7 +214,33 @@ export const communitiesData: Community[] = [
         donorsCount: 86,
         daysLeft: 14,
         image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&auto=format&fit=crop&q=80',
-        isUrgent: true
+        isUrgent: true,
+        category: 'Pelestarian',
+        location: 'Surakarta, Jawa Tengah',
+        waContact: '6281234567890',
+        fullDescription: `Koleksi 30 lembar kain batik lawas pesisiran abad ke-19 yang disimpan di laboratorium kuratorial kami saat ini berada dalam kondisi kritis. Oksidasi serat mori serta kelembapan tropis telah mengakibatkan kerapuhan mikro pada pigmen warna soga alami dan nila indigofera.
+
+MENGAPA INI PENTING?
+• Koleksi ini mencakup motif lereng parang klithik dan sidomukti yang sudah punah teknik canting aslinya.
+• Menjadi acuan riset bagi lebih dari 500 desainer muda dan akademisi kriya tekstil nusantara.
+• Merupakan cagar budaya wastra tak benda yang bernilai historis tak tergantikan.
+
+DAMPAK & TARGET PENYALURAN:
+✅ Pengadaan 30 lemari etalase kedap asam (micro-climate showcase)
+✅ Konservasi pelapisan silika nano ramah serat alami oleh 4 tenaga ahli konservator
+✅ Digitalisasi resolusi ultra-tinggi 8K untuk repositori terbuka publik`,
+        milestones: [
+          { title: 'Survei & Analisis Keasaman Serat', description: 'Pemetaan kerusakan pigmen kain secara mikroskopis', target: 8000000, completed: true },
+          { title: 'Pengadaan Showcase Kedap Udara', description: 'Pemesanan etalase kaca laminated bebas UV & filter dehumidifier', target: 20000000, completed: true },
+          { title: 'Restorasi & Enkapsulasi Fisik', description: 'Treatment pembersihan asam dan pelestarian 30 helai kain', target: 35000000, completed: false }
+        ],
+        updates: [
+          {
+            date: '16 Nov 2026',
+            title: '15 Lembar Pertama Telah Masuk Ruang Dekontaminasi',
+            content: 'Tim konservator telah memulai penstabilan tingkat keasaman kain tahap awal. Hasil uji laboratorium menunjukkan serat mori mulai stabil.'
+          }
+        ]
       },
       {
         id: 2,
@@ -204,7 +250,24 @@ export const communitiesData: Community[] = [
         collectedAmount: 18200000,
         donorsCount: 64,
         daysLeft: 22,
-        image: 'https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=800&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?w=800&auto=format&fit=crop&q=80',
+        isUrgent: false,
+        category: 'Pendidikan',
+        location: 'Bantul, D.I. Yogyakarta',
+        waContact: '6281234567890',
+        fullDescription: `Program beasiswa intensif selama 6 bulan untuk mencetak pembatik muda profesional. Murid terpilih akan mendapatkan pendampingan maestro batik tulis, subsidi alat, serta sertifikasi keahlian.`,
+        milestones: [
+          { title: 'Pengadaan Set Canting Cucuk Alusan', description: 'Penyediaan 40 paket alat canting tembaga presisi', target: 6000000, completed: true },
+          { title: 'Pelaksanaan Lokakarya Pewarnaan Alami', description: 'Praktik fermentasi ekstrak indigofera dan mahoni', target: 14000000, completed: true },
+          { title: 'Pameran Kelulusan & Kurasi Mitra Pasar', description: 'Akselerasi karya siswa ke pameran nasional', target: 20000000, completed: false }
+        ],
+        updates: [
+          {
+            date: '10 Nov 2026',
+            title: '20 Peserta Beasiswa Mulai Sesi Canting Halus',
+            content: 'Peserta telah menguasai pola dasar klowongan dan mulai memasuki teknik isen-isen cecek halus.'
+          }
+        ]
       }
     ],
     rules: [

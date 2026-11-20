@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { ChevronDown, Check } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
@@ -219,6 +219,39 @@ export default function CrowdfundingPage() {
   const [showRegionDropdown, setShowRegionDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
+  const [allCampaigns, setAllCampaigns] = useState<Campaign[]>(() => {
+    try {
+      const stored = localStorage.getItem('user_published_donations');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return [...parsed, ...campaigns];
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return campaigns;
+  });
+
+  useEffect(() => {
+    const handleDonationsUpdate = () => {
+      try {
+        const stored = localStorage.getItem('user_published_donations');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setAllCampaigns([...parsed, ...campaigns]);
+          }
+        }
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener('donations_updated', handleDonationsUpdate);
+    return () => window.removeEventListener('donations_updated', handleDonationsUpdate);
+  }, []);
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -384,7 +417,7 @@ export default function CrowdfundingPage() {
 
         {/* Campaign Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {campaigns.map((campaign) => {
+          {allCampaigns.map((campaign) => {
             const progress = calculateProgress(campaign.raised, campaign.target);
             return (
               <Link

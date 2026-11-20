@@ -590,14 +590,14 @@ export default function KelolaLembagaPage() {
                           className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold rounded-xl transition-all"
                         >
                           <Eye className="w-3.5 h-3.5" />
-                          <span>Lihat Profil</span>
+                          <span>Lihat</span>
                         </Link>
                         <Link
-                          to={`/lembaga/${inst.id}`}
+                          to={`/lembaga/${inst.id}?manage=true`}
                           className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-xs"
                         >
                           <Settings className="w-3.5 h-3.5" />
-                          <span>Kelola Lembaga</span>
+                          <span>Kelola</span>
                         </Link>
                       </div>
                     </div>

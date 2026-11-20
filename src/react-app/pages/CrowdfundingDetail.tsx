@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router';
 import { 
   Check, Heart, Share2, Facebook, Twitter, MessageCircle, ChevronRight,
-  MapPin, Users, Calendar, Clock, FileText, Bell, Flag, ArrowLeft
+  MapPin, Users, Calendar, Clock, FileText, Bell, Flag, ArrowLeft, MessageSquare
 } from 'lucide-react';
 import TopNavbar from '@/react-app/components/TopNavbar';
 
@@ -22,6 +22,7 @@ interface CampaignDetail {
   organizer: string;
   verified: boolean;
   badge?: string;
+  waContact?: string;
   milestones: {
     title: string;
     description: string;
@@ -180,6 +181,49 @@ DAMPAK:
       ]
     };
   });
+
+  // Injeksi dari localStorage 'user_published_donations' jika ada kampanye yang dibuat dari lembaga
+  try {
+    const customDonations = localStorage.getItem('user_published_donations');
+    if (customDonations) {
+      const parsedDonations = JSON.parse(customDonations);
+      if (Array.isArray(parsedDonations)) {
+        parsedDonations.forEach((item: any) => {
+          data[item.id.toString()] = {
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            fullDescription: item.fullDescription || item.description,
+            image: item.image,
+            gallery: item.gallery || [item.image],
+            raised: item.raised || 0,
+            target: item.target || 25000000,
+            daysLeft: item.daysLeft || 30,
+            donors: item.donors || 0,
+            category: item.category || 'Pelestarian',
+            location: item.location || 'Indonesia',
+            organizer: item.organizer || 'Lembaga Kebudayaan',
+            verified: item.verified ?? true,
+            badge: item.badge || (item.urgent ? 'Mendesak & Terverifikasi' : 'Program Terverifikasi Lembaga'),
+            waContact: item.waContact || '6281234567890',
+            milestones: item.milestones || [
+              { title: 'Persiapan & Pengadaan', description: 'Pelaksanaan tahap awal dan koordinasi teknis', target: Math.round((item.target || 25000000) * 0.3), completed: true },
+              { title: 'Implementasi Inti Program', description: 'Eksekusi lapangan dan konservasi berkelanjutan', target: item.target || 25000000, completed: false }
+            ],
+            updates: item.updates || [
+              {
+                date: 'Hari ini',
+                title: 'Program Resmi Diumumkan Lembaga',
+                content: `Program "${item.title}" telah resmi diverifikasi dan siap menerima donasi dari seluruh masyarakat kebudayaan.`
+              }
+            ]
+          };
+        });
+      }
+    }
+  } catch {
+    // ignore
+  }
 
   return data;
 };
@@ -419,6 +463,19 @@ export default function CrowdfundingDetailPage() {
               >
                 DONASI SEKARANG
               </Link>
+
+              {/* Konfirmasi Donasi via WhatsApp */}
+              <a
+                href={`https://wa.me/${(campaign.waContact || '6281234567890').replace(/\D/g, '')}?text=${encodeURIComponent(
+                  `Halo Pengelola ${campaign.organizer}, saya ingin konfirmasi donasi untuk program kebudayaan: "${campaign.title}". Mohon informasi verifikasi dan tanda terima resminya. Terima kasih.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white text-center font-bold text-xs sm:text-sm tracking-wide rounded-xl shadow-sm transition-all"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>Konfirmasi Donasi via WhatsApp</span>
+              </a>
 
               {/* Actions */}
               <div className="flex gap-2">

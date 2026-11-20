@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { 
   Newspaper, 
@@ -20,6 +20,38 @@ export default function BeritaPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
   const [sortOption, setSortOption] = useState<'latest' | 'popular'>('latest');
+  const [allNews, setAllNews] = useState<NewsItem[]>(() => {
+    try {
+      const stored = localStorage.getItem('user_published_news');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return [...parsed, ...newsArticles];
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return newsArticles;
+  });
+
+  useEffect(() => {
+    const handleNewsUpdate = () => {
+      try {
+        const stored = localStorage.getItem('user_published_news');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setAllNews([...parsed, ...newsArticles]);
+          }
+        }
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener('news_updated', handleNewsUpdate);
+    return () => window.removeEventListener('news_updated', handleNewsUpdate);
+  }, []);
 
   const toggleBookmark = (id: number) => {
     setBookmarkedIds(prev => 
@@ -27,14 +59,14 @@ export default function BeritaPage() {
     );
   };
 
-  const filteredNews = newsArticles.filter(item => {
+  const filteredNews = allNews.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           item.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
 
-  const featuredArticle = newsArticles[0];
-  const sideFeaturedArticles = newsArticles.slice(1, 3);
+  const featuredArticle = allNews[0] || newsArticles[0];
+  const sideFeaturedArticles = allNews.slice(1, 3);
   const gridArticles = filteredNews.slice(0, 6);
 
   return (
